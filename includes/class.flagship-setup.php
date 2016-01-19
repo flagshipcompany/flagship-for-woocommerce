@@ -25,11 +25,20 @@ class Flagship_Setup
 
         // add setting link to plugin page
         add_filter('plugin_action_links_'.FLS__PLUGIN_BASENAME, array($this, 'plugin_action_links'), 10, 2);
+
+        // when update a flagship setting value
+        //add_action('woocommerce_settings_api_sanitized_fields_'.FLAGSHIP_SHIPPING_PLUGIN_ID, array($this->flagship, 'integrity'), 10, 1);
+
+        //
+        //add_action('woocommerce_update_options_shipping_'.FLAGSHIP_SHIPPING_PLUGIN_ID, array($this->flagship, 'settings_save'), 10, 3);
+
         // check for flagship app integrity
         // eg: token is set or not, etc.
-        if (!$this->flagship->is_installed()) {
-            add_action('admin_notices', array($this->flagship, 'warning_installation'));
-        }
+        // if (!$this->flagship->is_installed()) {
+        //     add_action('admin_notices', array($this->flagship, 'warning_installation'));
+        // }
+
+        add_action('admin_notices', array($this->flagship, 'show_notifications'));
     }
 
     // static methods

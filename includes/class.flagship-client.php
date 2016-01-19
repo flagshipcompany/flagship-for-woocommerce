@@ -1,5 +1,25 @@
 <?php
 
+class Flagship_Api_Response
+{
+    public $content;
+    public $code;
+
+    public function __construct($content, $code)
+    {
+        $this->content = $content;
+        $this->code = $code;
+    }
+
+    public function is_success()
+    {
+        $code_val = intval($this->code);
+
+        return $code_val >= 200 && $code_val < 300;
+    }
+
+}
+
 class Flagship_Client
 {
     protected $token = null;
@@ -47,7 +67,7 @@ class Flagship_Client
             throw new Exception($response->get_error_message(), 500 | wp_remote_retrieve_response_code($response));
         }
 
-        return json_decode(wp_remote_retrieve_body($response), true);
+        return new Flagship_Api_Response(json_decode(wp_remote_retrieve_body($response), true), wp_remote_retrieve_response_code($response));
     }
 
     public function get($uri, array $data = array())

@@ -6,18 +6,18 @@ class Flagship_Html
     {
         $flagship = Flagship_Application::get_instance();
 
-        $extras = array_merge(array('text_domain' => $flagship->text_domain, 'escape' => false, 'target' => false), $extras);
+        $extras = array_merge(array('text_domain' => $flagship->text_domain, 'escape' => true, 'target' => false), $extras);
 
         if (!$text) {
             $text = $href;
         }
 
+        $url = $flagship->url_for($name_or_href, $extras['escape']);
+
         if ($extras['escape']) {
-            $url = $flagship->url_for($name_or_href, true);
             $href = $url ? $url : esc_url($name_or_href);
             $text = esc_html__($text, $extras['text_domain']);
         } else {
-            $url = $flagship->url_for($name_or_href);
             $href = $url ? $url : $name_or_href;
             $text = __($text, $extras['text_domain']);
         }

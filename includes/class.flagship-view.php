@@ -7,6 +7,11 @@ class Flagship_View
         self::render('notice', $payloads);
     }
 
+    public static function notification(array $payloads = array())
+    {
+        self::render('notification', $payloads);
+    }
+
     public static function render($template, array $payloads = array())
     {
         $values = apply_filters(FLAGSHIP_NAME_PREFIX.strtolower(__FUNCTION__).'_filter', $payloads, $template);

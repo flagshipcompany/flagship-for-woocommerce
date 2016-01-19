@@ -2,23 +2,27 @@
 
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-setup.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-client.php';
+require_once FLS__PLUGIN_DIR.'includes/class.flagship-notification.php';
+require_once FLS__PLUGIN_DIR.'includes/class.flagship-validation.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-view.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-html.php';
 
 class Flagship_Application
 {
     public static $_instance;
-    public $taxt_domain;
+    public $text_domain;
 
     protected $api_client;
-    protected $html_helper;
     protected $options;
+    protected $notifications;
 
     public function __construct($options)
     {
         $this->options = $options;
         $this->api_client = new Flagship_Client($options['token']);
         $this->text_domain = 'flagship_shipping';
+        $this->notification = new Flagship_Notification();
+        $this->validation = new Flagship_Validation($this->api_client);
     }
 
     // instance methods
@@ -35,7 +39,7 @@ class Flagship_Application
     // only check app settings, wordpress plugin activation is not considered here
     public function is_installed()
     {
-        return $this->api_client->has_token() &&
+        return false && $this->api_client->has_token() &&
             ($this->options['enabled'] == 'yes');
     }
 
@@ -64,22 +68,40 @@ class Flagship_Application
         return esc_url($url);
     }
 
-    public function notice($args, $page = null)
+    public function integrity($options)
     {
-        $args['app'] = $this;
+        $screen = get_current_screen();
 
-        Flagship_View::notice($args);
+        console('integ:'.$screen->base);
+
+        if ($screen->base == 'woocommerce_page_wc-settings') {
+        	$this->check_integrity($options);
+	        $this->notification->view();
+	    }
+
+	    return $options;
     }
 
-    // warnings
-    //
-    public function warning_installation()
+    public function show_notifications()
     {
-        // only show installation warning for plugins page
-        global $hook_suffix;
+    	$screen = get_current_screen();
 
-        if ($hook_suffix == 'plugins.php') {
-            $this->notice(array('type' => 'token', 'app' => $this));
+    	console('show_notif:'.$screen->base);
+
+    	if ($screen->base != 'woocommerce_page_wc-settings') {
+    		$this->check_integrity($options);
+	    	$this->notification->view();
+	    }
+    }
+
+    public function check_integrity($options)
+    {
+        if (!$options['token']) {
+            $this->notification->add('warning', esc_html__('Set your Flagship Shipping token.', 'flagship-shipping').' '.Flagship_Html::anchor('flagship_shipping_settings', 'click here', array('escape' => true)));
+        }
+
+        if (!$options['enabled'] || $options['enabled'] == 'no') {
+            $this->notification->add('warning', esc_html__('Enable Flagship Shipping Method to get discounted shipping rates', 'flagship-shipping'));
         }
     }
 
