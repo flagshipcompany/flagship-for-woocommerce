@@ -4,6 +4,7 @@ require_once FLS__PLUGIN_DIR.'includes/class.flagship-setup.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-client.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-notification.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-validation.php';
+require_once FLS__PLUGIN_DIR.'includes/class.flagship-filters.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-view.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-html.php';
 
@@ -34,6 +35,11 @@ class Flagship_Application
         }
 
         return $this->api_client;
+    }
+
+    public function get_option($name, $default = null)
+    {
+        return isset($this->options[$name]) ? $this->options[$name] : $default;
     }
 
     // only check app settings, wordpress plugin activation is not considered here
@@ -75,23 +81,23 @@ class Flagship_Application
         console('integ:'.$screen->base);
 
         if ($screen->base == 'woocommerce_page_wc-settings') {
-        	$this->check_integrity($options);
-	        $this->notification->view();
-	    }
+            $this->check_integrity($options);
+            $this->notification->view();
+        }
 
-	    return $options;
+        return $options;
     }
 
     public function show_notifications()
     {
-    	$screen = get_current_screen();
+        $screen = get_current_screen();
 
-    	console('show_notif:'.$screen->base);
+        console('show_notif:'.$screen->base);
 
-    	if ($screen->base != 'woocommerce_page_wc-settings') {
-    		$this->check_integrity($options);
-	    	$this->notification->view();
-	    }
+        if ($screen->base != 'woocommerce_page_wc-settings') {
+            $this->check_integrity($options);
+            $this->notification->view();
+        }
     }
 
     public function check_integrity($options)

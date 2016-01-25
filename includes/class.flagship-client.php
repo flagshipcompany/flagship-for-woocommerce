@@ -18,6 +18,10 @@ class Flagship_Api_Response
         return $code_val >= 200 && $code_val < 300;
     }
 
+    public function get_content()
+    {
+        return $this->content;
+    }
 }
 
 class Flagship_Client
@@ -44,7 +48,7 @@ class Flagship_Client
         return !!$this->token;
     }
 
-    public function request($uri, array $data = array(), $method = 'GET', array $headers = array())
+    public function request($uri, $data = array(), $method = 'GET', array $headers = array())
     {
         $data = apply_filters($this->default_data_filter, $data, $uri);
 
@@ -54,14 +58,11 @@ class Flagship_Client
         $args['method'] = $method;
         $args['body'] = $data;
 
-        if ($method == 'GET') {
-            $url = add_query_arg($data, $url);
-        }
-
-        $args['headers'] = $headers;
-        $args['headers']['X-Smartship-Token'] = $this->token;
+        $args['headers'] = $this->make_headers($headers);
 
         $response = wp_remote_request(esc_url_raw($url), $args);
+
+        console($response);
 
         if (is_wp_error($response)) {
             throw new Exception($response->get_error_message(), 500 | wp_remote_retrieve_response_code($response));
@@ -72,6 +73,22 @@ class Flagship_Client
 
     public function get($uri, array $data = array())
     {
-        return $this->request($uri, $data, 'GET');
+        return $this->request(add_query_arg($data, $uri), $data, 'GET');
+    }
+
+    public function post($uri, array $data = array())
+    {
+        $data = json_encode($data);
+
+        return $this->request($uri, $data, 'POST', array(
+            'Content-Type' => 'application/json; charset=utf-8',
+        ));
+    }
+
+    protected function make_headers(array $headers)
+    {
+        $headers['X-Smartship-Token'] = $this->token;
+
+        return $headers;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+require_once FLS__PLUGIN_DIR.'includes/class.flagship-request-formatter.php';
+
 class Flagship_WC_Shipping_Method extends WC_Shipping_Method
 {
     protected $app;
@@ -37,16 +39,17 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
 
         // Save settings in admin if you have any defined
         add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));
-        
-        // validate settings before save
-        add_filter('woocommerce_settings_api_sanitized_fields_' . $this->id, array($this, 'sanitized_fields_filter'));
-        // 
-        add_filter('sanitized_fields_enabled', array($this, 'sanitized_fields_enabled_filter'), 10, 1);
-        add_filter('sanitized_fields_address', array($this, 'sanitized_fields_address_filter'), 10, 1);
 
+        // validate settings before save
+        Flagship_Filters::add('woocommerce_settings_api_sanitized_fields_'.$this->id);
+        Flagship_Filters::add('settings_sanitized_fields_enabled');
+        Flagship_Filters::add('settings_sanitized_fields_address');
+        Flagship_Filters::add('settings_sanitized_fields_shipper_credentials');
     }
 
-    // alerts
+    /**
+     * add notifications section on top of settings.
+     */
     public function admin_options()
     {
         global $current_section;
@@ -58,53 +61,6 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         parent::admin_options();
     }
 
-    // filters
-    // 
-    // on save settings
-    public function sanitized_fields_filter($sanitized_fields)
-    {
-        $sanitized_fields = apply_filters('sanitized_fields_enabled', $sanitized_fields);
-        // token is validated when address is validated
-        $sanitized_fields = apply_filters('sanitized_fields_address', $sanitized_fields);
-
-        return $sanitized_fields;
-    }
-
-    public function sanitized_fields_enabled_filter($sanitized_fields)
-    {
-        if ($sanitized_fields['enabled'] != 'yes') {
-            $this->flagship->notification->add('warning', __('Flagship Shipping is disabled.', 'flagship-shipping'));
-        }
-
-        return $sanitized_fields;
-    }
-
-    public function sanitized_fields_address_filter($sanitized_fields)
-    {
-        $errors = $this->flagship->validation->address(
-            $sanitized_fields['origin'],
-            $sanitized_fields['freight_shipper_state'],
-            $sanitized_fields['freight_shipper_city']
-        );
-
-        // address correction
-        if ($errors && isset($errors['content'])) {
-            $sanitized_fields['origin'] = $errors['content']['postal_code'];
-            $sanitized_fields['freight_shipper_state'] = $errors['content']['state'];
-            $sanitized_fields['freight_shipper_city'] = $errors['content']['city'];
-
-            $this->flagship->notification->add('warning', __('Address corrected to match with shipper\'s postal code.', 'flagship-shipping'));
-
-            $errors = array();
-        }
-
-        if ($errors) {
-            $this->flagship->notification->add('warning', $errors);
-        }
-
-        return $sanitized_fields;
-    }
-
     /**
      * calculate_shipping function.
      *
@@ -112,42 +68,17 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
      */
     public function calculate_shipping($package)
     {
-        $quote = array(
-            'from' => array(),
-            'to' => array(),
-            'packages' => array(
-                'items' => array(),
-                'units' => 'imperial',
-                'type' => 'package',
-            ),
-            'payment' => array(
-                'payer' => 'F',
-            ),
-        );
+        $quote_request = Flagship_Request_Formatter::get_quote_request($package);
 
         $client = $this->flagship->client();
 
-        $fromAddress = array(
-            'city' => 'MONTREAL',
-            'country' => 'CA',
-            'state' => 'QC',
-            'postal_code' => 'H7W3C3',
-        );
+        $response = $client->post('/ship/rates', $quote_request);
 
-        $response = $client->get('/addresses/integrity', $fromAddress);
+        $rates = $response->get_content()['content'];
 
-        console($response);
-
-        $rate = array(
-            'id' => $this->id,
-            'label' => $this->title,
-            'cost' => '10.99',
-            'calc_tax' => 'per_item',
-        );
-
-        // Register the rate
-        $this->add_rate($rate);
-        $this->add_rate($rate);
+        foreach (Flagship_Request_Formatter::get_processed_rates($rates, $this->id) as $rate) {
+            $this->add_rate($rate);
+        }
     }
 
     public function init_form_fields()
