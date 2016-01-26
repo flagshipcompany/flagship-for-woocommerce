@@ -39,12 +39,19 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
 
         // Save settings in admin if you have any defined
         add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));
+        //
+
+        // filters
+        $filters = $this->flagship->get_filters();
 
         // validate settings before save
-        Flagship_Filters::add('woocommerce_settings_api_sanitized_fields_'.$this->id);
-        Flagship_Filters::add('settings_sanitized_fields_enabled');
-        Flagship_Filters::add('settings_sanitized_fields_address');
-        Flagship_Filters::add('settings_sanitized_fields_shipper_credentials');
+        $filters->add('woocommerce_settings_api_sanitized_fields_'.$this->id);
+        $filters->add('settings_sanitized_fields_enabled');
+        $filters->add('settings_sanitized_fields_address');
+        $filters->add('settings_sanitized_fields_shipper_credentials');
+
+        // we need to include html, thus remove tag sanitizer
+        $filters->remove('woocommerce_shipping_rate_label', 'sanitize_text_field');
     }
 
     /**

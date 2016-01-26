@@ -9,7 +9,7 @@ class Flagship_Filters
         $this->flagship = $flagship;
     }
 
-    public static function add($filter_name, $optional_method_name = false)
+    public function add($filter_name, $optional_method_name = false)
     {
         $method = $optional_method_name ? $optional_method_name : $filter_name.'_filter';
 
@@ -18,10 +18,26 @@ class Flagship_Filters
 
             add_filter($filter_name, array(__CLASS__, $method), 10, $rf->getNumberOfParameters());
 
-            return;
+            return $this;
         }
 
         throw new Exception('Attempt to use undefined filter: '.__CLASS__.'::'.$method);
+    }
+
+    public function remove($filter_name, $method = array())
+    {
+        if ($method) {
+            remove_filter($filter_name, $method, 10);
+
+            return $this;
+        }
+
+        $names = explode('_', $filter_name);
+        array_pop($names);
+
+        remove_filter(implode('_', $names), array(__CLASS__, $filter_name), 10);
+
+        return $this;
     }
 
     public static function woocommerce_settings_api_sanitized_fields_flagship_shipping_method_filter($sanitized_fields)

@@ -16,6 +16,7 @@ class Flagship_Application
     protected $api_client;
     protected $options;
     protected $notifications;
+    protected $filters;
 
     public function __construct($options)
     {
@@ -24,6 +25,7 @@ class Flagship_Application
         $this->text_domain = 'flagship_shipping';
         $this->notification = new Flagship_Notification();
         $this->validation = new Flagship_Validation($this->api_client);
+        $this->filters = new Flagship_Filters($this);
     }
 
     // instance methods
@@ -35,6 +37,11 @@ class Flagship_Application
         }
 
         return $this->api_client;
+    }
+
+    public function get_filters()
+    {
+        return $this->filters;
     }
 
     public function get_option($name, $default = null)

@@ -29,4 +29,20 @@ class Flagship_Html
     {
         echo self::anchor($name_or_href, $text, $extras);
     }
+
+    public static function image($uri, $title = null, $extras = array())
+    {
+        $attributes = '';
+
+        foreach ($extras as $attribute => $value) {
+            $attributes .= ' '.$attribute.'="'.$value.'"';
+        }
+
+        return '<img src="'.plugins_url('/assets/images/'.$uri, dirname(__FILE__)).'"'.($title ? ' title="'.$title.'"' : '').$attributes.'/>';
+    }
+
+    public static function image_e($uri, $title = null, $extras = array())
+    {
+        echo self::image($uri, $title, $extras);
+    }
 }

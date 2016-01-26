@@ -153,13 +153,30 @@ class Flagship_Request_Formatter
         $wc_shipping_rates = array();
 
         foreach ($rates as $rate) {
+            $courier = strtolower($rate['service']['courier_name']);
+
+            $icon = $courier == 'fedex' && $rate['service']['courier_code'] == 'FEDEX_GROUND' ? 'fedex_ground' : $courier;
+            $img = Flagship_Html::image($icon.'_small_icon.png');
+
             $wc_shipping_rates[] = array(
-                'id' => $id.':'.$rate['service']['courier_name'].'-'.$rate['service']['courier_code'],
-                'label' => $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'],
+                'id' => $id.':'.$rate['service']['courier_name'].':'.$rate['service']['courier_code'],
+                'label' => $img.' '.$rate['service']['courier_desc'].' <small>'.date('M. d', strtotime($rate['service']['estimated_delivery_date'])).'</small>',
                 'cost' => $rate['price']['total'],
+                'taxes' => false, // we do not let WC compute tax
             );
         }
 
+        uasort($wc_shipping_rates, array(__CLASS__, 'rates_sort'));
+
         return $wc_shipping_rates;
+    }
+
+    public static function rates_sort($rate_1, $rate_2)
+    {
+        if ($rate_1['cost'] == $rate_2['cost']) {
+            return 0;
+        }
+
+        return ($rate_1['cost'] < $rate_2['cost']) ? -1 : 1;
     }
 }

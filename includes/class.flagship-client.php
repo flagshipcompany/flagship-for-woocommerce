@@ -18,6 +18,11 @@ class Flagship_Api_Response
         return $code_val >= 200 && $code_val < 300;
     }
 
+    public function get_code()
+    {
+        return $this->code;
+    }
+
     public function get_content()
     {
         return $this->content;
@@ -61,8 +66,6 @@ class Flagship_Client
         $args['headers'] = $this->make_headers($headers);
 
         $response = wp_remote_request(esc_url_raw($url), $args);
-
-        console($response);
 
         if (is_wp_error($response)) {
             throw new Exception($response->get_error_message(), 500 | wp_remote_retrieve_response_code($response));
