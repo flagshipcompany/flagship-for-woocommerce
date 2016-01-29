@@ -1,43 +1,47 @@
 <?php
 
-class Flagship_Filters
+class Flagship_Filters extends Flagship_Api_Hooks
 {
-    protected $flagship;
-
-    public function __construct(Flagship_Application $flagship)
-    {
-        $this->flagship = $flagship;
-    }
-
     public function add($filter_name, $optional_method_name = false)
     {
-        $method = $optional_method_name ? $optional_method_name : $filter_name.'_filter';
-
-        if (method_exists(__CLASS__, $method)) {
-            $rf = new ReflectionMethod(__CLASS__, $method);
-
-            add_filter($filter_name, array(__CLASS__, $method), 10, $rf->getNumberOfParameters());
-
-            return $this;
-        }
-
-        throw new Exception('Attempt to use undefined filter: '.__CLASS__.'::'.$method);
+        return $this->add_hook('filter', $filter_name, $optional_method_name);
     }
 
-    public function remove($filter_name, $method = array())
+    public function remove($filter_name, $method = null)
     {
-        if ($method) {
-            remove_filter($filter_name, $method, 10);
+        return $this->remove_hook('filter', $filter_name, $method);
+    }
 
-            return $this;
+    public function has($filter_name, $optional_method_name = false)
+    {
+        return $this->has_hook('filter', $filter_name, $optional_method_name);
+    }
+
+    public function apply($filter_name, $args = array())
+    {
+        apply_filters_ref_array($filter_name, $args);
+    }
+
+    // built-in filters
+    public static function woocommerce_shipping_methods_filter($methods)
+    {
+        $methods[] = 'Flagship_WC_Shipping_Method';
+
+        return $methods;
+    }
+
+    // MAP TO 'plugin_action_links_'.FLS__PLUGIN_BASENAME
+    //
+    public static function plugin_page_setting_links_action($links, $file)
+    {
+        if ($file == FLS__PLUGIN_BASENAME) {
+            array_unshift($links, Flagship_Html::anchor('flagship_shipping_settings', 'Settings', array(
+                'escape' => true,
+                'target' => true,
+            )));
         }
 
-        $names = explode('_', $filter_name);
-        array_pop($names);
-
-        remove_filter(implode('_', $names), array(__CLASS__, $filter_name), 10);
-
-        return $this;
+        return $links;
     }
 
     public static function woocommerce_settings_api_sanitized_fields_flagship_shipping_method_filter($sanitized_fields)
@@ -49,6 +53,7 @@ class Flagship_Filters
         return $sanitized_fields;
     }
 
+    // custom filters
     public static function settings_sanitized_fields_enabled_filter($sanitized_fields)
     {
         $flagship = Flagship_Application::get_instance();

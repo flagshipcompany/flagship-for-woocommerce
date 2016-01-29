@@ -75,17 +75,29 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
      */
     public function calculate_shipping($package)
     {
-        $quote_request = Flagship_Request_Formatter::get_quote_request($package);
-
+        wc_add_notice(is_cart() ? 'in cart' : 'not in cart', 'success');
+        wc_add_notice(is_checkout() ? 'in checkout' : 'not in checkout', 'success');
         $client = $this->flagship->client();
 
-        $response = $client->post('/ship/rates', $quote_request);
+        $response = $client->post(
+            '/ship/rates',
+            Flagship_Request_Formatter::get_quote_request($package)
+        );
 
-        $rates = $response->get_content()['content'];
+        $rates = Flagship_Request_Formatter::get_processed_rates(
+            $response->get_content()['content'],
+            $this->id
+        );
 
-        foreach (Flagship_Request_Formatter::get_processed_rates($rates, $this->id) as $rate) {
-            $this->add_rate($rate);
+        if ($this->get_option('offer_rates') == 'all') {
+            foreach ($rates as $rate) {
+                $this->add_rate($rate);
+            }
+
+            return;
         }
+
+        $this->add_rates($rates[0]);
     }
 
     public function init_form_fields()
@@ -190,6 +202,19 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                 'default' => 'no',
                 'description' => 'Required for label Printing. And should be filled if LTL Freight is enabled.',
             ),
+            'default_package_box_split' => array(
+                'title' => __('Box Split', 'flagship-shipping'),
+                'label' => __('Everything in one package box?', 'flagship-shipping'),
+                'type' => 'checkbox',
+                'default' => 'no',
+            ),
+            'default_package_box_split_weight' => array(
+                'title' => __('Box Split Weight', 'flagship-shipping'),
+                'description' => __('Maximun weight per each package box (lbs)', 'flagship-shipping'),
+                'type' => 'text',
+                'default' => 20,
+            ),
+
         );
     }
 }

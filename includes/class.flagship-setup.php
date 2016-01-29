@@ -15,16 +15,21 @@ class Flagship_Setup
 
     public function init($is_admin = false)
     {
-        // register plugin method
-        add_action('woocommerce_shipping_init', array('Flagship_Setup', 'flagship_wc_shipping_method_init'));
-        add_filter('woocommerce_shipping_methods', array('Flagship_Setup', 'add_flagship_wc_shipping_method'));
+        $actions = $this->flagship->actions;
+        $filters = $this->flagship->filters;
+
+        // add shipping method init.
+        $actions->add('woocommerce_shipping_init');
+        $filters->add('woocommerce_shipping_methods');
+
+        $actions->add('woocommerce_add_order_item_meta');
 
         if (!$is_admin) {
             return;
         }
 
         // add setting link to plugin page
-        add_filter('plugin_action_links_'.FLS__PLUGIN_BASENAME, array($this, 'plugin_action_links'), 10, 2);
+        $filters->add('plugin_action_links_'.FLS__PLUGIN_BASENAME, 'plugin_page_setting_links_action');
 
         // when update a flagship setting value
         //add_action('woocommerce_settings_api_sanitized_fields_'.FLAGSHIP_SHIPPING_PLUGIN_ID, array($this->flagship, 'integrity'), 10, 1);
@@ -38,35 +43,8 @@ class Flagship_Setup
         //     add_action('admin_notices', array($this->flagship, 'warning_installation'));
         // }
 
-        add_action('admin_notices', array($this->flagship, 'show_notifications'));
-    }
-
-    // static methods
-    public static function flagship_wc_shipping_method_init()
-    {
-        if (!class_exists('Flagship_WC_Shipping_Method')) {
-            include_once FLS__PLUGIN_DIR.'includes/class.flagship-wc-shipping-method.php';
-        }
-    }
-
-    public static function add_flagship_wc_shipping_method($methods)
-    {
-        $methods[] = 'Flagship_WC_Shipping_Method';
-
-        return $methods;
-    }
-
-    // instance methods
-    //
-    public function plugin_action_links($links, $file)
-    {
-        if ($file == FLS__PLUGIN_BASENAME) {
-            array_unshift($links, Flagship_Html::anchor('flagship_shipping_settings', 'Settings', array(
-                'escape' => true,
-                'target' => true,
-            )));
-        }
-
-        return $links;
+        //add_action('admin_notices', array($this->flagship, 'show_notifications'));
+        // add meta boxes (eg: side box)
+        $actions->add('add_meta_boxes');
     }
 }

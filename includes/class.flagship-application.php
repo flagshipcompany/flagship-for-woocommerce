@@ -1,23 +1,28 @@
 <?php
 
+require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-api-hooks.php';
+require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-filters.php';
+require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-actions.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-setup.php';
+
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-client.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-notification.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-validation.php';
-require_once FLS__PLUGIN_DIR.'includes/class.flagship-filters.php';
+
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-view.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-html.php';
+require_once FLS__PLUGIN_DIR.'includes/admin/meta-boxes/class.wc-meta-box-flagship-shipping-actions.php';
 
 class Flagship_Application
 {
     public static $_instance;
     public $text_domain;
+    public $actions;
+    public $filters;
 
     protected $api_client;
     protected $options;
     protected $notifications;
-    protected $filters;
-
     public function __construct($options)
     {
         $this->options = $options;
@@ -25,7 +30,8 @@ class Flagship_Application
         $this->text_domain = 'flagship_shipping';
         $this->notification = new Flagship_Notification();
         $this->validation = new Flagship_Validation($this->api_client);
-        $this->filters = new Flagship_Filters($this);
+        $this->filters = new Flagship_Filters();
+        $this->actions = new Flagship_Actions();
     }
 
     // instance methods
