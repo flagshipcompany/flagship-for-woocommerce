@@ -11,7 +11,8 @@ require_once FLS__PLUGIN_DIR.'includes/class.flagship-validation.php';
 
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-view.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-html.php';
-require_once FLS__PLUGIN_DIR.'includes/admin/meta-boxes/class.wc-meta-box-flagship-shipping-actions.php';
+require_once FLS__PLUGIN_DIR.'includes/class.flagship-request-formatter.php';
+require_once FLS__PLUGIN_DIR.'includes/admin/meta-boxes/class.wc-meta-box-order-flagship-shipping-actions.php';
 
 class Flagship_Application
 {

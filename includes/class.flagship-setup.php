@@ -46,5 +46,6 @@ class Flagship_Setup
         //add_action('admin_notices', array($this->flagship, 'show_notifications'));
         // add meta boxes (eg: side box)
         $actions->add('add_meta_boxes');
+        $actions->add('woocommerce_process_shop_order_meta');
     }
 }

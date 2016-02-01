@@ -17,10 +17,12 @@ class Flagship_Actions extends Flagship_Api_Hooks
 
     public static function add_meta_boxes_action()
     {
+        console('add meta box');
+
         add_meta_box(
             'wc-flagship-shipping-box',
             __('Flagship', 'flagship-shipping'),
-            array(__CLASS__, 'order_shipping_meta_box'),
+            array('WC_Meta_Box_Order_Flagship_Shipping_Actions', 'output'),
             'shop_order',
             'side',
             'high'
@@ -31,16 +33,16 @@ class Flagship_Actions extends Flagship_Api_Hooks
         }
     }
 
-    public static function order_shipping_meta_box($post)
-    {
-        WC_Meta_Box_Flagship_Shipping_Actions::output($post);
-    }
-
     public static function woocommerce_add_order_item_meta_action($item_id, $values, $cart_item_key)
     {
         console('woocommerce_add_order_item_meta_action');
         console($item_id);
         console($values);
         console($cart_item_key);
+    }
+
+    public static function woocommerce_process_shop_order_meta_action($post_id, $post)
+    {
+        WC_Meta_Box_Order_Flagship_Shipping_Actions::save($post_id, $post);
     }
 }

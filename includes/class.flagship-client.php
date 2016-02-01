@@ -64,6 +64,7 @@ class Flagship_Client
         $args['body'] = $data;
 
         $args['headers'] = $this->make_headers($headers);
+        $args['timeout'] = 14; // seconds
 
         $response = wp_remote_request(esc_url_raw($url), $args);
 
@@ -86,6 +87,11 @@ class Flagship_Client
         return $this->request($uri, $data, 'POST', array(
             'Content-Type' => 'application/json; charset=utf-8',
         ));
+    }
+
+    public function delete($uri)
+    {
+        return $this->request($uri, array(), 'DELETE');
     }
 
     protected function make_headers(array $headers)

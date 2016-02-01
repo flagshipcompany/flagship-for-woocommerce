@@ -2,7 +2,7 @@
 
 class Flagship_Request_Formatter
 {
-    public static function get_product_items($package)
+    public static function get_quoting_product_items($package)
     {
         $product_items = array();
 
@@ -12,15 +12,17 @@ class Flagship_Request_Formatter
             }
 
             if (!$item['data']->get_weight()) {
-                wc_add_notice('Product '.$id.' is missing weight, weight default to 1 lbs.', 'notice');
+                wc_add_notice('Product '.$item['data']->get_title().' is missing weight, weight default to 1 lbs.', 'notice');
             }
 
             $count = 0;
 
-            $width = $item['data']->width ? max(1, ceil(woocommerce_get_dimension($item['data']->width, 'in'))) : 1;
-            $length = $item['data']->length ? max(1, ceil(woocommerce_get_dimension($item['data']->length, 'in'))) : 1;
-            $height = $item['data']->height ? max(1, ceil(woocommerce_get_dimension($item['data']->height, 'in'))) : 1;
-            $weight = $item['data']->has_weight() ? max(1, ceil(woocommerce_get_weight($item['data']->get_weight(), 'lbs'))) : 1;
+            list(
+                $width,
+                $length,
+                $height,
+                $weight
+            ) = self::get_product_dimensions($item['data']);
 
             do {
                 $product_items[] = array(
@@ -37,6 +39,61 @@ class Flagship_Request_Formatter
         return $product_items;
     }
 
+    public static function get_confirmation_product_items($order)
+    {
+        $order_items = $order->get_items();
+        $product_items = array();
+
+        foreach ($order_items as $order_item) {
+            $product = $order->get_product_from_item($order_item);
+
+            $count = 0;
+
+            list(
+                $width,
+                $length,
+                $height,
+                $weight
+            ) = self::get_product_dimensions($product);
+
+            do {
+                $product_items[] = array(
+                    'width' => $width,
+                    'height' => $height,
+                    'length' => $length,
+                    'weight' => $weight,
+                );
+
+                ++$count;
+            } while ($count < $order_item['qty']);
+        }
+
+        return $product_items;
+    }
+
+    public static function get_product_dimensions($product)
+    {
+        return array(
+            $width = $product->width ? max(1, ceil(woocommerce_get_dimension($product->width, 'in'))) : 1,
+            $length = $product->length ? max(1, ceil(woocommerce_get_dimension($product->length, 'in'))) : 1,
+            $height = $product->height ? max(1, ceil(woocommerce_get_dimension($product->height, 'in'))) : 1,
+            $weight = $product->has_weight() ? max(1, ceil(woocommerce_get_weight($product->get_weight(), 'lbs'))) : 1,
+        );
+    }
+
+    public static function get_flagship_shipping_service($order)
+    {
+        $shipping_methods = $order->get_shipping_methods();
+
+        list($provider, $courier_name, $courier_code) = explode(':', $shipping_methods[key($shipping_methods)]['method_id']);
+
+        return array(
+            'provider' => $provider,
+            'courier_name' => strtolower($courier_name),
+            'courier_code' => $courier_code,
+        );
+    }
+
     public static function get_quote_request($package)
     {
         $flagship = Flagship_Application::get_instance();
@@ -45,13 +102,45 @@ class Flagship_Request_Formatter
             'from' => self::get_address_from(),
             'to' => self::get_address_to($package),
             'packages' => array(
-                'items' => self::get_package_items(self::get_product_items($package)),
+                'items' => self::get_package_items(self::get_quoting_product_items($package)),
                 'units' => 'imperial',
                 'type' => 'package',
             ),
             'payment' => array(
                 'payer' => 'F',
             ),
+        );
+
+        return $request;
+    }
+
+    public static function get_confirmation_request($order)
+    {
+        $service = self::get_flagship_shipping_service($order);
+
+        unset($service['provider']);
+
+        $request = array(
+            'from' => self::get_address_from(),
+            'to' => array(
+                'name' => $order->shipping_company,
+                'attn' => $order->shipping_first_name.' '.$order->shipping_last_name,
+                'address' => trim($order->shipping_address_1.' '.$order->shipping_address_2),
+                'city' => $order->shipping_city,
+                'state' => $order->shipping_state,
+                'country' => $order->shipping_country,
+                'postal_code' => $order->shipping_postcode,
+                'phone' => $order->billing_phone, // no such a field in the shipping!?
+            ),
+            'packages' => array(
+                'items' => self::get_package_items(self::get_confirmation_product_items($order)),
+                'units' => 'imperial',
+                'type' => 'package',
+            ),
+            'payment' => array(
+                'payer' => 'F',
+            ),
+            'service' => $service,
         );
 
         return $request;

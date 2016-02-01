@@ -1,7 +1,5 @@
 <?php
 
-require_once FLS__PLUGIN_DIR.'includes/class.flagship-request-formatter.php';
-
 class Flagship_WC_Shipping_Method extends WC_Shipping_Method
 {
     protected $app;
