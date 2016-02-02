@@ -22,8 +22,6 @@ class Flagship_Setup
         $actions->add('woocommerce_shipping_init');
         $filters->add('woocommerce_shipping_methods');
 
-        $actions->add('woocommerce_add_order_item_meta');
-
         if (!$is_admin) {
             return;
         }

@@ -20,70 +20,25 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         }
 
         $order = $theorder;
-        $shipping_methods = $order->get_shipping_methods();
 
         $service = Flagship_Request_Formatter::get_flagship_shipping_service($order);
-
         $shipment = get_post_meta($thepostid, 'flagship_shipping_raw', true);
 
         if ($shipment) {
-        ?>
-        <ul>
-            <li>
-                <strong>Flagship ID:</strong> <?php echo $shipment['shipment_id']; ?>
-                <br/>
-                <strong>Service:</strong> <?php echo $shipment['service']['courier_name'].' - '.$shipment['service']['courier_desc'];?>
-                <br/>
-                <strong>Tracking Number:</strong> <?php echo $shipment['tracking_number'];?>
-                <br/>
-                <strong>Cost:</strong> $<?php echo $shipment['price']['total'];?>
-                <hr/>
-                <p>Print labels:</p>
-                <a class="button button-primary" href="<?php echo $shipment['labels']['regular']; ?>">Regular label</a> <a class="button button-primary" href="<?php echo $shipment['labels']['thermal']; ?>">Thermal label</a>
-                <hr/>
-            </li>
-            <li>
-                <input type="hidden" name="flagship_shipping_void_shipment_id" value="<?php echo $shipment['shipment_id']; ?>"/>
-                <button class="button" type="submit">Void Shipment</button>
-            </li>
-        </ul>    
-        
-        <?php
-            return;
-        }
-
-        if ($service['provider'] == FLAGSHIP_SHIPPING_PLUGIN_ID) {
-            ?>
-        <ul class="order_actions submitbox">
-            <li class="wide">
-            <?php
-            woocommerce_wp_select(array(
-                'id' => 'flagship-shipping-service',
-                'label' => __('Choose Service', 'flagship-shipping'),
-                'name' => 'flagship_shipping_service',
-                'options' => array(
-                    $service['courier_name'].':'.$service['courier_code'] => ucfirst($service['courier_name']).' - '.$service['courier_code'].' $'.$shipping['cost'],
-                ),
-            ));
-            ?>
-            </li>
-            <li class="wide">
-                <button type="submit" class="button save_order button-primary">
-            <?php
-                    echo __('Create', 'flagship-shipping');
-            ?>
-                </button>
-            </li>
-        </ul>
-        <?php
-
+            $payload = array(
+                'type' => 'created',
+                'shipment' => $shipment
+            );
+        } elseif ($service['provider'] == FLAGSHIP_SHIPPING_PLUGIN_ID) {
+            $payload = array(
+                'type' => 'create',
+                'service' => $service
+            );
         } else {
-        ?>
-        Shipment was not quoted with Flagship Shipping.
-        <?php
+            $payload = array('type' => 'unavailable');
         }
 
-        $data = get_post_meta($post->ID);
+        Flagship_View::render('meta-boxes/order-flagship-shipping-actions', $payload);
     }
 
     /**
@@ -130,10 +85,6 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
 
         $flagship = Flagship_Application::get_instance();
         $response = $flagship->client()->delete('/ship/shipments/'.$shipment_id);
-
-        console('code is 204');
-        console($response->get_code());
-        console($response->get_code() == 204);
 
         if ($response->get_code() == 204) {
             delete_post_meta($post_id, 'flagship_shipping_raw');

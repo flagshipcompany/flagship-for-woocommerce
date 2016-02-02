@@ -40,7 +40,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         //
 
         // filters
-        $filters = $this->flagship->get_filters();
+        $filters = $this->flagship->filters;
 
         // validate settings before save
         $filters->add('woocommerce_settings_api_sanitized_fields_'.$this->id);
@@ -73,8 +73,6 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
      */
     public function calculate_shipping($package)
     {
-        wc_add_notice(is_cart() ? 'in cart' : 'not in cart', 'success');
-        wc_add_notice(is_checkout() ? 'in checkout' : 'not in checkout', 'success');
         $client = $this->flagship->client();
 
         $response = $client->post(

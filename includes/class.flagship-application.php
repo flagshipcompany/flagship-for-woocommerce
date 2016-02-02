@@ -46,11 +46,6 @@ class Flagship_Application
         return $this->api_client;
     }
 
-    public function get_filters()
-    {
-        return $this->filters;
-    }
-
     public function get_option($name, $default = null)
     {
         return isset($this->options[$name]) ? $this->options[$name] : $default;
@@ -86,43 +81,6 @@ class Flagship_Application
         }
 
         return esc_url($url);
-    }
-
-    public function integrity($options)
-    {
-        $screen = get_current_screen();
-
-        console('integ:'.$screen->base);
-
-        if ($screen->base == 'woocommerce_page_wc-settings') {
-            $this->check_integrity($options);
-            $this->notification->view();
-        }
-
-        return $options;
-    }
-
-    public function show_notifications()
-    {
-        $screen = get_current_screen();
-
-        console('show_notif:'.$screen->base);
-
-        if ($screen->base != 'woocommerce_page_wc-settings') {
-            $this->check_integrity($options);
-            $this->notification->view();
-        }
-    }
-
-    public function check_integrity($options)
-    {
-        if (!$options['token']) {
-            $this->notification->add('warning', esc_html__('Set your Flagship Shipping token.', 'flagship-shipping').' '.Flagship_Html::anchor('flagship_shipping_settings', 'click here', array('escape' => true)));
-        }
-
-        if (!$options['enabled'] || $options['enabled'] == 'no') {
-            $this->notification->add('warning', esc_html__('Enable Flagship Shipping Method to get discounted shipping rates', 'flagship-shipping'));
-        }
     }
 
     // static methods
