@@ -228,7 +228,43 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                 'type' => 'text',
                 'default' => 0,
             ),
-
+            'default_pickup_time_from' => array(
+                'title' => __('Pick-up Start Time', 'flagship-shipping'),
+                'type' => 'select',
+                'options' => array(
+                    '09:00' => '09:00',
+                    '10:00' => '10:00',
+                    '11:00' => '11:00',
+                    '12:00' => '12:00',
+                    '13:00' => '13:00',
+                    '14:00' => '14:00',
+                    '15:00' => '15:00',
+                    '16:00' => '16:00',
+                    '17:00' => '17:00',
+                ),
+                'default' => '09:00',
+            ),
+            'default_pickup_time_to' => array(
+                'title' => __('Pick-up End Time', 'flagship-shipping'),
+                'type' => 'select',
+                'options' => array(
+                    '09:00' => '09:00',
+                    '10:00' => '10:00',
+                    '11:00' => '11:00',
+                    '12:00' => '12:00',
+                    '13:00' => '13:00',
+                    '14:00' => '14:00',
+                    '15:00' => '15:00',
+                    '16:00' => '16:00',
+                    '17:00' => '17:00',
+                ),
+                'default' => '17:00',
+            ),
+            'default_shipping_email' => array(
+                'title' => __('Contact Email', 'flagship-shipping'),
+                'type' => 'text',
+                'default' => get_option('admin_email'),
+            ),
         );
     }
 }

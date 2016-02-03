@@ -27,12 +27,12 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         if ($shipment) {
             $payload = array(
                 'type' => 'created',
-                'shipment' => $shipment
+                'shipment' => $shipment,
             );
         } elseif ($service['provider'] == FLAGSHIP_SHIPPING_PLUGIN_ID) {
             $payload = array(
                 'type' => 'create',
-                'service' => $service
+                'service' => $service,
             );
         } else {
             $payload = array('type' => 'unavailable');
@@ -52,44 +52,92 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         $order = wc_get_order($post_id);
         $shipment = get_post_meta($post_id, 'flagship_shipping_raw', true);
 
-        // in case 
+        // confirm if not shipment exists
         if (empty($shipment)) {
-            $flagship = Flagship_Application::get_instance();
-
-            $response = $flagship->client()->post(
-                '/ship/confirm',
-                Flagship_Request_Formatter::get_confirmation_request($order)
-            );
-
-            $shipping = $response->get_content();
-
-            if ($shipping['errors']) {
-                return;
-            }
-
-            update_post_meta($post_id, 'flagship_shipping_shipment_id', $shipping['content']['shipment_id']);
-            update_post_meta($post_id, 'flagship_shipping_shipment_tracking_number', $shipping['content']['tracking_number']);
-            update_post_meta($post_id, 'flagship_shipping_courier_name', $shipping['content']['service']['courier_name']);
-            update_post_meta($post_id, 'flagship_shipping_courier_service_code', $shipping['content']['service']['courier_code']);
-            update_post_meta($post_id, 'flagship_shipping_raw', $shipping['content']);
-            
-            return;
+            return self::shipment_confirm($order);
         }
 
-        $shipment_id = sanitize_text_field($_POST['flagship_shipping_void_shipment_id']);
+        $shipment_id = sanitize_text_field($_POST['flagship_shipping_shipment_id']);
 
         if (empty($shipment_id) || $shipment_id != $shipment['shipment_id']) {
             return;
         }
 
+        $shipment_action = sanitize_text_field($_POST['flagship_shipping_shipment_action']);
         $flagship = Flagship_Application::get_instance();
-        $response = $flagship->client()->delete('/ship/shipments/'.$shipment_id);
 
-        if ($response->get_code() == 204) {
-            delete_post_meta($post_id, 'flagship_shipping_raw');
+        if ($shipment_action == 'shipment-void') {
+            self::shipment_void($order, $shipment_id);
+        } elseif ($shipment_action == 'pickup-schedule') {
+            $pickup_date = sanitize_text_field($_POST['flagship_shipping_pickup_schedule_date']);
+            self::pickup_schedule($order, $shipment, $pickup_date);
+        } elseif ($shipment_action == 'pickup-void') {
+            self::pickup_void($order, $shipment);
+        }
+    }
+
+    protected static function shipment_confirm($order)
+    {
+        $flagship = Flagship_Application::get_instance();
+
+        $response = $flagship->client()->post(
+            '/ship/confirm',
+            Flagship_Request_Formatter::get_confirmation_request($order)
+        );
+
+        $shipping = $response->get_content();
+
+        if ($shipping['errors']) {
+            return;
         }
 
+        update_post_meta($order->id, 'flagship_shipping_shipment_id', $shipping['content']['shipment_id']);
+        update_post_meta($order->id, 'flagship_shipping_shipment_tracking_number', $shipping['content']['tracking_number']);
+        update_post_meta($order->id, 'flagship_shipping_courier_name', $shipping['content']['service']['courier_name']);
+        update_post_meta($order->id, 'flagship_shipping_courier_service_code', $shipping['content']['service']['courier_code']);
+        update_post_meta($order->id, 'flagship_shipping_raw', $shipping['content']);
+    }
 
+    protected function shipment_void($order, $shipment_id)
+    {
+        $flagship = Flagship_Application::get_instance();
 
+        $response = $flagship->client()->delete('/ship/shipments/'.$shipment_id);
+
+        console($response->get_code());
+
+        if ($response->get_code() == 204 || $response->get_code() == 209) {
+            delete_post_meta($order->id, 'flagship_shipping_raw');
+        }
+    }
+
+    protected function pickup_schedule($order, $shipment, $date)
+    {
+        $flagship = Flagship_Application::get_instance();
+
+        $request = Flagship_Request_Formatter::get_single_pickup_schedule_request($order, $shipment, $date);
+
+        $response = $flagship->client()->post(
+            '/pickups',
+            $request
+        );
+
+        if ($response->is_success()) {
+            $shipment['pickup'] = $response->get_content()['content'];
+
+            update_post_meta($order->id, 'flagship_shipping_raw', $shipment);
+        }
+    }
+
+    protected function pickup_void($order, $shipment)
+    {
+        $flagship = Flagship_Application::get_instance();
+
+        $response = $flagship->client()->delete('/pickups/'.$shipment['pickup']['id']);
+
+        if ($response->get_code() == 204) {
+            unset($shipment['pickup']);
+            update_post_meta($order->id, 'flagship_shipping_raw', $shipment);
+        }
     }
 }

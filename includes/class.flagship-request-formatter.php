@@ -146,6 +146,37 @@ class Flagship_Request_Formatter
         return $request;
     }
 
+    public function get_single_pickup_schedule_request($order, $shipment, $date)
+    {
+        $flagship = Flagship_Application::get_instance();
+
+        $request = array(
+            'address' => self::get_address_from(),
+            'courier' => strtolower($shipment['service']['courier_name']),
+            'boxes' => count($shipment['packages']),
+            'weight' => 0,
+            'date' => $date,
+            'from' => $flagship->get_option('default_pickup_time_from', '09:00'),
+            'until' => $flagship->get_option('default_pickup_time_to', '17:00'),
+            'units' => 'imperial',
+            'location' => 'Reception',
+            'to_country' => $order->shipping_country,
+            'email' => $flagship->get_option('default_shipping_email'),
+            'is_ground' => false,
+        );
+
+        foreach ($shipment['packages'] as $package) {
+            $request['weight'] += $package['weight'];
+        }
+
+        if (strtolower($shipment['service']['courier_name']) == 'fedex'
+            && strpos($shipment['service']['courier_code'], 'FedexGround') !== false) {
+            $request['is_ground'] = true;
+        }
+
+        return $request;
+    }
+
     public static function get_address_from()
     {
         $flagship = Flagship_Application::get_instance();

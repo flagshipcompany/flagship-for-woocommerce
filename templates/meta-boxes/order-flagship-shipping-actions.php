@@ -15,15 +15,36 @@
         <hr/>
     </li>
     <li>
+        <?php if (isset($shipment['pickup'])): ?>
+        <h4>Pick-up:</h4>
+        <strong>Confirmation ID:</strong> <?php echo $shipment['pickup']['id']; ?>
+        <br/>
+        <strong>Date:</strong> <?php echo $shipment['pickup']['date'].' '.$shipment['pickup']['from'].' - '.$shipment['pickup']['until']; ?>
+        <br/>
+        <button class="button flagship-shipping-action" data-shipment-action="pickup-void"><?php echo __('Void pick-up');?></button>
+        <hr/>
+        <?php else: ?>
         <h4>Request for pick-up:</h4>
-        <input type="date" name="flagship_shipping_schedule_pickup" value="<?php echo date('Y-m-d');?>" min="<?php echo date('Y-m-d');?>" miax="<?php echo date('Y-m-d', strtotime('+3 days'));?>"/>
-        <button class="button button-primary" type="submit"><?php echo __('Schedule'); ?></button>
+        <input type="date" name="flagship_shipping_pickup_schedule_date" value="<?php echo date('Y-m-d');?>" min="<?php echo date('Y-m-d');?>" miax="<?php echo date('Y-m-d', strtotime('+3 days'));?>"/>
+        <button id="flagship-shipping-pickup-schedule" class="button button-primary flagship-shipping-action" data-shipment-action="pickup-schedule"><?php echo __('Schedule'); ?></button>
+        <?php endif; ?>
     </li>
     <li>
-        <input type="hidden" name="flagship_shipping_void_shipment_id" value="<?php echo $shipment['shipment_id']; ?>"/>
-        <button class="button" type="submit"><?php echo __('Void Shipment', 'flagship-shipping');?></button>
+        <h5>Cancel Shipment (use with caution)</h5>
+        <input type="hidden" name="flagship_shipping_shipment_id" value="<?php echo $shipment['shipment_id']; ?>"/>
+        <input id="flagship-shipping-shipment-action" type="hidden" name="flagship_shipping_shipment_action"/>
+        <button class="button flagship-shipping-action" data-shipment-action="shipment-void"><?php echo __('Void Shipment', 'flagship-shipping');?></button>
     </li>
-</ul> 
+</ul>
+<script type="text/javascript">
+(function($){
+    $(function(){
+        $('.flagship-shipping-action').click(function(e){
+            $('#flagship-shipping-shipment-action').val($(this).attr('data-shipment-action'));
+        });
+    });
+})(jQuery);
+</script>
 <?php elseif ($type == 'create'): ?>
 <ul class="order_actions submitbox">
     <li class="wide">
@@ -45,5 +66,5 @@
     </li>
 </ul>
 <?php else: ?>
-<?php echo __('Shipment was not quoted with Flagship Shipping.', 'flagship-shipping'); ?> 
+<?php echo __('Shipment was not quoted with Flagship Shipping.', 'flagship-shipping'); ?>
 <?php endif; ?>
