@@ -183,7 +183,7 @@ class Flagship_Request_Formatter
         $flagship = Flagship_Application::get_instance();
 
         $package_box_max_weight = (int) $flagship->get_option('default_package_box_split_weight', 20);
-        $package_item_in_same_box = $flagship->get_option('default_package_box_split', 'no') == 'no';
+        $package_item_in_same_box = $flagship->get_option('default_package_box_split', 'no') == 'yes';
 
         $items = array();
 
@@ -241,16 +241,18 @@ class Flagship_Request_Formatter
     {
         $wc_shipping_rates = array();
 
+        $flagship = Flagship_Application::get_instance();
+
+        $markup = array(
+            'type' => $flagship->get_option('default_shipping_markup_type'),
+            'rate' => $flagship->get_option('default_shipping_markup'),
+        );
+
         foreach ($rates as $rate) {
-            $courier = strtolower($rate['service']['courier_name']);
-
-            $icon = $courier == 'fedex' && $rate['service']['courier_code'] == 'FEDEX_GROUND' ? 'fedex_ground' : $courier;
-            $img = Flagship_Html::image($icon.'_small_icon.png');
-
             $wc_shipping_rates[] = array(
                 'id' => $id.':'.$rate['service']['courier_name'].':'.$rate['service']['courier_code'],
-                'label' => $img.' '.$rate['service']['courier_desc'].' <small>'.date('M. d', strtotime($rate['service']['estimated_delivery_date'])).'</small>',
-                'cost' => $rate['price']['total'],
+                'label' => $rate['service']['courier_name'].' '.$rate['service']['courier_desc'].' <small>'.date('M. d', strtotime($rate['service']['estimated_delivery_date'])).'</small>',
+                'cost' => $rate['price']['total'] + ('percentage' ? $rate['price']['total'] * $markup['rate'] / 100 : $markup['rate']),
                 'taxes' => false, // we do not let WC compute tax
             );
         }

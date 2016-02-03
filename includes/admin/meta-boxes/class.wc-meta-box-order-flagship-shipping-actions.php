@@ -50,7 +50,6 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
     public static function save($post_id, $post)
     {
         $order = wc_get_order($post_id);
-
         $shipment = get_post_meta($post_id, 'flagship_shipping_raw', true);
 
         // in case 

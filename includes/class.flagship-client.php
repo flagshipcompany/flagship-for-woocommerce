@@ -89,6 +89,15 @@ class Flagship_Client
         ));
     }
 
+    public function put($uri, array $data = array())
+    {
+        $data = json_encode($data);
+
+        return $this->request($uri, $data, 'PUT', array(
+            'Content-Type' => 'application/json; charset=utf-8',
+        ));
+    }
+
     public function delete($uri)
     {
         return $this->request($uri, array(), 'DELETE');

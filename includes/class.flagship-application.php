@@ -12,7 +12,6 @@ require_once FLS__PLUGIN_DIR.'includes/class.flagship-validation.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-view.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-html.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-request-formatter.php';
-require_once FLS__PLUGIN_DIR.'includes/admin/meta-boxes/class.wc-meta-box-order-flagship-shipping-actions.php';
 
 class Flagship_Application
 {
@@ -65,7 +64,7 @@ class Flagship_Application
 
         switch ($name) {
             case 'flagship_shipping_settings':
-                $args['page'] = wf_get_settings_url();
+                $args['page'] = version_compare(WC()->version, '2.1', '>=') ? 'wc-settings' : 'woocommerce_settings';
                 $args['tab'] = 'shipping';
                 $args['section'] = 'flagship_wc_shipping_method';
                 $base_url = admin_url('admin.php');

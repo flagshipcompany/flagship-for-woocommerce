@@ -74,10 +74,13 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
     public function calculate_shipping($package)
     {
         $client = $this->flagship->client();
+        $request = Flagship_Request_Formatter::get_quote_request($package);
+
+        console($request);
 
         $response = $client->post(
             '/ship/rates',
-            Flagship_Request_Formatter::get_quote_request($package)
+            $request
         );
 
         $rates = Flagship_Request_Formatter::get_processed_rates(
@@ -209,6 +212,21 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                 'description' => __('Maximun weight per each package box (lbs)', 'flagship-shipping'),
                 'type' => 'text',
                 'default' => 20,
+            ),
+            'default_shipping_markup_type' => array(
+                'title' => __('Shipping Cost Markup Type', 'flagship-shipping'),
+                'description' => __('Shipping Cost Markup Type can be either flat rate (i.e. dollar valued) or percentage rate (i.e. rate based on certain percentage)', 'flagship-shipping'),
+                'type' => 'select',
+                'options' => array(
+                    'flat_rate' => __('Flat rate', 'flagship-shipping'),
+                    'percentage' => __('Percentage', 'flagship-shipping'),
+                ),
+                'default' => 'percentage',
+            ),
+            'default_shipping_markup' => array(
+                'title' => __('Shipping Cost Markup', 'flagship-shipping'),
+                'type' => 'text',
+                'default' => 0,
             ),
 
         );

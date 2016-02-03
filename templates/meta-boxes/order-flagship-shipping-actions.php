@@ -1,6 +1,7 @@
 <?php if ($type == 'created'): ?>
 <ul>
     <li>
+        <h4>Summary</h4>
         <strong>Flagship ID:</strong> <?php echo $shipment['shipment_id']; ?>
         <br/>
         <strong>Service:</strong> <?php echo $shipment['service']['courier_name'].' - '.$shipment['service']['courier_desc'];?>
@@ -9,9 +10,14 @@
         <br/>
         <strong>Cost:</strong> $<?php echo $shipment['price']['total'];?>
         <hr/>
-        <p>Print labels:</p>
+        <h4>Print labels:</h4>
         <a class="button button-primary" href="<?php echo $shipment['labels']['regular']; ?>"><?php echo __('Regular label', 'flagship-shipping');?></a> <a class="button button-primary" href="<?php echo $shipment['labels']['thermal']; ?>">Thermal label</a>
         <hr/>
+    </li>
+    <li>
+        <h4>Request for pick-up:</h4>
+        <input type="date" name="flagship_shipping_schedule_pickup" value="<?php echo date('Y-m-d');?>" min="<?php echo date('Y-m-d');?>" miax="<?php echo date('Y-m-d', strtotime('+3 days'));?>"/>
+        <button class="button button-primary" type="submit"><?php echo __('Schedule'); ?></button>
     </li>
     <li>
         <input type="hidden" name="flagship_shipping_void_shipment_id" value="<?php echo $shipment['shipment_id']; ?>"/>

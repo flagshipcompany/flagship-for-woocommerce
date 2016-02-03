@@ -1,5 +1,7 @@
 <?php
 
+require_once FLS__PLUGIN_DIR.'includes/admin/meta-boxes/class.wc-meta-box-order-flagship-shipping-actions.php';
+
 class Flagship_Actions extends Flagship_Api_Hooks
 {
     public function add($action_name, $optional_method_name = false)
