@@ -1,4 +1,6 @@
+<input id="flagship-shipping-shipment-action" type="hidden" name="flagship_shipping_shipment_action"/>
 <?php if ($type == 'created'): ?>
+<input type="hidden" name="flagship_shipping_shipment_id" value="<?php echo $shipment['shipment_id']; ?>"/>
 <ul>
     <li>
         <h4>Summary</h4>
@@ -31,40 +33,84 @@
     </li>
     <li>
         <h5>Cancel Shipment (use with caution)</h5>
-        <input type="hidden" name="flagship_shipping_shipment_id" value="<?php echo $shipment['shipment_id']; ?>"/>
-        <input id="flagship-shipping-shipment-action" type="hidden" name="flagship_shipping_shipment_action"/>
         <button class="button flagship-shipping-action" data-shipment-action="shipment-void"><?php echo __('Void Shipment', 'flagship-shipping');?></button>
     </li>
 </ul>
 <script type="text/javascript">
 (function($){
     $(function(){
-        $('.flagship-shipping-action').click(function(e){
-            $('#flagship-shipping-shipment-action').val($(this).attr('data-shipment-action'));
+
+        $('input[name="flagship_shipping_service"]').change(function(){
+            var val = $(this).val();
+
+            if (val == 'requote') {
+
+            } else {
+
+            }
         });
     });
 })(jQuery);
 </script>
 <?php elseif ($type == 'create'): ?>
-<ul class="order_actions submitbox">
-    <li class="wide">
+    <p>Client choosen rate:</p>
     <?php
-    woocommerce_wp_select(array(
+    woocommerce_wp_radio(array(
         'id' => 'flagship-shipping-service',
-        'label' => __('Choose Service', 'flagship-shipping'),
         'name' => 'flagship_shipping_service',
+        'value' => $service['courier_name'].':'.$service['courier_code'],
         'options' => array(
-            $service['courier_name'].':'.$service['courier_code'] => ucfirst($service['courier_name']).' - '.$service['courier_code'].' $'.$shipping['cost'],
+            $service['courier_name'].'|'.$service['courier_code'] => ucfirst($service['courier_name']).' - '.$service['courier_code'],
         ),
     ));
     ?>
-    </li>
-    <li class="wide">
-        <button type="submit" class="button save_order button-primary">
-        <?php echo __('Create shipment', 'flagship-shipping'); ?>
-        </button>
-    </li>
-</ul>
+    <hr/>
+
+    <?php if (isset($requote_rates)): ?>
+    <p>Latest rates:</p>
+    <?php
+    woocommerce_wp_radio(array(
+        'name' => 'flagship_shipping_service',
+        'options' => $requote_rates,
+    ));
+    ?>
+    <hr/>
+    <?php endif; ?>
+
+    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php echo __('Create shipment', 'flagship-shipping'); ?></button>
+    <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote">Requote</button>
+
 <?php else: ?>
-<?php echo __('Shipment was not quoted with Flagship Shipping.', 'flagship-shipping'); ?>
+    <?php echo __('Shipment was not quoted with Flagship Shipping.', 'flagship-shipping'); ?>
+    <hr/>
+    <?php if (isset($requote_rates)): ?>
+    <p>Latest rates:</p>
+    <?php
+    woocommerce_wp_radio(array(
+        'name' => 'flagship_shipping_service',
+        'options' => $requote_rates,
+    ));
+    ?>
+    <hr/>
+    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php echo __('Create shipment', 'flagship-shipping'); ?></button>
+    <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote">Requote</button>
+    <?php else: ?>
+    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-requote">Get a quote!</button>
+    <?php endif; ?>
 <?php endif; ?>
+<script type="text/javascript">
+(function($){
+    $('.flagship-shipping-action').click(function(e){
+        $('#flagship-shipping-shipment-action').val($(this).attr('data-shipment-action'));
+    });
+
+    $('button.button').click(function(e){
+        // $(this).prop('disabled', true);
+        if ($(this).data('clicked') !== undefined && $(this).data('clicked')) {
+            $(this).prop('disabled', true);
+        } else {
+            $(this).data('clicked', true);
+        }
+    });
+})(jQuery);
+</script>

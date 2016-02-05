@@ -76,8 +76,6 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         $client = $this->flagship->client();
         $request = Flagship_Request_Formatter::get_quote_request($package);
 
-        console($request);
-
         $response = $client->post(
             '/ship/rates',
             $request

@@ -85,12 +85,13 @@ class Flagship_Request_Formatter
     {
         $shipping_methods = $order->get_shipping_methods();
 
-        list($provider, $courier_name, $courier_code) = explode(':', $shipping_methods[key($shipping_methods)]['method_id']);
+        list($provider, $courier_name, $courier_code, $date) = explode('|', $shipping_methods[key($shipping_methods)]['method_id']);
 
         return array(
             'provider' => $provider,
             'courier_name' => strtolower($courier_name),
             'courier_code' => $courier_code,
+            'date' => $date,
         );
     }
 
@@ -114,11 +115,22 @@ class Flagship_Request_Formatter
         return $request;
     }
 
-    public static function get_confirmation_request($order)
+    public static function get_confirmation_request($order, $method = null)
     {
-        $service = self::get_flagship_shipping_service($order);
+        if ($method) {
+            list($provider, $courier_name, $courier_code, $date) = explode('|', $method);
+            $service = array(
+                'provider' => $provider,
+                'courier_name' => strtolower($courier_name),
+                'courier_code' => $courier_code,
+                'date' => $date,
+            );
+        } else {
+            $service = self::get_flagship_shipping_service($order);
+        }
 
         unset($service['provider']);
+        unset($service['date']);
 
         $request = array(
             'from' => self::get_address_from(),
@@ -146,6 +158,35 @@ class Flagship_Request_Formatter
         return $request;
     }
 
+    public static function get_requote_request($order)
+    {
+        $flagship = Flagship_Application::get_instance();
+
+        $request = array(
+            'from' => self::get_address_from(),
+            'to' => array(
+                'name' => $order->shipping_company,
+                'attn' => $order->shipping_first_name.' '.$order->shipping_last_name,
+                'address' => trim($order->shipping_address_1.' '.$order->shipping_address_2),
+                'city' => $order->shipping_city,
+                'state' => $order->shipping_state,
+                'country' => $order->shipping_country,
+                'postal_code' => $order->shipping_postcode,
+                'phone' => $order->billing_phone, // no such a field in the shipping!?
+            ),
+            'packages' => array(
+                'items' => self::get_package_items(self::get_confirmation_product_items($order)),
+                'units' => 'imperial',
+                'type' => 'package',
+            ),
+            'payment' => array(
+                'payer' => 'F',
+            ),
+        );
+
+        return $request;
+    }
+
     public function get_single_pickup_schedule_request($order, $shipment, $date)
     {
         $flagship = Flagship_Application::get_instance();
@@ -161,7 +202,6 @@ class Flagship_Request_Formatter
             'units' => 'imperial',
             'location' => 'Reception',
             'to_country' => $order->shipping_country,
-            'email' => $flagship->get_option('default_shipping_email'),
             'is_ground' => false,
         );
 
@@ -281,14 +321,29 @@ class Flagship_Request_Formatter
 
         foreach ($rates as $rate) {
             $wc_shipping_rates[] = array(
-                'id' => $id.':'.$rate['service']['courier_name'].':'.$rate['service']['courier_code'],
-                'label' => $rate['service']['courier_name'].' '.$rate['service']['courier_desc'].' <small>'.date('M. d', strtotime($rate['service']['estimated_delivery_date'])).'</small>',
+                'id' => $id.'|'.$rate['service']['courier_name'].'|'.$rate['service']['courier_code'].'|'.strtotime($rate['service']['estimated_delivery_date']),
+                'label' => $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'],
                 'cost' => $rate['price']['total'] + ('percentage' ? $rate['price']['total'] * $markup['rate'] / 100 : $markup['rate']),
                 'taxes' => false, // we do not let WC compute tax
             );
         }
 
         uasort($wc_shipping_rates, array(__CLASS__, 'rates_sort'));
+
+        return $wc_shipping_rates;
+    }
+
+    public static function get_requote_rates_options($rates)
+    {
+        $wc_shipping_rates = array();
+
+        $flagship = Flagship_Application::get_instance();
+
+        $rates = self::get_processed_rates($rates, 'flagship_shipping_method');
+
+        foreach ($rates as $rate) {
+            $wc_shipping_rates[$rate['id']] = $rate['label'].' $'.$rate['cost'];
+        }
 
         return $wc_shipping_rates;
     }
