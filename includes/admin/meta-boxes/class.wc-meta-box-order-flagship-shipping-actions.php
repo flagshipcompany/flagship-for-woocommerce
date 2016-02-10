@@ -162,7 +162,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         }
     }
 
-    protected function pickup_schedule($order, $shipment, $date)
+    protected function pickup_schedule($order)
     {
         $flagship = Flagship_Application::get_instance();
         $flagship->notification->scope('shop_order', array('id' => $order->id));
