@@ -66,10 +66,17 @@ class Flagship_Client
         $args['headers'] = $this->make_headers($headers);
         $args['timeout'] = 14; // seconds
 
-        $response = wp_remote_request(esc_url_raw($url), $args);
+        try {
+            $response = wp_remote_request(esc_url_raw($url), $args);
 
-        if (is_wp_error($response)) {
-            throw new Exception($response->get_error_message(), 500 | wp_remote_retrieve_response_code($response));
+            if (is_wp_error($response)) {
+                throw new Exception($response->get_error_message(), 500 | wp_remote_retrieve_response_code($response));
+            }
+        } catch(Exception $e) {
+            return new Flagship_Api_Response(array(
+                'errors' => array(array($e->getMessage())),
+                'content' => array(),
+            ), $e->getCode());
         }
 
         return new Flagship_Api_Response(json_decode(wp_remote_retrieve_body($response), true), wp_remote_retrieve_response_code($response));
