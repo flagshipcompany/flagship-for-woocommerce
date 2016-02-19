@@ -2,6 +2,18 @@
 
 class WC_Meta_Box_Order_Flagship_Shipping_Actions
 {
+    public static function register()
+    {
+        add_meta_box(
+            'wc-flagship-shipping-box',
+            __('Flagship', 'flagship-shipping'),
+            array(__CLASS__, 'output'),
+            'shop_order',
+            'side',
+            'high'
+        );
+    }
+
     /**
      * Output the metabox.
      *
@@ -174,7 +186,13 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
             return;
         }
 
-        $request = Flagship_Request_Formatter::get_single_pickup_schedule_request($order, $shipment, $date);
+        $shipping = array(
+            'order' => $order,
+            'shipment' => $shipment,
+            'date' => $date,
+        );
+
+        $request = Flagship_Request_Formatter::get_single_pickup_schedule_request($shipping);
         $response = $flagship->client()->post(
             '/pickups',
             $request
