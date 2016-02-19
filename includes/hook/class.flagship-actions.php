@@ -30,7 +30,7 @@ class Flagship_Actions extends Flagship_Api_Hooks
 
     public static function woocommerce_process_shop_order_meta_action($post_id, $post)
     {
-        // WC_Meta_Box_Order_Flagship_Shipping_Actions::save($post_id, $post);
+        WC_Meta_Box_Order_Flagship_Shipping_Actions::save($post_id, $post);
     }
 
     public static function pickup_bulk_admin_footer_action()

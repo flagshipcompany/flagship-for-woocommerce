@@ -36,22 +36,6 @@
         <button class="button flagship-shipping-action" data-shipment-action="shipment-void"><?php echo __('Void Shipment', 'flagship-shipping');?></button>
     </li>
 </ul>
-<script type="text/javascript">
-(function($){
-    $(function(){
-
-        $('input[name="flagship_shipping_service"]').change(function(){
-            var val = $(this).val();
-
-            if (val == 'requote') {
-
-            } else {
-
-            }
-        });
-    });
-})(jQuery);
-</script>
 <?php elseif ($type == 'create'): ?>
     <p>Client choosen rate:</p>
     <?php

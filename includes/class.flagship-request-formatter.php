@@ -222,6 +222,8 @@ class Flagship_Request_Formatter
     {
         $flagship = Flagship_Application::get_instance();
 
+        $pickup_requests = array();
+
         if ($courier_shippings['purolator']) {
             $request = array(
                 'address' => self::get_address_from(),
@@ -253,7 +255,7 @@ class Flagship_Request_Formatter
                 $request['date'] = ($request['date'] && strtotime($request['date']) > strtotime($shipping['date'])) ?  $request['date'] : $shipping['date'];
             }
 
-            return array($request);
+            $pickup_requests[] = $request;
         }
 
         if ($courier_shippings['ups']) {
@@ -310,12 +312,10 @@ class Flagship_Request_Formatter
             }
 
             foreach ($requests as $type => $request) {
-                if (!$request['boxes'] && !$request['weight']) {
-                    unset($requests[$type]);
+                if ($request['boxes'] && $request['weight']) {
+                    $pickup_requests[] = $request;
                 }
             }
-
-            return $requests;
         }
 
         if ($courier_shippings['fedex']) {
@@ -405,15 +405,13 @@ class Flagship_Request_Formatter
             }
 
             foreach ($requests as $type => $request) {
-                if (!$request['boxes'] && !$request['weight']) {
-                    unset($requests[$type]);
+                if ($request['boxes'] && $request['weight']) {
+                    $pickup_requests[] = $request;
                 }
             }
-
-            return $requests;
         }
 
-        return array();
+        return $pickup_requests;
     }
 
     public static function get_address_from()
