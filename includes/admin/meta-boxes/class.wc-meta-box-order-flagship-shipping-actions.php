@@ -35,6 +35,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
 
         $service = Flagship_Request_Formatter::get_flagship_shipping_service($order);
         $shipment = get_post_meta($thepostid, 'flagship_shipping_raw', true);
+
         $requote_rates = get_post_meta($thepostid, 'flagship_shipping_requote_rates', true);
 
         if ($shipment) {
@@ -50,6 +51,10 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         } else {
             $payload = array('type' => 'unavailable');
         }
+
+        $payload['cod'] = array(
+            'currency' => strtoupper(get_woocommerce_currency()),
+        );
 
         if ($requote_rates) {
             $payload['requote_rates'] = $requote_rates;
@@ -114,6 +119,8 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         );
 
         $shipping = $response->get_content();
+
+        console($shipping);
 
         if ($shipping['errors']) {
             $flagship->notification->add('error', $shipping['errors']);

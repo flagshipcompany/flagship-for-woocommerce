@@ -155,6 +155,60 @@ class Flagship_Request_Formatter
             'service' => $service,
         );
 
+        $options = array();
+
+        if (isset($_REQUEST['flagship_shipping_enable_insurance'])
+            && $_REQUEST['flagship_shipping_enable_insurance'] == 'yes'
+            && $_REQUEST['flagship_shipping_insurance_value'] > 0
+            && $_REQUEST['flagship_shipping_insurance_description']
+        ) {
+            $options['insurance'] = array(
+                'value' => sanitize_text_field($_REQUEST['flagship_shipping_insurance_value']),
+                'description' => sanitize_text_field($_REQUEST['flagship_shipping_insurance_description']),
+            );
+        }
+
+        if (isset($_REQUEST['flagship_shipping_enable_cod'])
+            && $_REQUEST['flagship_shipping_enable_cod'] == 'yes'
+            && $_REQUEST['flagship_shipping_cod_method']
+            && $_REQUEST['flagship_shipping_cod_payable_to']
+            && $_REQUEST['flagship_shipping_cod_receiver_phone']
+            && $_REQUEST['flagship_shipping_cod_amount']
+            && $_REQUEST['flagship_shipping_cod_currency']
+        ) {
+            $options['cod'] = array(
+                'method' => sanitize_text_field($_REQUEST['flagship_shipping_cod_method']),
+                'payable_to' => sanitize_text_field($_REQUEST['flagship_shipping_cod_payable_to']),
+                'receiver_phone' => sanitize_text_field($_REQUEST['flagship_shipping_cod_receiver_phone']),
+                'amount' => sanitize_text_field($_REQUEST['flagship_shipping_cod_amount']),
+                'currency' => sanitize_text_field($_REQUEST['flagship_shipping_cod_currency']),
+            );
+        }
+
+        if (isset($_REQUEST['flagship_shipping_signature_required'])) {
+            $options['signature_required'] = $_REQUEST['flagship_shipping_signature_required'] == 'yes';
+        }
+
+        if (isset($_REQUEST['flagship_shipping_reference'])
+            && $_REQUEST['flagship_shipping_reference']) {
+            $options['reference'] = sanitize_text_field($_REQUEST['flagship_shipping_reference']);
+        }
+
+        if (isset($_REQUEST['flagship_shipping_driver_instructions'])
+            && $_REQUEST['flagship_shipping_driver_instructions']) {
+            $options['driver_instructions'] = sanitize_text_field($_REQUEST['flagship_shipping_driver_instructions']);
+        }
+
+        if (isset($_REQUEST['flagship_shipping_date'])
+            && strtotime($_REQUEST['flagship_shipping_date']) >= strtotime(date('Y-m-d'))
+        ) {
+            $options['shipping_date'] = sanitize_text_field($_REQUEST['flagship_shipping_date']);
+        }
+
+        if ($options) {
+            $request['options'] = $options;
+        }
+
         return $request;
     }
 
