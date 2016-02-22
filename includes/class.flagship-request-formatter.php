@@ -155,6 +155,21 @@ class Flagship_Request_Formatter
             'service' => $service,
         );
 
+        if ($options = self::get_confirmation_options()) {
+            $request['options'] = $options;
+        }
+
+        if ($request['to']['country'] != 'CA') {
+            $request['sold_to'] = self::get_confirmation_sold_to($request);
+            $request['inquiry'] = self::get_confirmation_inquiry($request);
+            $request['declared_items'] = self::get_confirmation_declared_items($order);
+        }
+
+        return $request;
+    }
+
+    public static function get_confirmation_options()
+    {
         $options = array();
 
         if (isset($_REQUEST['flagship_shipping_enable_insurance'])
@@ -205,11 +220,53 @@ class Flagship_Request_Formatter
             $options['shipping_date'] = sanitize_text_field($_REQUEST['flagship_shipping_date']);
         }
 
-        if ($options) {
-            $request['options'] = $options;
+        return $options;
+    }
+
+    public static function get_confirmation_sold_to($request)
+    {
+        $sold_to = array(
+            'sold_to_address' => $request['to'],
+            'duties_payer' => 'F',
+            'reason_for_export' => 'P',
+        );
+
+        return $sold_to;
+    }
+
+    public static function get_confirmation_inquiry($request)
+    {
+        $inquiry = array(
+            'company' => $request['from']['name'],
+            'name' => $request['from']['attn'],
+            'inquiry_phone' => preg_replace('(\D)', '', $request['from']['phone']),
+        );
+
+        return $inquiry;
+    }
+
+    public static function get_confirmation_declared_items($order)
+    {
+        $items = array();
+        $items['currency'] = strtoupper(get_woocommerce_currency());
+
+        $order_items = $order->get_items();
+
+        foreach ($order_items as $order_item) {
+            $product = $order->get_product_from_item($order_item);
+
+            $items['ci_items'][] = array(
+                'product_name' => $product->get_title(),
+                'description' => substr(get_post($product->id)->post_content, 0, 50),
+                'country_of_origin' => 'CA',
+                'quantity' => $order_item['qty'],
+                'unit_price' => $product->price,
+                'unit_weight' => max(1, ceil(woocommerce_get_weight($product->get_weight(), 'kg'))),
+                'unit_of_measurement' => 'kilogram',
+            );
         }
 
-        return $request;
+        return $items;
     }
 
     public static function get_requote_request($order)
