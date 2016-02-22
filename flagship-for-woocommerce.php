@@ -29,19 +29,19 @@ define('FLS__PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('FLAGSHIP_SHIPPING_PLUGIN_ID', 'flagship_shipping_method');
 define('FLAGSHIP_NAME_PREFIX', 'flagship_');
 
-if (!function_exists('console')) {
-    function console($var)
-    {
-        $home = exec('echo ~');
-        $text = $var;
-        if (!is_string($var)) {
-            ob_start();
-            var_dump($var);
-            $text = strip_tags(ob_get_clean());
-        }
-        file_put_contents($home.'/Desktop/data', date('Y-m-d H:i:s')."\t".print_r($text, 1)."\n", FILE_APPEND | LOCK_EX);
-    }
-}
+// if (!function_exists('console')) {
+//     function console($var)
+//     {
+//         $home = exec('echo ~');
+//         $text = $var;
+//         if (!is_string($var)) {
+//             ob_start();
+//             var_dump($var);
+//             $text = strip_tags(ob_get_clean());
+//         }
+//         file_put_contents($home.'/Desktop/data', date('Y-m-d H:i:s')."\t".print_r($text, 1)."\n", FILE_APPEND | LOCK_EX);
+//     }
+// }
 
 /*
  * Check if WooCommerce is active

@@ -120,8 +120,6 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
 
         $shipping = $response->get_content();
 
-        console($shipping);
-
         if ($shipping['errors']) {
             $flagship->notification->add('error', $shipping['errors']);
 
