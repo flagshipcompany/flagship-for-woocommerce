@@ -42,9 +42,9 @@
     woocommerce_wp_radio(array(
         'id' => 'flagship-shipping-service',
         'name' => 'flagship_shipping_service',
-        'value' => $service['courier_name'].':'.$service['courier_code'],
+        'value' => $service['provider'].'|'.$service['courier_name'].'|'.$service['courier_code'].'|'.$service['date'],
         'options' => array(
-            $service['courier_name'].'|'.$service['courier_code'] => ucfirst($service['courier_name']).' - '.$service['courier_code'],
+            $service['provider'].'|'.$service['courier_name'].'|'.$service['courier_code'].'|'.$service['date'] => ucfirst($service['courier_name']).' - '.$service['courier_code'],
         ),
     ));
     ?>

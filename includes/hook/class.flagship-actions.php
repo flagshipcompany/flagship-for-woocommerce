@@ -32,14 +32,4 @@ class Flagship_Actions extends Flagship_Api_Hooks
     {
         WC_Meta_Box_Order_Flagship_Shipping_Actions::save($post_id, $post);
     }
-
-    public static function pickup_bulk_admin_footer_action()
-    {
-        // Wc_Admin_Post_Types_Flagship_Shipping_Pickup_Actions::init();
-    }
-
-    public static function pickup_bulk_action_save_action()
-    {
-        // Wc_Admin_Post_Types_Flagship_Shipping_Pickup_Actions::save();
-    }
 }

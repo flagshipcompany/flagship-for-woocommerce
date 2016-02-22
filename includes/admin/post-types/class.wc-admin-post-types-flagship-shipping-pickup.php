@@ -42,6 +42,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
                     'capabilities' => array(
                         'create_posts' => false,
                     ),
+                    'map_meta_cap' => true,
                 )
             )
         );
@@ -300,9 +301,6 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
                             '/pickups',
                             $request
                         );
-
-                        console($response->get_code());
-                        console($response->get_content());
 
                         if ($response->is_success()) {
                             $pickup = $response->get_content()['content'];
