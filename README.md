@@ -34,3 +34,8 @@ Your folder structure may look like as the following:
 - Ignore any notifiaction or warning and click settings link under the title Flagship WooComerce Shipping
 
 ![image](https://cloud.githubusercontent.com/assets/5373898/13267802/243b6414-da4d-11e5-9fc6-ed6ae38f0e06.png)
+
+- Enable flagship shipping by checking the checbox `Enable this shipping method`
+- Take some time to fill all of the settings. (Access Token is absolutely required. Otherwise, You won't be able to get discounted rate nor being able to print the shipping labels.)
+- Save the settings by clikcing on teh save button on the bottom of the page.
+
