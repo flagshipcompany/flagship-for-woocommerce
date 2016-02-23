@@ -37,7 +37,7 @@
     </li>
 </ul>
 <?php elseif ($type == 'create'): ?>
-    <p>Client choosen rate:</p>
+    <p>Client Choosen Rate:</p>
     <?php
     woocommerce_wp_radio(array(
         'id' => 'flagship-shipping-service',
@@ -50,7 +50,15 @@
     ?>
     <hr/>
     <?php if (isset($requote_rates)): ?>
-    <p>Latest rates:</p>
+    <p>Requote Rates:</p>
+    <?php
+    woocommerce_wp_radio(array(
+        'id' => 'flagship-shipping-service',
+        'name' => 'flagship_shipping_service',
+        'value' => $service['provider'].'|'.$service['courier_name'].'|'.$service['courier_code'].'|'.$service['date'],
+        'options' => $requote_rates,
+    ));
+    ?>
     <hr/>
     <?php endif; ?>
     <p>Options:</p>
