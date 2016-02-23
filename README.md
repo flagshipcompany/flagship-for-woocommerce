@@ -17,8 +17,8 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 - [ ] You have a wordpress website of your own.
 - [ ] You have **WooCommerce** Plugin installed, activated, and configured
 - [ ] You have FTP upload access to my wordpress website's file directories.
-- [ ] You have registered and activated a Flagship Account ([click here](https://smartship.flagshipcompany.com/company/register) to register for a new account)
-- [ ] I have a Flagship Shipping API access-token. ([click here](https://auth.smartship.io/tokens/) to request a new one!)
+- [ ] You have registered and activated a **Flagship Account** ([click here](https://smartship.flagshipcompany.com/company/register) to register for an account)
+- [ ] I have a **Flagship Shipping API** access token. ([click here](https://auth.smartship.io/tokens/) to request an access token!)
 - [ ] I am ready!
 
 ### Installation
