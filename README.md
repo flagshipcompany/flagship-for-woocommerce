@@ -10,7 +10,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 ## Installation Guide
-> **Flagship For WooCommerce** requires WordPress WooCommerce Plugin version 4.4+. For WooCommerce installation guide, please visit [woocommerce installation guide](https://docs.woothemes.com/document/installing-uninstalling-woocommerce/). 
+> **Flagship For WooCommerce** requires WordPress 4.4+ WooCommerce Plugin version 2.5+. For WooCommerce installation guide, please visit [woocommerce installation guide](https://docs.woothemes.com/document/installing-uninstalling-woocommerce/). 
 
 ### Pre-installation Checklist
 - [ ] I want to have an awesome shipping solution from Canada to anywhere.
@@ -25,15 +25,14 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 - Download flagship-for-woocommerce.zip zip archive
 - Unzip the downloaded zip archive and upload the folder `flagship-for-woocomerce` to `/wp-content/plugins/`
 
-Your folder structure may look like as the following:
-
-![image](https://cloud.githubusercontent.com/assets/5373898/13267492/8964cfc6-da4b-11e5-9104-6f2b668861fd.png)
+> Your folder structure may look like as the following:
+> ![image](https://cloud.githubusercontent.com/assets/5373898/13267492/8964cfc6-da4b-11e5-9104-6f2b668861fd.png)
 
 - Log in as admin on your wordpress website. Go to the dashboard. Then, go to plugins page (on left hand side navigation submenu).
 - Click activate link under the title Flagship WooComerce Shipping
 - Ignore any notifiaction or warning and click settings link under the title Flagship WooComerce Shipping
 
-![image](https://cloud.githubusercontent.com/assets/5373898/13267802/243b6414-da4d-11e5-9fc6-ed6ae38f0e06.png)
+> ![image](https://cloud.githubusercontent.com/assets/5373898/13267802/243b6414-da4d-11e5-9fc6-ed6ae38f0e06.png)
 
 - Enable flagship shipping by checking the checbox `Enable this shipping method`
 - Take some time to fill all of the settings. (Access Token is absolutely required. Otherwise, You won't be able to get discounted rate nor being able to print the shipping labels.)
