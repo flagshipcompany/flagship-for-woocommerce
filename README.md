@@ -31,7 +31,6 @@ Your folder structure may look like as the following:
 
 - Log in as admin on your wordpress website. Go to the dashboard. Then, go to plugins page (on left hand side navigation submenu).
 - Click activate link under the title Flagship WooComerce Shipping
-
-
-
 - Ignore any notifiaction or warning and click settings link under the title Flagship WooComerce Shipping
+
+![image](https://cloud.githubusercontent.com/assets/5373898/13267802/243b6414-da4d-11e5-9fc6-ed6ae38f0e06.png)
