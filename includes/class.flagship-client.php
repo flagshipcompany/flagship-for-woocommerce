@@ -32,7 +32,7 @@ class Flagship_Api_Response
 class Flagship_Client
 {
     protected $token = null;
-    protected $api_entry_point = 'http://127.0.0.1:3002';
+    protected $api_entry_point = FLAGSHIP_SHIPPING_API_ENTRY_POINT;
     protected $default_data_filter;
 
     public function __construct($token = null)
@@ -72,7 +72,7 @@ class Flagship_Client
             if (is_wp_error($response)) {
                 throw new Exception($response->get_error_message(), 500 | wp_remote_retrieve_response_code($response));
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return new Flagship_Api_Response(array(
                 'errors' => array(array($e->getMessage())),
                 'content' => array(),

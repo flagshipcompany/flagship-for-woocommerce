@@ -159,7 +159,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         update_post_meta($order->id, 'flagship_shipping_requote_rates', $rates);
     }
 
-    protected function shipment_void($order)
+    protected static function shipment_void($order)
     {
         $flagship = Flagship_Application::get_instance();
         $flagship->notification->scope('shop_order', array('id' => $order->id));
@@ -179,7 +179,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         }
     }
 
-    protected function pickup_schedule($order)
+    protected static function pickup_schedule($order)
     {
         $flagship = Flagship_Application::get_instance();
         $flagship->notification->scope('shop_order', array('id' => $order->id));
@@ -210,7 +210,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         }
     }
 
-    protected function pickup_void($order)
+    protected static function pickup_void($order)
     {
         $flagship = Flagship_Application::get_instance();
         $flagship->notification->scope('shop_order', array('id' => $order->id));
@@ -230,7 +230,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         }
     }
 
-    protected function get_accessible_shipment_id($shipment)
+    protected static function get_accessible_shipment_id($shipment)
     {
         $flagship = Flagship_Application::get_instance();
         $shipment_id = sanitize_text_field($_POST['flagship_shipping_shipment_id']);
