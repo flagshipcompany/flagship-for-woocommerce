@@ -37,5 +37,5 @@ Your folder structure may look like as the following:
 
 - Enable flagship shipping by checking the checbox `Enable this shipping method`
 - Take some time to fill all of the settings. (Access Token is absolutely required. Otherwise, You won't be able to get discounted rate nor being able to print the shipping labels.)
-- Save the settings by clicking on teh save button on the bottom of the page.
+- Save the settings by clicking on `Save changes` button on the bottom of the page.
 
