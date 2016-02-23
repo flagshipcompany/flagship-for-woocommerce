@@ -14,7 +14,7 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 ### Pre-installation Checklist
 - [ ] I want to have an awesome shipping solution from Canada to anywhere.
-- [ ] I have a wordpress website of your own.
+- [ ] I have a wordpress website of mine.
 - [ ] I have **WooCommerce** Plugin installed, activated, and configured
 - [ ] I have FTP upload access to my wordpress website's file directories.
 - [ ] I have registered and activated a **Flagship Account** ([click here](https://smartship.flagshipcompany.com/company/register) to register for an account)
@@ -37,5 +37,5 @@ Your folder structure may look like as the following:
 
 - Enable flagship shipping by checking the checbox `Enable this shipping method`
 - Take some time to fill all of the settings. (Access Token is absolutely required. Otherwise, You won't be able to get discounted rate nor being able to print the shipping labels.)
-- Save the settings by clicking on `Save changes` button on the bottom of the page.
+- Don't forget to save the settings by clicking on `Save changes` button on the bottom of the page.
 
