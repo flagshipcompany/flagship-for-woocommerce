@@ -25,7 +25,6 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 - Download flagship-for-woocommerce.zip zip archive
 - Unzip the downloaded zip archive and upload the folder `flagship-for-woocomerce` to `/wp-content/plugins/`
 
-> Your folder structure may look like as the following:
 > ![image](https://cloud.githubusercontent.com/assets/5373898/13267492/8964cfc6-da4b-11e5-9104-6f2b668861fd.png)
 
 - Log in as admin on your wordpress website. Go to the dashboard. Then, go to plugins page (on left hand side navigation submenu).
