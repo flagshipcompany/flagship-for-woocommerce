@@ -13,11 +13,11 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 > **Flagship For WooCommerce** requires WordPress WooCommerce Plugin version 4.4+. For WooCommerce installation guide, please visit [woocommerce installation guide](https://docs.woothemes.com/document/installing-uninstalling-woocommerce/). 
 
 ### Pre-installation Checklist
-- [ ] You or your company want to have an awesome shipping solution from Canada to anywhere.
-- [ ] You have a wordpress website of your own.
-- [ ] You have **WooCommerce** Plugin installed, activated, and configured
-- [ ] You have FTP upload access to my wordpress website's file directories.
-- [ ] You have registered and activated a **Flagship Account** ([click here](https://smartship.flagshipcompany.com/company/register) to register for an account)
+- [ ] I want to have an awesome shipping solution from Canada to anywhere.
+- [ ] I have a wordpress website of your own.
+- [ ] I have **WooCommerce** Plugin installed, activated, and configured
+- [ ] I have FTP upload access to my wordpress website's file directories.
+- [ ] I have registered and activated a **Flagship Account** ([click here](https://smartship.flagshipcompany.com/company/register) to register for an account)
 - [ ] I have a **Flagship Shipping API** access token. ([click here](https://auth.smartship.io/tokens/) to request an access token!)
 - [ ] I am ready!
 
