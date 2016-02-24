@@ -239,84 +239,102 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
         $action = $wp_list_table->current_action();
         $post_ids = array_map('absint', (array) $_REQUEST['post']);
 
+        if ($action == 'flagship_shipping_pickup_schedule') {
+            self::schedule_pickup($post_ids);
+        } elseif ($action == 'flagship_shipping_pickup_void') {
+            self::void_pickup($post_ids);
+        } elseif ($action == 'flagship_shipping_pickup_reschedule') {
+            self::reschedule_pickup($post_ids);
+        }
+    }
+
+    protected static function schedule_pickup($post_ids)
+    {
+        $flagship = Flagship_Application::get_instance();
+        $courier_shippings = self::get_shippings_per_courier($post_ids);
+
+        $requests = Flagship_Request_Formatter::get_multiple_pickup_schedule_request($courier_shippings);
+
+        foreach ($requests as $request) {
+            $order_ids = $request['order_ids'];
+
+            unset($request['order_ids']);
+
+            $response = $flagship->client()->post(
+                '/pickups',
+                $request
+            );
+
+            if ($response->is_success()) {
+                $pickup = $response->get_content()['content'];
+
+                $pickup['order_ids'] = $order_ids;
+                $pickup['pickup_date'] = $pickup['date'];
+
+                $pickup_id = self::save_pickup($pickup);
+            }
+        }
+
+        $sendback = add_query_arg(array('post_type' => 'flagship_pickup', 'ids' => implode(',', $post_ids)), '');
+
+        wp_redirect(esc_url_raw($sendback));
+    }
+
+    protected static function void_pickup($post_ids)
+    {
         $flagship = Flagship_Application::get_instance();
 
-        if ($action == 'flagship_shipping_pickup_schedule') {
-            $courier_shippings = self::get_shippings_per_courier($post_ids);
+        foreach ($post_ids as $post_id) {
+            if ($pickup_id = get_post_meta($post_id, 'id', true)) {
+                $response = $flagship->client()->delete('/pickups/'.$pickup_id);
 
-            $requests = Flagship_Request_Formatter::get_multiple_pickup_schedule_request($courier_shippings);
-
-            foreach ($requests as $request) {
-                $order_ids = $request['order_ids'];
-
-                unset($request['order_ids']);
-
-                $response = $flagship->client()->post(
-                    '/pickups',
-                    $request
-                );
-
-                if ($response->is_success()) {
-                    $pickup = $response->get_content()['content'];
-
-                    $pickup['order_ids'] = $order_ids;
-                    $pickup['pickup_date'] = $pickup['date'];
-
-                    $pickup_id = self::save_pickup($pickup);
+                if ($response->is_success() || $response->get_code() == 409) {
+                    update_post_meta($post_id, 'cancelled', true);
                 }
             }
-
-            $sendback = add_query_arg(array('post_type' => 'flagship_pickup', 'ids' => implode(',', $post_ids)), '');
-
-            wp_redirect(esc_url_raw($sendback));
-        } elseif ($action == 'flagship_shipping_pickup_void') {
-            foreach ($post_ids as $post_id) {
-                if ($pickup_id = get_post_meta($post_id, 'id', true)) {
-                    $response = $flagship->client()->delete('/pickups/'.$pickup_id);
-
-                    if ($response->is_success() || $response->get_code() == 409) {
-                        update_post_meta($post_id, 'cancelled', true);
-                    }
-                }
-            }
-
-            $sendback = add_query_arg(array('post_type' => 'flagship_pickup', 'ids' => implode(',', $post_ids)), '');
-            wp_redirect(esc_url_raw($sendback));
-        } elseif ($action == 'flagship_shipping_pickup_reschedule') {
-            foreach ($post_ids as $post_id) {
-                if ($pickup_id = get_post_meta($post_id, 'id', true)
-                    && $cancelled = get_post_meta($post_id, 'cancelled', true)
-                ) {
-                    $order_ids = get_post_meta($post_id, 'order_ids', true);
-
-                    $courier_shippings = self::get_shippings_per_courier($order_ids);
-                    $requests = Flagship_Request_Formatter::get_multiple_pickup_schedule_request($courier_shippings);
-
-                    foreach ($requests as $request) {
-                        $order_ids = $request['order_ids'];
-
-                        unset($request['order_ids']);
-
-                        $response = $flagship->client()->post(
-                            '/pickups',
-                            $request
-                        );
-
-                        if ($response->is_success()) {
-                            $pickup = $response->get_content()['content'];
-
-                            $pickup['order_ids'] = $order_ids;
-                            $pickup['pickup_date'] = $pickup['date'];
-
-                            $pickup_id = self::save_pickup($pickup, $post_id);
-                        }
-                    }
-                }
-            }
-
-            $sendback = add_query_arg(array('post_type' => 'flagship_pickup', 'ids' => implode(',', $post_ids)), '');
-            wp_redirect(esc_url_raw($sendback));
         }
+
+        $sendback = add_query_arg(array('post_type' => 'flagship_pickup'), '');
+        wp_redirect(esc_url_raw($sendback));
+    }
+
+    protected static function reschedule_pickup($post_ids)
+    {
+        $flagship = Flagship_Application::get_instance();
+
+        foreach ($post_ids as $post_id) {
+            if ($pickup_id = get_post_meta($post_id, 'id', true)
+                && $cancelled = get_post_meta($post_id, 'cancelled', true)
+            ) {
+                $order_ids = get_post_meta($post_id, 'order_ids', true);
+
+                $courier_shippings = self::get_shippings_per_courier($order_ids);
+                $requests = Flagship_Request_Formatter::get_multiple_pickup_schedule_request($courier_shippings);
+
+                foreach ($requests as $request) {
+                    $order_ids = $request['order_ids'];
+
+                    unset($request['order_ids']);
+
+                    $response = $flagship->client()->post(
+                        '/pickups',
+                        $request
+                    );
+
+                    if ($response->is_success()) {
+                        $pickup = $response->get_content()['content'];
+
+                        $pickup['order_ids'] = $order_ids;
+                        $pickup['pickup_date'] = $pickup['date'];
+
+                        $pickup_id = self::save_pickup($pickup, $post_id);
+                    }
+                }
+            }
+        }
+
+        $sendback = add_query_arg(array('post_type' => 'flagship_pickup', 'ids' => implode(',', $post_ids)), '');
+        wp_redirect(esc_url_raw($sendback));
     }
 
     protected static function save_pickup($pickup = array(), $id = null)
