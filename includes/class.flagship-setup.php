@@ -32,6 +32,7 @@ class Flagship_Setup
         // add meta boxes (eg: side box)
         $actions->add('add_meta_boxes');
         $actions->add('woocommerce_process_shop_order_meta');
+
         // add pickup custom post type
         $actions->add('init', 'woocomerce_register_post_type_action');
     }
