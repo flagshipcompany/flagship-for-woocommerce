@@ -64,7 +64,7 @@ class Flagship_Client
         $args['body'] = $data;
 
         $args['headers'] = $this->make_headers($headers);
-        $args['timeout'] = 14; // seconds
+        $args['timeout'] = FLAGSHIP_SHIPPING_API_TIMEOUT; // seconds
 
         try {
             $response = wp_remote_request(esc_url_raw($url), $args);
