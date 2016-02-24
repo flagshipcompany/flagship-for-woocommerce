@@ -139,7 +139,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                 'title' => __('Shipper City', 'flagship-shipping'),
                 'type' => 'text',
                 'default' => '',
-                'description' => 'Required for label Printing. And should be filled if LTL Freight is enabled.',
+                'description' => 'Required',
             ),
             'freight_shipper_state' => array(
                 'title' => __('Shipper Province', 'flagship-shipping'),
