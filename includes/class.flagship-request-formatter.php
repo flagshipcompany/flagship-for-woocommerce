@@ -227,7 +227,7 @@ class Flagship_Request_Formatter
     {
         $sold_to = array(
             'sold_to_address' => $request['to'],
-            'duties_payer' => 'F',
+            'duties_payer' => 'C', // receiver pay duties
             'reason_for_export' => 'P',
         );
 
