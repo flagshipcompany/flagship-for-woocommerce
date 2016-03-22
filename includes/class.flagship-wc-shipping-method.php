@@ -74,6 +74,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
     public function calculate_shipping($package)
     {
         $client = $this->flagship->client();
+
         $request = Flagship_Request_Formatter::get_quote_request($package);
 
         $response = $client->post(
@@ -261,6 +262,21 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                 'title' => __('Contact Email', 'flagship-shipping'),
                 'type' => 'text',
                 'default' => get_option('admin_email'),
+            ),
+            'disable_courier_fedex' => array(
+                'title' => __('Disable FedEx Rates', 'flagship-shipping'),
+                'type' => 'checkbox',
+                'default' => 'no',
+            ),
+            'disable_courier_ups' => array(
+                'title' => __('Disable UPS Rates', 'flagship-shipping'),
+                'type' => 'checkbox',
+                'default' => 'no',
+            ),
+            'disable_courier_purolator' => array(
+                'title' => __('Disable Purolator Rates', 'flagship-shipping'),
+                'type' => 'checkbox',
+                'default' => 'no',
             ),
         );
     }

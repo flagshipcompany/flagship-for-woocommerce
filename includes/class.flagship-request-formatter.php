@@ -627,7 +627,25 @@ class Flagship_Request_Formatter
             'rate' => $flagship->get_option('default_shipping_markup'),
         );
 
+        $courier_exclusion = array();
+
+        if ($flagship->get_option('disable_courier_fedex') != 'no') {
+            $courier_exclusion[] = 'FEDEX';
+        }
+
+        if ($flagship->get_option('disable_courier_ups') != 'no') {
+            $courier_exclusion[] = 'UPS';
+        }
+
+        if ($flagship->get_option('disable_courier_purolator') != 'no') {
+            $courier_exclusion[] = 'PUROLATOR';
+        }
+
         foreach ($rates as $rate) {
+            if (in_array(strtoupper($rate['service']['courier_name']), $courier_exclusion)) {
+                continue;
+            }
+
             $wc_shipping_rates[] = array(
                 'id' => $id.'|'.$rate['service']['courier_name'].'|'.$rate['service']['courier_code'].'|'.strtotime($rate['service']['estimated_delivery_date']),
                 'label' => $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'],
