@@ -50,7 +50,7 @@ class Flagship_Client
 
     public function has_token()
     {
-        return !!$this->token;
+        return (bool) $this->token;
     }
 
     public function request($uri, $data = array(), $method = 'GET', array $headers = array())
@@ -73,6 +73,8 @@ class Flagship_Client
                 throw new Exception($response->get_error_message(), 500 | wp_remote_retrieve_response_code($response));
             }
         } catch (Exception $e) {
+            console('is_wp_error');
+
             return new Flagship_Api_Response(array(
                 'errors' => array(array($e->getMessage())),
                 'content' => array(),

@@ -112,6 +112,10 @@ class Flagship_Request_Formatter
             ),
         );
 
+        if (!$request['to']['city']) {
+            $request['options']['address_correction'] = true;
+        }
+
         return $request;
     }
 
@@ -619,6 +623,13 @@ class Flagship_Request_Formatter
     public static function get_processed_rates($rates, $id)
     {
         $wc_shipping_rates = array();
+
+        // prevent wrong arg being supplied
+        if (!is_array($rates) || !$rates) {
+            wc_add_notice('Flagship Shipping has some difficulty in retrieving the rates. Shipping rates are not properly formatted. Please contact site administrator for assistance.', 'notice');
+
+            return $wc_shipping_rates;
+        }
 
         $flagship = Flagship_Application::get_instance();
 

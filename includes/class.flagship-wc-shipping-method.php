@@ -172,19 +172,19 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
             'shipper_company_name' => array(
                     'title' => __('Shipper Company Name', 'flagship-shipping'),
                     'type' => 'text',
-                    'default' => '' ,
+                    'default' => '',
                     'description' => 'Required',
             ),
             'shipper_phone_number' => array(
                     'title' => __('Shipper Phone Number', 'flagship-shipping'),
                     'type' => 'text',
-                    'default' => '' ,
+                    'default' => '',
                     'description' => 'Required',
             ),
             'shipper_phone_ext' => array(
                     'title' => __('Shipper Phone Extension Number', 'flagship-shipping'),
                     'type' => 'text',
-                    'default' => '' ,
+                    'default' => '',
                     'description' => 'Optional, if applicable',
             ),
             'freight_shipper_street' => array(

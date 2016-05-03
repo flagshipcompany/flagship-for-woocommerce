@@ -88,7 +88,8 @@ class Flagship_Application
     {
         $flagship = self::get_instance($options);
 
-        (new Flagship_Setup($flagship))->init($is_admin);
+        $setup = new Flagship_Setup($flagship);
+        $setup->init($is_admin);
 
         return $flagship;
     }
