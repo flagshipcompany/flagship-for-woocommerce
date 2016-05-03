@@ -87,7 +87,9 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
             $this->id
         );
 
-        if ($this->get_option('offer_rates') == 'all') {
+        $offer_rates = $this->get_option('offer_rates');
+
+        if ($offer_rates == 'all') {
             foreach ($rates as $rate) {
                 $this->add_rate($rate);
             }
@@ -95,7 +97,20 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
             return;
         }
 
-        $this->add_rates($rates[0]);
+        if ($offer_rates == 'cheapest') {
+            $this->add_rate($rates[0]);
+
+            return;
+        }
+
+        $count = intval($offer_rates);
+
+        while ($count > 0 && $rates) {
+            $rate = array_shift($rates);
+            $this->add_rate($rate);
+
+            --$count;
+        }
     }
 
     public function init_form_fields()
@@ -128,6 +143,10 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                 'options' => array(
                     'all' => __('Offer the customer all returned rates', 'flagship-shipping'),
                     'cheapest' => __('Offer the customer the cheapest rate only', 'flagship-shipping'),
+                    '2' => __('2 cheapest rates', 'flagship-shipping'),
+                    '3' => __('3 cheapest rates', 'flagship-shipping'),
+                    '4' => __('4 cheapest rates', 'flagship-shipping'),
+                    '5' => __('5 cheapest rates', 'flagship-shipping'),
                 ),
             ),
             'origin' => array(
