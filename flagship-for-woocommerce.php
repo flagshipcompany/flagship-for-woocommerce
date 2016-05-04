@@ -29,7 +29,7 @@ define('FLS__PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('FLAGSHIP_SHIPPING_PLUGIN_ID', 'flagship_shipping_method');
 define('FLAGSHIP_NAME_PREFIX', 'flagship_');
 
-define('FLAGSHIP_SHIPPING_API_ENTRY_POINT', 'http://api.smartship.io');
+define('FLAGSHIP_SHIPPING_API_ENTRY_POINT', 'https://api.smartship.io');
 define('FLAGSHIP_SHIPPING_API_TIMEOUT', 14);
 
 // Check if WooCommerce is active
