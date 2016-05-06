@@ -132,6 +132,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
             'token' => array(
                 'title' => __('Smartship Access Token', 'flagship-shipping'),
                 'type' => 'text',
+                'maxlength' => 255,
                 'description' => __('After <a href="https://smartship.flagshipcompany.com/company/register">signup</a>, get a <a target="_blank" href="https://auth.smartship.io/tokens/">access token here</a>.', 'flagship-shipping'),
                 'default' => '',
             ),

@@ -39,7 +39,7 @@ class Flagship_Application
     public function client($token = null)
     {
         if ($token) {
-            $this->api_client->setToken($token);
+            $this->api_client->set_token($token);
         }
 
         return $this->api_client;

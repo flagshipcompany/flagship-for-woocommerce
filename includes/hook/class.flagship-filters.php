@@ -69,6 +69,9 @@ class Flagship_Filters extends Flagship_Api_Hooks
     {
         $flagship = Flagship_Application::get_instance();
 
+        // if user set/update token, we need tp use the latest entered one
+        $flagship->client(isset($sanitized_fields['token']) ? $sanitized_fields['token'] : '');
+
         $errors = $flagship->validation->address(
             $sanitized_fields['origin'],
             $sanitized_fields['freight_shipper_state'],

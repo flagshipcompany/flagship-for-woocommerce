@@ -14,7 +14,7 @@ class Flagship_Validation
     // return errors
     public function address($postal_code, $state, $city = '', $country = 'CA')
     {
-    	$address = array(
+        $address = array(
             'city' => $city,
             'country' => $country,
             'state' => $state,
@@ -24,22 +24,22 @@ class Flagship_Validation
         $response = $this->client->get('/addresses/integrity', $address);
 
         if ($response->is_success() && $response->content['content']['is_valid']) {
-        	return $this->errors;
+            return $this->errors;
         }
 
         // the address is not valid but the api provide a correction
         if ($response->is_success()) {
-        	return $response->content;
+            return $response->content;
         }
 
         if ($response->code == 403) {
-        	$this->errors[] = __('You need to use a valid Flagship Shipping Token.', 'flagship-shipping');
+            $this->errors[] = __($response->content[0], 'flagship-shipping');
 
-        	return $this->errors;
+            return $this->errors;
         }
 
         foreach ($response->content['errors'] as $error) {
-        	$this->errors = array_merge($this->errors, $error);
+            $this->errors = array_merge($this->errors, $error);
         }
 
         return $this->errors;
