@@ -33,7 +33,7 @@ class Flagship_Api_Hooks
         $method = $this->get_optional_method($method_name);
 
         if (!$method) {
-            return false;
+            $method = array(get_class($this), $hook_name.'_'.$hook_type);
         }
 
         return $hook($hook_name, $method);

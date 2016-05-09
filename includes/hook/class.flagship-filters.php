@@ -47,8 +47,24 @@ class Flagship_Filters extends Flagship_Api_Hooks
     public static function woocommerce_settings_api_sanitized_fields_flagship_shipping_method_filter($sanitized_fields)
     {
         $sanitized_fields = apply_filters('settings_sanitized_fields_enabled', $sanitized_fields);
+        $sanitized_fields = apply_filters('settings_sanitized_fields_phone', $sanitized_fields);
         $sanitized_fields = apply_filters('settings_sanitized_fields_address', $sanitized_fields);
         $sanitized_fields = apply_filters('settings_sanitized_fields_shipper_credentials', $sanitized_fields);
+
+        return $sanitized_fields;
+    }
+
+    public static function settings_sanitized_fields_phone_filter($sanitized_fields)
+    {
+        $flagship = Flagship_Application::get_instance();
+
+        preg_match('/^\+?[1]?[-. ]?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/', $sanitized_fields['shipper_phone_number'], $matches);
+
+        if (!$matches) {
+            $flagship->notification->add('warning', __($sanitized_fields['shipper_phone_number'].' is not a valid phone number.', 'flagship-shipping'));
+        }
+
+        $flagship->filters->remove('settings_sanitized_fields_phone');
 
         return $sanitized_fields;
     }
@@ -61,6 +77,8 @@ class Flagship_Filters extends Flagship_Api_Hooks
         if ($sanitized_fields['enabled'] != 'yes') {
             $flagship->notification->add('warning', __('Flagship Shipping is disabled.', 'flagship-shipping'));
         }
+
+        $flagship->filters->remove('settings_sanitized_fields_enabled');
 
         return $sanitized_fields;
     }
@@ -93,6 +111,8 @@ class Flagship_Filters extends Flagship_Api_Hooks
             $flagship->notification->add('warning', $errors);
         }
 
+        $flagship->filters->remove('settings_sanitized_fields_address');
+
         return $sanitized_fields;
     }
 
@@ -115,6 +135,8 @@ class Flagship_Filters extends Flagship_Api_Hooks
         if (!$sanitized_fields['freight_shipper_street']) {
             $flagship->notification->add('warning', __('Shipper address\'s streetline is missing.', 'flagship-shipping'));
         }
+
+        $flagship->filters->remove('settings_sanitized_fields_shipper_credentials');
 
         return $sanitized_fields;
     }

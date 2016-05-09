@@ -31,12 +31,21 @@ class Flagship_Notification
         }
 
         Flagship_View::notification(array('notifications' => $this->notifications));
+
+        $this->cleanup();
     }
 
     public function scope($scope = 'native', $extras = array())
     {
         $this->notice_scope = $scope;
         $this->extras = $extras;
+
+        return $this;
+    }
+
+    protected function cleanup()
+    {
+        $this->notifications = array();
 
         return $this;
     }
@@ -76,5 +85,6 @@ class Flagship_Notification
         Flagship_View::notification(array('notifications' => $notifications ? $notifications : array()));
 
         $this->scope();
+        $this->cleanup();
     }
 }

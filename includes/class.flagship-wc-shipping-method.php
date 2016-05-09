@@ -45,6 +45,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         // validate settings before save
         $filters->add('woocommerce_settings_api_sanitized_fields_'.$this->id);
         $filters->add('settings_sanitized_fields_enabled');
+        $filters->add('settings_sanitized_fields_phone');
         $filters->add('settings_sanitized_fields_address');
         $filters->add('settings_sanitized_fields_shipper_credentials');
 
@@ -132,9 +133,11 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
             'token' => array(
                 'title' => __('Smartship Access Token', 'flagship-shipping'),
                 'type' => 'text',
-                'maxlength' => 255,
                 'description' => __('After <a href="https://smartship.flagshipcompany.com/company/register">signup</a>, get a <a target="_blank" href="https://auth.smartship.io/tokens/">access token here</a>.', 'flagship-shipping'),
                 'default' => '',
+                'custom_attributes' => array(
+                    'maxlength' => 255,
+                ),
             ),
             'offer_rates' => array(
                 'title' => __('Offer Rates', 'flagship-shipping'),
@@ -184,16 +187,22 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                 'description' => 'Required',
             ),
             'shipper_person_name' => array(
-                    'title' => __('Shipper Person Name', 'flagship-shipping'),
-                    'type' => 'text',
-                    'default' => '',
-                    'description' => 'Required',
+                'title' => __('Shipper Person Name', 'flagship-shipping'),
+                'type' => 'text',
+                'default' => '',
+                'description' => 'Required, maximum 21 characters',
+                'custom_attributes' => array(
+                    'maxlength' => 21,
+                ),
             ),
             'shipper_company_name' => array(
                     'title' => __('Shipper Company Name', 'flagship-shipping'),
                     'type' => 'text',
                     'default' => '',
                     'description' => 'Required',
+                    'custom_attributes' => array(
+                        'maxlength' => 30,
+                    ),
             ),
             'shipper_phone_number' => array(
                     'title' => __('Shipper Phone Number', 'flagship-shipping'),
