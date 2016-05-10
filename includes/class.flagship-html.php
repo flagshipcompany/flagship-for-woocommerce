@@ -45,4 +45,30 @@ class Flagship_Html
     {
         echo self::image($uri, $title, $extras);
     }
+
+    public static function array2list($arr)
+    {
+        $output = '<ul>';
+
+        foreach ($arr as $k => $v) {
+            if (is_array($v)) {
+                $output .= '<li><span>'.$k.'</span>';
+                $output .= self::array2list($v);
+                $output .= '</li>';
+
+                continue;
+            }
+
+            $output .= '<li>'.$v.'</li>';
+        }
+
+        $output .= '</ul>';
+
+        return $output;
+    }
+
+    public static function array2list_e($arr)
+    {
+        echo self::array2list($arr);
+    }
 }

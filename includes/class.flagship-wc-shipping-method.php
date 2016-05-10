@@ -73,6 +73,11 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
             $request
         );
 
+        if (!$response->is_success()) {
+            wc_add_notice('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>', 'error');
+            wc_add_notice('<strong>Details:</strong><br/>'.Flagship_Html::array2list($response->get_content()['errors']), 'error');
+        }
+
         $rates = Flagship_Request_Formatter::get_processed_rates(
             $response->get_content()['content'],
             $this->id
