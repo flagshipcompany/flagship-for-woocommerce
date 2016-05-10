@@ -55,4 +55,55 @@ class Flagship_Validation
 
         return $this->errors;
     }
+
+    public function settings($settings)
+    {
+        $request = array(
+            'from' => array(
+                'country' => 'CA',
+                'state' => $settings['freight_shipper_state'],
+                'city' => $settings['freight_shipper_city'],
+                'postal_code' => $settings['origin'],
+                'address' => $settings['freight_shipper_street'],
+                'name' => $settings['shipper_company_name'],
+                'attn' => $settings['shipper_person_name'],
+                'phone' => $settings['shipper_phone_number'],
+                'ext' => $settings['shipper_phone_ext'],
+            ),
+            'to' => array(
+                'name' => 'FLS Integrity',
+                'attn' => 'FLS Guard',
+                'address' => '148 Brunswick',
+                'city' => 'POINT-CLAIRE',
+                'state' => 'QC',
+                'country' => 'CA',
+                'postal_code' => 'H9R5P9',
+                'phone' => '1 866 320 8383', // no such a field in the shipping!?
+            ),
+            'packages' => array(
+                'items' => array(
+                    array(
+                        'width' => 5,
+                        'height' => 4,
+                        'length' => 3,
+                        'weight' => 2,
+                        'description' => 'For FLS Settings Integrity',
+                    ),
+                ),
+                'units' => 'imperial',
+                'type' => 'package',
+            ),
+            'payment' => array(
+                'payer' => 'F',
+            ),
+        );
+
+        $response = $this->client->post('/ship/rates', $request);
+
+        if (!$response->is_success()) {
+            $this->errors = $response->get_content()['errors'];
+        }
+
+        return $this->errors;
+    }
 }

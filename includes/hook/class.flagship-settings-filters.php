@@ -16,16 +16,20 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
         $this->add('settings_sanitized_fields_address');
         $this->add('settings_sanitized_fields_shipper_credentials');
 
+        $this->add('settings_sanitized_fields_integrity');
+
         // we need to include html, thus remove tag sanitizer
         $this->external->remove('woocommerce_shipping_rate_label', 'sanitize_text_field');
     }
 
     public function woocommerce_settings_api_sanitized_fields_flagship_shipping_method_filter($sanitized_fields)
     {
-        $sanitized_fields = $this->on('settings_sanitized_fields_enabled', [$sanitized_fields]);
-        $sanitized_fields = $this->on('settings_sanitized_fields_phone', [$sanitized_fields]);
-        $sanitized_fields = $this->on('settings_sanitized_fields_address', [$sanitized_fields]);
-        $sanitized_fields = $this->on('settings_sanitized_fields_shipper_credentials', [$sanitized_fields]);
+        $sanitized_fields = $this->on('settings_sanitized_fields_enabled', array($sanitized_fields));
+        $sanitized_fields = $this->on('settings_sanitized_fields_phone', array($sanitized_fields));
+        $sanitized_fields = $this->on('settings_sanitized_fields_address', array($sanitized_fields));
+        $sanitized_fields = $this->on('settings_sanitized_fields_shipper_credentials', array($sanitized_fields));
+
+        $this->on('settings_sanitized_fields_integrity', array($sanitized_fields));
 
         return $sanitized_fields;
     }
@@ -94,6 +98,19 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
 
         if (!$sanitized_fields['freight_shipper_street']) {
             $this->flagship->notification->add('warning', __('Shipper address\'s streetline is missing.', 'flagship-shipping'));
+        }
+
+        return $sanitized_fields;
+    }
+
+    public function settings_sanitized_fields_integrity_filter($sanitized_fields)
+    {
+        $this->flagship->client(isset($sanitized_fields['token']) ? $sanitized_fields['token'] : '');
+
+        $errors = $this->flagship->validation->settings($sanitized_fields);
+
+        if ($errors) {
+            $this->flagship->notification->add('warning', '<strong>Shipping Integrity Failure:</strong> <br/>'.Flagship_Html::array2list($errors));
         }
 
         return $sanitized_fields;
