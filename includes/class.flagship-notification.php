@@ -56,7 +56,17 @@ class Flagship_Notification
             $this->notifications[$type] = array();
         }
 
-        $this->notifications[$type][] = $message;
+        while (is_array($message) && $message) {
+            $msg = array_shift($message);
+
+            $this->native_add($type, $msg);
+        }
+
+        if (is_string($message)) {
+            $hash = md5($message);
+
+            $this->notifications[$type][$hash] = $message;
+        }
 
         return $this;
     }

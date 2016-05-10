@@ -44,4 +44,15 @@ class Flagship_Validation
 
         return $this->errors;
     }
+
+    public function phone($phone)
+    {
+        preg_match('/^\+?[1]?[-. ]?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/', $phone, $matches);
+
+        if (!$matches) {
+            $this->errors[] = $phone.__(' is not a valid phone number.', 'flagship-shipping');
+        }
+
+        return $this->errors;
+    }
 }

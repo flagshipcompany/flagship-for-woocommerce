@@ -1,8 +1,7 @@
 <?php
 
 require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-api-hooks.php';
-require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-filters.php';
-require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-actions.php';
+require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-hook-manager.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-setup.php';
 
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-client.php';
@@ -30,8 +29,8 @@ class Flagship_Application
         $this->text_domain = 'flagship_shipping';
         $this->notification = new Flagship_Notification();
         $this->validation = new Flagship_Validation($this->api_client);
-        $this->filters = new Flagship_Filters();
-        $this->actions = new Flagship_Actions();
+
+        $this->hooks = new Flagship_Hook_Manager();
     }
 
     // instance methods

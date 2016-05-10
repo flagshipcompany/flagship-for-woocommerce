@@ -40,17 +40,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         //
 
         // filters
-        $filters = $this->flagship->filters;
-
-        // validate settings before save
-        $filters->add('woocommerce_settings_api_sanitized_fields_'.$this->id);
-        $filters->add('settings_sanitized_fields_enabled');
-        $filters->add('settings_sanitized_fields_phone');
-        $filters->add('settings_sanitized_fields_address');
-        $filters->add('settings_sanitized_fields_shipper_credentials');
-
-        // we need to include html, thus remove tag sanitizer
-        $filters->remove('woocommerce_shipping_rate_label', 'sanitize_text_field');
+        $this->flagship->hooks->load('settings.filters', 'Settings_Filters');
     }
 
     /**
@@ -142,6 +132,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
             'offer_rates' => array(
                 'title' => __('Offer Rates', 'flagship-shipping'),
                 'type' => 'select',
+                'class' => 'wc-enhanced-select',
                 'description' => '',
                 'default' => 'all',
                 'options' => array(
@@ -168,6 +159,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
             'freight_shipper_state' => array(
                 'title' => __('Shipper Province', 'flagship-shipping'),
                 'type' => 'select',
+                'class' => 'wc-enhanced-select',
                 'default' => '',
                 'options' => array(
                     'AB' => __('Alberta', 'flagship-shipping'),
@@ -244,6 +236,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                 'title' => __('Shipping Cost Markup Type', 'flagship-shipping'),
                 'description' => __('Shipping Cost Markup Type can be either flat rate (i.e. dollar valued) or percentage rate (i.e. rate based on certain percentage)', 'flagship-shipping'),
                 'type' => 'select',
+                'class' => 'wc-enhanced-select',
                 'options' => array(
                     'flat_rate' => __('Flat rate', 'flagship-shipping'),
                     'percentage' => __('Percentage', 'flagship-shipping'),
@@ -258,6 +251,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
             'default_pickup_time_from' => array(
                 'title' => __('Pick-up Start Time', 'flagship-shipping'),
                 'type' => 'select',
+                'class' => 'wc-enhanced-select',
                 'options' => array(
                     '09:00' => '09:00',
                     '10:00' => '10:00',
@@ -274,6 +268,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
             'default_pickup_time_to' => array(
                 'title' => __('Pick-up End Time', 'flagship-shipping'),
                 'type' => 'select',
+                'class' => 'wc-enhanced-select',
                 'options' => array(
                     '09:00' => '09:00',
                     '10:00' => '10:00',
