@@ -658,8 +658,8 @@ class Flagship_Request_Formatter
             $wc_shipping_rates[] = array(
                 'id' => $id.'|'.$rate['service']['courier_name'].'|'.$rate['service']['courier_code'].'|'.strtotime($rate['service']['estimated_delivery_date']),
                 'label' => $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'],
-                'cost' => $rate['price']['total'] + ('percentage' ? $rate['price']['total'] * $markup['rate'] / 100 : $markup['rate']),
-                'taxes' => false, // we do not let WC compute tax
+                'cost' => $rate['price']['subtotal'] + ('percentage' ? $rate['price']['subtotal'] * $markup['rate'] / 100 : $markup['rate']),
+                'calc_tax' => 'per_order', // we do not let WC compute tax
             );
         }
 
