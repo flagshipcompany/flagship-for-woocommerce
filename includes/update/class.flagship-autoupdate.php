@@ -1,5 +1,7 @@
 <?php
 
+require_once FLS__PLUGIN_DIR.'includes/update/parsedown.php';
+
 class Flagship_Autoupdate
 {
     private $slug; // plugin slug
@@ -128,7 +130,9 @@ class Flagship_Autoupdate
         // Create tabs in the lightbox
         $response->sections = array(
             'description' => $this->pluginData['Description'],
-            'changelog' => $this->githubAPIResult->body,
+            'changelog' => class_exists('Parsedown')
+                                ? Parsedown::instance()->parse($this->githubAPIResult->body)
+                                : $this->githubAPIResult->body,
         );
 
         // Gets the required version of WP if available
