@@ -35,7 +35,7 @@ define('FLAGSHIP_SHIPPING_API_TIMEOUT', 14);
 require_once FLS__PLUGIN_DIR.'includes/update/class.flagship-autoupdate.php';
 
 if (is_admin()) {
-    $update = new Flagship_Autoupdate(__FILE__, 'flagshipcompany', 'woo-commerce-app');
+    $update = new Flagship_Autoupdate(__FILE__, 'flagshipcompany', 'flagship-for-woocommerce');
 }
 
 // Check if WooCommerce is active
