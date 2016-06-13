@@ -6,13 +6,15 @@ class Flagship_Request_Formatter
     {
         $product_items = array();
 
+        $notices = array();
+
         foreach ($package['contents'] as $id => $item) {
             if (!$item['data']->needs_shipping()) {
                 continue;
             }
 
             if (!$item['data']->get_weight()) {
-                wc_add_notice('Product '.$item['data']->get_title().' is missing weight, weight default to 1 lbs.', 'notice');
+                $notices[] = 'Product '.$item['data']->get_title().' is missing weight, weight default to 1 lbs.';
             }
 
             $count = 0;
@@ -35,6 +37,8 @@ class Flagship_Request_Formatter
                 ++$count;
             } while ($count < $item['quantity']);
         }
+
+        wc_add_notice(implode('<br/>', $notices), 'notice');
 
         return $product_items;
     }
@@ -112,8 +116,16 @@ class Flagship_Request_Formatter
             ),
         );
 
-        if (!$request['to']['city']) {
+        $isCountryNA = in_array($request['to']['country'], array('CA', 'US'));
+
+        if ($isCountryNA) {
             $request['options']['address_correction'] = true;
+
+            // a friendly fix for quote, when customer does not provide state when they click on calculate shipping
+            // provide a possibly wrong state to let address correction correct it
+            if (!$request['to']['state']) {
+                $request['to']['state'] = $request['to']['country'] == 'CA' ? 'QC' : 'NY';
+            }
         }
 
         return $request;
@@ -158,6 +170,10 @@ class Flagship_Request_Formatter
             ),
             'service' => $service,
         );
+
+        if (empty($request['to']['name'])) {
+            $request['to']['name'] = $request['to']['attn'] ?: 'Receiver';
+        }
 
         if ($options = self::get_confirmation_options()) {
             $request['options'] = $options;
@@ -318,8 +334,9 @@ class Flagship_Request_Formatter
             'location' => 'Reception',
             'to_country' => $order->shipping_country,
             'is_ground' => false,
-            'order_ids' => array($shipping['order']->id),
         );
+
+        $shipment = $shipping['shipment'];
 
         foreach ($shipment['packages'] as $package) {
             $request['weight'] += $package['weight'];

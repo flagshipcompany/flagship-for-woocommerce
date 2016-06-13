@@ -8,9 +8,16 @@ class Flagship_Setup
     protected $flagship;
     protected $isAdmin = false;
 
-    public function __construct(Flagship_Application $flagship)
+    public function __construct(Flagship_Application $flagship = null)
+    {
+        $this->set_application($flagship);
+    }
+
+    public function set_application(Flagship_Application $flagship = null)
     {
         $this->flagship = $flagship;
+
+        return $this;
     }
 
     public function init($is_admin = false)

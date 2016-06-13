@@ -1,12 +1,6 @@
 <?php
 
 require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-api-hooks.php';
-require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-hook-manager.php';
-require_once FLS__PLUGIN_DIR.'includes/class.flagship-setup.php';
-
-require_once FLS__PLUGIN_DIR.'includes/class.flagship-client.php';
-require_once FLS__PLUGIN_DIR.'includes/class.flagship-notification.php';
-require_once FLS__PLUGIN_DIR.'includes/class.flagship-validation.php';
 
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-view.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-html.php';
@@ -22,15 +16,17 @@ class Flagship_Application
     protected $api_client;
     protected $options;
     protected $notifications;
+
     public function __construct($options)
     {
-        $this->options = $options;
-        $this->api_client = new Flagship_Client($options['token']);
         $this->text_domain = 'flagship_shipping';
-        $this->notification = new Flagship_Notification();
-        $this->validation = new Flagship_Validation($this->api_client);
 
-        $this->hooks = new Flagship_Hook_Manager();
+        $this->options = $options;
+
+        $this->client = self::factory('Client')->set_token($options['token']);
+        $this->notification = self::factory('Notification');
+        $this->validation = self::factory('Validation')->set_client($this->client);
+        $this->hooks = self::factory('Hook_Manager', 'hook');
     }
 
     // instance methods
@@ -38,10 +34,10 @@ class Flagship_Application
     public function client($token = null)
     {
         if ($token) {
-            $this->api_client->set_token($token);
+            $this->client->set_token($token);
         }
 
-        return $this->api_client;
+        return $this->client;
     }
 
     public function get_option($name, $default = null)
@@ -52,7 +48,7 @@ class Flagship_Application
     // only check app settings, wordpress plugin activation is not considered here
     public function is_installed()
     {
-        return false && $this->api_client->has_token() &&
+        return false && $this->client->has_token() &&
             ($this->options['enabled'] == 'yes');
     }
 
@@ -83,11 +79,40 @@ class Flagship_Application
 
     // static methods
     //
+    public static function factory($className, $type = 'flagship')
+    {
+        $class = str_replace('_', '-', strtolower($className));
+
+        $filePath = FLS__PLUGIN_DIR.'includes/';
+        $realClassName = '';
+
+        switch ($type) {
+            case 'flagship':
+                $filePath .= 'class.flagship-'.$class.'.php';
+                $realClassName = 'Flagship_'.$className;
+                break;
+            case 'hook':
+                $filePath .= 'hook/class.flagship-'.$class.'.php';
+                $realClassName = 'Flagship_'.$className;
+                break;
+        }
+
+        if (!file_exists($filePath) || !$realClassName) {
+            throw new Exception($className.' does not exist.');
+        }
+
+        require_once $filePath;
+
+        return new $realClassName();
+    }
+
     public static function init(array $options = array(), $is_admin = false)
     {
         $flagship = self::get_instance($options);
 
-        $setup = new Flagship_Setup($flagship);
+        $setup = self::factory('Setup');
+
+        $setup->set_application($flagship);
         $setup->init($is_admin);
 
         return $flagship;

@@ -121,7 +121,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         $shipping = $response->get_content();
 
         if ($shipping['errors']) {
-            $flagship->notification->add('error', $shipping['errors']);
+            $flagship->notification->add('error', Flagship_Html::array2list($shipping['errors']));
 
             return;
         }
@@ -147,7 +147,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
 
         if (!$response->is_success()) {
             $flagship->notification->scope('shop_order', array('id' => $order->id));
-            $flagship->notification->add('error', 'Unable to requote. Code '.$response->get_code());
+            $flagship->notification->add('error', 'Unable to requote. Code '.Flagship_Html::array2list($response->get_content()['errors']));
 
             return;
         }
@@ -176,6 +176,8 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         if ($response->get_code() == 204 || $response->get_code() == 209) {
             self::pickup_void($order);
             delete_post_meta($order->id, 'flagship_shipping_raw');
+        } else {
+            $flagship->notification->add('warning', 'Unable to void shipment with FlagShip ID ('.$shipment_id.')'.Flagship_Html::array2list($response->get_content()['errors']));
         }
     }
 
@@ -207,6 +209,8 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
             $shipment['pickup'] = $response->get_content()['content'];
 
             update_post_meta($order->id, 'flagship_shipping_raw', $shipment);
+        } else {
+            $flagship->notification->add('warning', 'Unable to schedule pick-up with FlagShip ID ('.$shipment_id.')'.Flagship_Html::array2list($response->get_content()['errors']));
         }
     }
 
@@ -218,7 +222,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
 
         $shipment_id = self::get_accessible_shipment_id($shipment);
 
-        if (!$shipment_id) {
+        if (!$shipment_id || empty($shipment['pickup']['id'])) {
             return;
         }
 
@@ -227,6 +231,8 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         if ($response->get_code() == 204) {
             unset($shipment['pickup']);
             update_post_meta($order->id, 'flagship_shipping_raw', $shipment);
+        } else {
+            $flagship->notification->add('warning', 'Unable to void pick-up with FlagShip ID ('.$shipment_id.')'.Flagship_Html::array2list($response->get_content()['errors']));
         }
     }
 

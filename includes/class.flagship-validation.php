@@ -5,10 +5,17 @@ class Flagship_Validation
     protected $client;
     protected $errors;
 
-    public function __construct(Flagship_Client $client)
+    public function __construct(Flagship_Client $client = null)
+    {
+        $this->set_client($client);
+        $this->errors = array();
+    }
+
+    public function set_client(Flagship_Client $client = null)
     {
         $this->client = $client;
-        $this->errors = array();
+
+        return $this;
     }
 
     // return errors
