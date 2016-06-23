@@ -1,6 +1,6 @@
 <?php
 
-class Flagship_Hook_Manager
+class Flagship_Hook
 {
     protected $path = __DIR__;
     protected $container = array();

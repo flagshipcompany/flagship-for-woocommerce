@@ -12,7 +12,7 @@ class Flagship_Html
             $text = $href;
         }
 
-        $url = $flagship->url_for($name_or_href, $extras['escape']);
+        $url = $flagship['url']->make($name_or_href, $extras['escape']);
 
         if ($extras['escape']) {
             $href = $url ? $url : esc_url($name_or_href);

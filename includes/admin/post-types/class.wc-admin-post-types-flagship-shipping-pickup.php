@@ -67,6 +67,8 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
     {
         global $post, $woocommerce;
 
+        $flagship = Flagship_Application::get_instance();
+
         switch ($column) {
             case 'order_ids':
                 $order_ids = get_post_meta($post_id, 'order_ids', true);
@@ -102,7 +104,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
                 echo $pickup_date;
                 break;
             case 'shipping_address':
-                $address = Flagship_Request_Formatter::get_address_from();
+                $address = $flagship['address']->get_from();
                 echo $address['postal_code'].'<br/><small class="meta">'.$address['city'].', '.$address['state'].'</small>';
                 break;
             case 'time_interval':
@@ -260,7 +262,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
 
             unset($request['order_ids']);
 
-            $response = $flagship->client()->post(
+            $response = $flagship['client']->post(
                 '/pickups',
                 $request
             );
@@ -286,7 +288,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
 
         foreach ($post_ids as $post_id) {
             if ($pickup_id = get_post_meta($post_id, 'id', true)) {
-                $response = $flagship->client()->delete('/pickups/'.$pickup_id);
+                $response = $flagship['client']->delete('/pickups/'.$pickup_id);
 
                 if ($response->is_success() || $response->get_code() == 409) {
                     update_post_meta($post_id, 'cancelled', true);
@@ -316,7 +318,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
 
                     unset($request['order_ids']);
 
-                    $response = $flagship->client()->post(
+                    $response = $flagship['client']->post(
                         '/pickups',
                         $request
                     );

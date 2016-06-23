@@ -62,8 +62,8 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
 
         $flagship = Flagship_Application::get_instance();
 
-        $flagship->notification->scope('shop_order', array('id' => $order->id));
-        $flagship->notification->view();
+        $flagship['notification']->scope('shop_order', array('id' => $order->id));
+        $flagship['notification']->view();
 
         Flagship_View::render('meta-boxes/order-flagship-shipping-actions', $payload);
     }
@@ -101,28 +101,12 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
     protected static function shipment_confirm($order)
     {
         $flagship = Flagship_Application::get_instance();
-        $flagship->notification->scope('shop_order', array('id' => $order->id));
-        $shipment = get_post_meta($post_id, 'flagship_shipping_raw', true);
 
-        if ($shipment) {
-            $flagship->notification->add('warning', 'You have flagship shipment for this order. SmartshipID ('.$shipment['shipment_id'].')');
+        $flagship->register('Confirmation');
 
-            return;
-        }
+        $shipping = $flagship['confirmation']->confirm($order);
 
-        $overload_shipping_method = isset($_POST['flagship_shipping_service']) ? sanitize_text_field($_POST['flagship_shipping_service']) : null;
-        $request = Flagship_Request_Formatter::get_confirmation_request($order, $overload_shipping_method);
-
-        $response = $flagship->client()->post(
-            '/ship/confirm',
-            $request
-        );
-
-        $shipping = $response->get_content();
-
-        if ($shipping['errors']) {
-            $flagship->notification->add('error', Flagship_Html::array2list($shipping['errors']));
-
+        if (!$shipping) {
             return;
         }
 
@@ -139,30 +123,19 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
     {
         $flagship = Flagship_Application::get_instance();
 
-        $request = Flagship_Request_Formatter::get_requote_request($order);
-        $response = $flagship->client()->post(
-            '/ship/rates',
-            $request
-        );
+        $flagship->register('Quoter');
 
-        if (!$response->is_success()) {
-            $flagship->notification->scope('shop_order', array('id' => $order->id));
-            $flagship->notification->add('error', 'Unable to requote. Code '.Flagship_Html::array2list($response->get_content()['errors']));
+        $rates = $flagship['quoter']->requote($order);
 
-            return;
+        if ($rates) {
+            update_post_meta($order->id, 'flagship_shipping_requote_rates', $rates);
         }
-
-        $rates = Flagship_Request_Formatter::get_requote_rates_options(
-            $response->get_content()['content']
-        );
-
-        update_post_meta($order->id, 'flagship_shipping_requote_rates', $rates);
     }
 
     protected static function shipment_void($order)
     {
         $flagship = Flagship_Application::get_instance();
-        $flagship->notification->scope('shop_order', array('id' => $order->id));
+        $flagship['notification']->scope('shop_order', array('id' => $order->id));
         $shipment = get_post_meta($order->id, 'flagship_shipping_raw', true);
 
         $shipment_id = self::get_accessible_shipment_id($shipment);
@@ -171,20 +144,23 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
             return;
         }
 
-        $response = $flagship->client()->delete('/ship/shipments/'.$shipment_id);
+        $response = $flagship['client']->delete('/ship/shipments/'.$shipment_id);
 
         if ($response->get_code() == 204 || $response->get_code() == 209) {
             self::pickup_void($order);
             delete_post_meta($order->id, 'flagship_shipping_raw');
         } else {
-            $flagship->notification->add('warning', 'Unable to void shipment with FlagShip ID ('.$shipment_id.')'.Flagship_Html::array2list($response->get_content()['errors']));
+            $flagship['notification']->add('warning', 'Unable to void shipment with FlagShip ID ('.$shipment_id.')'.Flagship_Html::array2list($response->get_content()['errors']));
         }
     }
 
     protected static function pickup_schedule($order)
     {
         $flagship = Flagship_Application::get_instance();
-        $flagship->notification->scope('shop_order', array('id' => $order->id));
+
+        $flagship->register('Pickup');
+
+        $flagship['notification']->scope('shop_order', array('id' => $order->id));
         $shipment = get_post_meta($order->id, 'flagship_shipping_raw', true);
 
         $shipment_id = self::get_accessible_shipment_id($shipment);
@@ -196,28 +172,28 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         $shipping = array(
             'order' => $order,
             'shipment' => $shipment,
+            'shipment_id' => $shipment_id,
             'date' => $date,
         );
 
-        $request = Flagship_Request_Formatter::get_single_pickup_schedule_request($shipping);
-        $response = $flagship->client()->post(
-            '/pickups',
-            $request
-        );
+        $pickup = $flagship['pickup']->schedule($shipping);
 
-        if ($response->is_success()) {
-            $shipment['pickup'] = $response->get_content()['content'];
-
-            update_post_meta($order->id, 'flagship_shipping_raw', $shipment);
-        } else {
-            $flagship->notification->add('warning', 'Unable to schedule pick-up with FlagShip ID ('.$shipment_id.')'.Flagship_Html::array2list($response->get_content()['errors']));
+        if (!$pickup) {
+            return;
         }
+
+        $shipment['pickup'] = $pickup;
+
+        update_post_meta($order->id, 'flagship_shipping_raw', $shipment);
     }
 
     protected static function pickup_void($order)
     {
         $flagship = Flagship_Application::get_instance();
-        $flagship->notification->scope('shop_order', array('id' => $order->id));
+
+        $flagship->register('Pickup');
+
+        $flagship['notification']->scope('shop_order', array('id' => $order->id));
         $shipment = get_post_meta($order->id, 'flagship_shipping_raw', true);
 
         $shipment_id = self::get_accessible_shipment_id($shipment);
@@ -226,14 +202,19 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
             return;
         }
 
-        $response = $flagship->client()->delete('/pickups/'.$shipment['pickup']['id']);
+        $shipping = array(
+            'shipment' => $shipment,
+            'shipment_id' => $shipment_id,
+        );
 
-        if ($response->get_code() == 204) {
-            unset($shipment['pickup']);
-            update_post_meta($order->id, 'flagship_shipping_raw', $shipment);
-        } else {
-            $flagship->notification->add('warning', 'Unable to void pick-up with FlagShip ID ('.$shipment_id.')'.Flagship_Html::array2list($response->get_content()['errors']));
+        $cancelled = $flagship['pickup']->cancel($shipping);
+
+        if (!$cancelled) {
+            return;
         }
+
+        unset($shipment['pickup']);
+        update_post_meta($order->id, 'flagship_shipping_raw', $shipment);
     }
 
     protected static function get_accessible_shipment_id($shipment)
@@ -242,7 +223,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         $shipment_id = sanitize_text_field($_POST['flagship_shipping_shipment_id']);
 
         if (empty($shipment) || empty($shipment_id) || $shipment_id != $shipment['shipment_id']) {
-            $flagship->notification->add('warning', 'Unable to access shipment with SmartshipID ('.$shipment_id.')');
+            $flagship['notification']->add('warning', 'Unable to access shipment with SmartshipID ('.$shipment_id.')');
 
             return false;
         }

@@ -2,352 +2,19 @@
 
 class Flagship_Request_Formatter
 {
-    public static function get_quoting_product_items($package)
-    {
-        $product_items = array();
-
-        $notices = array();
-
-        foreach ($package['contents'] as $id => $item) {
-            if (!$item['data']->needs_shipping()) {
-                continue;
-            }
-
-            if (!$item['data']->get_weight()) {
-                $notices[] = 'Product '.$item['data']->get_title().' is missing weight, weight default to 1 lbs.';
-            }
-
-            $count = 0;
-
-            list(
-                $width,
-                $length,
-                $height,
-                $weight
-            ) = self::get_product_dimensions($item['data']);
-
-            do {
-                $product_items[] = array(
-                    'width' => $width,
-                    'height' => $height,
-                    'length' => $length,
-                    'weight' => $weight,
-                );
-
-                ++$count;
-            } while ($count < $item['quantity']);
-        }
-
-        wc_add_notice(implode('<br/>', $notices), 'notice');
-
-        return $product_items;
-    }
-
-    public static function get_confirmation_product_items($order)
-    {
-        $order_items = $order->get_items();
-        $product_items = array();
-
-        foreach ($order_items as $order_item) {
-            $product = $order->get_product_from_item($order_item);
-
-            $count = 0;
-
-            list(
-                $width,
-                $length,
-                $height,
-                $weight
-            ) = self::get_product_dimensions($product);
-
-            do {
-                $product_items[] = array(
-                    'width' => $width,
-                    'height' => $height,
-                    'length' => $length,
-                    'weight' => $weight,
-                );
-
-                ++$count;
-            } while ($count < $order_item['qty']);
-        }
-
-        return $product_items;
-    }
-
-    public static function get_product_dimensions($product)
-    {
-        return array(
-            $width = $product->width ? max(1, ceil(woocommerce_get_dimension($product->width, 'in'))) : 1,
-            $length = $product->length ? max(1, ceil(woocommerce_get_dimension($product->length, 'in'))) : 1,
-            $height = $product->height ? max(1, ceil(woocommerce_get_dimension($product->height, 'in'))) : 1,
-            $weight = $product->has_weight() ? max(1, ceil(woocommerce_get_weight($product->get_weight(), 'lbs'))) : 1,
-        );
-    }
-
     public static function get_flagship_shipping_service($order)
     {
         $shipping_methods = $order->get_shipping_methods();
 
-        list($provider, $courier_name, $courier_code, $date) = explode('|', $shipping_methods[key($shipping_methods)]['method_id']);
+        list($provider, $courier_name, $courier_code, $courier_desc, $date) = explode('|', $shipping_methods[key($shipping_methods)]['method_id']);
 
         return array(
             'provider' => $provider,
             'courier_name' => strtolower($courier_name),
             'courier_code' => $courier_code,
+            'courier_desc' => $courier_desc,
             'date' => $date,
         );
-    }
-
-    public static function get_quote_request($package)
-    {
-        $flagship = Flagship_Application::get_instance();
-
-        $request = array(
-            'from' => self::get_address_from(),
-            'to' => self::get_address_to($package),
-            'packages' => array(
-                'items' => self::get_package_items(self::get_quoting_product_items($package)),
-                'units' => 'imperial',
-                'type' => 'package',
-            ),
-            'payment' => array(
-                'payer' => 'F',
-            ),
-        );
-
-        $isCountryNA = in_array($request['to']['country'], array('CA', 'US'));
-
-        if ($isCountryNA) {
-            $request['options']['address_correction'] = true;
-
-            // a friendly fix for quote, when customer does not provide state when they click on calculate shipping
-            // provide a possibly wrong state to let address correction correct it
-            if (!$request['to']['state']) {
-                $request['to']['state'] = $request['to']['country'] == 'CA' ? 'QC' : 'NY';
-            }
-        }
-
-        return $request;
-    }
-
-    public static function get_confirmation_request($order, $method = null)
-    {
-        if ($method) {
-            list($provider, $courier_name, $courier_code, $date) = explode('|', $method);
-            $service = array(
-                'provider' => $provider,
-                'courier_name' => strtolower($courier_name),
-                'courier_code' => $courier_code,
-                'date' => $date,
-            );
-        } else {
-            $service = self::get_flagship_shipping_service($order);
-        }
-
-        unset($service['provider']);
-        unset($service['date']);
-
-        $request = array(
-            'from' => self::get_address_from(),
-            'to' => array(
-                'name' => $order->shipping_company,
-                'attn' => $order->shipping_first_name.' '.$order->shipping_last_name,
-                'address' => trim($order->shipping_address_1.' '.$order->shipping_address_2),
-                'city' => $order->shipping_city,
-                'state' => $order->shipping_state,
-                'country' => $order->shipping_country,
-                'postal_code' => $order->shipping_postcode,
-                'phone' => $order->billing_phone, // no such a field in the shipping!?
-            ),
-            'packages' => array(
-                'items' => self::get_package_items(self::get_confirmation_product_items($order)),
-                'units' => 'imperial',
-                'type' => 'package',
-            ),
-            'payment' => array(
-                'payer' => 'F',
-            ),
-            'service' => $service,
-        );
-
-        if (empty($request['to']['name'])) {
-            $request['to']['name'] = $request['to']['attn'] ?: 'Receiver';
-        }
-
-        if ($options = self::get_confirmation_options()) {
-            $request['options'] = $options;
-        }
-
-        if ($request['to']['country'] != 'CA') {
-            $request['sold_to'] = self::get_confirmation_sold_to($request);
-            $request['inquiry'] = self::get_confirmation_inquiry($request);
-            $request['declared_items'] = self::get_confirmation_declared_items($order);
-        }
-
-        return $request;
-    }
-
-    public static function get_confirmation_options()
-    {
-        $options = array();
-
-        if (isset($_REQUEST['flagship_shipping_enable_insurance'])
-            && $_REQUEST['flagship_shipping_enable_insurance'] == 'yes'
-            && $_REQUEST['flagship_shipping_insurance_value'] > 0
-            && $_REQUEST['flagship_shipping_insurance_description']
-        ) {
-            $options['insurance'] = array(
-                'value' => sanitize_text_field($_REQUEST['flagship_shipping_insurance_value']),
-                'description' => sanitize_text_field($_REQUEST['flagship_shipping_insurance_description']),
-            );
-        }
-
-        if (isset($_REQUEST['flagship_shipping_enable_cod'])
-            && $_REQUEST['flagship_shipping_enable_cod'] == 'yes'
-            && $_REQUEST['flagship_shipping_cod_method']
-            && $_REQUEST['flagship_shipping_cod_payable_to']
-            && $_REQUEST['flagship_shipping_cod_receiver_phone']
-            && $_REQUEST['flagship_shipping_cod_amount']
-            && $_REQUEST['flagship_shipping_cod_currency']
-        ) {
-            $options['cod'] = array(
-                'method' => sanitize_text_field($_REQUEST['flagship_shipping_cod_method']),
-                'payable_to' => sanitize_text_field($_REQUEST['flagship_shipping_cod_payable_to']),
-                'receiver_phone' => sanitize_text_field($_REQUEST['flagship_shipping_cod_receiver_phone']),
-                'amount' => sanitize_text_field($_REQUEST['flagship_shipping_cod_amount']),
-                'currency' => sanitize_text_field($_REQUEST['flagship_shipping_cod_currency']),
-            );
-        }
-
-        if (isset($_REQUEST['flagship_shipping_signature_required'])) {
-            $options['signature_required'] = $_REQUEST['flagship_shipping_signature_required'] == 'yes';
-        }
-
-        if (isset($_REQUEST['flagship_shipping_reference'])
-            && $_REQUEST['flagship_shipping_reference']) {
-            $options['reference'] = sanitize_text_field($_REQUEST['flagship_shipping_reference']);
-        }
-
-        if (isset($_REQUEST['flagship_shipping_driver_instructions'])
-            && $_REQUEST['flagship_shipping_driver_instructions']) {
-            $options['driver_instructions'] = sanitize_text_field($_REQUEST['flagship_shipping_driver_instructions']);
-        }
-
-        if (isset($_REQUEST['flagship_shipping_date'])
-            && strtotime($_REQUEST['flagship_shipping_date']) >= strtotime(date('Y-m-d'))
-        ) {
-            $options['shipping_date'] = sanitize_text_field($_REQUEST['flagship_shipping_date']);
-        }
-
-        return $options;
-    }
-
-    public static function get_confirmation_sold_to($request)
-    {
-        $sold_to = array(
-            'sold_to_address' => $request['to'],
-            'duties_payer' => 'C', // receiver pay duties
-            'reason_for_export' => 'P',
-        );
-
-        return $sold_to;
-    }
-
-    public static function get_confirmation_inquiry($request)
-    {
-        $inquiry = array(
-            'company' => $request['from']['name'],
-            'name' => $request['from']['attn'],
-            'inquiry_phone' => preg_replace('(\D)', '', $request['from']['phone']),
-        );
-
-        return $inquiry;
-    }
-
-    public static function get_confirmation_declared_items($order)
-    {
-        $items = array();
-        $items['currency'] = strtoupper(get_woocommerce_currency());
-
-        $order_items = $order->get_items();
-
-        foreach ($order_items as $order_item) {
-            $product = $order->get_product_from_item($order_item);
-
-            $items['ci_items'][] = array(
-                'product_name' => $product->get_title(),
-                'description' => substr(get_post($product->id)->post_content, 0, 50),
-                'country_of_origin' => 'CA',
-                'quantity' => $order_item['qty'],
-                'unit_price' => $product->price,
-                'unit_weight' => max(1, ceil(woocommerce_get_weight($product->get_weight(), 'kg'))),
-                'unit_of_measurement' => 'kilogram',
-            );
-        }
-
-        return $items;
-    }
-
-    public static function get_requote_request($order)
-    {
-        $flagship = Flagship_Application::get_instance();
-
-        $request = array(
-            'from' => self::get_address_from(),
-            'to' => array(
-                'name' => $order->shipping_company,
-                'attn' => $order->shipping_first_name.' '.$order->shipping_last_name,
-                'address' => trim($order->shipping_address_1.' '.$order->shipping_address_2),
-                'city' => $order->shipping_city,
-                'state' => $order->shipping_state,
-                'country' => $order->shipping_country,
-                'postal_code' => $order->shipping_postcode,
-                'phone' => $order->billing_phone, // no such a field in the shipping!?
-            ),
-            'packages' => array(
-                'items' => self::get_package_items(self::get_confirmation_product_items($order)),
-                'units' => 'imperial',
-                'type' => 'package',
-            ),
-            'payment' => array(
-                'payer' => 'F',
-            ),
-        );
-
-        return $request;
-    }
-
-    public static function get_single_pickup_schedule_request($shipping)
-    {
-        $flagship = Flagship_Application::get_instance();
-
-        $request = array(
-            'address' => self::get_address_from(),
-            'courier' => strtolower($shipping['shipment']['service']['courier_name']),
-            'boxes' => count($shipping['shipment']['packages']),
-            'weight' => 0,
-            'date' => $shipping['date'],
-            'from' => $flagship->get_option('default_pickup_time_from', '09:00'),
-            'until' => $flagship->get_option('default_pickup_time_to', '17:00'),
-            'units' => 'imperial',
-            'location' => 'Reception',
-            'to_country' => $order->shipping_country,
-            'is_ground' => false,
-        );
-
-        $shipment = $shipping['shipment'];
-
-        foreach ($shipment['packages'] as $package) {
-            $request['weight'] += $package['weight'];
-        }
-
-        if (strtolower($shipment['service']['courier_name']) == 'fedex'
-            && strpos($shipment['service']['courier_code'], 'FedexGround') !== false) {
-            $request['is_ground'] = true;
-        }
-
-        return $request;
     }
 
     public static function get_multiple_pickup_schedule_request($courier_shippings)
@@ -358,13 +25,13 @@ class Flagship_Request_Formatter
 
         if ($courier_shippings['purolator']) {
             $request = array(
-                'address' => self::get_address_from(),
+                'address' => $flagship['address']->get_from(),
                 'courier' => 'purolator',
                 'boxes' => 0,
                 'weight' => 0,
                 'date' => '',
-                'from' => $flagship->get_option('default_pickup_time_from', '09:00'),
-                'until' => $flagship->get_option('default_pickup_time_to', '17:00'),
+                'from' => $flagship['options']->get('default_pickup_time_from', '09:00'),
+                'until' => $flagship['options']->get('default_pickup_time_to', '17:00'),
                 'units' => 'imperial',
                 'location' => 'Reception',
                 'to_country' => 'CA',
@@ -393,13 +60,13 @@ class Flagship_Request_Formatter
         if ($courier_shippings['ups']) {
             $requests = array(
                 'domestic' => array(
-                    'address' => self::get_address_from(),
+                    'address' => $flagship['address']->get_from(),
                     'courier' => 'ups',
                     'boxes' => 0,
                     'weight' => 0,
                     'date' => '',
-                    'from' => $flagship->get_option('default_pickup_time_from', '09:00'),
-                    'until' => $flagship->get_option('default_pickup_time_to', '17:00'),
+                    'from' => $flagship['options']->get('default_pickup_time_from', '09:00'),
+                    'until' => $flagship['options']->get('default_pickup_time_to', '17:00'),
                     'units' => 'imperial',
                     'location' => 'Reception',
                     'to_country' => 'CA',
@@ -407,13 +74,13 @@ class Flagship_Request_Formatter
                     'order_ids' => array(),
                 ),
                 'international' => array(
-                    'address' => self::get_address_from(),
+                    'address' => $flagship['address']->get_from(),
                     'courier' => 'ups',
                     'boxes' => 0,
                     'weight' => 0,
                     'date' => '',
-                    'from' => $flagship->get_option('default_pickup_time_from', '09:00'),
-                    'until' => $flagship->get_option('default_pickup_time_to', '17:00'),
+                    'from' => $flagship['options']->get('default_pickup_time_from', '09:00'),
+                    'until' => $flagship['options']->get('default_pickup_time_to', '17:00'),
                     'units' => 'imperial',
                     'location' => 'Reception',
                     'to_country' => '',
@@ -453,13 +120,13 @@ class Flagship_Request_Formatter
         if ($courier_shippings['fedex']) {
             $requests = array(
                 'domestic' => array(
-                    'address' => self::get_address_from(),
+                    'address' => $flagship['address']->get_from(),
                     'courier' => 'fedex',
                     'boxes' => 0,
                     'weight' => 0,
                     'date' => '',
-                    'from' => $flagship->get_option('default_pickup_time_from', '09:00'),
-                    'until' => $flagship->get_option('default_pickup_time_to', '17:00'),
+                    'from' => $flagship['options']->get('default_pickup_time_from', '09:00'),
+                    'until' => $flagship['options']->get('default_pickup_time_to', '17:00'),
                     'units' => 'imperial',
                     'location' => 'Reception',
                     'to_country' => 'CA',
@@ -467,13 +134,13 @@ class Flagship_Request_Formatter
                     'order_ids' => array(),
                 ),
                 'domestic_ground' => array(
-                    'address' => self::get_address_from(),
+                    'address' => $flagship['address']->get_from(),
                     'courier' => 'fedex',
                     'boxes' => 0,
                     'weight' => 0,
                     'date' => '',
-                    'from' => $flagship->get_option('default_pickup_time_from', '09:00'),
-                    'until' => $flagship->get_option('default_pickup_time_to', '17:00'),
+                    'from' => $flagship['options']->get('default_pickup_time_from', '09:00'),
+                    'until' => $flagship['options']->get('default_pickup_time_to', '17:00'),
                     'units' => 'imperial',
                     'location' => 'Reception',
                     'to_country' => 'CA',
@@ -481,13 +148,13 @@ class Flagship_Request_Formatter
                     'order_ids' => array(),
                 ),
                 'international' => array(
-                    'address' => self::get_address_from(),
+                    'address' => $flagship['address']->get_from(),
                     'courier' => 'fedex',
                     'boxes' => 0,
                     'weight' => 0,
                     'date' => '',
-                    'from' => $flagship->get_option('default_pickup_time_from', '09:00'),
-                    'until' => $flagship->get_option('default_pickup_time_to', '17:00'),
+                    'from' => $flagship['options']->get('default_pickup_time_from', '09:00'),
+                    'until' => $flagship['options']->get('default_pickup_time_to', '17:00'),
                     'units' => 'imperial',
                     'location' => 'Reception',
                     'to_country' => '',
@@ -495,13 +162,13 @@ class Flagship_Request_Formatter
                     'order_ids' => array(),
                 ),
                 'international_ground' => array(
-                    'address' => self::get_address_from(),
+                    'address' => $flagship['address']->get_from(),
                     'courier' => 'fedex',
                     'boxes' => 0,
                     'weight' => 0,
                     'date' => '',
-                    'from' => $flagship->get_option('default_pickup_time_from', '09:00'),
-                    'until' => $flagship->get_option('default_pickup_time_to', '17:00'),
+                    'from' => $flagship['options']->get('default_pickup_time_from', '09:00'),
+                    'until' => $flagship['options']->get('default_pickup_time_to', '17:00'),
                     'units' => 'imperial',
                     'location' => 'Reception',
                     'to_country' => '',
@@ -544,168 +211,5 @@ class Flagship_Request_Formatter
         }
 
         return $pickup_requests;
-    }
-
-    public static function get_address_from()
-    {
-        $flagship = Flagship_Application::get_instance();
-
-        $address = array(
-            'country' => 'CA',
-            'state' => $flagship->get_option('freight_shipper_state'),
-            'city' => $flagship->get_option('freight_shipper_city'),
-            'postal_code' => $flagship->get_option('origin'),
-            'address' => $flagship->get_option('freight_shipper_street'),
-            'name' => $flagship->get_option('shipper_company_name'),
-            'attn' => $flagship->get_option('shipper_person_name'),
-            'phone' => $flagship->get_option('shipper_phone_number'),
-            'ext' => $flagship->get_option('shipper_phone_ext'),
-        );
-
-        return $address;
-    }
-
-    public static function get_address_to($package)
-    {
-        $address = array(
-            'country' => $package['destination']['country'],
-            'state' => $package['destination']['state'],
-            'city' => $package['destination']['city'],
-            'postal_code' => $package['destination']['postcode'],
-            'address' => $package['destination']['address'].' '.$package['destination']['address_2'],
-        );
-
-        return $address;
-    }
-
-    public static function get_package_items(array $product_items)
-    {
-        $flagship = Flagship_Application::get_instance();
-
-        $package_box_max_weight = (int) $flagship->get_option('default_package_box_split_weight', 20);
-        $package_item_in_same_box = $flagship->get_option('default_package_box_split', 'no') == 'yes';
-
-        $items = array();
-
-        // add first product item(box) into package items
-        $product_item = array_shift($product_items);
-        $items[] = array(
-            'width' => 1,
-            'height' => 1,
-            'length' => 1,
-            'weight' => $product_item['weight'],
-            'description' => 'Flagship shipping package',
-        );
-
-        // if all product items must be packed into one box
-        // sum up total weight
-        if ($package_item_in_same_box) {
-            foreach ($product_items as $product_item) {
-                $items[0]['weight'] += $product_item['weight'];
-            }
-
-            return $items;
-        }
-
-        // product items need to be packed into boxes
-        while ($product_items) {
-            $product_item = array_shift($product_items);
-            $fit_into_existing = false;
-
-            // iterate through all existing box to check whether we can fit the current product item into one of the box
-            foreach ($items as &$item) {
-                if ($package_box_max_weight >= $item['weight'] + $product_item['weight']) {
-                    $item['weight'] += $product_item['weight'];
-                    $fit_into_existing = true;
-
-                    break;
-                }
-            }
-
-            // make new box if we cannot fit current product item into any of the existing box
-            if (!$fit_into_existing) {
-                $items[] = array(
-                    'width' => 1,
-                    'height' => 1,
-                    'length' => 1,
-                    'weight' => $product_item['weight'],
-                    'description' => 'Flagship shipping package',
-                );
-            }
-        }
-
-        return $items;
-    }
-
-    public static function get_processed_rates($rates, $id)
-    {
-        $wc_shipping_rates = array();
-
-        // prevent wrong arg being supplied
-        if (!is_array($rates) || !$rates) {
-            return $wc_shipping_rates;
-        }
-
-        $flagship = Flagship_Application::get_instance();
-
-        $markup = array(
-            'type' => $flagship->get_option('default_shipping_markup_type'),
-            'rate' => $flagship->get_option('default_shipping_markup'),
-        );
-
-        $courier_exclusion = array();
-
-        if ($flagship->get_option('disable_courier_fedex') != 'no') {
-            $courier_exclusion[] = 'FEDEX';
-        }
-
-        if ($flagship->get_option('disable_courier_ups') != 'no') {
-            $courier_exclusion[] = 'UPS';
-        }
-
-        if ($flagship->get_option('disable_courier_purolator') != 'no') {
-            $courier_exclusion[] = 'PUROLATOR';
-        }
-
-        foreach ($rates as $rate) {
-            if (in_array(strtoupper($rate['service']['courier_name']), $courier_exclusion)) {
-                continue;
-            }
-
-            $wc_shipping_rates[] = array(
-                'id' => $id.'|'.$rate['service']['courier_name'].'|'.$rate['service']['courier_code'].'|'.strtotime($rate['service']['estimated_delivery_date']),
-                'label' => $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'],
-                'cost' => $rate['price']['subtotal'] + ('percentage' ? $rate['price']['subtotal'] * $markup['rate'] / 100 : $markup['rate']),
-                'calc_tax' => 'per_order', // we do not let WC compute tax
-            );
-        }
-
-        uasort($wc_shipping_rates, array(__CLASS__, 'rates_sort'));
-
-        return $wc_shipping_rates;
-    }
-
-    public static function get_requote_rates_options($rates)
-    {
-        $wc_shipping_rates = array();
-
-        $flagship = Flagship_Application::get_instance();
-
-        $rates = self::get_processed_rates($rates, 'flagship_shipping_method');
-
-        foreach ($rates as $rate) {
-            $wc_shipping_rates[$rate['id']] = $rate['label'].' $'.$rate['cost'];
-        }
-
-        return $wc_shipping_rates;
-    }
-
-    public static function rates_sort($rate_1, $rate_2)
-    {
-        if ($rate_1['cost'] == $rate_2['cost']) {
-            return 0;
-        }
-
-        return ($rate_1['cost'] < $rate_2['cost']) ? -1 : 1;
     }
 }

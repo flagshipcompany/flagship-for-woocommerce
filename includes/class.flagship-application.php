@@ -6,75 +6,65 @@ require_once FLS__PLUGIN_DIR.'includes/class.flagship-view.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-html.php';
 require_once FLS__PLUGIN_DIR.'includes/class.flagship-request-formatter.php';
 
-class Flagship_Application
+class Flagship_Application implements ArrayAccess
 {
     public static $_instance;
     public $text_domain;
     public $actions;
     public $filters;
 
-    protected $api_client;
-    protected $options;
-    protected $notifications;
+    protected $container;
 
-    public function __construct($options)
+    public function __construct()
     {
+        // register providers
+        $this->register('Options');
+        $this->register('Client');
+        $this->register('Notification');
+        $this->register('Validation');
+        $this->register('Hook');
+        $this->register('Url');
+        $this->register('Address');
+
         $this->text_domain = 'flagship_shipping';
-
-        $this->options = $options;
-
-        $this->client = self::factory('Client')->set_token($options['token']);
-        $this->notification = self::factory('Notification');
-        $this->validation = self::factory('Validation')->set_client($this->client);
-        $this->hooks = self::factory('Hook_Manager', 'hook');
     }
 
-    // instance methods
-    //
-    public function client($token = null)
+    public function register($name)
     {
-        if ($token) {
-            $this->client->set_token($token);
+        $provider = self::factory($name, 'component');
+        $provider->provide($this);
+
+        return $this;
+    }
+
+    public function provider($name)
+    {
+        return isset($this[$name]) ? $this[$name] : null;
+    }
+
+    // array access methods
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
         }
-
-        return $this->client;
     }
 
-    public function get_option($name, $default = null)
+    public function offsetExists($offset)
     {
-        return isset($this->options[$name]) ? $this->options[$name] : $default;
+        return isset($this->container[$offset]);
     }
 
-    // only check app settings, wordpress plugin activation is not considered here
-    public function is_installed()
+    public function offsetUnset($offset)
     {
-        return false && $this->client->has_token() &&
-            ($this->options['enabled'] == 'yes');
+        unset($this->container[$offset]);
     }
 
-    public function url_for($name, $escape = false)
+    public function offsetGet($offset)
     {
-        $args = array();
-        $base_url;
-
-        switch ($name) {
-            case 'flagship_shipping_settings':
-                $args['page'] = version_compare(WC()->version, '2.1', '>=') ? 'wc-settings' : 'woocommerce_settings';
-                $args['tab'] = 'shipping';
-                $args['section'] = 'flagship_wc_shipping_method';
-                $base_url = admin_url('admin.php');
-                break;
-            default:
-                return false;
-        }
-
-        $url = add_query_arg($args, $base_url);
-
-        if (!$escape) {
-            return $url;
-        }
-
-        return esc_url($url);
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
 
     // static methods
@@ -95,6 +85,9 @@ class Flagship_Application
                 $filePath .= 'hook/class.flagship-'.$class.'.php';
                 $realClassName = 'Flagship_'.$className;
                 break;
+            case 'component':
+                $filePath .= 'components/'.$class.'/class.flagship-'.$class.'.provider.php';
+                $realClassName = 'Flagship_'.$className.'_Provider';
         }
 
         if (!file_exists($filePath) || !$realClassName) {
@@ -106,9 +99,9 @@ class Flagship_Application
         return new $realClassName();
     }
 
-    public static function init(array $options = array(), $is_admin = false)
+    public static function init($is_admin = false)
     {
-        $flagship = self::get_instance($options);
+        $flagship = self::get_instance();
 
         $setup = self::factory('Setup');
 
@@ -118,10 +111,10 @@ class Flagship_Application
         return $flagship;
     }
 
-    public static function get_instance($options = array())
+    public static function get_instance()
     {
         if (!(self::$_instance instanceof self)) {
-            self::$_instance = new self($options);
+            self::$_instance = new self();
         }
 
         return self::$_instance;

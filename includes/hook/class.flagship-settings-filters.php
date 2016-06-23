@@ -37,8 +37,8 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
     // custom filters
     public function settings_sanitized_fields_phone_filter($sanitized_fields)
     {
-        if ($errors = $this->flagship->validation->phone($sanitized_fields['shipper_phone_number'])) {
-            $this->flagship->notification->add('warning', $errors);
+        if ($errors = $this->flagship['validation']->phone($sanitized_fields['shipper_phone_number'])) {
+            $this->flagship['notification']->add('warning', $errors);
         }
 
         return $sanitized_fields;
@@ -47,7 +47,7 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
     public function settings_sanitized_fields_enabled_filter($sanitized_fields)
     {
         if ($sanitized_fields['enabled'] != 'yes') {
-            $this->flagship->notification->add('warning', __('Flagship Shipping is disabled.', 'flagship-shipping'));
+            $this->flagship['notification']->add('warning', __('Flagship Shipping is disabled.', 'flagship-shipping'));
         }
 
         return $sanitized_fields;
@@ -55,10 +55,12 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
 
     public function settings_sanitized_fields_address_filter($sanitized_fields)
     {
-        // if user set/update token, we need tp use the latest entered one
-        $this->flagship->client(isset($sanitized_fields['token']) ? $sanitized_fields['token'] : '');
+        // if user set/update token, we need to use the latest entered one
+        if (isset($sanitized_fields['token'])) {
+            $this->flagship['client']->set_token($sanitized_fields['token']);
+        }
 
-        $errors = $this->flagship->validation->address(
+        $errors = $this->flagship['validation']->address(
             $sanitized_fields['origin'],
             $sanitized_fields['freight_shipper_state'],
             $sanitized_fields['freight_shipper_city']
@@ -70,13 +72,13 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
             $sanitized_fields['freight_shipper_state'] = $errors['content']['state'];
             $sanitized_fields['freight_shipper_city'] = $errors['content']['city'];
 
-            $this->flagship->notification->add('warning', __('Address corrected to match with shipper\'s postal code.', 'flagship-shipping'));
+            $this->flagship['notification']->add('warning', __('Address corrected to match with shipper\'s postal code.', 'flagship-shipping'));
 
             $errors = array();
         }
 
         if ($errors) {
-            $this->flagship->notification->add('warning', $errors);
+            $this->flagship['notification']->add('warning', $errors);
         }
 
         return $sanitized_fields;
@@ -85,19 +87,19 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
     public function settings_sanitized_fields_shipper_credentials_filter($sanitized_fields)
     {
         if (!$sanitized_fields['shipper_person_name']) {
-            $this->flagship->notification->add('warning', __('Shipper person name is missing.', 'flagship-shipping'));
+            $this->flagship['notification']->add('warning', __('Shipper person name is missing.', 'flagship-shipping'));
         }
 
         if (!$sanitized_fields['shipper_company_name']) {
-            $this->flagship->notification->add('warning', __('Shipper company name is missing.', 'flagship-shipping'));
+            $this->flagship['notification']->add('warning', __('Shipper company name is missing.', 'flagship-shipping'));
         }
 
         if (!$sanitized_fields['shipper_phone_number']) {
-            $this->flagship->notification->add('warning', __('Shipper phone number is missing.', 'flagship-shipping'));
+            $this->flagship['notification']->add('warning', __('Shipper phone number is missing.', 'flagship-shipping'));
         }
 
         if (!$sanitized_fields['freight_shipper_street']) {
-            $this->flagship->notification->add('warning', __('Shipper address\'s streetline is missing.', 'flagship-shipping'));
+            $this->flagship['notification']->add('warning', __('Shipper address\'s streetline is missing.', 'flagship-shipping'));
         }
 
         return $sanitized_fields;
@@ -105,12 +107,14 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
 
     public function settings_sanitized_fields_integrity_filter($sanitized_fields)
     {
-        $this->flagship->client(isset($sanitized_fields['token']) ? $sanitized_fields['token'] : '');
+        if (isset($sanitized_fields['token'])) {
+            $this->flagship['client']->set_token($sanitized_fields['token']);
+        }
 
-        $errors = $this->flagship->validation->settings($sanitized_fields);
+        $errors = $this->flagship['validation']->settings($sanitized_fields);
 
         if ($errors) {
-            $this->flagship->notification->add('warning', '<strong>Shipping Integrity Failure:</strong> <br/>'.Flagship_Html::array2list($errors));
+            $this->flagship['notification']->add('warning', '<strong>Shipping Integrity Failure:</strong> <br/>'.Flagship_Html::array2list($errors));
         }
 
         return $sanitized_fields;

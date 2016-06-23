@@ -22,9 +22,9 @@ class Flagship_Setup
 
     public function init($is_admin = false)
     {
-        $this->flagship->hooks->load('setup.filters', 'Setup_Filters');
-        $this->flagship->hooks->load('setup.actions', 'Setup_Actions');
+        $this->flagship['hooks']->load('setup.filters', 'Setup_Filters');
+        $this->flagship['hooks']->load('setup.actions', 'Setup_Actions');
 
-        $this->flagship->hooks->load('metabox.actions', 'Metabox_Actions');
+        $this->flagship['hooks']->load('metabox.actions', 'Metabox_Actions');
     }
 }

@@ -23,6 +23,9 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         // flagship app
         $this->flagship = Flagship_Application::get_instance();
 
+        // providers
+        $this->flagship->register('Quoter');
+
         $this->init();
     }
 
@@ -40,7 +43,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         //
 
         // filters
-        $this->flagship->hooks->load('settings.filters', 'Settings_Filters');
+        $this->flagship['hooks']->load('settings.filters', 'Settings_Filters');
     }
 
     /**
@@ -51,7 +54,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         global $current_section;
 
         if ($current_section == 'flagship_wc_shipping_method') {
-            $this->flagship->notification->view();
+            $this->flagship['notification']->view();
         }
 
         parent::admin_options();
@@ -64,24 +67,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
      */
     public function calculate_shipping($package)
     {
-        $client = $this->flagship->client();
-
-        $request = Flagship_Request_Formatter::get_quote_request($package);
-
-        $response = $client->post(
-            '/ship/rates',
-            $request
-        );
-
-        if (!$response->is_success()) {
-            wc_add_notice('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>', 'error');
-            wc_add_notice('<strong>Details:</strong><br/>'.Flagship_Html::array2list($response->get_content()['errors']), 'error');
-        }
-
-        $rates = Flagship_Request_Formatter::get_processed_rates(
-            $response->get_content()['content'],
-            $this->id
-        );
+        $rates = $this->flagship['quoter']->quote($package);
 
         $offer_rates = $this->get_option('offer_rates');
 
