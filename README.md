@@ -1,13 +1,11 @@
-# woo-commerce-app
-
-=== Smartship.io Woo Commerce Plugin - excelling eShipping ===
-Contributors: FLS
-Tags: eshipping, courier, e-commerce, commerce, woothemes, wordpress ecommerce, affiliate, shipping, tax
-Requires at least: 4.4
-Tested up to: 4.4
-Stable tag: 1.0.0
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+# FlagShip for WooCommerce
+- Contributors: FLS
+- Tags: eshipping, courier, e-commerce, commerce, woothemes, wordpress ecommerce, affiliate, shipping, tax
+- Requires at least: 4.4
+- Tested up to: 4.4
+- Stable tag: 0.1.2
+- License: GPLv3
+- License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 ## Installation Guide
 > **Flagship For WooCommerce** requires WordPress 4.4+ WooCommerce Plugin version 2.5+. For WooCommerce installation guide, please visit [woocommerce installation guide](https://docs.woothemes.com/document/installing-uninstalling-woocommerce/). 
@@ -22,7 +20,10 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 - [ ] I am ready!
 
 ### Installation
-- Download flagship-for-woocommerce.zip zip archive
+- Download flagship-for-woocommerce.zip zip archive, 
+
+> Download Latest Release [Here](https://github.com/flagshipcompany/flagship-for-woocommerce/releases/tag/0.1.2), or browse all [historical releases](https://github.com/flagshipcompany/flagship-for-woocommerce/releases).
+
 - Unzip the downloaded zip archive and upload the folder `flagship-for-woocomerce` to `/wp-content/plugins/`
 
 > ![image](https://cloud.githubusercontent.com/assets/5373898/13267492/8964cfc6-da4b-11e5-9104-6f2b668861fd.png)
