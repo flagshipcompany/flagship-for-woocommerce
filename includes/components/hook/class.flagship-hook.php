@@ -1,6 +1,8 @@
 <?php
 
-class Flagship_Hook
+require_once __DIR__.'/../class.flagship-component.php';
+
+class Flagship_Hook extends Flagship_Component
 {
     protected $path = __DIR__;
     protected $container = array();
@@ -21,7 +23,7 @@ class Flagship_Hook
 
         $class = 'Flagship_'.$class_name;
 
-        $this->container[$signature] = new $class();
+        $this->container[$signature] = new $class($this->ctx);
     }
 
     /**

@@ -253,9 +253,12 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
     protected static function schedule_pickup($post_ids)
     {
         $flagship = Flagship_Application::get_instance();
+
+        $flagship->load('Pickup');
+
         $courier_shippings = self::get_shippings_per_courier($post_ids);
 
-        $requests = Flagship_Request_Formatter::get_multiple_pickup_schedule_request($courier_shippings);
+        $requests = $flagship['pickup']->get_multiple_pickup_schedule_request($courier_shippings);
 
         foreach ($requests as $request) {
             $order_ids = $request['order_ids'];
@@ -304,6 +307,8 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
     {
         $flagship = Flagship_Application::get_instance();
 
+        $flagship->load('Pickup');
+
         foreach ($post_ids as $post_id) {
             if ($pickup_id = get_post_meta($post_id, 'id', true)
                 && $cancelled = get_post_meta($post_id, 'cancelled', true)
@@ -311,7 +316,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
                 $order_ids = get_post_meta($post_id, 'order_ids', true);
 
                 $courier_shippings = self::get_shippings_per_courier($order_ids);
-                $requests = Flagship_Request_Formatter::get_multiple_pickup_schedule_request($courier_shippings);
+                $requests = $flagship['pickup']->get_multiple_pickup_schedule_request($courier_shippings);
 
                 foreach ($requests as $request) {
                     $order_ids = $request['order_ids'];

@@ -4,19 +4,14 @@ require_once __DIR__.'/../class.flagship-component.php';
 
 class Flagship_Confirmation extends Flagship_Component
 {
-    public function bootstrap()
-    {
-        $this->flagship->register('Package');
-    }
-
     public function confirm($order)
     {
-        $this->flagship['notification']->scope('shop_order', array('id' => $order->id));
+        $this->ctx['notification']->scope('shop_order', array('id' => $order->id));
 
-        $shipment = get_post_meta($order->id, 'flagship_shipping_raw', true);
+        $shipment = $this->ctx['order']->get_meta('flagship_shipping_raw');
 
         if ($shipment) {
-            $this->flagship['notification']->add('warning', 'You have flagship shipment for this order. SmartshipID ('.$shipment['shipment_id'].')');
+            $this->ctx['notification']->add('warning', 'You have flagship shipment for this order. SmartshipID ('.$shipment['shipment_id'].')');
 
             return false;
         }
@@ -25,7 +20,7 @@ class Flagship_Confirmation extends Flagship_Component
 
         $request = $this->get_confirmation_request($order, $overload_shipping_method);
 
-        $response = $this->flagship['client']->post(
+        $response = $this->ctx['client']->post(
             '/ship/confirm',
             $request
         );
@@ -33,7 +28,7 @@ class Flagship_Confirmation extends Flagship_Component
         $shipping = $response->get_content();
 
         if ($shipping['errors']) {
-            $this->flagship['notification']->add('error', Flagship_Html::array2list($shipping['errors']));
+            $this->ctx['notification']->add('error', $this->ctx['html']->ul($shipping['errors']));
 
             return false;
         }
@@ -53,7 +48,7 @@ class Flagship_Confirmation extends Flagship_Component
                 'date' => $date,
             );
         } else {
-            $service = $this->get_flagship_shipping_service($order);
+            $service = $this->ctx['order']->get_shipping_service($order);
         }
 
         unset($service['provider']);
@@ -61,9 +56,9 @@ class Flagship_Confirmation extends Flagship_Component
         unset($service['courier_desc']);
 
         $request = array(
-            'from' => $this->flagship['address']->get_from(),
-            'to' => $this->flagship['address']->get_order_to($order),
-            'packages' => $this->flagship['package']->get_order($order),
+            'from' => $this->ctx['address']->get_from(),
+            'to' => $this->ctx['address']->get_order_to($order),
+            'packages' => $this->ctx['package']->get_order($order),
             'payment' => array(
                 'payer' => 'F',
             ),
@@ -85,21 +80,6 @@ class Flagship_Confirmation extends Flagship_Component
         }
 
         return $request;
-    }
-
-    protected function get_flagship_shipping_service($order)
-    {
-        $shipping_methods = $order->get_shipping_methods();
-
-        list($provider, $courier_name, $courier_code, $courier_desc, $date) = explode('|', $shipping_methods[key($shipping_methods)]['method_id']);
-
-        return array(
-            'provider' => $provider,
-            'courier_name' => strtolower($courier_name),
-            'courier_code' => $courier_code,
-            'courier_desc' => $courier_desc,
-            'date' => $date,
-        );
     }
 
     protected function get_options()

@@ -1,10 +1,12 @@
 <?php
 
+require_once __DIR__.'/class.flagship-api-hooks.php';
+
 class Flagship_Setup_Actions extends Flagship_Api_Hooks
 {
     protected $type = 'action';
 
-    public function __construct()
+    public function bootstrap()
     {
         $this->add('woocommerce_shipping_init');
     }

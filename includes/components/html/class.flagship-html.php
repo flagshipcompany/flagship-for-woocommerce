@@ -1,18 +1,18 @@
 <?php
 
-class Flagship_Html
-{
-    public static function anchor($name_or_href, $text = null, array $extras = array())
-    {
-        $flagship = Flagship_Application::get_instance();
+require_once __DIR__.'/../class.flagship-component.php';
 
-        $extras = array_merge(array('text_domain' => $flagship->text_domain, 'escape' => true, 'target' => false), $extras);
+class Flagship_Html extends Flagship_Component
+{
+    public function a($name_or_href, $text = null, array $extras = array())
+    {
+        $extras = array_merge(array('text_domain' => $this->ctx->text_domain, 'escape' => true, 'target' => false), $extras);
 
         if (!$text) {
             $text = $href;
         }
 
-        $url = $flagship['url']->make($name_or_href, $extras['escape']);
+        $url = $this->ctx['url']->make($name_or_href, $extras['escape']);
 
         if ($extras['escape']) {
             $href = $url ? $url : esc_url($name_or_href);
@@ -25,12 +25,12 @@ class Flagship_Html
         return '<a '.($extras['target'] ? 'target="_blank" ' : '').'href="'.$href.'">'.$text.'</a>';
     }
 
-    public static function anchor_e($name_or_href, $text = null, array $extras = array())
+    public function a_e($name_or_href, $text = null, array $extras = array())
     {
-        echo self::anchor($name_or_href, $text, $extras);
+        echo $this->a($name_or_href, $text, $extras);
     }
 
-    public static function image($uri, $title = null, $extras = array())
+    public function img($uri, $title = null, $extras = array())
     {
         $attributes = '';
 
@@ -41,19 +41,19 @@ class Flagship_Html
         return '<img src="'.plugins_url('/assets/images/'.$uri, dirname(__FILE__)).'"'.($title ? ' title="'.$title.'"' : '').$attributes.'/>';
     }
 
-    public static function image_e($uri, $title = null, $extras = array())
+    public function img_e($uri, $title = null, $extras = array())
     {
-        echo self::image($uri, $title, $extras);
+        echo $this->image($uri, $title, $extras);
     }
 
-    public static function array2list($arr)
+    public function ul($arr)
     {
         $output = '<ul>';
 
         foreach ($arr as $k => $v) {
             if (is_array($v)) {
                 $output .= '<li><span>'.$k.'</span>';
-                $output .= self::array2list($v);
+                $output .= $this->ul($v);
                 $output .= '</li>';
 
                 continue;
@@ -67,8 +67,8 @@ class Flagship_Html
         return $output;
     }
 
-    public static function array2list_e($arr)
+    public static function ul_e($arr)
     {
-        echo self::array2list($arr);
+        echo $this->ul($arr);
     }
 }

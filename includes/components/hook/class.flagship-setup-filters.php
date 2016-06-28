@@ -1,10 +1,12 @@
 <?php
 
+require_once __DIR__.'/class.flagship-api-hooks.php';
+
 class Flagship_Setup_Filters extends Flagship_Api_Hooks
 {
     protected $type = 'filter';
 
-    public function __construct()
+    public function bootstrap()
     {
         $this->add('woocommerce_shipping_methods');
 
@@ -39,7 +41,7 @@ class Flagship_Setup_Filters extends Flagship_Api_Hooks
     public function plugin_page_setting_links_action($links, $file)
     {
         if ($file == FLS__PLUGIN_BASENAME) {
-            array_unshift($links, Flagship_Html::anchor('flagship_shipping_settings', 'Settings', array(
+            array_unshift($links, $this->ctx['html']->a('flagship_shipping_settings', 'Settings', array(
                 'escape' => true,
                 'target' => true,
             )));

@@ -1,6 +1,8 @@
 <?php
 
-class Flagship_Api_Hooks
+require_once __DIR__.'/../class.flagship-component.php';
+
+class Flagship_Api_Hooks extends Flagship_Component
 {
     // filter only
     protected $hits = array();

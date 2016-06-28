@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__.'/class.flagship-api-hooks.php';
 require_once FLS__PLUGIN_DIR.'includes/admin/meta-boxes/class.wc-meta-box-order-flagship-shipping-actions.php';
 require_once FLS__PLUGIN_DIR.'includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php';
 
@@ -7,7 +8,7 @@ class Flagship_Metabox_Actions extends Flagship_Api_Hooks
 {
     protected $type = 'action';
 
-    public function __construct()
+    public function bootstrap()
     {
         if (!is_admin()) {
             return;

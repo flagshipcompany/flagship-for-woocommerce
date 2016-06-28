@@ -4,8 +4,12 @@ require_once __DIR__.'/class.flagship-confirmation.php';
 
 class Flagship_Confirmation_Provider
 {
-    public function provide(Flagship_Application $flagship)
+    public function provide(Flagship_Application $ctx)
     {
-        $flagship['confirmation'] = new Flagship_Confirmation($flagship);
+        $ctx->dependency(array(
+            'Package',
+        ));
+
+        $ctx['confirmation'] = new Flagship_Confirmation($ctx);
     }
 }

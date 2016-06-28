@@ -2,11 +2,12 @@
 
 class Flagship_Component
 {
-    protected $flagship;
+    protected $ctx;
 
-    public function __construct(Flagship_Application $flagship)
+    public function __construct(Flagship_Application $ctx)
     {
-        $this->flagship = $flagship;
+        $this->ctx = $ctx;
+
         $this->bootstrap();
     }
 

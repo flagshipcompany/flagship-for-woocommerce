@@ -4,24 +4,27 @@ require_once __DIR__.'/../class.flagship-component.php';
 
 class Flagship_Quoter extends Flagship_Component
 {
-    public function bootstrap()
-    {
-        // provider
-        $this->flagship->register('Package');
-    }
-
     public function quote($package)
     {
+        $rates = array();
+        $has_receiver_address = $this->ctx['address']->has_receiver_address($package);
+
+        if (!$has_receiver_address) {
+            wc_add_notice('Add shipping address to get shipping rates! (click "Calculate Shipping")', 'notice');
+
+            return $rates;
+        }
+
         $request = $this->get_quote_request($package);
 
-        $response = $this->flagship['client']->post(
+        $response = $this->ctx['client']->post(
             '/ship/rates',
             $request
         );
 
         if (!$response->is_success()) {
             wc_add_notice('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>', 'error');
-            wc_add_notice('<strong>Details:</strong><br/>'.Flagship_Html::array2list($response->get_content()['errors']), 'error');
+            wc_add_notice('<strong>Details:</strong><br/>'.$this->ctx['html']->ul($response->get_content()['errors']), 'error');
         }
 
         $rates = $this->get_processed_rates(
@@ -34,14 +37,13 @@ class Flagship_Quoter extends Flagship_Component
     public function requote($order)
     {
         $request = $this->get_requote_request($order);
-        $response = $this->flagship['client']->post(
+        $response = $this->ctx['client']->post(
             '/ship/rates',
             $request
         );
 
         if (!$response->is_success()) {
-            $this->flagship['notification']->scope('shop_order', array('id' => $order->id));
-            $this->flagship['notification']->add('error', 'Unable to requote. Code '.Flagship_Html::array2list($response->get_content()['errors']));
+            $this->ctx['notification']->add('error', 'Unable to requote. Code '.$this->ctx['html']->ul($response->get_content()['errors']));
 
             return false;
         }
@@ -69,21 +71,21 @@ class Flagship_Quoter extends Flagship_Component
         }
 
         $markup = array(
-            'type' => $this->flagship['options']->get('default_shipping_markup_type'),
-            'rate' => $this->flagship['options']->get('default_shipping_markup'),
+            'type' => $this->ctx['options']->get('default_shipping_markup_type'),
+            'rate' => $this->ctx['options']->get('default_shipping_markup'),
         );
 
         $courier_exclusion = array();
 
-        if ($this->flagship['options']->not_equal('disable_courier_fedex', 'no')) {
+        if ($this->ctx['options']->not_equal('disable_courier_fedex', 'no')) {
             $courier_exclusion[] = 'FEDEX';
         }
 
-        if ($this->flagship['options']->not_equal('disable_courier_ups', 'no')) {
+        if ($this->ctx['options']->not_equal('disable_courier_ups', 'no')) {
             $courier_exclusion[] = 'UPS';
         }
 
-        if ($this->flagship['options']->not_equal('disable_courier_purolator', 'no')) {
+        if ($this->ctx['options']->not_equal('disable_courier_purolator', 'no')) {
             $courier_exclusion[] = 'PUROLATOR';
         }
 
@@ -117,9 +119,9 @@ class Flagship_Quoter extends Flagship_Component
     protected function get_quote_request($package)
     {
         $request = array(
-            'from' => $this->flagship['address']->get_from(),
-            'to' => $this->flagship['address']->get_quote_to($package),
-            'packages' => $this->flagship['package']->get_quote($package),
+            'from' => $this->ctx['address']->get_from(),
+            'to' => $this->ctx['address']->get_quote_to($package),
+            'packages' => $this->ctx['package']->get_quote($package),
             'payment' => array(
                 'payer' => 'F',
             ),
@@ -143,9 +145,9 @@ class Flagship_Quoter extends Flagship_Component
     protected function get_requote_request($order)
     {
         $request = array(
-            'from' => $this->flagship['address']->get_from(),
-            'to' => $this->flagship['address']->get_order_to($order),
-            'packages' => $this->flagship['package']->get_order($order),
+            'from' => $this->ctx['address']->get_from(),
+            'to' => $this->ctx['address']->get_order_to($order),
+            'packages' => $this->ctx['package']->get_order($order),
             'payment' => array(
                 'payer' => 'F',
             ),

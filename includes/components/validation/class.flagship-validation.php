@@ -81,7 +81,7 @@ class Flagship_Validation
                 'name' => 'FLS Integrity',
                 'attn' => 'FLS Guard',
                 'address' => '148 Brunswick',
-                'city' => 'POINT-CLAIRE',
+                'city' => 'POINTE-CLAIRE',
                 'state' => 'QC',
                 'country' => 'CA',
                 'postal_code' => 'H9R5P9',

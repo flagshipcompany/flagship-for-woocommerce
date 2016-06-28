@@ -1,15 +1,12 @@
 <?php
 
-class Flagship_Notification
+require_once __DIR__.'/../class.flagship-component.php';
+
+class Flagship_Notification extends Flagship_Component
 {
-    public $notifications;
+    public $notifications = array();
     protected $notice_scope = 'native';
     protected $extras = array();
-
-    public function __construct()
-    {
-        $this->notifiactions = array();
-    }
 
     public function add($type = 'success', $message)
     {
@@ -30,7 +27,7 @@ class Flagship_Notification
             return;
         }
 
-        Flagship_View::notification(array('notifications' => $this->notifications));
+        $this->ctx['view']->notification(array('notifications' => $this->notifications));
 
         $this->cleanup();
     }
@@ -92,7 +89,7 @@ class Flagship_Notification
 
         delete_post_meta($this->extras['id'], 'flagship_shipping_shop_order_meta_notification');
 
-        Flagship_View::notification(array('notifications' => $notifications ? $notifications : array()));
+        $this->ctx['view']->notification(array('notifications' => $notifications ? $notifications : array()));
 
         $this->scope();
         $this->cleanup();

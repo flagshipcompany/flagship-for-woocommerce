@@ -21,10 +21,10 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         $this->required_address = $this->get_option('shipping_cost_requires_address', 'no');
 
         // flagship app
-        $this->flagship = Flagship_Application::get_instance();
+        $this->ctx = Flagship_Application::get_instance();
 
         // providers
-        $this->flagship->register('Quoter');
+        $this->ctx->load('Quoter');
 
         $this->init();
     }
@@ -43,7 +43,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         //
 
         // filters
-        $this->flagship['hooks']->load('settings.filters', 'Settings_Filters');
+        $this->ctx['hooks']->load('settings.filters', 'Settings_Filters');
     }
 
     /**
@@ -54,7 +54,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
         global $current_section;
 
         if ($current_section == 'flagship_wc_shipping_method') {
-            $this->flagship['notification']->view();
+            $this->ctx['notification']->view();
         }
 
         parent::admin_options();
@@ -67,7 +67,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
      */
     public function calculate_shipping($package)
     {
-        $rates = $this->flagship['quoter']->quote($package);
+        $rates = $this->ctx['quoter']->quote($package);
 
         $offer_rates = $this->get_option('offer_rates');
 

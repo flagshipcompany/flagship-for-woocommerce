@@ -1,11 +1,16 @@
 <?php
 
-require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-hook.php';
+require_once __DIR__.'/class.flagship-hook.php';
 
 class Flagship_Hook_Provider
 {
-    public function provide(Flagship_Application $flagship)
+    public function provide(Flagship_Application $ctx)
     {
-        $flagship['hooks'] = new Flagship_Hook();
+        $ctx['hooks'] = new Flagship_Hook($ctx);
+
+        $ctx['hooks']->load('setup.filters', 'Setup_Filters');
+        $ctx['hooks']->load('setup.actions', 'Setup_Actions');
+
+        $ctx['hooks']->load('metabox.actions', 'Metabox_Actions');
     }
 }

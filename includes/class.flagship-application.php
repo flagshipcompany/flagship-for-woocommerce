@@ -1,38 +1,44 @@
 <?php
 
-require_once FLS__PLUGIN_DIR.'includes/hook/class.flagship-api-hooks.php';
-
-require_once FLS__PLUGIN_DIR.'includes/class.flagship-view.php';
-require_once FLS__PLUGIN_DIR.'includes/class.flagship-html.php';
-require_once FLS__PLUGIN_DIR.'includes/class.flagship-request-formatter.php';
-
 class Flagship_Application implements ArrayAccess
 {
     public static $_instance;
     public $text_domain;
-    public $actions;
-    public $filters;
 
     protected $container;
 
     public function __construct()
     {
-        // register providers
-        $this->register('Options');
-        $this->register('Client');
-        $this->register('Notification');
-        $this->register('Validation');
-        $this->register('Hook');
-        $this->register('Url');
-        $this->register('Address');
+        $this->dependency(array(
+            'Html',
+            'View',
+            'Options',
+            'Client',
+            'Notification',
+            'Validation',
+            'Hook',
+            'Url',
+            'Address',
+        ));
 
         $this->text_domain = 'flagship_shipping';
     }
 
-    public function register($name)
+    public function load($name)
     {
         $provider = self::factory($name, 'component');
         $provider->provide($this);
+
+        return $this;
+    }
+
+    public function dependency(array $dependencies)
+    {
+        foreach ($dependencies as $dependency) {
+            if (!isset($this[$dependency])) {
+                $this->load($dependency);
+            }
+        }
 
         return $this;
     }
@@ -102,11 +108,6 @@ class Flagship_Application implements ArrayAccess
     public static function init($is_admin = false)
     {
         $flagship = self::get_instance();
-
-        $setup = self::factory('Setup');
-
-        $setup->set_application($flagship);
-        $setup->init($is_admin);
 
         return $flagship;
     }

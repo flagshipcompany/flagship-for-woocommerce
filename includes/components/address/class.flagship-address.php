@@ -8,14 +8,14 @@ class Flagship_Address extends Flagship_Component
     {
         $address = array(
             'country' => 'CA',
-            'state' => $this->flagship['options']->get('freight_shipper_state'),
-            'city' => $this->flagship['options']->get('freight_shipper_city'),
-            'postal_code' => $this->flagship['options']->get('origin'),
-            'address' => $this->flagship['options']->get('freight_shipper_street'),
-            'name' => $this->flagship['options']->get('shipper_company_name'),
-            'attn' => $this->flagship['options']->get('shipper_person_name'),
-            'phone' => $this->flagship['options']->get('shipper_phone_number'),
-            'ext' => $this->flagship['options']->get('shipper_phone_ext'),
+            'state' => $this->ctx['options']->get('freight_shipper_state'),
+            'city' => $this->ctx['options']->get('freight_shipper_city'),
+            'postal_code' => $this->ctx['options']->get('origin'),
+            'address' => $this->ctx['options']->get('freight_shipper_street'),
+            'name' => $this->ctx['options']->get('shipper_company_name'),
+            'attn' => $this->ctx['options']->get('shipper_person_name'),
+            'phone' => $this->ctx['options']->get('shipper_phone_number'),
+            'ext' => $this->ctx['options']->get('shipper_phone_ext'),
         );
 
         return $address;
@@ -32,6 +32,11 @@ class Flagship_Address extends Flagship_Component
         );
 
         return $address;
+    }
+
+    public function has_receiver_address($package)
+    {
+        return !empty($package['destination']['city']) && !empty($package['destination']['postcode']);
     }
 
     public function get_order_to($order)

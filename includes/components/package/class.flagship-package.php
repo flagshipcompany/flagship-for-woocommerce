@@ -1,14 +1,9 @@
 <?php
 
-class Flagship_Package
+require_once __DIR__.'/../class.flagship-component.php';
+
+class Flagship_Package extends Flagship_Component
 {
-    protected $flagship;
-
-    public function __construct(Flagship_Application $flagship)
-    {
-        $this->flagship = $flagship;
-    }
-
     public function get_quote($package)
     {
         $packages = array(
@@ -33,8 +28,8 @@ class Flagship_Package
 
     protected function get_package_items(array $product_items)
     {
-        $package_box_max_weight = (int) $this->flagship['options']->get('default_package_box_split_weight', 20);
-        $package_item_in_same_box = $this->flagship['options']->get('default_package_box_split', 'no') == 'yes';
+        $package_box_max_weight = (int) $this->ctx['options']->get('default_package_box_split_weight', 20);
+        $package_item_in_same_box = $this->ctx['options']->get('default_package_box_split', 'no') == 'yes';
 
         $items = array();
 
