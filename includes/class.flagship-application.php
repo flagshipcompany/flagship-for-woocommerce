@@ -24,9 +24,13 @@ class Flagship_Application implements ArrayAccess
         $this->text_domain = 'flagship_shipping';
     }
 
-    public function load($name)
+    public function load($name, $force_load = false)
     {
-        $provider = self::factory($name, 'component');
+        if (isset($this[strtolower($name)]) && !$force_load) {
+            return $this;
+        }
+
+        $provider = $this->factory($name);
         $provider->provide($this);
 
         return $this;
@@ -73,28 +77,12 @@ class Flagship_Application implements ArrayAccess
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
 
-    // static methods
-    //
-    public static function factory($className, $type = 'flagship')
+    public function factory($className)
     {
         $class = str_replace('_', '-', strtolower($className));
 
-        $filePath = FLS__PLUGIN_DIR.'includes/';
-        $realClassName = '';
-
-        switch ($type) {
-            case 'flagship':
-                $filePath .= 'class.flagship-'.$class.'.php';
-                $realClassName = 'Flagship_'.$className;
-                break;
-            case 'hook':
-                $filePath .= 'hook/class.flagship-'.$class.'.php';
-                $realClassName = 'Flagship_'.$className;
-                break;
-            case 'component':
-                $filePath .= 'components/'.$class.'/class.flagship-'.$class.'.provider.php';
-                $realClassName = 'Flagship_'.$className.'_Provider';
-        }
+        $filePath = FLS__PLUGIN_DIR.'includes/components/'.$class.'/class.flagship-'.$class.'.provider.php';
+        $realClassName = 'Flagship_'.$className.'_Provider';
 
         if (!file_exists($filePath) || !$realClassName) {
             throw new Exception($className.' does not exist.');

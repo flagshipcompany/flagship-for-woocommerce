@@ -67,7 +67,21 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
      */
     public function calculate_shipping($package)
     {
-        $rates = $this->ctx['quoter']->quote($package);
+        // we want to avoid redundant quote request
+        // the tradeoff: rates rely on 1st time of quote. if certain courier is missing, we cannot
+        // retrieve it again unless cart changed.
+        $cart = WC()->session->get('cart');
+        $serialized = serialize($cart);
+        $hash = md5($serialized);
+        $key = 'flagship_shipping_quote_rates_'.$hash;
+
+        $rates = WC()->session->get($key);
+
+        if (!$rates) {
+            $rates = $this->ctx['quoter']->quote($package);
+
+            WC()->session->set($key, $rates);
+        }
 
         $offer_rates = $this->get_option('offer_rates');
 

@@ -9,8 +9,12 @@ class Flagship_Quoter extends Flagship_Component
         $rates = array();
         $has_receiver_address = $this->ctx['address']->has_receiver_address($package);
 
+        $this->ctx['notification']->scope('cart');
+
         if (!$has_receiver_address) {
-            wc_add_notice('Add shipping address to get shipping rates! (click "Calculate Shipping")', 'notice');
+            $this->ctx['notification']
+                ->notice('Add shipping address to get shipping rates! (click "Calculate Shipping")')
+                ->view();
 
             return $rates;
         }
@@ -23,27 +27,31 @@ class Flagship_Quoter extends Flagship_Component
         );
 
         if (!$response->is_success()) {
-            wc_add_notice('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>', 'error');
-            wc_add_notice('<strong>Details:</strong><br/>'.$this->ctx['html']->ul($response->get_content()['errors']), 'error');
+            $this->ctx['notification']
+                ->error('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>')
+                ->error('<strong>Details:</strong><br/>'.$this->ctx['html']->ul($response->get_content()['errors']));
         }
 
         $rates = $this->get_processed_rates(
             $response->get_content()['content']
         );
 
+        $this->ctx['notification']->view();
+
         return $rates;
     }
 
-    public function requote($order)
+    public function requote()
     {
-        $request = $this->get_requote_request($order);
+        $request = $this->get_requote_request($this->ctx['order']->get_order());
         $response = $this->ctx['client']->post(
             '/ship/rates',
             $request
         );
 
         if (!$response->is_success()) {
-            $this->ctx['notification']->add('error', 'Unable to requote. Code '.$this->ctx['html']->ul($response->get_content()['errors']));
+            $this->ctx['notification']
+                ->error('Unable to requote. Code '.$this->ctx['html']->ul($response->get_content()['errors']));
 
             return false;
         }
@@ -152,6 +160,18 @@ class Flagship_Quoter extends Flagship_Component
                 'payer' => 'F',
             ),
         );
+
+        $isCountryNA = in_array($request['to']['country'], array('CA', 'US'));
+
+        if ($isCountryNA) {
+            $request['options']['address_correction'] = true;
+
+            // a friendly fix for quote, when customer does not provide state
+            // provide a possibly wrong state to let address correction correct it
+            if (!$request['to']['state']) {
+                $request['to']['state'] = $request['to']['country'] == 'CA' ? 'QC' : 'NY';
+            }
+        }
 
         return $request;
     }

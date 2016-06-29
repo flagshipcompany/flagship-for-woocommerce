@@ -13,7 +13,7 @@ class Flagship_Order extends Flagship_Component
         return isset($order);
     }
 
-    public function import($order)
+    public function initialize($order)
     {
         $this->order = $order;
         $this->id = $this->order->id;

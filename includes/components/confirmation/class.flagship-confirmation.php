@@ -4,21 +4,11 @@ require_once __DIR__.'/../class.flagship-component.php';
 
 class Flagship_Confirmation extends Flagship_Component
 {
-    public function confirm($order)
+    public function confirm()
     {
-        $this->ctx['notification']->scope('shop_order', array('id' => $order->id));
-
-        $shipment = $this->ctx['order']->get_meta('flagship_shipping_raw');
-
-        if ($shipment) {
-            $this->ctx['notification']->add('warning', 'You have flagship shipment for this order. SmartshipID ('.$shipment['shipment_id'].')');
-
-            return false;
-        }
-
         $overload_shipping_method = isset($_POST['flagship_shipping_service']) ? sanitize_text_field($_POST['flagship_shipping_service']) : null;
 
-        $request = $this->get_confirmation_request($order, $overload_shipping_method);
+        $request = $this->get_confirmation_request($this->ctx['order']->get_order(), $overload_shipping_method);
 
         $response = $this->ctx['client']->post(
             '/ship/confirm',
@@ -27,7 +17,7 @@ class Flagship_Confirmation extends Flagship_Component
 
         $shipping = $response->get_content();
 
-        if ($shipping['errors']) {
+        if (!$response->is_success()) {
             $this->ctx['notification']->add('error', $this->ctx['html']->ul($shipping['errors']));
 
             return false;

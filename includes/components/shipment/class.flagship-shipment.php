@@ -6,36 +6,60 @@ class Flagship_Shipment extends Flagship_Component
 {
     protected $shipment = null;
     protected $service = null;
+    protected $requote_rates = null;
     protected $type = 'NOT_CREATED';
+
+    public function initialize($order)
+    {
+        $this->ctx['order']->initialize($order);
+        $this->ctx['notification']->scope('shop_order', array('id' => $this->ctx['order']->get_id()));
+
+        $this->shipment = $this->ctx['order']->get_meta('flagship_shipping_raw');
+
+        if ($this->shipment) {
+            $this->type = 'CREATED';
+
+            return $this;
+        }
+
+        $this->service = $this->get_service();
+
+        if ($this->service['provider'] == FLAGSHIP_SHIPPING_PLUGIN_ID) {
+            $this->type = 'NOT_CREATED';
+
+            return $this;
+        }
+
+        return 'UNAVAILABLE';
+    }
 
     public function confirm()
     {
         $this->ctx->load('Confirmation');
 
-        $shipping = $this->ctx['confirmation']->confirm($this->ctx['order']->get_order());
+        if ($this->type == 'CREATED') {
+            $this->ctx['notification']
+                ->warning('You have flagship shipment for this order. SmartshipID ('.$this->shipment['shipment_id'].')');
+
+            return $this;
+        }
+
+        $shipping = $this->ctx['confirmation']->confirm();
 
         if (!$shipping) {
             return $this;
         }
 
-        $this->ctx['order']
-            ->remove_meta('flagship_shipping_requote_rates')
-            ->set_meta('flagship_shipping_shipment_id', $shipping['content']['shipment_id'])
-            ->set_meta('flagship_shipping_shipment_tracking_number', $shipping['content']['tracking_number'])
-            ->set_meta('flagship_shipping_courier_name', $shipping['content']['service']['courier_name'])
-            ->set_meta('flagship_shipping_courier_service_code', $shipping['content']['service']['courier_code'])
-            ->set_meta('flagship_shipping_raw', $shipping['content']);
+        $this->shipment = $shipping['content'];
 
-        return $this;
+        return $this->save();
     }
 
     public function requote()
     {
         $this->ctx->load('Quoter');
 
-        $this->ctx['notification']->scope('shop_order', array('id' => $this->ctx['order']->get_id()));
-
-        $rates = $this->ctx['quoter']->requote($this->ctx['order']->get_order());
+        $rates = $this->ctx['quoter']->requote();
 
         if ($rates) {
             $this->ctx['order']->set_meta('flagship_shipping_requote_rates', $rates);
@@ -46,8 +70,6 @@ class Flagship_Shipment extends Flagship_Component
 
     public function cancel()
     {
-        $this->ctx['notification']->scope('shop_order', array('id' => $this->ctx['order']->get_id()));
-
         $shipment = $this->ctx['order']->get_meta('flagship_shipping_raw');
 
         $shipment_id = $this->get_shipment_id($shipment);
@@ -72,41 +94,10 @@ class Flagship_Shipment extends Flagship_Component
 
         $this->ctx->load('Pickup');
 
-        $this->ctx['pickup']
-            ->initialize($this->ctx['order']->get_order())
-            ->cancel();
-
+        $this->ctx['pickup']->cancel();
         $this->ctx['order']->remove_meta('flagship_shipping_raw');
 
         return $this;
-    }
-
-    public function get_order_id()
-    {
-        return $this->ctx['order']->get_id();
-    }
-
-    public function initialize($order)
-    {
-        $this->ctx['order']->import($order);
-
-        $this->shipment = $this->ctx['order']->get_meta('flagship_shipping_raw');
-
-        if ($this->shipment) {
-            $this->type = 'CREATED';
-
-            return $this;
-        }
-
-        $this->service = $this->get_service();
-
-        if ($this->service['provider'] == FLAGSHIP_SHIPPING_PLUGIN_ID) {
-            $this->type = 'NOT_CREATED';
-
-            return $this;
-        }
-
-        return 'UNAVAILABLE';
     }
 
     public function get_view_data()
@@ -163,5 +154,18 @@ class Flagship_Shipment extends Flagship_Component
         }
 
         return $shipment_id;
+    }
+
+    public function save()
+    {
+        $this->ctx['order']
+            ->remove_meta('flagship_shipping_requote_rates')
+            ->set_meta('flagship_shipping_shipment_id', $this->shipment['shipment_id'])
+            ->set_meta('flagship_shipping_shipment_tracking_number', $this->shipment['tracking_number'])
+            ->set_meta('flagship_shipping_courier_name', $this->shipment['service']['courier_name'])
+            ->set_meta('flagship_shipping_courier_service_code', $this->shipment['service']['courier_code'])
+            ->set_meta('flagship_shipping_raw', $this->shipment);
+
+        return $this;
     }
 }

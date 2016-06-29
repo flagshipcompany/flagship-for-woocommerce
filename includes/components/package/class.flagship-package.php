@@ -26,7 +26,7 @@ class Flagship_Package extends Flagship_Component
         return $packages;
     }
 
-    protected function get_package_items(array $product_items)
+    protected function get_package_items($product_items)
     {
         $package_box_max_weight = (int) $this->ctx['options']->get('default_package_box_split_weight', 20);
         $package_item_in_same_box = $this->ctx['options']->get('default_package_box_split', 'no') == 'yes';
@@ -89,13 +89,15 @@ class Flagship_Package extends Flagship_Component
 
         $notices = array();
 
+        $this->ctx['notification']->scope('cart');
+
         foreach ($package['contents'] as $id => $item) {
             if (!$item['data']->needs_shipping()) {
                 continue;
             }
 
             if (!$item['data']->get_weight()) {
-                $notices[] = 'Product '.$item['data']->get_title().' is missing weight, weight default to 1 lbs.';
+                $this->ctx['notification']->add('notice', 'Product '.$item['data']->get_title().' is missing weight, weight default to 1 lbs.');
             }
 
             $count = 0;
@@ -119,7 +121,7 @@ class Flagship_Package extends Flagship_Component
             } while ($count < $item['quantity']);
         }
 
-        wc_add_notice(implode('<br/>', $notices), 'notice');
+        $this->ctx['notification']->view();
 
         return $product_items;
     }
@@ -158,6 +160,10 @@ class Flagship_Package extends Flagship_Component
 
     protected function get_product_dimensions($product)
     {
+        if (!$product) {
+            return array(1, 1, 1, 1);
+        }
+
         return array(
             $width = $product->width ? max(1, ceil(woocommerce_get_dimension($product->width, 'in'))) : 1,
             $length = $product->length ? max(1, ceil(woocommerce_get_dimension($product->length, 'in'))) : 1,

@@ -6,15 +6,14 @@ class Flagship_Pickup extends Flagship_Component
 {
     public function initialize($order)
     {
-        $this->ctx['order']->import($order);
+        $this->ctx['order']->initialize($order);
+        $this->ctx['notification']->scope('shop_order', array('id' => $this->ctx['order']->get_id()));
 
         return $this;
     }
 
     public function schedule($shipping)
     {
-        $this->ctx['notification']->scope('shop_order', array('id' => $this->ctx['order']->get_id()));
-
         $shipment = $this->ctx['order']->get_meta('flagship_shipping_raw');
         $shipment_id = $this->ctx['shipment']->get_shipment_id($shipment);
 
@@ -56,12 +55,11 @@ class Flagship_Pickup extends Flagship_Component
 
     public function cancel()
     {
-        $this->ctx['notification']->scope('shop_order', array('id' => $this->ctx['order']->get_id()));
-
         $shipment = $this->ctx['order']->get_meta('flagship_shipping_raw');
+
         $shipment_id = $this->ctx['shipment']->get_shipment_id($shipment);
 
-        if (!$shipment_id || empty($shipment['pickup']['id'])) {
+        if (!$shipment || !$shipment_id || !isset($shipment['pickup'])) {
             return $this;
         }
 

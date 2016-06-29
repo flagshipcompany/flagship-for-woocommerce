@@ -7,6 +7,7 @@ class Flagship_Notification extends Flagship_Component
     public $notifications = array();
     protected $notice_scope = 'native';
     protected $extras = array();
+    protected $prev = array();
 
     public function add($type = 'success', $message)
     {
@@ -14,7 +15,26 @@ class Flagship_Notification extends Flagship_Component
             return $this->shop_order_add($type, $message);
         }
 
+        if ($this->notice_scope == 'cart') {
+            return $this->native_add($type, $message);
+        }
+
         return $this->native_add($type, $message);
+    }
+
+    public function error($message)
+    {
+        return $this->add('error', $message);
+    }
+
+    public function notice($message)
+    {
+        return $this->add('notice', $message);
+    }
+
+    public function warning($message)
+    {
+        return $this->add('warning', $message);
     }
 
     public function view()
@@ -23,19 +43,50 @@ class Flagship_Notification extends Flagship_Component
             return $this->shop_order_view();
         }
 
+        if ($this->notice_scope == 'cart') {
+            return $this->cart_view();
+        }
+
         if (!$this->notifications) {
             return;
         }
 
         $this->ctx['view']->notification(array('notifications' => $this->notifications));
 
-        $this->cleanup();
+        if ($this->prev) {
+            return $this->restore();
+        }
+
+        $this->scope();
+
+        return $this->cleanup();
     }
 
     public function scope($scope = 'native', $extras = array())
     {
+        if (!empty($this->notifications)) {
+            $this->prev = array(
+                'notifications' => $this->notification,
+                'notice_scope' => $this->notice_scope,
+                'extras' => $this->extras,
+            );
+
+            $this->cleanup();
+        }
+
         $this->notice_scope = $scope;
         $this->extras = $extras;
+
+        return $this;
+    }
+
+    protected function restore()
+    {
+        $this->notifications = $this->prev['notifcations'];
+        $this->notice_scope = $this->prev['notice_scope'];
+        $this->extras = $this->prev['extras'];
+
+        $this->prev = array();
 
         return $this;
     }
@@ -91,7 +142,32 @@ class Flagship_Notification extends Flagship_Component
 
         $this->ctx['view']->notification(array('notifications' => $notifications ? $notifications : array()));
 
+        if ($this->prev) {
+            return $this->restore();
+        }
+
         $this->scope();
-        $this->cleanup();
+
+        return $this->cleanup();
+    }
+
+    public function cart_view()
+    {
+        foreach ($this->notifications as $type => $notifications) {
+            if (!$notifications) {
+                continue;
+            }
+
+            $html = implode('<br/>', $notifications);
+            wc_add_notice($html, $type);
+        }
+
+        if ($this->prev) {
+            return $this->restore();
+        }
+
+        $this->scope();
+
+        return $this->cleanup();
     }
 }

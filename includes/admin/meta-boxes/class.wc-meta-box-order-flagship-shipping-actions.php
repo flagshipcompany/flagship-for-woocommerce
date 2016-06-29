@@ -6,7 +6,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
     {
         add_meta_box(
             'wc-flagship-shipping-box',
-            __('Flagship', 'flagship-shipping'),
+            __('FlagShip', 'flagship-shipping'),
             array(__CLASS__, 'output'),
             'shop_order',
             'side',
@@ -36,6 +36,8 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
         }
 
         $ctx['shipment']->initialize($theorder);
+
+        $shipment = $ctx['order']->get_meta('flagship_shipping_raw');
 
         $view_data = $ctx['shipment']->get_view_data();
 
