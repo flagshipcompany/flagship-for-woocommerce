@@ -164,7 +164,7 @@ class Flagship_Confirmation extends Flagship_Component
                 'description' => substr(get_post($product->id)->post_content, 0, 50),
                 'country_of_origin' => 'CA',
                 'quantity' => $order_item['qty'],
-                'unit_price' => $product->price,
+                'unit_price' => $product->get_price(),
                 'unit_weight' => max(1, ceil(woocommerce_get_weight($product->get_weight(), 'kg'))),
                 'unit_of_measurement' => 'kilogram',
             );
