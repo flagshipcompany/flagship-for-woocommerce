@@ -43,8 +43,5 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
     //
     require_once FLS__PLUGIN_DIR.'includes/class.flagship-application.php';
 
-    Flagship_Application::init(
-        get_option('woocommerce_'.FLAGSHIP_SHIPPING_PLUGIN_ID.'_settings', array()),
-        is_admin()
-    );
+    Flagship_Application::init();
 }
