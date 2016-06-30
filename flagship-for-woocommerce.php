@@ -23,8 +23,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-define('FLS__PLUGIN_URL', plugin_dir_url(__FILE__));
-define('FLS__PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('FLAGSHIP_SHIPPING_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('FLS__PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('FLAGSHIP_SHIPPING_PLUGIN_ID', 'flagship_shipping_method');
 define('FLAGSHIP_NAME_PREFIX', 'flagship_');
@@ -32,7 +31,7 @@ define('FLAGSHIP_NAME_PREFIX', 'flagship_');
 define('FLAGSHIP_SHIPPING_API_ENTRY_POINT', 'https://api.smartship.io');
 define('FLAGSHIP_SHIPPING_API_TIMEOUT', 14);
 
-require_once FLS__PLUGIN_DIR.'includes/update/class.flagship-autoupdate.php';
+require_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'includes/update/class.flagship-autoupdate.php';
 
 if (is_admin()) {
     $update = new Flagship_Autoupdate(__FILE__, 'flagshipcompany', 'flagship-for-woocommerce');
@@ -41,7 +40,7 @@ if (is_admin()) {
 // Check if WooCommerce is active
 if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
     //
-    require_once FLS__PLUGIN_DIR.'includes/class.flagship-application.php';
+    require_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'includes/class.flagship-application.php';
 
     Flagship_Application::init();
 }

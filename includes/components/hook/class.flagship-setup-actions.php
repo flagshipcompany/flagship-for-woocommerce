@@ -19,7 +19,7 @@ class Flagship_Setup_Actions extends Flagship_Api_Hooks
     public function woocommerce_shipping_init_action($methods)
     {
         if (!class_exists('Flagship_WC_Shipping_Method')) {
-            include_once FLS__PLUGIN_DIR.'includes/class.flagship-wc-shipping-method.php';
+            include_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'includes/class.flagship-wc-shipping-method.php';
         }
     }
 }

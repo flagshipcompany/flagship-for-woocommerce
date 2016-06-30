@@ -81,7 +81,7 @@ class Flagship_Application implements ArrayAccess
     {
         $class = str_replace('_', '-', strtolower($className));
 
-        $filePath = FLS__PLUGIN_DIR.'includes/components/'.$class.'/class.flagship-'.$class.'.provider.php';
+        $filePath = FLAGSHIP_SHIPPING_PLUGIN_DIR.'includes/components/'.$class.'/class.flagship-'.$class.'.provider.php';
         $realClassName = 'Flagship_'.$className.'_Provider';
 
         if (!file_exists($filePath) || !$realClassName) {
@@ -93,7 +93,7 @@ class Flagship_Application implements ArrayAccess
         return new $realClassName();
     }
 
-    public static function init($is_admin = false)
+    public static function init()
     {
         $flagship = self::get_instance();
 

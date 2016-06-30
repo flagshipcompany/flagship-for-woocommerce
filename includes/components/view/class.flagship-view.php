@@ -26,6 +26,6 @@ class Flagship_View extends Flagship_Component
 
         load_plugin_textdomain('flagship-shipping');
 
-        include FLS__PLUGIN_DIR.'templates/'.$template.'.php';
+        include FLAGSHIP_SHIPPING_PLUGIN_DIR.'templates/'.$template.'.php';
     }
 }

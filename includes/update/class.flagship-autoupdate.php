@@ -1,6 +1,6 @@
 <?php
 
-require_once FLS__PLUGIN_DIR.'includes/update/parsedown.php';
+require_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'includes/update/parsedown.php';
 
 class Flagship_Autoupdate
 {

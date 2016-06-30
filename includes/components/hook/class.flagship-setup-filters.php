@@ -12,7 +12,7 @@ class Flagship_Setup_Filters extends Flagship_Api_Hooks
 
         if (is_admin()) {
             // add setting link to plugin page
-            $this->add('plugin_action_links_'.FLS__PLUGIN_BASENAME, 'plugin_page_setting_links_action');
+            $this->add('plugin_action_links_'.FLAGSHIP_SHIPPING_PLUGIN_BASENAME, 'plugin_page_setting_links_action');
         }
     }
 
@@ -40,7 +40,7 @@ class Flagship_Setup_Filters extends Flagship_Api_Hooks
      */
     public function plugin_page_setting_links_action($links, $file)
     {
-        if ($file == FLS__PLUGIN_BASENAME) {
+        if ($file == FLAGSHIP_SHIPPING_PLUGIN_BASENAME) {
             array_unshift($links, $this->ctx['html']->a('flagship_shipping_settings', 'Settings', array(
                 'escape' => true,
                 'target' => true,
