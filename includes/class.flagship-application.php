@@ -10,6 +10,7 @@ class Flagship_Application implements ArrayAccess
     public function __construct()
     {
         $this->dependency(array(
+            'Request',
             'Html',
             'View',
             'Options',

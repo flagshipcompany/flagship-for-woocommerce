@@ -4,7 +4,7 @@
  * Plugin Name: Flagship WooCommerce Shipping
  * Plugin URI: http://www.smartship.io/woo-commerce
  * Description: An e-shipping courier solution that helps you shipping anything from Canada. Beautifully. To get started: 1) Click the "Activate" link to the left of this description, 2) <a href="http://smartship.flagshipcompany.com/">Sign up for an Smartship account</a> to get an API key, and 3) Go to <a href="/wp-admin/admin.php?page=wc-settings&tab=shipping&section=flagship_wc_shipping_method">settings</a> page to fill basic shipping credentials
- * Version: 0.1.5
+ * Version: 0.1.6
  * Author: Flagship Courier Solution
  * Author URI: http://www.smartship.io/woo-commerce
  * Requires at least: 4.4

@@ -30,7 +30,9 @@ class Flagship_Shipment extends Flagship_Component
             return $this;
         }
 
-        return 'UNAVAILABLE';
+        $this->type = 'UNAVAILABLE';
+
+        return $this;
     }
 
     public function confirm()
@@ -39,7 +41,7 @@ class Flagship_Shipment extends Flagship_Component
 
         if ($this->type == 'CREATED') {
             $this->ctx['notification']
-                ->warning('You have flagship shipment for this order. SmartshipID ('.$this->shipment['shipment_id'].')');
+                ->warning('You have flagship shipment for this order. FlagShip ID ('.$this->shipment['shipment_id'].')');
 
             return $this;
         }
@@ -145,7 +147,7 @@ class Flagship_Shipment extends Flagship_Component
 
     public function get_shipment_id($shipment)
     {
-        $shipment_id = sanitize_text_field($_POST['flagship_shipping_shipment_id']);
+        $shipment_id = $this->ctx['request']->request->get('flagship_shipping_shipment_id');
 
         if (empty($shipment) || empty($shipment_id) || $shipment_id != $shipment['shipment_id']) {
             $this->ctx['notification']->add('warning', 'Unable to access shipment with FlagShip ID ('.$shipment_id.')');

@@ -6,7 +6,7 @@ class Flagship_Confirmation extends Flagship_Component
 {
     public function confirm()
     {
-        $overload_shipping_method = isset($_POST['flagship_shipping_service']) ? sanitize_text_field($_POST['flagship_shipping_service']) : null;
+        $overload_shipping_method = $this->ctx['request']->request->get('flagship_shipping_service');
 
         $request = $this->get_confirmation_request($this->ctx['order']->get_order(), $overload_shipping_method);
 

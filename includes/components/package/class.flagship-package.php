@@ -165,10 +165,10 @@ class Flagship_Package extends Flagship_Component
         }
 
         return array(
-            $width = $product->width ? max(1, ceil(woocommerce_get_dimension($product->width, 'in'))) : 1,
-            $length = $product->length ? max(1, ceil(woocommerce_get_dimension($product->length, 'in'))) : 1,
-            $height = $product->height ? max(1, ceil(woocommerce_get_dimension($product->height, 'in'))) : 1,
-            $weight = $product->has_weight() ? max(1, ceil(woocommerce_get_weight($product->get_weight(), 'lbs'))) : 1,
+            $product->width ? max(1, ceil(woocommerce_get_dimension($product->width, 'in'))) : 1,
+            $product->length ? max(1, ceil(woocommerce_get_dimension($product->length, 'in'))) : 1,
+            $product->height ? max(1, ceil(woocommerce_get_dimension($product->height, 'in'))) : 1,
+            $product->weight ? max(1, ceil(woocommerce_get_weight($product->weight, 'lbs'))) : 1,
         );
     }
 }

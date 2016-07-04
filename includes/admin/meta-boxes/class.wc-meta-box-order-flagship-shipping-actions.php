@@ -21,23 +21,11 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
      */
     public static function output($post)
     {
-        global $post, $thepostid, $theorder;
-
         $ctx = Flagship_Application::get_instance();
+        $order = wc_get_order($post->ID);
 
         $ctx->load('Shipment');
-
-        if (!is_int($thepostid)) {
-            $thepostid = $post->ID;
-        }
-
-        if (!is_object($theorder)) {
-            $theorder = wc_get_order($thepostid);
-        }
-
-        $ctx['shipment']->initialize($theorder);
-
-        $shipment = $ctx['order']->get_meta('flagship_shipping_raw');
+        $ctx['shipment']->initialize($order);
 
         $view_data = $ctx['shipment']->get_view_data();
 
@@ -55,75 +43,33 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
      */
     public static function save($post_id, $post)
     {
+        $ctx = Flagship_Application::get_instance();
+
         $order = wc_get_order($post_id);
-        $action = sanitize_text_field($_POST['flagship_shipping_shipment_action']);
+
+        $action = sanitize_text_field($ctx['request']->request->get('flagship_shipping_shipment_action'));
 
         switch ($action) {
             case 'shipment-create':
-                self::shipment_confirm($order);
+                $ctx->load('Shipment');
+                $ctx['shipment']->initialize($order)->confirm();
                 break;
             case 'shipment-void':
-                self::shipment_void($order);
+                $ctx->load('Shipment');
+                $ctx['shipment']->initialize($order)->cancel();
                 break;
             case 'shipment-requote':
-                self::shipment_requote($order);
+                $ctx->load('Shipment');
+                $ctx['shipment']->initialize($order)->requote();
                 break;
             case 'pickup-schedule':
-                self::pickup_schedule($order);
+                $ctx->load('Pickup');
+                $ctx['pickup']->initialize($order)->schedule();
                 break;
             case 'pickup-void':
-                self::pickup_void($order);
+                $ctx->load('Pickup');
+                $ctx['pickup']->initialize($order)->cancel();
                 break;
         }
-    }
-
-    protected static function shipment_confirm($order)
-    {
-        $ctx = Flagship_Application::get_instance();
-
-        $ctx->load('Shipment');
-        $ctx['shipment']->initialize($order);
-
-        $ctx['shipment']->confirm();
-    }
-
-    protected static function shipment_requote($order)
-    {
-        $ctx = Flagship_Application::get_instance();
-
-        $ctx->load('Shipment');
-        $ctx['shipment']->initialize($order);
-
-        $ctx['shipment']->requote();
-    }
-
-    protected static function shipment_void($order)
-    {
-        $ctx = Flagship_Application::get_instance();
-
-        $ctx->load('Shipment');
-        $ctx['shipment']->initialize($order);
-
-        $ctx['shipment']->cancel();
-    }
-
-    protected static function pickup_schedule($order)
-    {
-        $ctx = Flagship_Application::get_instance();
-
-        $ctx->load('Pickup');
-
-        $ctx['pickup']->initialize($order);
-        $ctx['pickup']->schedule();
-    }
-
-    protected static function pickup_void($order)
-    {
-        $ctx = Flagship_Application::get_instance();
-
-        $ctx->load('Pickup');
-
-        $ctx['pickup']->initialize($order);
-        $ctx['pickup']->cancel();
     }
 }
