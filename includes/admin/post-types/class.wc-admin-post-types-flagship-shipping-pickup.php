@@ -143,16 +143,16 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
     {
         $columns = array();
         $columns['cb'] = '<input type="checkbox"/>';
-        $columns['order_ids'] = __('Order IDs', 'flagship-shipping');
+        $columns['order_ids'] = __('Order IDs', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
 
-        $columns['confirmation'] = '<span class="status_head tips" data-tip="'.esc_attr__('Confirmation / ID', 'flagship-shipping').'">'.esc_attr__('Confirmation / ID', 'flagship-shipping').'</span>';
-        $columns['courier'] = __('Courier', 'flagship-shipping');
-        $columns['boxes'] = __('#. Boxes', 'flagship-shipping');
-        $columns['weight'] = __('Weight', 'flagship-shipping');
-        $columns['shipping_address'] = __('Address', 'flagship-shipping');
-        $columns['time_interval'] = __('Pick-up Time', 'flagship-shipping');
-        $columns['pickup_status'] = __('Status', 'flagship-shipping');
-        $columns['pickup_action'] = __('Actions', 'flagship-shipping');
+        $columns['confirmation'] = '<span class="status_head tips" data-tip="'.esc_attr__('Confirmation / ID', FLAGSHIP_SHIPPING_TEXT_DOMAIN).'">'.esc_attr__('Confirmation / ID', FLAGSHIP_SHIPPING_TEXT_DOMAIN).'</span>';
+        $columns['courier'] = __('Courier', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+        $columns['boxes'] = __('#. Boxes', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+        $columns['weight'] = __('Weight', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+        $columns['shipping_address'] = __('Address', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+        $columns['time_interval'] = __('Pick-up Time', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+        $columns['pickup_status'] = __('Status', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+        $columns['pickup_action'] = __('Actions', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
 
         return $columns;
     }
@@ -171,11 +171,11 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
             (function($){
                 $(function(){
                     $('<option>').prop('disabled', true).text('-----------').prependTo('select[name="action"]');
-                    $('<option>').val('flagship_shipping_pickup_void').text('<?php _e('Void pick-ups', 'flagship-shipping')?>').prependTo('select[name="action"]');
+                    $('<option>').val('flagship_shipping_pickup_void').text('<?php _e('Void pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN)?>').prependTo('select[name="action"]');
                     $('<option>').prop('disabled', true).text('-----------').prependTo('select[name="action2"]');
-                    $('<option>').val('flagship_shipping_pickup_void').text('<?php _e('Void pick-ups', 'flagship-shipping')?>').prependTo('select[name="action2"]');
-                    $('<option>').val('flagship_shipping_pickup_reschedule').text('<?php _e('Reschedule pick-ups', 'flagship-shipping')?>').prependTo('select[name="action"]');
-                    $('<option>').val('flagship_shipping_pickup_reschedule').text('<?php _e('Reschedule pick-ups', 'flagship-shipping')?>').prependTo('select[name="action2"]');
+                    $('<option>').val('flagship_shipping_pickup_void').text('<?php _e('Void pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN)?>').prependTo('select[name="action2"]');
+                    $('<option>').val('flagship_shipping_pickup_reschedule').text('<?php _e('Reschedule pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN)?>').prependTo('select[name="action"]');
+                    $('<option>').val('flagship_shipping_pickup_reschedule').text('<?php _e('Reschedule pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN)?>').prependTo('select[name="action2"]');
                     $('.pickup-void').click(function(e){
                         e.preventDefault();
                         $('#'+$(this).attr('data-checkbox-id')).prop('checked', true);

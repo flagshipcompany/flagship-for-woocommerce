@@ -3,7 +3,6 @@
 class Flagship_Application implements ArrayAccess
 {
     public static $_instance;
-    public $text_domain;
 
     protected $container;
 
@@ -21,8 +20,6 @@ class Flagship_Application implements ArrayAccess
             'Url',
             'Address',
         ));
-
-        $this->text_domain = 'flagship_shipping';
     }
 
     public function load($name, $force_load = false)

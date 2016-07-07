@@ -13,7 +13,7 @@
         <strong>Cost:</strong> $<?php echo $shipment['price']['total'];?>
         <hr/>
         <h4>Print labels:</h4>
-        <a class="button button-primary" href="<?php echo $shipment['labels']['regular']; ?>"><?php echo __('Regular label', 'flagship-shipping');?></a> <a class="button button-primary" href="<?php echo $shipment['labels']['thermal']; ?>">Thermal label</a>
+        <a class="button button-primary" href="<?php echo $shipment['labels']['regular']; ?>"><?php echo __('Regular label', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></a> <a class="button button-primary" href="<?php echo $shipment['labels']['thermal']; ?>">Thermal label</a>
         <hr/>
     </li>
     <li>
@@ -33,7 +33,7 @@
     </li>
     <li>
         <h5>Cancel Shipment (use with caution)</h5>
-        <button class="button flagship-shipping-action" data-shipment-action="shipment-void"><?php echo __('Void Shipment', 'flagship-shipping');?></button>
+        <button class="button flagship-shipping-action" data-shipment-action="shipment-void"><?php echo __('Void Shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></button>
     </li>
 </ul>
 <?php elseif ($type == 'create'): ?>
@@ -68,29 +68,29 @@
         'name' => 'flagship_shipping_date',
         'value' => date('Y-m-d'),
         'type' => 'date',
-        'label' => __('Shipping Date (Optional, default today):', 'flagship-shipping'),
+        'label' => __('Shipping Date (Optional, default today):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
     ));
 
     woocommerce_wp_checkbox(array(
         'id' => 'flagship_shipping_enable_insurance',
         'name' => 'flagship_shipping_enable_insurance',
         'wrapper_class' => 'show_if_simple show_if_variable',
-        'description' => __('Enable Insurance', 'flagship-shipping'),
+        'description' => __('Enable Insurance', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
     ));
 
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_insurance_value',
         'name' => 'flagship_shipping_insurance_value',
-        'label' => __('Insured items\' value (Required):', 'flagship-shipping'),
+        'label' => __('Insured items\' value (Required):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
         'wrapper_class' => 'show_if_simple show_if_variable hidden',
         'date_type' => 'price',
-        'description' => __('<br/>$ value of the items to insure. Note that exlusions apply, see <a href="https://www.flagshipcompany.com/terms-and-conditions" target="_blank">here</a> for details', 'flagship-shipping'),
+        'description' => __('<br/>$ value of the items to insure. Note that exlusions apply, see <a href="https://www.flagshipcompany.com/terms-and-conditions" target="_blank">here</a> for details', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
     ));
 
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_insurance_description',
         'name' => 'flagship_shipping_insurance_description',
-        'label' => __('Description (Required):', 'flagship-shipping'),
+        'label' => __('Description (Required):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
         'wrapper_class' => 'show_if_simple show_if_variable hidden',
     ));
 
@@ -98,7 +98,7 @@
         'id' => 'flagship_shipping_enable_cod',
         'name' => 'flagship_shipping_enable_insurance',
         'wrapper_class' => 'show_if_simple show_if_variable',
-        'description' => __('<abbr title="cash on delivery">Enable COD</abbr>', 'flagship-shipping'),
+        'description' => __('<abbr title="cash on delivery">Enable COD</abbr>', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
     ));
 
     woocommerce_wp_select(array(
@@ -116,21 +116,21 @@
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_cod_payable_to',
         'name' => 'flagship_shipping_cod_payable_to',
-        'label' => __('Payable to (Required):', 'flagship-shipping'),
+        'label' => __('Payable to (Required):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
         'wrapper_class' => 'show_if_simple show_if_variable hidden',
     ));
 
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_cod_receiver_phone',
         'name' => 'flagship_shipping_cod_receiver_phone',
-        'label' => __('Receiver Phone (Required):', 'flagship-shipping'),
+        'label' => __('Receiver Phone (Required):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
         'wrapper_class' => 'show_if_simple show_if_variable hidden',
     ));
 
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_cod_amount',
         'name' => 'flagship_shipping_cod_amount',
-        'label' => __('Amount (Required):', 'flagship-shipping'),
+        'label' => __('Amount (Required):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
         'wrapper_class' => 'show_if_simple show_if_variable hidden',
     ));
 
@@ -150,23 +150,23 @@
         'id' => 'flagship_shipping_signature_required',
         'name' => 'flagship_shipping_signature_required',
         'wrapper_class' => 'show_if_simple show_if_variable',
-        'description' => __('Signatured Required', 'flagship-shipping'),
+        'description' => __('Signatured Required', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
     ));
 
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_reference',
         'name' => 'flagship_shipping_reference',
-        'label' => __('Reference (Optional):', 'flagship-shipping'),
+        'label' => __('Reference (Optional):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
     ));
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_driver_instructions',
         'name' => 'flagship_shipping_driver_instructions',
-        'label' => __('Driver Instruction (Optional):', 'flagship-shipping'),
+        'label' => __('Driver Instruction (Optional):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
     ));
 
     ?>
 
-    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php echo __('Create shipment', 'flagship-shipping'); ?></button>
+    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php echo __('Create shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
     <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote">Requote</button>
 <script type="text/javascript">
 (function($){
@@ -198,7 +198,7 @@
 })(jQuery);
 </script>
 <?php else: ?>
-    <?php echo __('Shipment was not quoted with Flagship Shipping.', 'flagship-shipping'); ?>
+    <?php echo __('Shipment was not quoted with Flagship Shipping.', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
     <hr/>
     <?php if (isset($requote_rates)): ?>
     <p>Latest rates:</p>
@@ -209,7 +209,7 @@
     ));
     ?>
     <hr/>
-    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php echo __('Create shipment', 'flagship-shipping'); ?></button>
+    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php echo __('Create shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
     <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote">Requote</button>
     <?php else: ?>
     <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-requote">Get a quote!</button>

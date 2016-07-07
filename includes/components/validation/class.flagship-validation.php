@@ -40,7 +40,7 @@ class Flagship_Validation
         }
 
         if ($response->code == 403) {
-            $this->errors[] = __($response->content[0], 'flagship-shipping');
+            $this->errors[] = __($response->content[0], FLAGSHIP_SHIPPING_TEXT_DOMAIN);
 
             return $this->errors;
         }
@@ -57,7 +57,7 @@ class Flagship_Validation
         preg_match('/^\+?[1]?[-. ]?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/', $phone, $matches);
 
         if (!$matches) {
-            $this->errors[] = $phone.__(' is not a valid phone number.', 'flagship-shipping');
+            $this->errors[] = $phone.__(' is not a valid phone number.', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
         }
 
         return $this->errors;

@@ -10,7 +10,7 @@
  * Requires at least: 4.4
  * Tested up to: 4.5.x
  *
- * Text Domain: smartship.io
+ * Text Domain: flagship-for-woocommerce
  * Domain Path: /i18n/languages/
  *
  * Copyright: © 2016 Flagship Courier Solution.
@@ -27,6 +27,7 @@ define('FLAGSHIP_SHIPPING_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('FLAGSHIP_SHIPPING_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('FLAGSHIP_SHIPPING_PLUGIN_ID', 'flagship_shipping_method');
 define('FLAGSHIP_NAME_PREFIX', 'flagship_');
+define('FLAGSHIP_SHIPPING_TEXT_DOMAIN', 'flagship-for-woocommerce');
 
 define('FLAGSHIP_SHIPPING_API_ENTRY_POINT', 'https://api.smartship.io');
 define('FLAGSHIP_SHIPPING_API_TIMEOUT', 14);

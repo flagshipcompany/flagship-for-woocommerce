@@ -24,7 +24,7 @@ class Flagship_View extends Flagship_Component
 
         $ctx = $this->ctx;
 
-        load_plugin_textdomain('flagship-shipping');
+        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN);
 
         include FLAGSHIP_SHIPPING_PLUGIN_DIR.'templates/'.$template.'.php';
     }

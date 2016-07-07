@@ -6,7 +6,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
     {
         add_meta_box(
             'wc-flagship-shipping-box',
-            __('FlagShip', 'flagship-shipping'),
+            __('FlagShip', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             array(__CLASS__, 'output'),
             'shop_order',
             'side',
