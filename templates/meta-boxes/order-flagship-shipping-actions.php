@@ -3,41 +3,41 @@
 <input type="hidden" name="flagship_shipping_shipment_id" value="<?php echo $shipment['shipment_id']; ?>"/>
 <ul>
     <li>
-        <h4>Summary</h4>
-        <strong>Flagship ID:</strong> <?php echo $shipment['shipment_id']; ?>
+        <h4><?php _e('Summary', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></h4>
+        <strong>FlagShip ID:</strong> <?php echo $shipment['shipment_id']; ?>
         <br/>
-        <strong>Service:</strong> <?php echo $shipment['service']['courier_name'].' - '.$shipment['service']['courier_desc'];?>
+        <strong><?php _e('Service', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</strong> <?php echo $shipment['service']['courier_name'].' - '.$shipment['service']['courier_desc'];?>
         <br/>
-        <strong>Tracking Number:</strong> <?php echo $shipment['tracking_number'];?>
+        <strong><?php _e('Tracking Number', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</strong> <?php echo $shipment['tracking_number'];?>
         <br/>
-        <strong>Cost:</strong> $<?php echo $shipment['price']['total'];?>
+        <strong><?php _e('Cost', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</strong> $<?php echo $shipment['price']['total'];?>
         <hr/>
-        <h4>Print labels:</h4>
-        <a class="button button-primary" href="<?php echo $shipment['labels']['regular']; ?>"><?php echo __('Regular label', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></a> <a class="button button-primary" href="<?php echo $shipment['labels']['thermal']; ?>">Thermal label</a>
+        <h4><?php _e('Print labels', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</h4>
+        <a class="button button-primary" href="<?php echo $shipment['labels']['regular']; ?>"><?php echo __('Regular label', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></a> <a class="button button-primary" href="<?php echo $shipment['labels']['thermal']; ?>"><?php _e('Thermal label', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></a>
         <hr/>
     </li>
     <li>
         <?php if (isset($shipment['pickup'])): ?>
-        <h4>Pick-up:</h4>
-        <strong>Confirmation ID:</strong> <?php echo $shipment['pickup']['id']; ?>
+        <h4><?php _e('Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</h4>
+        <strong><?php _e('Confirmation ID', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</strong> <?php echo $shipment['pickup']['id']; ?>
         <br/>
-        <strong>Date:</strong> <?php echo $shipment['pickup']['date'].' '.$shipment['pickup']['from'].' - '.$shipment['pickup']['until']; ?>
+        <strong><?php _e('Date', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</strong> <?php echo $shipment['pickup']['date'].' '.$shipment['pickup']['from'].' - '.$shipment['pickup']['until']; ?>
         <br/>
         <button class="button flagship-shipping-action" data-shipment-action="pickup-void"><?php echo __('Void pick-up');?></button>
         <hr/>
         <?php else: ?>
-        <h4>Request for pick-up:</h4>
+        <h4><?php _e('Request for pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</h4>
         <input type="date" name="flagship_shipping_pickup_schedule_date" value="<?php echo date('Y-m-d');?>" min="<?php echo date('Y-m-d');?>" miax="<?php echo date('Y-m-d', strtotime('+3 days'));?>"/>
         <button id="flagship-shipping-pickup-schedule" class="button button-primary flagship-shipping-action" data-shipment-action="pickup-schedule"><?php echo __('Schedule'); ?></button>
         <?php endif; ?>
     </li>
     <li>
-        <h5>Cancel Shipment (use with caution)</h5>
+        <h5><?php _e('Cancel Shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?> (<?php _e('use with caution', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>)</h5>
         <button class="button flagship-shipping-action" data-shipment-action="shipment-void"><?php echo __('Void Shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></button>
     </li>
 </ul>
 <?php elseif ($type == 'create'): ?>
-    <p>Client Choosen Rate:</p>
+    <p><?php _e('Client Choosen Rate', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</p>
     <?php
     woocommerce_wp_radio(array(
         'id' => 'flagship-shipping-service',
@@ -50,7 +50,7 @@
     ?>
     <hr/>
     <?php if (isset($requote_rates)): ?>
-    <p>Requote Rates:</p>
+    <p><?php _e('Requote Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</p>
     <?php
     woocommerce_wp_radio(array(
         'id' => 'flagship-shipping-service',
@@ -61,7 +61,7 @@
     ?>
     <hr/>
     <?php endif; ?>
-    <p>Options:</p>
+    <p><?php _e('Options', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</p>
     <?php
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_date',
@@ -167,7 +167,7 @@
     ?>
 
     <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php echo __('Create shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
-    <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote">Requote</button>
+    <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote"><?php _e('Requote', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></button>
 <script type="text/javascript">
 (function($){
     $('#flagship_shipping_enable_insurance').click(function(){
@@ -198,10 +198,10 @@
 })(jQuery);
 </script>
 <?php else: ?>
-    <?php echo __('Shipment was not quoted with Flagship Shipping.', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
+    <?php echo __('Shipment was not quoted with FlagShip Shipping.', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
     <hr/>
     <?php if (isset($requote_rates)): ?>
-    <p>Latest rates:</p>
+    <p><?php _e('Latest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</p>
     <?php
     woocommerce_wp_radio(array(
         'name' => 'flagship_shipping_service',
@@ -210,9 +210,9 @@
     ?>
     <hr/>
     <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php echo __('Create shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
-    <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote">Requote</button>
+    <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote"><?php _e('Requote', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></button>
     <?php else: ?>
-    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-requote">Get a quote!</button>
+    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-requote"><?php _e('Get a quote', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>!</button>
     <?php endif; ?>
 <?php endif; ?>
 <script type="text/javascript">

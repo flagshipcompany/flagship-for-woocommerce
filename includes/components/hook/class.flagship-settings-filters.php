@@ -47,7 +47,7 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
     public function settings_sanitized_fields_enabled_filter($sanitized_fields)
     {
         if ($sanitized_fields['enabled'] != 'yes') {
-            $this->ctx['notification']->add('warning', __('Flagship Shipping is disabled.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $this->ctx['notification']->add('warning', __('FlagShip Shipping is disabled.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
         }
 
         return $sanitized_fields;
@@ -114,7 +114,7 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
         $errors = $this->ctx['validation']->settings($sanitized_fields);
 
         if ($errors) {
-            $this->ctx['notification']->add('warning', '<strong>Shipping Integrity Failure:</strong> <br/>'.$this->ctx['html']->ul($errors));
+            $this->ctx['notification']->add('warning', __('<strong>Shipping Integrity Failure:</strong> <br/>', FLAGSHIP_SHIPPING_TEXT_DOMAIN).$this->ctx['html']->ul($errors));
         }
 
         return $sanitized_fields;

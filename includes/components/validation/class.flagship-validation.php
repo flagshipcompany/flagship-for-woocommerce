@@ -40,7 +40,7 @@ class Flagship_Validation
         }
 
         if ($response->code == 403) {
-            $this->errors[] = __($response->content[0], FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+            $this->errors[] = $response->content[0];
 
             return $this->errors;
         }

@@ -9,6 +9,7 @@ class Flagship_Setup_Actions extends Flagship_Api_Hooks
     public function bootstrap()
     {
         $this->add('woocommerce_shipping_init');
+        $this->add('init');
     }
 
     /**
@@ -21,5 +22,13 @@ class Flagship_Setup_Actions extends Flagship_Api_Hooks
         if (!class_exists('Flagship_WC_Shipping_Method')) {
             include_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'includes/class.flagship-wc-shipping-method.php';
         }
+    }
+
+    /**
+     * Enable translation.
+     */
+    public function init_action()
+    {
+        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-for-woocommerce/languages/');
     }
 }

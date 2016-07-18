@@ -15,8 +15,8 @@
 - [ ] I have a wordpress website of mine.
 - [ ] I have **WooCommerce** Plugin installed, activated, and configured
 - [ ] I have FTP upload access to my wordpress website's file directories.
-- [ ] I have registered and activated a **Flagship Account** ([click here](https://smartship.flagshipcompany.com/company/register) to register for an account)
-- [ ] I have a **Flagship Shipping API** access token. ([click here](https://auth.smartship.io/tokens/) to request an access token!)
+- [ ] I have registered and activated a **FlagShip Account** ([click here](https://smartship.flagshipcompany.com/company/register) to register for an account)
+- [ ] I have a **FlagShip Shipping API** access token. ([click here](https://auth.smartship.io/tokens/) to request an access token!)
 - [ ] I am ready!
 
 ### Installation
@@ -29,12 +29,12 @@
 > ![image](https://cloud.githubusercontent.com/assets/5373898/13267492/8964cfc6-da4b-11e5-9104-6f2b668861fd.png)
 
 - Log in as admin on your wordpress website. Go to the dashboard. Then, go to plugins page (on left hand side navigation submenu).
-- Click activate link under the title Flagship WooComerce Shipping
-- Ignore any notifiaction or warning and click settings link under the title Flagship WooComerce Shipping
+- Click activate link under the title FlagShip WooComerce Shipping
+- Ignore any notifiaction or warning and click settings link under the title FlagShip WooComerce Shipping
 
 > ![image](https://cloud.githubusercontent.com/assets/5373898/13267802/243b6414-da4d-11e5-9fc6-ed6ae38f0e06.png)
 
-- Enable flagship shipping by checking the checbox `Enable this shipping method`
+- Enable flagShip shipping by checking the checbox `Enable this shipping method`
 - Take some time to fill all of the settings. (Access Token is absolutely required. Otherwise, You won't be able to get discounted rate nor being able to print the shipping labels.)
 - Don't forget to save the settings by clicking on `Save changes` button on the bottom of the page.
 

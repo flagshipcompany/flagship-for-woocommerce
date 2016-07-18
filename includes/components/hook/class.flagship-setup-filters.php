@@ -41,7 +41,7 @@ class Flagship_Setup_Filters extends Flagship_Api_Hooks
     public function plugin_page_setting_links_action($links, $file)
     {
         if ($file == FLAGSHIP_SHIPPING_PLUGIN_BASENAME) {
-            array_unshift($links, $this->ctx['html']->a('flagship_shipping_settings', 'Settings', array(
+            array_unshift($links, $this->ctx['html']->a('flagship_shipping_settings', __('Settings', FLAGSHIP_SHIPPING_TEXT_DOMAIN), array(
                 'escape' => true,
                 'target' => true,
             )));

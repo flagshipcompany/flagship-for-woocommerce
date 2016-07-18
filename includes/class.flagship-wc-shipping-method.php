@@ -1,6 +1,6 @@
 <?php
 
-class Flagship_WC_Shipping_Method extends WC_Shipping_Method
+class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
 {
     protected $app;
 
@@ -9,24 +9,23 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
      */
     public function __construct()
     {
-        $this->id = FLAGSHIP_SHIPPING_PLUGIN_ID; // Id for your shipping method. Should be uunique.
-        $this->method_title = __('Flagship Shipping');  // Title shown in admin
-        $this->method_description = __('Obtains real time shipping rates via Flagship Shipping API'); // Description shown in admin
+        // flagship app
+        $this->ctx = FlagShip_Application::get_instance();
 
-        $this->title = 'Flagship Shipping'; // This can be added as an setting but for this example its forced.
+        $this->id = FLAGSHIP_SHIPPING_PLUGIN_ID; // Id for your shipping method. Should be uunique.
+        $this->method_title = __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN);  // Title shown in admin
+        $this->method_description = __('Obtains real time shipping rates via FlagShip Shipping API', FLAGSHIP_SHIPPING_TEXT_DOMAIN); // Description shown in admin
+
+        $this->title = __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN); // This can be added as an setting but for this example its forced.
 
         // flagship options
         $this->enabled = $this->get_option('enabled');
         $this->token = $this->get_option('token');
         $this->required_address = $this->get_option('shipping_cost_requires_address', 'no');
-
-        // flagship app
-        $this->ctx = Flagship_Application::get_instance();
+        $this->init();
 
         // providers
         $this->ctx->load('Quoter');
-
-        $this->init();
     }
 
     /**
@@ -40,7 +39,8 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
 
         // Save settings in admin if you have any defined
         add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));
-        //
+
+        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-for-woocommerce/languages');
 
         // filters
         $this->ctx['hooks']->load('settings.filters', 'Settings_Filters');
@@ -113,7 +113,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
     {
         $this->form_fields = array(
             'enabled' => array(
-                'title' => __('Enable Flagship Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'title' => __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'checkbox',
                 'label' => __('Enable this shipping method', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'default' => 'no',
@@ -122,7 +122,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                 'title' => __('Method Title', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'text',
                 'description' => __('This controls the title which the user sees during checkout.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'default' => __('Flagship Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'default' => __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'desc_tip' => true,
             ),
             'token' => array(
@@ -159,7 +159,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                 'title' => __('Shipper City', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'text',
                 'default' => '',
-                'description' => 'Required',
+                'description' => __('Required', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
             'freight_shipper_state' => array(
                 'title' => __('Shipper Province', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -181,13 +181,13 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                     'SK' => __('Saskatchwen', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                     'YT' => __('Yukon', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 ),
-                'description' => 'Required',
+                'description' => __('Required', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
             'shipper_person_name' => array(
                 'title' => __('Shipper Person Name', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'text',
                 'default' => '',
-                'description' => 'Required, maximum 21 characters',
+                'description' => __('Required, maximum 21 characters', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'custom_attributes' => array(
                     'maxlength' => 21,
                 ),
@@ -196,7 +196,7 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                     'title' => __('Shipper Company Name', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                     'type' => 'text',
                     'default' => '',
-                    'description' => 'Required',
+                    'description' => __('Required', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                     'custom_attributes' => array(
                         'maxlength' => 30,
                     ),
@@ -205,19 +205,19 @@ class Flagship_WC_Shipping_Method extends WC_Shipping_Method
                     'title' => __('Shipper Phone Number', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                     'type' => 'text',
                     'default' => '',
-                    'description' => 'Required',
+                    'description' => __('Required', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
             'shipper_phone_ext' => array(
                     'title' => __('Shipper Phone Extension Number', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                     'type' => 'text',
                     'default' => '',
-                    'description' => 'Optional, if applicable',
+                    'description' => __('Optional, if applicable', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
             'freight_shipper_street' => array(
                 'title' => __('Shipper Street Address', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'text',
                 'default' => '',
-                'description' => 'Required',
+                'description' => __('Required', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
             'shipper_residential' => array(
                 'title' => __('Residential', FLAGSHIP_SHIPPING_TEXT_DOMAIN),

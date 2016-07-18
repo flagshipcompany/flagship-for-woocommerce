@@ -11,22 +11,22 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
             apply_filters('woocommerce_register_post_type_flagship_shipping_pickup',
                 array(
                     'labels' => array(
-                            'name' => __('Pick-ups', 'woocommerce'),
-                            'singular_name' => __('Pick-up', 'woocommerce'),
-                            'menu_name' => _x('Pick-ups', 'Admin menu name', 'woocommerce'),
-                            'add_new' => __('Add Pick-up', 'woocommerce'),
-                            'add_new_item' => __('Schedule New Pick-up', 'woocommerce'),
-                            'edit' => __('Edit', 'woocommerce'),
-                            'edit_item' => __('Edit Coupon', 'woocommerce'),
-                            'new_item' => __('New Coupon', 'woocommerce'),
-                            'view' => __('View Pick-ups', 'woocommerce'),
-                            'view_item' => __('View Pick-up', 'woocommerce'),
-                            'search_items' => __('Search Pick-ups', 'woocommerce'),
-                            'not_found' => __('No Pick-ups found', 'woocommerce'),
-                            'not_found_in_trash' => __('No Pick-ups found in trash', 'woocommerce'),
-                            'parent' => __('Parent pick-ups', 'woocommerce'),
+                            'name' => __('Pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'singular_name' => __('Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'menu_name' => _x('Pick-ups', 'Admin menu name', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'add_new' => __('Add Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'add_new_item' => __('Schedule New Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'edit' => __('Edit', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'edit_item' => __('Edit Coupon', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'new_item' => __('New Coupon', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'view' => __('View Pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'view_item' => __('View Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'search_items' => __('Search Pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'not_found' => __('No Pick-ups found', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'not_found_in_trash' => __('No Pick-ups found in trash', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                            'parent' => __('Parent pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                         ),
-                    'description' => __('This is where you can add new coupons that customers can use in your store.', 'woocommerce'),
+                    'description' => __('This is where you can add new coupons that customers can use in your store.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                     'public' => false,
                     'show_ui' => true,
                     'map_meta_cap' => true,
@@ -223,8 +223,8 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
             (function($){
                 $(function(){
                     $('<option>').prop('disabled', true).text('-----------').prependTo('select[name="action"]');
-                    $('<option>').val('flagship_shipping_pickup_schedule').text('<?php _e('Schedule pick-up', 'woocommerce')?>').prependTo('select[name="action"]');
-                    $('<option>').val('flagship_shipping_pickup_schedule').text('<?php _e('Schedule pick-up', 'woocommerce')?>').prependTo('select[name="action2"]');
+                    $('<option>').val('flagship_shipping_pickup_schedule').text('<?php _e('Schedule pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN)?>').prependTo('select[name="action"]');
+                    $('<option>').val('flagship_shipping_pickup_schedule').text('<?php _e('Schedule pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN)?>').prependTo('select[name="action2"]');
                 });
             })(jQuery);
             </script>
