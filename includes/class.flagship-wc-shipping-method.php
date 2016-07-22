@@ -63,9 +63,9 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
     /**
      * calculate_shipping function.
      *
-     * @param mixed $package
+     * @param array $package
      */
-    public function calculate_shipping($package)
+    public function calculate_shipping($package = array())
     {
         // we want to avoid redundant quote request
         // the tradeoff: rates rely on 1st time of quote. if certain courier is missing, we cannot

@@ -11,7 +11,7 @@
  * Tested up to: 4.5.x
  *
  * Text Domain: flagship-for-woocommerce
- * Domain Path: /i18n/languages/
+ * Domain Path: /languages/
  *
  * Copyright: © 2016 Flagship Courier Solution.
  * License: GNU General Public License v3.0
