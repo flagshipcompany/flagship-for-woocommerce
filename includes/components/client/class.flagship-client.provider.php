@@ -4,9 +4,12 @@ require_once __DIR__.'/class.flagship-client.php';
 
 class Flagship_Client_Provider
 {
-    public function provide(Flagship_Application $flagship)
+    public function provide(Flagship_Application $ctx)
     {
-        $flagship['client'] = new Flagship_Client();
-        $flagship['client']->set_token($flagship['options']->get('token'));
+        $ctx['client'] = new Flagship_Client($ctx);
+        $ctx['client']
+            ->set_token($ctx['options']->get('token'))
+            ->set_entry_point($ctx['configs']->get('FLAGSHIP_SHIPPING_API_ENTRY_POINT'))
+            ->set_timeout($ctx['configs']->get('FLAGSHIP_SHIPPING_API_TIMEOUT'));
     }
 }

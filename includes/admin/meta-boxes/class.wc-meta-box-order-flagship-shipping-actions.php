@@ -47,7 +47,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
 
         $order = wc_get_order($post_id);
 
-        $action = sanitize_text_field($ctx['request']->request->get('flagship_shipping_shipment_action'));
+        $action = $ctx['request']->request->get('flagship_shipping_shipment_action');
 
         switch ($action) {
             case 'shipment-create':

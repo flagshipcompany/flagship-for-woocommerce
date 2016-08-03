@@ -6,23 +6,6 @@ class Flagship_Application implements ArrayAccess
 
     protected $container;
 
-    public function __construct()
-    {
-        $this->dependency(array(
-            'Console',
-            'Request',
-            'Html',
-            'View',
-            'Options',
-            'Client',
-            'Notification',
-            'Validation',
-            'Hook',
-            'Url',
-            'Address',
-        ));
-    }
-
     public function load($name, $force_load = false)
     {
         if (isset($this[strtolower($name)]) && !$force_load) {
@@ -92,11 +75,33 @@ class Flagship_Application implements ArrayAccess
         return new $realClassName();
     }
 
-    public static function init()
+    public static function init($configs = array())
     {
-        $flagship = self::get_instance();
+        $ctx = self::get_instance();
 
-        return $flagship;
+        $ctx->load('Configs');
+        $ctx['configs']->add($configs);
+        if ($ctx['configs']->get('FLAGSHIP_SHIPPING_PLUGIN_DEBUG')) {
+            $ctx['configs']->add(array(
+                'FLAGSHIP_SHIPPING_API_ENTRY_POINT' => 'http://127.0.0.1:3002',
+            ));
+        }
+
+        $ctx->dependency(array(
+            // 'Console',
+            'Request',
+            'Html',
+            'View',
+            'Options',
+            'Client',
+            'Notification',
+            'Validation',
+            'Hook',
+            'Url',
+            'Address',
+        ));
+
+        return $ctx;
     }
 
     public static function get_instance()

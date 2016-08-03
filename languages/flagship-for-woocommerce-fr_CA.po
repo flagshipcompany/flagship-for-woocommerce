@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: FlagShip for WooCommerce 0.1.7\n"
 "Report-Msgid-Bugs-To: https://github.com/flagshipcompany/flagship-for-"
 "woocommerce/issues\n"
-"POT-Creation-Date: 2016-07-19 10:37-0400\n"
-"PO-Revision-Date: 2016-07-19 10:43-0400\n"
+"POT-Creation-Date: 2016-08-03 13:03-0400\n"
+"PO-Revision-Date: 2016-08-03 13:09-0400\n"
 "Last-Translator: (Ryan) Yi Cheng Shen <yi-cheng@flagshipcompany.com>\n"
 "Language-Team: (Ryan) Yi Cheng Shen <yi-cheng@flagshipcompany.com>\n"
 "Language: fr_CA\n"
@@ -129,8 +129,8 @@ msgstr "Nouveau ramassage"
 
 #: ../includes/class.flagship-wc-shipping-method.php:16
 #: ../includes/class.flagship-wc-shipping-method.php:19
-#: ../includes/class.flagship-wc-shipping-method.php:116
-#: ../includes/class.flagship-wc-shipping-method.php:125
+#: ../includes/class.flagship-wc-shipping-method.php:121
+#: ../includes/class.flagship-wc-shipping-method.php:130
 msgid "FlagShip Shipping"
 msgstr "FlagShip Expédition"
 
@@ -138,23 +138,27 @@ msgstr "FlagShip Expédition"
 msgid "Obtains real time shipping rates via FlagShip Shipping API"
 msgstr "Obtient des tarifs d’expédition en temps réel"
 
-#: ../includes/class.flagship-wc-shipping-method.php:118
+#: ../includes/class.flagship-wc-shipping-method.php:116
+msgid "Essentials"
+msgstr "Général"
+
+#: ../includes/class.flagship-wc-shipping-method.php:123
 msgid "Enable this shipping method"
 msgstr "Activer et utiliser"
 
-#: ../includes/class.flagship-wc-shipping-method.php:122
+#: ../includes/class.flagship-wc-shipping-method.php:127
 msgid "Method Title"
 msgstr "Titre"
 
-#: ../includes/class.flagship-wc-shipping-method.php:124
+#: ../includes/class.flagship-wc-shipping-method.php:129
 msgid "This controls the title which the user sees during checkout."
 msgstr "Ce-ci apparaît devant les clients en tant le titre d'expéditeur."
 
-#: ../includes/class.flagship-wc-shipping-method.php:129
+#: ../includes/class.flagship-wc-shipping-method.php:134
 msgid "Smartship Access Token"
 msgstr "Clé secrète d'accès"
 
-#: ../includes/class.flagship-wc-shipping-method.php:131
+#: ../includes/class.flagship-wc-shipping-method.php:136
 msgid ""
 "After <a href=\"https://smartship.flagshipcompany.com/company/register"
 "\">signup</a>, get a <a target=\"_blank\" href=\"https://auth.smartship.io/"
@@ -165,169 +169,197 @@ msgstr ""
 "\"_blank\" href=\"https://auth.smartship.io/tokens/\">clé secrète d'accès "
 "ici</a>."
 
-#: ../includes/class.flagship-wc-shipping-method.php:138
+#: ../includes/class.flagship-wc-shipping-method.php:143
+msgid "Shipper Criteria"
+msgstr "Info. expéditeur"
+
+#: ../includes/class.flagship-wc-shipping-method.php:146
+msgid ""
+"A few of shipper information which allows getting live rates, create "
+"shipment, schedule pick-up, etc."
+msgstr ""
+"Information par rapport avec estimation, création d’expédition, ramassage, "
+"etc."
+
+#: ../includes/class.flagship-wc-shipping-method.php:149
 msgid "Offer Rates"
 msgstr "Tarifs"
 
-#: ../includes/class.flagship-wc-shipping-method.php:144
+#: ../includes/class.flagship-wc-shipping-method.php:155
 msgid "Offer the customer all returned rates"
 msgstr "Montrer tous les tarifs"
 
-#: ../includes/class.flagship-wc-shipping-method.php:145
+#: ../includes/class.flagship-wc-shipping-method.php:156
 msgid "Offer the customer the cheapest rate only"
 msgstr "Montrer seulement le meilleur tarif"
 
-#: ../includes/class.flagship-wc-shipping-method.php:146
+#: ../includes/class.flagship-wc-shipping-method.php:157
 msgid "2 cheapest rates"
 msgstr "2 meilleurs tarifs"
 
-#: ../includes/class.flagship-wc-shipping-method.php:147
+#: ../includes/class.flagship-wc-shipping-method.php:158
 msgid "3 cheapest rates"
 msgstr "3 meilleurs tarifs"
 
-#: ../includes/class.flagship-wc-shipping-method.php:148
+#: ../includes/class.flagship-wc-shipping-method.php:159
 msgid "4 cheapest rates"
 msgstr "4 meilleurs tarifs"
 
-#: ../includes/class.flagship-wc-shipping-method.php:149
+#: ../includes/class.flagship-wc-shipping-method.php:160
 msgid "5 cheapest rates"
 msgstr "5 meilleurs tarifs"
 
-#: ../includes/class.flagship-wc-shipping-method.php:153
+#: ../includes/class.flagship-wc-shipping-method.php:164
 msgid "Shipper Postal Code"
 msgstr "Code postale d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:155
+#: ../includes/class.flagship-wc-shipping-method.php:166
 msgid ""
 "Enter valid <strong>Canadian</strong> postcode for the <strong>Shipper</"
 "strong>."
 msgstr "Entrez-vous une code postale valide Canadienne"
 
-#: ../includes/class.flagship-wc-shipping-method.php:159
+#: ../includes/class.flagship-wc-shipping-method.php:170
 msgid "Shipper City"
 msgstr "Ville d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:162
-#: ../includes/class.flagship-wc-shipping-method.php:184
-#: ../includes/class.flagship-wc-shipping-method.php:199
-#: ../includes/class.flagship-wc-shipping-method.php:208
-#: ../includes/class.flagship-wc-shipping-method.php:220
+#: ../includes/class.flagship-wc-shipping-method.php:173
+#: ../includes/class.flagship-wc-shipping-method.php:195
+#: ../includes/class.flagship-wc-shipping-method.php:210
+#: ../includes/class.flagship-wc-shipping-method.php:219
+#: ../includes/class.flagship-wc-shipping-method.php:231
 msgid "Required"
 msgstr "Requis"
 
-#: ../includes/class.flagship-wc-shipping-method.php:165
+#: ../includes/class.flagship-wc-shipping-method.php:176
 msgid "Shipper Province"
 msgstr "Province d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:170
+#: ../includes/class.flagship-wc-shipping-method.php:181
 msgid "Alberta"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:171
+#: ../includes/class.flagship-wc-shipping-method.php:182
 msgid "British Columbia"
 msgstr "Colombie Britannique"
 
-#: ../includes/class.flagship-wc-shipping-method.php:172
+#: ../includes/class.flagship-wc-shipping-method.php:183
 msgid "Manitoba"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:173
+#: ../includes/class.flagship-wc-shipping-method.php:184
 msgid "New Brunswick"
 msgstr "Nouveau Brunswick"
 
-#: ../includes/class.flagship-wc-shipping-method.php:174
+#: ../includes/class.flagship-wc-shipping-method.php:185
 msgid "NewFoundland & Labrador"
 msgstr "Terre Neuve & Labrador"
 
-#: ../includes/class.flagship-wc-shipping-method.php:175
+#: ../includes/class.flagship-wc-shipping-method.php:186
 msgid "Northwest Territories"
 msgstr "Territoires du Nord Ouest"
 
-#: ../includes/class.flagship-wc-shipping-method.php:176
+#: ../includes/class.flagship-wc-shipping-method.php:187
 msgid "Nova Scotia"
 msgstr "Nouvelle Écosse"
 
-#: ../includes/class.flagship-wc-shipping-method.php:177
+#: ../includes/class.flagship-wc-shipping-method.php:188
 msgid "Nunavut"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:178
+#: ../includes/class.flagship-wc-shipping-method.php:189
 msgid "Ontario"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:179
+#: ../includes/class.flagship-wc-shipping-method.php:190
 msgid "Prince Edward Island"
 msgstr "Île du Prince Edouard"
 
-#: ../includes/class.flagship-wc-shipping-method.php:180
+#: ../includes/class.flagship-wc-shipping-method.php:191
 msgid "Quebec"
 msgstr "Québec"
 
-#: ../includes/class.flagship-wc-shipping-method.php:181
+#: ../includes/class.flagship-wc-shipping-method.php:192
 msgid "Saskatchwen"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:182
+#: ../includes/class.flagship-wc-shipping-method.php:193
 msgid "Yukon"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:187
+#: ../includes/class.flagship-wc-shipping-method.php:198
 msgid "Shipper Person Name"
 msgstr "Nom d'expéditeur (Attention)"
 
-#: ../includes/class.flagship-wc-shipping-method.php:190
+#: ../includes/class.flagship-wc-shipping-method.php:201
 msgid "Required, maximum 21 characters"
 msgstr "Requis, maximum longueur 21 caractère;"
 
-#: ../includes/class.flagship-wc-shipping-method.php:196
+#: ../includes/class.flagship-wc-shipping-method.php:207
 msgid "Shipper Company Name"
 msgstr "Nom de compagnie d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:205
+#: ../includes/class.flagship-wc-shipping-method.php:216
 msgid "Shipper Phone Number"
 msgstr "Numéro de téléphone d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:211
+#: ../includes/class.flagship-wc-shipping-method.php:222
 msgid "Shipper Phone Extension Number"
 msgstr "Numéro d'extension d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:214
+#: ../includes/class.flagship-wc-shipping-method.php:225
 msgid "Optional, if applicable"
 msgstr "Optionnel"
 
-#: ../includes/class.flagship-wc-shipping-method.php:217
+#: ../includes/class.flagship-wc-shipping-method.php:228
 msgid "Shipper Street Address"
 msgstr "Adresse civile d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:223
+#: ../includes/class.flagship-wc-shipping-method.php:234
 msgid "Residential"
 msgstr "Résidentiel"
 
-#: ../includes/class.flagship-wc-shipping-method.php:224
+#: ../includes/class.flagship-wc-shipping-method.php:235
 msgid "Shipper Address is Residential?"
 msgstr "L'adresse d'expéditeur est-il résidentiel?"
 
-#: ../includes/class.flagship-wc-shipping-method.php:229
+#: ../includes/class.flagship-wc-shipping-method.php:240
+msgid "Parcel / Packaging"
+msgstr "Pièces"
+
+#: ../includes/class.flagship-wc-shipping-method.php:242
+msgid "Help to break down shipping products into parcel boxes."
+msgstr "Permettez-vous de rendre vos produits dans moindre boites possible"
+
+#: ../includes/class.flagship-wc-shipping-method.php:246
 msgid "Box Split"
 msgstr "Répartir vos envois dans les boîtes "
 
-#: ../includes/class.flagship-wc-shipping-method.php:230
+#: ../includes/class.flagship-wc-shipping-method.php:247
 msgid "Everything in one package box?"
 msgstr "Tous les envois dans la même boîte"
 
-#: ../includes/class.flagship-wc-shipping-method.php:235
+#: ../includes/class.flagship-wc-shipping-method.php:252
 msgid "Box Split Weight"
 msgstr "Poids par boîte"
 
-#: ../includes/class.flagship-wc-shipping-method.php:236
+#: ../includes/class.flagship-wc-shipping-method.php:253
 msgid "Maximun weight per each package box (lbs)"
 msgstr "Poids maximal par boîte (livre)"
 
-#: ../includes/class.flagship-wc-shipping-method.php:241
+#: ../includes/class.flagship-wc-shipping-method.php:264
+msgid "Markup"
+msgstr "Commission"
+
+#: ../includes/class.flagship-wc-shipping-method.php:266
+msgid "Store owner may apply additional fee for shipping."
+msgstr "Expéditeur peut choisir d’appliquer une commission pour l’expédition."
+
+#: ../includes/class.flagship-wc-shipping-method.php:270
 msgid "Shipping Cost Markup Type"
 msgstr "Type de commission pour expédition"
 
-#: ../includes/class.flagship-wc-shipping-method.php:242
+#: ../includes/class.flagship-wc-shipping-method.php:271
 msgid ""
 "Shipping Cost Markup Type can be either flat rate (i.e. dollar valued) or "
 "percentage rate (i.e. rate based on certain percentage)"
@@ -335,41 +367,72 @@ msgstr ""
 "Type de commission pour expédition peut être montant fixe (en $) ou taux sur "
 "pourcentage (en %)"
 
-#: ../includes/class.flagship-wc-shipping-method.php:246
+#: ../includes/class.flagship-wc-shipping-method.php:275
 msgid "Flat rate"
 msgstr "Montant fixe"
 
-#: ../includes/class.flagship-wc-shipping-method.php:247
+#: ../includes/class.flagship-wc-shipping-method.php:276
 msgid "Percentage"
 msgstr "Pourcentage"
 
-#: ../includes/class.flagship-wc-shipping-method.php:252
+#: ../includes/class.flagship-wc-shipping-method.php:281
 msgid "Shipping Cost Markup"
 msgstr "Commission d'expédition"
 
-#: ../includes/class.flagship-wc-shipping-method.php:257
+#: ../includes/class.flagship-wc-shipping-method.php:286
+msgid "Pickup"
+msgstr "Ramassage"
+
+#: ../includes/class.flagship-wc-shipping-method.php:288
+msgid "schedule pick-up for your shipment. Don't forget to attach labels!"
+msgstr "Planifier un ramassage. Préparer et attacher toutes les étiquettes."
+
+#: ../includes/class.flagship-wc-shipping-method.php:292
 msgid "Pick-up Start Time"
 msgstr "Ramassage à partir de"
 
-#: ../includes/class.flagship-wc-shipping-method.php:274
+#: ../includes/class.flagship-wc-shipping-method.php:309
 msgid "Pick-up End Time"
 msgstr "Ramassage jusqu'à"
 
-#: ../includes/class.flagship-wc-shipping-method.php:291
+#: ../includes/class.flagship-wc-shipping-method.php:326
 msgid "Contact Email"
 msgstr "Courriel electronique"
 
-#: ../includes/class.flagship-wc-shipping-method.php:296
+#: ../includes/class.flagship-wc-shipping-method.php:336
 msgid "Disable FedEx Rates"
 msgstr "Désactiver FedEx"
 
-#: ../includes/class.flagship-wc-shipping-method.php:301
+#: ../includes/class.flagship-wc-shipping-method.php:342
 msgid "Disable UPS Rates"
 msgstr "Désactiver UPS"
 
-#: ../includes/class.flagship-wc-shipping-method.php:306
+#: ../includes/class.flagship-wc-shipping-method.php:347
 msgid "Disable Purolator Rates"
 msgstr "Désactiver Purolator"
+
+#: ../includes/class.flagship-wc-shipping-method.php:353
+msgid "Disable Cart/Checkout API warning"
+msgstr "Cacher Message API"
+
+#: ../includes/class.flagship-wc-shipping-method.php:356
+msgid ""
+"Once disabled, FlagShip will store warnings under following option \"Cart/"
+"Checkout API warning logs\""
+msgstr ""
+"Cacher les message API. Vous pouvez les récupérer dans la section suivante."
+
+#: ../includes/class.flagship-wc-shipping-method.php:359
+msgid "Cart/Checkout API warning logs (10 latest)"
+msgstr "Message API (10 récents)"
+
+#: ../includes/class.flagship-wc-shipping-method.php:406
+msgid "Timestamp"
+msgstr "Temps"
+
+#: ../includes/class.flagship-wc-shipping-method.php:407
+msgid "Log"
+msgstr "Message"
 
 #: ../includes/components/hook/class.flagship-settings-filters.php:50
 msgid "FlagShip Shipping is disabled."

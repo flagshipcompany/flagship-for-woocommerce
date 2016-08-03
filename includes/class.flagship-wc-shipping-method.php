@@ -12,7 +12,7 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
         // flagship app
         $this->ctx = FlagShip_Application::get_instance();
 
-        $this->id = FLAGSHIP_SHIPPING_PLUGIN_ID; // Id for your shipping method. Should be uunique.
+        $this->id = $this->ctx['configs']->get('FLAGSHIP_SHIPPING_PLUGIN_ID'); // Id for your shipping method. Should be uunique.
         $this->method_title = __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN);  // Title shown in admin
         $this->method_description = __('Obtains real time shipping rates via FlagShip Shipping API', FLAGSHIP_SHIPPING_TEXT_DOMAIN); // Description shown in admin
 
@@ -112,6 +112,11 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
     public function init_form_fields()
     {
         $this->form_fields = array(
+            'basics' => array(
+                'title' => __('Essentials', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'id' => 'flagship_shipping_basics',
+            ),
             'enabled' => array(
                 'title' => __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'checkbox',
@@ -133,6 +138,12 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
                 'custom_attributes' => array(
                     'maxlength' => 255,
                 ),
+            ),
+            'shipper_criteria' => array(
+                'title' => __('Shipper Criteria', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'id' => 'flagship_shipping_criteria',
+                'description' => __('A few of shipper information which allows getting live rates, create shipment, schedule pick-up, etc.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
             'offer_rates' => array(
                 'title' => __('Offer Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -225,6 +236,12 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
                 'type' => 'checkbox',
                 'default' => 'no',
             ),
+            'shipping_packaging' => array(
+                'title' => __('Parcel / Packaging', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'description' => __('Help to break down shipping products into parcel boxes.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'id' => 'flagship_shipping_packaging',
+            ),
             'default_package_box_split' => array(
                 'title' => __('Box Split', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'label' => __('Everything in one package box?', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -234,8 +251,20 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
             'default_package_box_split_weight' => array(
                 'title' => __('Box Split Weight', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'description' => __('Maximun weight per each package box (lbs)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'text',
+                'css' => 'width:70px;',
+                'desc_tip' => true,
                 'default' => 20,
+                'type' => 'number',
+                'custom_attributes' => array(
+                    'min' => 0,
+                    'step' => 1,
+                ),
+            ),
+            'shipping_markup' => array(
+                'title' => __('Markup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'description' => __('Store owner may apply additional fee for shipping.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'id' => 'flagship_shipping_markup',
             ),
             'default_shipping_markup_type' => array(
                 'title' => __('Shipping Cost Markup Type', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -250,8 +279,14 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
             ),
             'default_shipping_markup' => array(
                 'title' => __('Shipping Cost Markup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'text',
+                'type' => 'decimal',
                 'default' => 0,
+            ),
+            'shipping_pickup' => array(
+                'title' => __('Pickup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'description' => __('schedule pick-up for your shipment. Don\'t forget to attach labels!', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'id' => 'flagship_shipping_pickup',
             ),
             'default_pickup_time_from' => array(
                 'title' => __('Pick-up Start Time', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -289,13 +324,19 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
             ),
             'default_shipping_email' => array(
                 'title' => __('Contact Email', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'text',
+                'type' => 'email',
                 'default' => get_option('admin_email'),
+            ),
+            'shipping_configs' => array(
+                'title' => 'Configuration',
+                'type' => 'title',
+                'id' => 'flagship_shipping_configs',
             ),
             'disable_courier_fedex' => array(
                 'title' => __('Disable FedEx Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'checkbox',
                 'default' => 'no',
+                'checkboxgroup' => 'start',
             ),
             'disable_courier_ups' => array(
                 'title' => __('Disable UPS Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -306,7 +347,88 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
                 'title' => __('Disable Purolator Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'checkbox',
                 'default' => 'no',
+                'checkboxgroup' => 'end',
+            ),
+            'disable_api_warning' => array(
+                'title' => __('Disable Cart/Checkout API warning', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
+                'description' => __('Once disabled, FlagShip will store warnings under following option "Cart/Checkout API warning logs"', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            ),
+            'api_warning_log' => array(
+                'title' => '',
+                'type' => 'log',
+                'description' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
         );
+    }
+
+    /**
+     * Output payment gateway settings.
+     */
+    public function generate_log_html($key, $data)
+    {
+        $field_key = $this->get_field_key($key);
+
+        $defaults = array(
+            'title' => '',
+            'disabled' => false,
+            'class' => '',
+            'css' => '',
+            'placeholder' => '',
+            'type' => 'log',
+            'desc_tip' => false,
+            'description' => '',
+            'default' => array(),
+            'custom_attributes' => array(),
+        );
+
+        $data = wp_parse_args($data, $defaults);
+        $logs = $this->get_option($key, array());
+
+        ob_start();
+        ?>
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <?php echo wp_kses_post($data['title']);
+        ?>
+            </th>
+            <td class="forminp">
+                <input type="hidden" 
+                    id="<?php echo esc_attr($field_key);
+        ?>"
+                    name="<?php echo esc_attr($field_key);
+        ?>"
+                    value=""
+                />
+        <?php if ($logs) : ?>
+                <table class="wc_gateways widefat" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th><?php _e('Timestamp', FLAGSHIP_SHIPPING_TEXT_DOMAIN) ?></th>
+                            <th><?php _e('Log', FLAGSHIP_SHIPPING_TEXT_DOMAIN) ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($logs as $log) :?>
+                        <tr>
+                            <td width="20%"><?php echo date('Y-m-d H:i:s', $log['timestamp']);
+        ?></td>
+                            <td><?php $this->ctx['html']->ul_e($log['log']);
+        ?></td>
+                        </tr>
+                        <?php endforeach;
+        ?>
+                    </tbody>
+                </table>
+                <?php echo $this->get_description_html($data);
+        ?>
+        <?php endif;
+        ?>
+            </td>
+        </tr>
+        <?php
+
+        return ob_get_clean();
     }
 }

@@ -13,7 +13,7 @@
         <strong><?php _e('Cost', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</strong> $<?php echo $shipment['price']['total'];?>
         <hr/>
         <h4><?php _e('Print labels', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</h4>
-        <a class="button button-primary" href="<?php echo $shipment['labels']['regular']; ?>"><?php echo __('Regular label', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></a> <a class="button button-primary" href="<?php echo $shipment['labels']['thermal']; ?>"><?php _e('Thermal label', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></a>
+        <a class="button button-primary" href="<?php echo $shipment['labels']['regular']; ?>"><?php _e('Regular label', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></a> <a class="button button-primary" href="<?php echo $shipment['labels']['thermal']; ?>"><?php _e('Thermal label', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></a>
         <hr/>
     </li>
     <li>
@@ -23,17 +23,17 @@
         <br/>
         <strong><?php _e('Date', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</strong> <?php echo $shipment['pickup']['date'].' '.$shipment['pickup']['from'].' - '.$shipment['pickup']['until']; ?>
         <br/>
-        <button class="button flagship-shipping-action" data-shipment-action="pickup-void"><?php echo __('Void pick-up');?></button>
+        <button class="button flagship-shipping-action" data-shipment-action="pickup-void"><?php _e('Void pick-up');?></button>
         <hr/>
         <?php else: ?>
         <h4><?php _e('Request for pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</h4>
         <input type="date" name="flagship_shipping_pickup_schedule_date" value="<?php echo date('Y-m-d');?>" min="<?php echo date('Y-m-d');?>" miax="<?php echo date('Y-m-d', strtotime('+3 days'));?>"/>
-        <button id="flagship-shipping-pickup-schedule" class="button button-primary flagship-shipping-action" data-shipment-action="pickup-schedule"><?php echo __('Schedule'); ?></button>
+        <button id="flagship-shipping-pickup-schedule" class="button button-primary flagship-shipping-action" data-shipment-action="pickup-schedule"><?php _e('Schedule'); ?></button>
         <?php endif; ?>
     </li>
     <li>
         <h5><?php _e('Cancel Shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?> (<?php _e('use with caution', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>)</h5>
-        <button class="button flagship-shipping-action" data-shipment-action="shipment-void"><?php echo __('Void Shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></button>
+        <button class="button flagship-shipping-action" data-shipment-action="shipment-void"><?php _e('Void Shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></button>
     </li>
 </ul>
 <?php elseif ($type == 'create'): ?>
@@ -166,7 +166,7 @@
 
     ?>
 
-    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php echo __('Create shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
+    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php _e('Create shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
     <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote"><?php _e('Requote', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></button>
 <script type="text/javascript">
 (function($){
@@ -198,7 +198,7 @@
 })(jQuery);
 </script>
 <?php else: ?>
-    <?php echo __('Shipment was not quoted with FlagShip Shipping.', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
+    <?php _e('Shipment was not quoted with FlagShip Shipping.', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
     <hr/>
     <?php if (isset($requote_rates)): ?>
     <p><?php _e('Latest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</p>
@@ -209,7 +209,7 @@
     ));
     ?>
     <hr/>
-    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php echo __('Create shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
+    <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php _e('Create shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
     <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote"><?php _e('Requote', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></button>
     <?php else: ?>
     <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-requote"><?php _e('Get a quote', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>!</button>

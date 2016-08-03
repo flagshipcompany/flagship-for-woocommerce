@@ -16,9 +16,7 @@ class Flagship_View extends Flagship_Component
 
     public function render($template, array $payloads = array())
     {
-        $values = apply_filters(FLAGSHIP_NAME_PREFIX.strtolower(__FUNCTION__).'_filter', $payloads, $template);
-
-        foreach ($values as $key => $val) {
+        foreach ($payloads as $key => $val) {
             $$key = $val;
         }
 

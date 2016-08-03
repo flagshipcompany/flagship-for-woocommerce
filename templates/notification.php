@@ -4,7 +4,7 @@
 	<p>
 		<?php if (is_array($message)): ?>
 			<?php foreach ($message as $m): ?>
-				<strong><?php echo __($m, FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>.</strong><br/>
+				<strong><?php _e($m, FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>.</strong><br/>
 			<?php endforeach; ?>
 		<?php else: ?>
 			<strong><?php echo $message; ?></strong>

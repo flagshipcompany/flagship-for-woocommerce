@@ -1,49 +1,31 @@
 <?php
 
-class Flagship_Api_Response
-{
-    public $content;
-    public $code;
+require_once __DIR__.'/../class.flagship-component.php';
+require_once __DIR__.'/class.flagship-api-response.php';
 
-    public function __construct($content, $code)
-    {
-        $this->content = $content;
-        $this->code = $code;
-    }
-
-    public function is_success()
-    {
-        $code_val = intval($this->code);
-
-        return $code_val >= 200 && $code_val < 300;
-    }
-
-    public function get_code()
-    {
-        return $this->code;
-    }
-
-    public function get_content()
-    {
-        return $this->content;
-    }
-}
-
-class Flagship_Client
+class Flagship_Client extends Flagship_Component
 {
     protected $token = null;
-    protected $api_entry_point = FLAGSHIP_SHIPPING_API_ENTRY_POINT;
-    protected $default_data_filter;
-
-    public function __construct($token = null)
-    {
-        $this->default_data_filter = FLAGSHIP_NAME_PREFIX.'api_request_filter';
-        $this->set_token($token);
-    }
+    protected $api_entry_point;
+    protected $timeout;
 
     public function set_token($token)
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function set_entry_point($entry_point)
+    {
+        $this->api_entry_point = $entry_point;
+
+        return $this;
+    }
+
+    public function set_timeout($timeout)
+    {
+        $this->timeout = $timeout;
 
         return $this;
     }
@@ -55,8 +37,6 @@ class Flagship_Client
 
     public function request($uri, $data = array(), $method = 'GET', array $headers = array())
     {
-        $data = apply_filters($this->default_data_filter, $data, $uri);
-
         $url = $this->api_entry_point.$uri;
 
         $args = array();
@@ -64,7 +44,7 @@ class Flagship_Client
         $args['body'] = $data;
 
         $args['headers'] = $this->make_headers($headers);
-        $args['timeout'] = FLAGSHIP_SHIPPING_API_TIMEOUT; // seconds
+        $args['timeout'] = $this->timeout; // seconds
 
         try {
             $response = wp_remote_request(esc_url_raw($url), $args);

@@ -3,14 +3,16 @@
 class Flagship_Parameter
 {
     protected $parameters;
+    protected $sanitize;
     /**
      * Constructor.
      *
      * @param array $parameters An array of parameters
      */
-    public function __construct(array $parameters = array())
+    public function __construct(array $parameters = array(), $sanitize = true)
     {
         $this->parameters = $parameters;
+        $this->sanitize = $sanitize;
     }
 
     public function all()
@@ -58,7 +60,7 @@ class Flagship_Parameter
      */
     public function get($key, $default = null)
     {
-        return array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
+        return array_key_exists($key, $this->parameters) ? ($this->sanitize ? sanitize_text_field($this->parameters[$key]) : $this->parameters[$key]) : $default;
     }
 
     /**

@@ -11,6 +11,10 @@ class Flagship_Quoter extends Flagship_Component
 
         $this->ctx['notification']->scope('cart');
 
+        if ($this->ctx['options']->get('disable_api_warning') == 'yes') {
+            $this->ctx['notification']->enableSilentLogging();
+        }
+
         if (!$has_receiver_address) {
             $this->ctx['notification']
                 ->notice('Add shipping address to get shipping rates! (click "Calculate Shipping")')

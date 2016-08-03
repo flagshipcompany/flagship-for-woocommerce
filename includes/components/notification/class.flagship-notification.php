@@ -5,9 +5,11 @@ require_once __DIR__.'/../class.flagship-component.php';
 class Flagship_Notification extends Flagship_Component
 {
     public $notifications = array();
+
     protected $notice_scope = 'native';
     protected $extras = array();
     protected $prev = array();
+    protected $silent = false;
 
     public function add($type = 'success', $message)
     {
@@ -78,6 +80,23 @@ class Flagship_Notification extends Flagship_Component
         $this->extras = $extras;
 
         return $this;
+    }
+
+    /**
+     * Silent Logging Mode enable affect customer side.
+     * by enable silent logging, customer no longer see the warning.
+     * The store owner has logging console to browse 10 latest error/warning messages.
+     */
+    public function enableSilentLogging()
+    {
+        $this->silent = true;
+
+        return $this;
+    }
+
+    public function isSilenced()
+    {
+        return $this->silent;
     }
 
     protected function restore()
@@ -153,13 +172,17 @@ class Flagship_Notification extends Flagship_Component
 
     public function cart_view()
     {
-        foreach ($this->notifications as $type => $notifications) {
-            if (!$notifications) {
-                continue;
-            }
+        if ($this->isSilenced()) {
+            $this->ctx['options']->log($this->notifications);
+        } else {
+            foreach ($this->notifications as $type => $notifications) {
+                if (!$notifications) {
+                    continue;
+                }
 
-            $html = implode('<br/>', $notifications);
-            wc_add_notice($html, $type);
+                $html = implode('<br/>', $notifications);
+                wc_add_notice($html, $type);
+            }
         }
 
         if ($this->prev) {

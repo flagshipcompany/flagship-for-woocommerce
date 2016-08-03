@@ -67,7 +67,7 @@ class Flagship_Html extends Flagship_Component
         return $output;
     }
 
-    public static function ul_e($arr)
+    public function ul_e($arr)
     {
         echo $this->ul($arr);
     }
