@@ -126,24 +126,24 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
             'title' => array(
                 'title' => __('Method Title', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'text',
-                'description' => __('This controls the title which the user sees during checkout.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'description' => __('This controls the name of the shipping service during checkout.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'default' => __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'desc_tip' => true,
             ),
             'token' => array(
                 'title' => __('Smartship Access Token', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'text',
-                'description' => __('After <a href="https://smartship.flagshipcompany.com/company/register">signup</a>, get a <a target="_blank" href="https://auth.smartship.io/tokens/">access token here</a>.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'description' => __('After <a href="https://www.flagshipcompany.com/sign-up/">signup</a>, get a <a target="_blank" href="https://auth.smartship.io/tokens/">access token here</a>.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'default' => '',
                 'custom_attributes' => array(
                     'maxlength' => 255,
                 ),
             ),
             'shipper_criteria' => array(
-                'title' => __('Shipper Criteria', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'title' => __('Shipper Information', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
                 'id' => 'flagship_shipping_criteria',
-                'description' => __('A few of shipper information which allows getting live rates, create shipment, schedule pick-up, etc.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'description' => __('Shipper information which allows getting live rates, create shipment, schedule pick-up, etc.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
             'offer_rates' => array(
                 'title' => __('Offer Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -163,7 +163,7 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
             'origin' => array(
                 'title' => __('Shipper Postal Code', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'text',
-                'description' => __('Enter valid <strong>Canadian</strong> postcode for the <strong>Shipper</strong>.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'description' => __('Enter a valid <strong>Canadian</strong> postal code for the <strong>Shipper</strong>.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'default' => '',
             ),
             'freight_shipper_city' => array(
@@ -239,7 +239,7 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
             'shipping_packaging' => array(
                 'title' => __('Parcel / Packaging', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
-                'description' => __('Help to break down shipping products into parcel boxes.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'description' => __('How to split your items into boxes', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'id' => 'flagship_shipping_packaging',
             ),
             'default_package_box_split' => array(
