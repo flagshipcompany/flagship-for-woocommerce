@@ -61,8 +61,8 @@ class Flagship_Client extends Flagship_Component
 
         $ar = new Flagship_Api_Response(json_decode(wp_remote_retrieve_body($response), true), wp_remote_retrieve_response_code($response));
 
-        if ($ar->get_code() == 403) {
-            $this->ctx['notification']->error('API Fatal Error: '.$this->ctx['html']->ul($ar->get_content()));
+        if (!$ar->is_success()) {
+            $this->ctx['notification']->error('FlagShip API Error: '.$this->ctx['html']->ul($ar->get_error()));
         }
 
         return $ar;

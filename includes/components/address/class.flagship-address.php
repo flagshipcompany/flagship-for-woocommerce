@@ -36,7 +36,7 @@ class Flagship_Address extends Flagship_Component
 
     public function has_receiver_address($package)
     {
-        return !empty($package['destination']['city']) && !empty($package['destination']['postcode']);
+        return !empty($package['destination']['postcode']);
     }
 
     public function get_order_to($order)

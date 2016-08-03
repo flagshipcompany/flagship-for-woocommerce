@@ -172,9 +172,11 @@ class Flagship_Notification extends Flagship_Component
 
     public function cart_view()
     {
-        if ($this->isSilenced()) {
+        if ($this->isSilenced() || !is_cart()) {
             $this->ctx['options']->log($this->notifications);
         } else {
+            wc_clear_notices();
+
             foreach ($this->notifications as $type => $notifications) {
                 if (!$notifications) {
                     continue;

@@ -27,4 +27,17 @@ class Flagship_Api_Response
     {
         return $this->content;
     }
+
+    public function get_error()
+    {
+        if ($this->code == 403) {
+            return $this->content;
+        }
+
+        if (isset($this->content['errors'])) {
+            return $this->content['errors'];
+        }
+
+        return array();
+    }
 }

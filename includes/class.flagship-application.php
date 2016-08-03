@@ -88,7 +88,7 @@ class Flagship_Application implements ArrayAccess
         }
 
         $ctx->dependency(array(
-            // 'Console',
+            'Console',
             'Request',
             'Html',
             'View',

@@ -67,21 +67,7 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
      */
     public function calculate_shipping($package = array())
     {
-        // we want to avoid redundant quote request
-        // the tradeoff: rates rely on 1st time of quote. if certain courier is missing, we cannot
-        // retrieve it again unless cart changed.
-        $cart = WC()->session->get('cart');
-        $serialized = serialize($cart);
-        $hash = md5($serialized);
-        $key = 'flagship_shipping_quote_rates_'.$hash;
-
-        $rates = WC()->session->get($key);
-
-        if (!$rates) {
-            $rates = $this->ctx['quoter']->quote($package);
-
-            WC()->session->set($key, $rates);
-        }
+        $rates = $this->ctx['quoter']->quote($package);
 
         $offer_rates = $this->get_option('offer_rates');
 
@@ -107,6 +93,8 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
 
             --$count;
         }
+
+        $this->ctx['notification']->view();
     }
 
     public function init_form_fields()
@@ -131,7 +119,7 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
                 'desc_tip' => true,
             ),
             'token' => array(
-                'title' => __('Smartship Access Token', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'title' => __('FlagShip Access Token', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'text',
                 'description' => __('After <a href="https://www.flagshipcompany.com/sign-up/">signup</a>, get a <a target="_blank" href="https://auth.smartship.io/tokens/">access token here</a>.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'default' => '',
@@ -364,7 +352,7 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
     }
 
     /**
-     * Output payment gateway settings.
+     * render log type.
      */
     public function generate_log_html($key, $data)
     {

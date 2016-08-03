@@ -14,4 +14,9 @@ class Flagship_Component
     public function bootstrap()
     {
     }
+
+    protected function console($value)
+    {
+        $this->ctx['console']->log($value);
+    }
 }

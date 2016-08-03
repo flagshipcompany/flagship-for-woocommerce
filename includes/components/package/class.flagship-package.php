@@ -90,6 +90,9 @@ class Flagship_Package extends Flagship_Component
         $notices = array();
 
         $this->ctx['notification']->scope('cart');
+        if ($this->ctx['options']->get('disable_api_warning') == 'yes') {
+            $this->ctx['notification']->enableSilentLogging();
+        }
 
         foreach ($package['contents'] as $id => $item) {
             if (!$item['data']->needs_shipping()) {
@@ -120,8 +123,6 @@ class Flagship_Package extends Flagship_Component
                 ++$count;
             } while ($count < $item['quantity']);
         }
-
-        $this->ctx['notification']->view();
 
         return $product_items;
     }

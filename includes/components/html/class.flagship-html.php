@@ -48,6 +48,10 @@ class Flagship_Html extends Flagship_Component
 
     public function ul($arr)
     {
+        if (!is_array($arr)) {
+            return $arr;
+        }
+
         $output = '<ul>';
 
         foreach ($arr as $k => $v) {
