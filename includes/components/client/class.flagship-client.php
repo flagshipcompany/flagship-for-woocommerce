@@ -59,7 +59,13 @@ class Flagship_Client extends Flagship_Component
             ), $e->getCode());
         }
 
-        return new Flagship_Api_Response(json_decode(wp_remote_retrieve_body($response), true), wp_remote_retrieve_response_code($response));
+        $ar = new Flagship_Api_Response(json_decode(wp_remote_retrieve_body($response), true), wp_remote_retrieve_response_code($response));
+
+        if ($ar->get_code() == 403) {
+            $this->ctx['notification']->error('API Fatal Error: '.$this->ctx['html']->ul($ar->get_content()));
+        }
+
+        return $ar;
     }
 
     public function get($uri, array $data = array())

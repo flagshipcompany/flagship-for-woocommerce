@@ -55,7 +55,7 @@ class Flagship_Quoter extends Flagship_Component
 
         if (!$response->is_success()) {
             $this->ctx['notification']
-                ->error('Unable to requote. Code '.$this->ctx['html']->ul($response->get_content()['errors']));
+                ->error('Unable to retrieve the latest quote.');
 
             return false;
         }

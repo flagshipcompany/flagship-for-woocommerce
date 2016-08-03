@@ -40,8 +40,6 @@ class Flagship_Validation
         }
 
         if ($response->code == 403) {
-            $this->errors[] = $response->content[0];
-
             return $this->errors;
         }
 
