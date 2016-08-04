@@ -38,7 +38,7 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
     public function settings_sanitized_fields_phone_filter($sanitized_fields)
     {
         if ($errors = $this->ctx['validation']->phone($sanitized_fields['shipper_phone_number'])) {
-            $this->ctx['notification']->add('warning', $errors);
+            $this->ctx['notification']->warning($errors);
         }
 
         return $sanitized_fields;
@@ -47,7 +47,7 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
     public function settings_sanitized_fields_enabled_filter($sanitized_fields)
     {
         if ($sanitized_fields['enabled'] != 'yes') {
-            $this->ctx['notification']->add('warning', __('FlagShip Shipping is disabled.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $this->ctx['notification']->warning(__('FlagShip Shipping is disabled.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
         }
 
         return $sanitized_fields;
@@ -72,13 +72,13 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
             $sanitized_fields['freight_shipper_state'] = $errors['content']['state'];
             $sanitized_fields['freight_shipper_city'] = $errors['content']['city'];
 
-            $this->ctx['notification']->add('warning', __('Address corrected to match with shipper\'s postal code.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $this->ctx['notification']->warning(__('Address corrected to match with shipper\'s postal code.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
 
             $errors = array();
         }
 
         if ($errors) {
-            $this->ctx['notification']->add('warning', $errors);
+            $this->ctx['notification']->warning($errors);
         }
 
         return $sanitized_fields;
@@ -87,19 +87,19 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
     public function settings_sanitized_fields_shipper_credentials_filter($sanitized_fields)
     {
         if (!$sanitized_fields['shipper_person_name']) {
-            $this->ctx['notification']->add('warning', __('Shipper person name is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $this->ctx['notification']->warning(__('Shipper person name is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
         }
 
         if (!$sanitized_fields['shipper_company_name']) {
-            $this->ctx['notification']->add('warning', __('Shipper company name is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $this->ctx['notification']->warning(__('Shipper company name is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
         }
 
         if (!$sanitized_fields['shipper_phone_number']) {
-            $this->ctx['notification']->add('warning', __('Shipper phone number is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $this->ctx['notification']->warning(__('Shipper phone number is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
         }
 
         if (!$sanitized_fields['freight_shipper_street']) {
-            $this->ctx['notification']->add('warning', __('Shipper address\'s streetline is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $this->ctx['notification']->warning(__('Shipper address\'s streetline is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
         }
 
         return $sanitized_fields;
@@ -114,7 +114,8 @@ class Flagship_Settings_Filters extends Flagship_Api_Hooks
         $errors = $this->ctx['validation']->settings($sanitized_fields);
 
         if ($errors) {
-            $this->ctx['notification']->add('warning', __('<strong>Shipping Integrity Failure:</strong> <br/>', FLAGSHIP_SHIPPING_TEXT_DOMAIN).$this->ctx['html']->ul($errors));
+            $this->ctx['notification']->error(__('<strong>Shipping Integrity Failure:</strong> <br/>', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $this->ctx['notification']->reverse_order('error');
         }
 
         return $sanitized_fields;

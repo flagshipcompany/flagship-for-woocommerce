@@ -40,4 +40,11 @@ class Flagship_Api_Response
 
         return array();
     }
+
+    public function get_body()
+    {
+        if (isset($this->content['content'])) {
+            return $this->content['content'];
+        }
+    }
 }

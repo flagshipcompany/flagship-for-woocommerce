@@ -30,20 +30,21 @@ class Flagship_Validation
 
         $response = $this->client->get('/addresses/integrity', $address);
 
-        if ($response->is_success() && $response->content['content']['is_valid']) {
+        $body = $response->get_body();
+        if ($response->is_success() && is_array($body) && $body['is_valid']) {
             return $this->errors;
         }
 
         // the address is not valid but the api provide a correction
         if ($response->is_success()) {
-            return $response->content;
+            return $response->get_body();
         }
 
         if ($response->code == 403) {
             return $this->errors;
         }
 
-        foreach ($response->content['errors'] as $error) {
+        foreach ($response->get_error() as $error) {
             $this->errors = array_merge($this->errors, $error);
         }
 
@@ -106,7 +107,7 @@ class Flagship_Validation
         $response = $this->client->post('/ship/rates', $request);
 
         if (!$response->is_success()) {
-            $this->errors = $response->get_content()['errors'];
+            $this->errors = $response->get_error();
         }
 
         return $this->errors;

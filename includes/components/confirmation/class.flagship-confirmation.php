@@ -18,8 +18,6 @@ class Flagship_Confirmation extends Flagship_Component
         $shipping = $response->get_content();
 
         if (!$response->is_success()) {
-            $this->ctx['notification']->add('error', $this->ctx['html']->ul($shipping['errors']));
-
             return false;
         }
 

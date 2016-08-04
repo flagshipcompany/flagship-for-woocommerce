@@ -82,6 +82,15 @@ class Flagship_Notification extends Flagship_Component
         return $this;
     }
 
+    public function reverse_order($type)
+    {
+        if (isset($this->notifications[$type])) {
+            $this->notifications[$type] = array_reverse($this->notifications[$type]);
+        }
+
+        return $this;
+    }
+
     /**
      * Silent Logging Mode enable affect customer side.
      * by enable silent logging, customer no longer see the warning.
@@ -172,7 +181,7 @@ class Flagship_Notification extends Flagship_Component
 
     public function cart_view()
     {
-        if ($this->isSilenced() || !is_cart()) {
+        if ($this->isSilenced()) {
             $this->ctx['options']->log($this->notifications);
         } else {
             wc_clear_notices();

@@ -100,7 +100,7 @@ class Flagship_Package extends Flagship_Component
             }
 
             if (!$item['data']->get_weight()) {
-                $this->ctx['notification']->add('notice', sprintf(__('Product %s is missing weight, weight default to 1 lbs.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), $item['data']->get_title()));
+                $this->ctx['notification']->notice(sprintf(__('Product %s is missing weight, weight default to 1 lbs.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), $item['data']->get_title()));
             }
 
             $count = 0;

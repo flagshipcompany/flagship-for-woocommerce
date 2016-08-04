@@ -271,7 +271,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
             );
 
             if ($response->is_success()) {
-                $pickup = $response->get_content()['content'];
+                $pickup = $response->get_body();
 
                 $pickup['order_ids'] = $order_ids;
                 $pickup['pickup_date'] = $pickup['date'];
@@ -329,7 +329,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
                     );
 
                     if ($response->is_success()) {
-                        $pickup = $response->get_content()['content'];
+                        $pickup = $response->get_body();
 
                         $pickup['order_ids'] = $order_ids;
                         $pickup['pickup_date'] = $pickup['date'];

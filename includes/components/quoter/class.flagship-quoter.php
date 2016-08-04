@@ -42,7 +42,7 @@ class Flagship_Quoter extends Flagship_Component
         }
 
         $rates = $this->get_processed_rates(
-            $response->get_content()['content']
+            $response->get_body()
         );
 
         // save to session
@@ -73,7 +73,7 @@ class Flagship_Quoter extends Flagship_Component
         $wc_shipping_rates = array();
 
         $rates = $this->get_processed_rates(
-            $response->get_content()['content']
+            $response->get_body()
         );
 
         foreach ($rates as $rate) {
