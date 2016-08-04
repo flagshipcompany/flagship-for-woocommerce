@@ -3,7 +3,7 @@
 - Tags: eshipping, courier, e-commerce, commerce, woothemes, wordpress ecommerce, affiliate, shipping, tax
 - Requires at least: 4.4
 - Tested up to: 4.4
-- Stable tag: 0.1.2
+- Stable tag: 0.1.7
 - License: GPLv3
 - License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -22,7 +22,7 @@
 ### Installation
 - Download flagship-for-woocommerce.zip zip archive, 
 
-> Download Latest Release [Here](https://github.com/flagshipcompany/flagship-for-woocommerce/releases/tag/0.1.6), or browse all [historical releases](https://github.com/flagshipcompany/flagship-for-woocommerce/releases).
+> Download Latest Release [Here](https://github.com/flagshipcompany/flagship-for-woocommerce/releases/latest), or browse all [historical releases](https://github.com/flagshipcompany/flagship-for-woocommerce/releases).
 
 - Unzip the downloaded zip archive and upload the folder `flagship-for-woocomerce` to `/wp-content/plugins/`
 
