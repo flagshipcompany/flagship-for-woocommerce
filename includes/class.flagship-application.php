@@ -85,10 +85,11 @@ class Flagship_Application implements ArrayAccess
             $ctx['configs']->add(array(
                 'FLAGSHIP_SHIPPING_API_ENTRY_POINT' => 'http://127.0.0.1:3002',
             ));
+
+            $ctx->load('Console');
         }
 
         $ctx->dependency(array(
-            'Console',
             'Request',
             'Html',
             'View',
