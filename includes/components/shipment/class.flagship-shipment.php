@@ -41,7 +41,7 @@ class Flagship_Shipment extends Flagship_Component
 
         if ($this->type == 'CREATED') {
             $this->ctx['notification']
-                ->warning('You have flagship shipment for this order. FlagShip ID ('.$this->shipment['shipment_id'].')');
+                ->warning(sprintf('You have flagship shipment for this order. FlagShip ID (%s)', $this->shipment['shipment_id']));
 
             return $this;
         }
@@ -83,7 +83,7 @@ class Flagship_Shipment extends Flagship_Component
         $response = $this->ctx['client']->delete('/ship/shipments/'.$shipment_id);
 
         if (!$response->is_success()) {
-            $this->ctx['notification']->warning(__('Unable to void shipment with FlagShip ID', FLAGSHIP_SHIPPING_TEXT_DOMAIN).' ('.$shipment_id.')');
+            $this->ctx['notification']->warning(sprintf('Unable to void shipment with FlagShip ID (%s)', $shipment_id));
 
             return $this;
         }
@@ -150,7 +150,7 @@ class Flagship_Shipment extends Flagship_Component
         $shipment_id = $this->ctx['request']->request->get('flagship_shipping_shipment_id');
 
         if (empty($shipment) || empty($shipment_id) || $shipment_id != $shipment['shipment_id']) {
-            $this->ctx['notification']->warning(__('Unable to access shipment with FlagShip ID').' ('.$shipment_id.')');
+            $this->ctx['notification']->warning(sprintf('Unable to access shipment with FlagShip ID (%s)', $shipment_id));
 
             return false;
         }

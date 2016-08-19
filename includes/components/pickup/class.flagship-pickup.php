@@ -35,7 +35,7 @@ class Flagship_Pickup extends Flagship_Component
         );
 
         if (!$response->is_success()) {
-            $this->ctx['notification']->warning(__('Unable to schedule pick-up with FlagShip ID').' ('.$shipping['shipment_id'].')');
+            $this->ctx['notification']->warning(sprintf('Unable to schedule pick-up with FlagShip ID (%s)', $shipping['shipment_id']));
 
             return $this;
         }
@@ -71,7 +71,7 @@ class Flagship_Pickup extends Flagship_Component
         $response = $this->ctx['client']->delete('/pickups/'.$shipping['shipment']['pickup']['id']);
 
         if ($response->get_code() != 204) {
-            $this->ctx['notification']->warning(__('Unable to void pick-up with FlagShip Pickup ID').' ('.$shipping['shipment']['pickup']['id'].')');
+            $this->ctx['notification']->warning(sprintf('Unable to void pick-up with FlagShip Pickup ID (%s)', $shipping['shipment']['pickup']['id']));
 
             return $this;
         }
