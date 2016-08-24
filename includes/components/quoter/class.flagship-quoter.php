@@ -6,12 +6,6 @@ class Flagship_Quoter extends Flagship_Component
 {
     public function quote($package)
     {
-        $existing = $this->get_existing_quote();
-
-        if ($existing['rates']) {
-            return $existing['rates'];
-        }
-
         $rates = array();
 
         $this->ctx['notification']->scope('cart');
@@ -44,11 +38,6 @@ class Flagship_Quoter extends Flagship_Component
         $rates = $this->get_processed_rates(
             $response->get_body()
         );
-
-        // save to session
-        if ($rates) {
-            WC()->session->set($existing['key'], $rates);
-        }
 
         $this->ctx['notification']->view();
 
@@ -136,24 +125,6 @@ class Flagship_Quoter extends Flagship_Component
         }
 
         return ($rate_1['cost'] < $rate_2['cost']) ? -1 : 1;
-    }
-
-    protected function get_existing_quote()
-    {
-        // we want to avoid redundant quote request
-        // the tradeoff: rates rely on 1st time of quote. if certain courier is missing, we cannot
-        // retrieve it again unless cart changed.
-        $cart = WC()->session->get('cart');
-        $serialized = serialize($cart);
-        $hash = md5($serialized);
-        $key = 'flagship_shipping_quote_rates_'.$hash;
-
-        $rates = WC()->session->get($key);
-
-        return array(
-            'key' => $key,
-            'rates' => $rates ? $rates : array(),
-        );
     }
 
     protected function get_quote_request($package)

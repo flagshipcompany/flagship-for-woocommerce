@@ -374,19 +374,15 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
         $data = wp_parse_args($data, $defaults);
         $logs = $this->get_option($key, array());
 
-        ob_start();
-        ?>
+        ob_start(); ?>
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <?php echo wp_kses_post($data['title']);
-        ?>
+                <?php echo wp_kses_post($data['title']); ?>
             </th>
             <td class="forminp">
                 <input type="hidden" 
-                    id="<?php echo esc_attr($field_key);
-        ?>"
-                    name="<?php echo esc_attr($field_key);
-        ?>"
+                    id="<?php echo esc_attr($field_key); ?>"
+                    name="<?php echo esc_attr($field_key); ?>"
                     value=""
                 />
         <?php if ($logs) : ?>
@@ -400,19 +396,14 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
                     <tbody>
                         <?php foreach ($logs as $log) :?>
                         <tr>
-                            <td width="20%"><?php echo date('Y-m-d H:i:s', $log['timestamp']);
-        ?></td>
-                            <td><?php $this->ctx['html']->ul_e($log['log']);
-        ?></td>
+                            <td width="20%"><?php echo date('Y-m-d H:i:s', $log['timestamp']); ?></td>
+                            <td><?php $this->ctx['html']->ul_e($log['log']); ?></td>
                         </tr>
-                        <?php endforeach;
-        ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
-                <?php echo $this->get_description_html($data);
-        ?>
-        <?php endif;
-        ?>
+                <?php echo $this->get_description_html($data); ?>
+        <?php endif; ?>
             </td>
         </tr>
         <?php
