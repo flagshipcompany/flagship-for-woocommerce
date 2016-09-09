@@ -4,7 +4,7 @@
 <ul>
     <li>
         <h4><?php _e('Summary', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></h4>
-        <strong>FlagShip ID:</strong> <?php echo $shipment['shipment_id']; ?>
+        <strong>FlagShip ID:</strong> <a href="https://smartship.flagshipcompany.com/shipments/<?php echo $shipment['shipment_id']; ?>/overview"><?php echo $shipment['shipment_id']; ?></a>
         <br/>
         <strong><?php _e('Service', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>:</strong> <?php echo $shipment['service']['courier_name'].' - '.$shipment['service']['courier_desc'];?>
         <br/>

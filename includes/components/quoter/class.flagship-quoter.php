@@ -105,12 +105,14 @@ class Flagship_Quoter extends Flagship_Component
                 continue;
             }
 
-            $wc_shipping_rates[] = array(
+            $shipping_rate = array(
                 'id' => FLAGSHIP_SHIPPING_PLUGIN_ID.'|'.$rate['service']['courier_name'].'|'.$rate['service']['courier_code'].'|'.$rate['service']['courier_desc'].'|'.strtotime($rate['service']['estimated_delivery_date']),
                 'label' => $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'],
-                'cost' => $rate['price']['subtotal'] + ('percentage' ? $rate['price']['subtotal'] * $markup['rate'] / 100 : $markup['rate']),
+                'cost' => $rate['price']['subtotal'] + ($markup['type'] == 'percentage' ? $rate['price']['subtotal'] * $markup['rate'] / 100 : $markup['rate']),
                 'calc_tax' => 'per_order', // we do not let WC compute tax
             );
+
+            $wc_shipping_rates[] = $shipping_rate;
         }
 
         uasort($wc_shipping_rates, array($this, 'rates_sort'));
