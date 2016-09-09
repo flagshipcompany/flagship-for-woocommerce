@@ -36,8 +36,8 @@ class Flagship_Validation
         }
 
         // the address is not valid but the api provide a correction
-        if ($response->is_success()) {
-            return $response->get_body();
+        if ($response->is_success() && !$body['is_valid']) {
+            return array('content' => $response->get_body());
         }
 
         if ($response->code == 403) {
