@@ -63,4 +63,9 @@ class Flagship_Options extends Flagship_Component
 
         return $this;
     }
+
+    public function all()
+    {
+        return $this->options;
+    }
 }
