@@ -25,7 +25,7 @@ class Flagship_Pickup extends Flagship_Component
             'order' => $order,
             'shipment' => $shipment,
             'shipment_id' => $shipment_id,
-            'date' => $date,
+            'date' => $this->ctx['request']->request->get('flagship_shipping_pickup_schedule_date', date('Y-m-d')),
         );
 
         $request = $this->get_single_pickup_schedule_request($shipping);
