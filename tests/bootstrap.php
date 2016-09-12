@@ -51,6 +51,7 @@ class Flagship_For_WooCommerce_Tests_Bootstrap
     public function dependency()
     {
         require_once $this->testsDir.'/helpers/FlagshipShippingUnitTestCase.php';
+        require_once $this->testsDir.'/helpers/FlagshipShippingWooCommerceFactory.php';
     }
 }
 
