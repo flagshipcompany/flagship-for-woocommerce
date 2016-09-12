@@ -19,7 +19,7 @@ return array(
     'default_shipping_markup_type' => 'percentage',
     'default_shipping_markup' => '10.00',
     'default_pickup_time_from' => '09:00',
-    'default_pickup_time_to' => '09:00',
+    'default_pickup_time_to' => '17:00',
     'default_shipping_email' => 'support@flagshipcompany.com',
     'disable_courier_fedex' => 'no',
     'disable_courier_ups' => 'no',

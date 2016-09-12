@@ -4,7 +4,7 @@
  *
  * @category Tests
  */
-class Flagship_UnitTestCase extends WP_UnitTestCase
+class FlagshipShippingUnitTestCase extends WP_UnitTestCase
 {
     protected $ctx = null;
 
@@ -15,12 +15,12 @@ class Flagship_UnitTestCase extends WP_UnitTestCase
     {
         parent::setUp();
 
-        $flagship_application_settings = include __DIR__.'/../data/flagship_application_settings.php';
+        $settings = include __DIR__.'/../fixtures/FlagshipApplicationSettings.php';
 
         $this->ctx = Flagship_Application::get_instance();
 
         $this->ctx->load('Configs');
-        $this->ctx['configs']->add($flagship_application_settings);
+        $this->ctx['configs']->add($settings);
 
         $this->ctx->dependency(array(
             'Request',
@@ -44,6 +44,16 @@ class Flagship_UnitTestCase extends WP_UnitTestCase
     public function tearDown()
     {
         parent::tearDown();
+    }
+
+    /**
+     * load plugin fixture data into DB.
+     */
+    public static function setUpBeforeClass()
+    {
+        $settings = include_once __DIR__.'/../fixtures/FlagshipShippingPluginSettings.php';
+
+        update_option('woocommerce_flagship_shipping_method_settings', $settings);
     }
 
     public function log($var)

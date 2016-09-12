@@ -11,7 +11,10 @@ branches:
 
 php:
   - 5.3
+  - 5.4
+  - 5.5
   - 5.6
+  - 7.0
 
 env:
   - WP_VERSION=latest WP_MULTISITE=0
@@ -32,3 +35,10 @@ before_script:
   - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
 
 script: phpunit
+
+notifications:
+  email:
+    recipients:
+      - developers@flagshipcompany.com
+    on_success: [change] # default: change
+    on_failure: [always] # default: always

@@ -34,9 +34,6 @@ class Flagship_For_WooCommerce_Tests_Bootstrap
         include_once $this->wpTestsDir.'/includes/bootstrap.php';
 
         $this->dependency();
-
-        $installer = new Flagship_Test_Installer();
-        $installer->install();
     }
 
     public function loadPlugin()
@@ -53,8 +50,7 @@ class Flagship_For_WooCommerce_Tests_Bootstrap
 
     public function dependency()
     {
-        require_once $this->testsDir.'/helpers/flagship.unit-test-case.php';
-        require_once $this->testsDir.'/helpers/flagship.test-installer.php';
+        require_once $this->testsDir.'/helpers/FlagshipShippingUnitTestCase.php';
     }
 }
 
