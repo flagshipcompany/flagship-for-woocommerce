@@ -39,6 +39,4 @@ script: phpunit
 notifications:
   email:
     recipients:
-      - developers@flagshipcompany.com
-    on_success: [change] # default: change
-    on_failure: [always] # default: always
+      - Developers@flagshipcompany.com

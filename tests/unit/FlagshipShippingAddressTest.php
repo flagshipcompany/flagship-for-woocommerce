@@ -48,8 +48,6 @@ class FlagshipShippingAddressTest extends FlagshipShippingUnitTestCase
     {
         $order = FlagshipShippingWooCommerceFactory::createSimpleOrder();
 
-        $this->log($order);
-
         $this->assertSame(array(
             'name' => 'WooCompany',
             'attn' => 'Jeroen Sormani',
