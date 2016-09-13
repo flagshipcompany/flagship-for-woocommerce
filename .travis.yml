@@ -8,6 +8,7 @@ notifications:
 branches:
   only:
     - master
+    - /^rfc.*$/
 
 php:
   - 5.3

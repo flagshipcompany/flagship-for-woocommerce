@@ -74,6 +74,8 @@ class Flagship_Quoter extends Flagship_Component
 
     public function get_processed_rates($rates)
     {
+        $rates = $this->filtered_rates($rates);
+
         $wc_shipping_rates = array();
 
         // prevent wrong arg being supplied
@@ -118,6 +120,46 @@ class Flagship_Quoter extends Flagship_Component
         uasort($wc_shipping_rates, array($this, 'rates_sort'));
 
         return $wc_shipping_rates;
+    }
+
+    protected function filtered_rates($rates)
+    {
+        $mapping = array(
+            //  => standard
+            'standard' => 'standard',
+            'intlStandard' => 'standard',
+            //  => 'express'
+            'express' => 'express',
+            'secondDay' => 'express',
+            'thirdDay' => 'express',
+            'intlExpress' => 'express',
+            //  => 'overnight'
+            'overnight' => 'overnight',
+            'expressAm' => 'overnight',
+            'expressEarlyAm' => 'overnight',
+            'intlExpressAm' => 'overnight',
+            'intlExpressEarlyAm' => 'overnight',
+        );
+
+        $enabled = array(
+            'standard' => ($this->ctx['options']->get('allow_standard_rates') == 'yes'),
+            'express' => ($this->ctx['options']->get('allow_express_rates') == 'yes'),
+            'overnight' => ($this->ctx['options']->get('allow_overnight_rates') == 'yes'),
+        );
+
+        if ($enabled['standard'] && $enabled['express'] && $enabled['overnight']) {
+            return $rates;
+        }
+
+        $filtered_rates = array();
+
+        foreach ($rates as $rate) {
+            if ($enabled[$mapping[$rate['service']['flagship_code']]]) {
+                $filtered_rates[] = $rate;
+            }
+        }
+
+        return $filtered_rates;
     }
 
     public function rates_sort($rate_1, $rate_2)

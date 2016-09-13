@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: FlagShip for WooCommerce 0.1.9\n"
 "Report-Msgid-Bugs-To: https://github.com/flagshipcompany/flagship-for-"
 "woocommerce/issues\n"
-"POT-Creation-Date: 2016-08-19 11:37-0400\n"
-"PO-Revision-Date: 2016-08-19 11:44-0400\n"
+"POT-Creation-Date: 2016-09-13 16:07-0400\n"
+"PO-Revision-Date: 2016-09-13 16:11-0400\n"
 "Last-Translator: (Ryan) Yi Cheng Shen <yi-cheng@flagshipcompany.com>\n"
 "Language-Team: (Ryan) Yi Cheng Shen <yi-cheng@flagshipcompany.com>\n"
 "Language: fr_FR\n"
@@ -12,153 +12,155 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: __;_e;esc_attr_e;error;notice;warning;sprintf\n"
-"X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.8.8\n"
-"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 1.8.9\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: node_modules\n"
 
-#: ../includes/admin/meta-boxes/class.wc-meta-box-order-flagship-shipping-actions.php:9
+#: includes/admin/meta-boxes/class.wc-meta-box-order-flagship-shipping-actions.php:9
 #, fuzzy
 msgid "FlagShip"
 msgstr "FlagShip"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:14
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:14
 msgid "Pick-ups"
 msgstr "Ramassages"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:15
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:21
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:15
+#: templates/meta-boxes/order-flagship-shipping-actions.php:21
 msgid "Pick-up"
 msgstr "Ramassage"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:17
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:17
 msgid "Add Pick-up"
 msgstr "+ Ramassage"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:18
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:18
 msgid "Schedule New Pick-up"
 msgstr "Nouveau ramassage"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:19
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:19
 msgid "Edit"
 msgstr ""
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:20
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:20
 msgid "Edit Coupon"
 msgstr ""
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:21
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:21
 msgid "New Coupon"
 msgstr "Nouveau Coupon"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:22
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:22
 msgid "View Pick-ups"
 msgstr "Voir ramassages"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:23
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:23
 msgid "View Pick-up"
 msgstr "Voir ramassage"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:24
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:24
 msgid "Search Pick-ups"
 msgstr "Rechercher ramassage"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:25
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:25
 msgid "No Pick-ups found"
 msgstr "Aucun ramassage"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:26
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:26
 msgid "No Pick-ups found in trash"
 msgstr "Aucun ramassage dans la corbeille"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:27
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:27
 msgid "Parent pick-ups"
 msgstr "Ramassages"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:29
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:29
 msgid ""
 "This is where you can add new coupons that customers can use in your store."
 msgstr ""
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:146
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:146
 msgid "Order IDs"
 msgstr "Commande IDs"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:149
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:149
 msgid "Courier"
 msgstr "Courrier"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:150
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:150
 msgid "#. Boxes"
 msgstr "# de paquet"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:151
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:151
 msgid "Weight"
 msgstr "Poids"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:152
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:152
 #, fuzzy
 msgid "Address"
 msgstr "Adresse"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:153
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:153
 msgid "Pick-up Time"
 msgstr "Heure de ramassage"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:154
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:154
 msgid "Status"
 msgstr "Status"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:155
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:155
 msgid "Actions"
 msgstr ""
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:174
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:176
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:174
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:176
 msgid "Void pick-ups"
 msgstr "Annuler le ramassage"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:177
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:178
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:177
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:178
 msgid "Reschedule pick-ups"
 msgstr "Renouveller le ramassage"
 
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:226
-#: ../includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:227
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:226
+#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:227
 msgid "Schedule pick-up"
 msgstr "Nouveau ramassage"
 
-#: ../includes/class.flagship-wc-shipping-method.php:16
-#: ../includes/class.flagship-wc-shipping-method.php:19
-#: ../includes/class.flagship-wc-shipping-method.php:109
-#: ../includes/class.flagship-wc-shipping-method.php:118
+#: includes/class.flagship-wc-shipping-method.php:16
+#: includes/class.flagship-wc-shipping-method.php:19
+#: includes/class.flagship-wc-shipping-method.php:109
+#: includes/class.flagship-wc-shipping-method.php:118
 msgid "FlagShip Shipping"
 msgstr "Expédition FlagShip"
 
-#: ../includes/class.flagship-wc-shipping-method.php:17
+#: includes/class.flagship-wc-shipping-method.php:17
 msgid "Obtains real time shipping rates via FlagShip Shipping API"
 msgstr "Obtient des tarifs d’expédition en temps réel"
 
-#: ../includes/class.flagship-wc-shipping-method.php:104
+#: includes/class.flagship-wc-shipping-method.php:104
 msgid "Essentials"
 msgstr "Général"
 
-#: ../includes/class.flagship-wc-shipping-method.php:111
+#: includes/class.flagship-wc-shipping-method.php:111
 msgid "Enable this shipping method"
 msgstr "Activer et utiliser"
 
-#: ../includes/class.flagship-wc-shipping-method.php:115
+#: includes/class.flagship-wc-shipping-method.php:115
 msgid "Method Title"
 msgstr "Titre"
 
-#: ../includes/class.flagship-wc-shipping-method.php:117
+#: includes/class.flagship-wc-shipping-method.php:117
 msgid "This controls the name of the shipping service during checkout."
 msgstr "Ceci contrôle le nom du service d’expédition au checkout"
 
-#: ../includes/class.flagship-wc-shipping-method.php:122
+#: includes/class.flagship-wc-shipping-method.php:122
 msgid "FlagShip Access Token"
 msgstr "Clé FlagShip"
 
-#: ../includes/class.flagship-wc-shipping-method.php:124
+#: includes/class.flagship-wc-shipping-method.php:124
 msgid ""
 "After <a href=\"https://www.flagshipcompany.com/sign-up/\">signup</a>, get a "
 "<a target=\"_blank\" href=\"https://auth.smartship.io/tokens/\">access token "
@@ -168,196 +170,208 @@ msgstr ""
 "vous/“> inscrit </a>, <a target=\"_blank\" href=\"https://auth.smartship.io/"
 "tokens/\">générez une clé FlagShip ici</a>"
 
-#: ../includes/class.flagship-wc-shipping-method.php:131
+#: includes/class.flagship-wc-shipping-method.php:136
+msgid "Offer Standard Rates"
+msgstr "Tarifs Standards"
+
+#: includes/class.flagship-wc-shipping-method.php:142
+msgid "Offer Express Rates"
+msgstr "Tarifs Express"
+
+#: includes/class.flagship-wc-shipping-method.php:147
+msgid "Offer Overnight Rates"
+msgstr "Tarifs Overnight"
+
+#: includes/class.flagship-wc-shipping-method.php:153
+msgid "Offer Rates"
+msgstr "Tarifs"
+
+#: includes/class.flagship-wc-shipping-method.php:159
+msgid "Offer the customer all returned rates"
+msgstr "Montrer tous les tarifs"
+
+#: includes/class.flagship-wc-shipping-method.php:160
+msgid "Offer the customer the cheapest rate only"
+msgstr "Montrer seulement le meilleur tarif"
+
+#: includes/class.flagship-wc-shipping-method.php:161
+msgid "2 cheapest rates"
+msgstr "2 meilleurs tarifs"
+
+#: includes/class.flagship-wc-shipping-method.php:162
+msgid "3 cheapest rates"
+msgstr "3 meilleurs tarifs"
+
+#: includes/class.flagship-wc-shipping-method.php:163
+msgid "4 cheapest rates"
+msgstr "4 meilleurs tarifs"
+
+#: includes/class.flagship-wc-shipping-method.php:164
+msgid "5 cheapest rates"
+msgstr "5 meilleurs tarifs"
+
+#: includes/class.flagship-wc-shipping-method.php:168
 msgid "Shipper Information"
 msgstr "Informations sur l’expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:134
+#: includes/class.flagship-wc-shipping-method.php:171
 msgid ""
 "Shipper information which allows getting live rates, create shipment, "
 "schedule pick-up, etc."
 msgstr ""
 "Information pour l’estimation, la création d’expédition, le ramassage, etc."
 
-#: ../includes/class.flagship-wc-shipping-method.php:137
-msgid "Offer Rates"
-msgstr "Tarifs"
-
-#: ../includes/class.flagship-wc-shipping-method.php:143
-msgid "Offer the customer all returned rates"
-msgstr "Montrer tous les tarifs"
-
-#: ../includes/class.flagship-wc-shipping-method.php:144
-msgid "Offer the customer the cheapest rate only"
-msgstr "Montrer seulement le meilleur tarif"
-
-#: ../includes/class.flagship-wc-shipping-method.php:145
-msgid "2 cheapest rates"
-msgstr "2 meilleurs tarifs"
-
-#: ../includes/class.flagship-wc-shipping-method.php:146
-msgid "3 cheapest rates"
-msgstr "3 meilleurs tarifs"
-
-#: ../includes/class.flagship-wc-shipping-method.php:147
-msgid "4 cheapest rates"
-msgstr "4 meilleurs tarifs"
-
-#: ../includes/class.flagship-wc-shipping-method.php:148
-msgid "5 cheapest rates"
-msgstr "5 meilleurs tarifs"
-
-#: ../includes/class.flagship-wc-shipping-method.php:152
+#: includes/class.flagship-wc-shipping-method.php:174
 msgid "Shipper Postal Code"
 msgstr "Code postal de l’expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:154
+#: includes/class.flagship-wc-shipping-method.php:176
 msgid ""
 "Enter a valid <strong>Canadian</strong> postal code for the <strong>Shipper</"
 "strong>."
 msgstr "Entrez un code postal valide pour l’expéditeur."
 
-#: ../includes/class.flagship-wc-shipping-method.php:158
+#: includes/class.flagship-wc-shipping-method.php:180
 msgid "Shipper City"
 msgstr "Ville de l’expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:161
-#: ../includes/class.flagship-wc-shipping-method.php:183
-#: ../includes/class.flagship-wc-shipping-method.php:198
-#: ../includes/class.flagship-wc-shipping-method.php:207
-#: ../includes/class.flagship-wc-shipping-method.php:219
+#: includes/class.flagship-wc-shipping-method.php:183
+#: includes/class.flagship-wc-shipping-method.php:205
+#: includes/class.flagship-wc-shipping-method.php:220
+#: includes/class.flagship-wc-shipping-method.php:229
+#: includes/class.flagship-wc-shipping-method.php:241
 msgid "Required"
 msgstr "Requis"
 
-#: ../includes/class.flagship-wc-shipping-method.php:164
+#: includes/class.flagship-wc-shipping-method.php:186
 msgid "Shipper Province"
 msgstr "Province de l’expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:169
+#: includes/class.flagship-wc-shipping-method.php:191
 msgid "Alberta"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:170
+#: includes/class.flagship-wc-shipping-method.php:192
 msgid "British Columbia"
 msgstr "Colombie Britannique"
 
-#: ../includes/class.flagship-wc-shipping-method.php:171
+#: includes/class.flagship-wc-shipping-method.php:193
 msgid "Manitoba"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:172
+#: includes/class.flagship-wc-shipping-method.php:194
 msgid "New Brunswick"
 msgstr "Nouveau Brunswick"
 
-#: ../includes/class.flagship-wc-shipping-method.php:173
+#: includes/class.flagship-wc-shipping-method.php:195
 msgid "NewFoundland & Labrador"
 msgstr "Terre Neuve & Labrador"
 
-#: ../includes/class.flagship-wc-shipping-method.php:174
+#: includes/class.flagship-wc-shipping-method.php:196
 msgid "Northwest Territories"
 msgstr "Territoires du Nord Ouest"
 
-#: ../includes/class.flagship-wc-shipping-method.php:175
+#: includes/class.flagship-wc-shipping-method.php:197
 msgid "Nova Scotia"
 msgstr "Nouvelle Écosse"
 
-#: ../includes/class.flagship-wc-shipping-method.php:176
+#: includes/class.flagship-wc-shipping-method.php:198
 msgid "Nunavut"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:177
+#: includes/class.flagship-wc-shipping-method.php:199
 msgid "Ontario"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:178
+#: includes/class.flagship-wc-shipping-method.php:200
 msgid "Prince Edward Island"
 msgstr "Île du Prince Edouard"
 
-#: ../includes/class.flagship-wc-shipping-method.php:179
+#: includes/class.flagship-wc-shipping-method.php:201
 msgid "Quebec"
 msgstr "Québec"
 
-#: ../includes/class.flagship-wc-shipping-method.php:180
+#: includes/class.flagship-wc-shipping-method.php:202
 msgid "Saskatchwen"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:181
+#: includes/class.flagship-wc-shipping-method.php:203
 msgid "Yukon"
 msgstr ""
 
-#: ../includes/class.flagship-wc-shipping-method.php:186
+#: includes/class.flagship-wc-shipping-method.php:208
 msgid "Shipper Person Name"
 msgstr "Nom d'expéditeur (Attention)"
 
-#: ../includes/class.flagship-wc-shipping-method.php:189
+#: includes/class.flagship-wc-shipping-method.php:211
 msgid "Required, maximum 21 characters"
 msgstr "Requis, maximum de 21 caractères;"
 
-#: ../includes/class.flagship-wc-shipping-method.php:195
+#: includes/class.flagship-wc-shipping-method.php:217
 msgid "Shipper Company Name"
 msgstr "Nom de compagnie d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:204
+#: includes/class.flagship-wc-shipping-method.php:226
 msgid "Shipper Phone Number"
 msgstr "Numéro de téléphone d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:210
+#: includes/class.flagship-wc-shipping-method.php:232
 msgid "Shipper Phone Extension Number"
 msgstr "Numéro d'extension d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:213
+#: includes/class.flagship-wc-shipping-method.php:235
 msgid "Optional, if applicable"
 msgstr "Optionnel"
 
-#: ../includes/class.flagship-wc-shipping-method.php:216
+#: includes/class.flagship-wc-shipping-method.php:238
 msgid "Shipper Street Address"
 msgstr "Adresse civile d'expéditeur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:222
+#: includes/class.flagship-wc-shipping-method.php:244
 msgid "Residential"
 msgstr "Résidentiel"
 
-#: ../includes/class.flagship-wc-shipping-method.php:223
+#: includes/class.flagship-wc-shipping-method.php:245
 msgid "Shipper Address is Residential?"
 msgstr "L'adresse de l’expéditeur est-il résidentiel?"
 
-#: ../includes/class.flagship-wc-shipping-method.php:228
+#: includes/class.flagship-wc-shipping-method.php:250
 msgid "Parcel / Packaging"
 msgstr "Pièces"
 
-#: ../includes/class.flagship-wc-shipping-method.php:230
+#: includes/class.flagship-wc-shipping-method.php:252
 msgid "How to split your items into boxes"
 msgstr "Comment répartir les produits dans les boites"
 
-#: ../includes/class.flagship-wc-shipping-method.php:234
+#: includes/class.flagship-wc-shipping-method.php:256
 msgid "Box Split"
 msgstr "Répartir vos envois dans les boîtes "
 
-#: ../includes/class.flagship-wc-shipping-method.php:235
+#: includes/class.flagship-wc-shipping-method.php:257
 msgid "Everything in one package box?"
 msgstr "Tous les envois dans la même boîte?"
 
-#: ../includes/class.flagship-wc-shipping-method.php:240
+#: includes/class.flagship-wc-shipping-method.php:262
 msgid "Box Split Weight"
 msgstr "Poids par boîte"
 
-#: ../includes/class.flagship-wc-shipping-method.php:241
+#: includes/class.flagship-wc-shipping-method.php:263
 msgid "Maximun weight per each package box (lbs)"
 msgstr "Poids maximal par boîte (livre)"
 
-#: ../includes/class.flagship-wc-shipping-method.php:252
+#: includes/class.flagship-wc-shipping-method.php:274
 msgid "Markup"
 msgstr "Marge Commerciale"
 
-#: ../includes/class.flagship-wc-shipping-method.php:254
+#: includes/class.flagship-wc-shipping-method.php:276
 msgid "Store owner may apply additional fee for shipping."
 msgstr "L’expéditeur peut choisir d’appliquer une marge sur l’expédition."
 
-#: ../includes/class.flagship-wc-shipping-method.php:258
+#: includes/class.flagship-wc-shipping-method.php:280
 msgid "Shipping Cost Markup Type"
 msgstr "Type de marge sur le cout"
 
-#: ../includes/class.flagship-wc-shipping-method.php:259
+#: includes/class.flagship-wc-shipping-method.php:281
 msgid ""
 "Shipping Cost Markup Type can be either flat rate (i.e. dollar valued) or "
 "percentage rate (i.e. rate based on certain percentage)"
@@ -365,55 +379,55 @@ msgstr ""
 "Le type de marge sur l’expédition peut être montant fixe (en $) ou un taux "
 "(en %)"
 
-#: ../includes/class.flagship-wc-shipping-method.php:263
+#: includes/class.flagship-wc-shipping-method.php:285
 msgid "Flat rate"
 msgstr "Montant fixe"
 
-#: ../includes/class.flagship-wc-shipping-method.php:264
+#: includes/class.flagship-wc-shipping-method.php:286
 msgid "Percentage"
 msgstr "Pourcentage"
 
-#: ../includes/class.flagship-wc-shipping-method.php:269
+#: includes/class.flagship-wc-shipping-method.php:291
 msgid "Shipping Cost Markup"
 msgstr "Marge commerciale d'expédition"
 
-#: ../includes/class.flagship-wc-shipping-method.php:274
+#: includes/class.flagship-wc-shipping-method.php:296
 msgid "Pickup"
 msgstr "Ramassage"
 
-#: ../includes/class.flagship-wc-shipping-method.php:276
+#: includes/class.flagship-wc-shipping-method.php:298
 msgid "schedule pick-up for your shipment. Don't forget to attach labels!"
 msgstr "Planifier un ramassage. Préparez et attachez toutes les étiquettes."
 
-#: ../includes/class.flagship-wc-shipping-method.php:280
+#: includes/class.flagship-wc-shipping-method.php:302
 msgid "Pick-up Start Time"
 msgstr "Ramassage à partir de"
 
-#: ../includes/class.flagship-wc-shipping-method.php:297
+#: includes/class.flagship-wc-shipping-method.php:319
 msgid "Pick-up End Time"
 msgstr "Ramassage jusqu'à"
 
-#: ../includes/class.flagship-wc-shipping-method.php:314
+#: includes/class.flagship-wc-shipping-method.php:336
 msgid "Contact Email"
 msgstr "Courriel"
 
-#: ../includes/class.flagship-wc-shipping-method.php:324
+#: includes/class.flagship-wc-shipping-method.php:346
 msgid "Disable FedEx Rates"
 msgstr "Désactiver FedEx"
 
-#: ../includes/class.flagship-wc-shipping-method.php:330
+#: includes/class.flagship-wc-shipping-method.php:352
 msgid "Disable UPS Rates"
 msgstr "Désactiver UPS"
 
-#: ../includes/class.flagship-wc-shipping-method.php:335
+#: includes/class.flagship-wc-shipping-method.php:357
 msgid "Disable Purolator Rates"
 msgstr "Désactiver Purolator"
 
-#: ../includes/class.flagship-wc-shipping-method.php:341
+#: includes/class.flagship-wc-shipping-method.php:363
 msgid "Disable Cart/Checkout API warning"
 msgstr "Cacher les messages d’erreur"
 
-#: ../includes/class.flagship-wc-shipping-method.php:344
+#: includes/class.flagship-wc-shipping-method.php:366
 msgid ""
 "Once disabled, FlagShip will store warnings under following option \"Cart/"
 "Checkout API warning logs\""
@@ -421,80 +435,80 @@ msgstr ""
 "Une fois cachés, les messages d’erreur seront affichés dans la section "
 "suivante"
 
-#: ../includes/class.flagship-wc-shipping-method.php:349
+#: includes/class.flagship-wc-shipping-method.php:371
 msgid "Cart/Checkout API warning logs (10 latest)"
 msgstr "Messages d’erreur (10 récents)"
 
-#: ../includes/class.flagship-wc-shipping-method.php:396
+#: includes/class.flagship-wc-shipping-method.php:418
 msgid "Timestamp"
 msgstr "Date"
 
-#: ../includes/class.flagship-wc-shipping-method.php:397
+#: includes/class.flagship-wc-shipping-method.php:419
 msgid "Log"
 msgstr "Message"
 
-#: ../includes/components/client/class.flagship-client.php:65
+#: includes/components/client/class.flagship-client.php:65
 msgid "FlagShip API Error: "
 msgstr ""
 
-#: ../includes/components/hook/class.flagship-settings-filters.php:50
+#: includes/components/hook/class.flagship-settings-filters.php:50
 msgid "FlagShip Shipping is disabled."
 msgstr "FlagShip n'est pas activé."
 
-#: ../includes/components/hook/class.flagship-settings-filters.php:75
+#: includes/components/hook/class.flagship-settings-filters.php:75
 msgid "Address corrected to match with shipper's postal code."
 msgstr "L'adresse a été changée pour correspondre au code postal."
 
-#: ../includes/components/hook/class.flagship-settings-filters.php:90
+#: includes/components/hook/class.flagship-settings-filters.php:90
 msgid "Shipper person name is missing."
 msgstr "Nom de l’expéditeur est manquant."
 
-#: ../includes/components/hook/class.flagship-settings-filters.php:94
+#: includes/components/hook/class.flagship-settings-filters.php:94
 msgid "Shipper company name is missing."
 msgstr "Nom de compagnie de l’expéditeur est manquant."
 
-#: ../includes/components/hook/class.flagship-settings-filters.php:98
+#: includes/components/hook/class.flagship-settings-filters.php:98
 msgid "Shipper phone number is missing."
 msgstr "Numéro de téléphone de l’expéditeur est manquant."
 
-#: ../includes/components/hook/class.flagship-settings-filters.php:102
+#: includes/components/hook/class.flagship-settings-filters.php:102
 msgid "Shipper address's streetline is missing."
 msgstr "Numéro d’adresse de l’expéditeur est manquant."
 
-#: ../includes/components/hook/class.flagship-settings-filters.php:117
+#: includes/components/hook/class.flagship-settings-filters.php:117
 msgid "<strong>Shipping Integrity Failure:</strong> <br/>"
 msgstr "<strong>Problème d'intégrité de la configuration:</strong> <br/>"
 
-#: ../includes/components/hook/class.flagship-setup-filters.php:44
+#: includes/components/hook/class.flagship-setup-filters.php:44
 msgid "Settings"
 msgstr "Paramètres"
 
-#: ../includes/components/package/class.flagship-package.php:103
+#: includes/components/package/class.flagship-package.php:103
 #, php-format
 msgid "Product %s is missing weight, weight default to 1 lbs."
 msgstr ""
 "Le poids est manquant pour le produit %s, poids utilisé par défaut est de 1 "
 "livre."
 
-#: ../includes/components/pickup/class.flagship-pickup.php:38
+#: includes/components/pickup/class.flagship-pickup.php:38
 #, php-format
 msgid "Unable to schedule pick-up with FlagShip ID (%s)"
 msgstr ""
 "Incapable d’annuler la demande de ramassage avec FlagShip Ramassage ID (%s)"
 
-#: ../includes/components/pickup/class.flagship-pickup.php:74
+#: includes/components/pickup/class.flagship-pickup.php:74
 #, php-format
 msgid "Unable to void pick-up with FlagShip Pickup ID (%s)"
 msgstr "Incapable d'annuler l'expédition avec FlagShip ID (%s)"
 
-#: ../includes/components/quoter/class.flagship-quoter.php:26
+#: includes/components/quoter/class.flagship-quoter.php:20
 msgid ""
 "Add shipping address to get shipping rates! (click \"Calculate Shipping\")"
 msgstr ""
 "Ajoutez une adresses d'expédition pour voir les taux! ( cliquez \"Calculer "
 "les frais d'expédition\")"
 
-#: ../includes/components/quoter/class.flagship-quoter.php:41
+#: includes/components/quoter/class.flagship-quoter.php:35
 msgid ""
 "Flagship Shipping has some difficulty in retrieving the rates. Please "
 "contact site administrator for assistance.<br/>"
@@ -502,115 +516,115 @@ msgstr ""
 "FlagShip n'est pas capable de récupérer les couts d'envoi. SVP contactez "
 "l'administrateur du site. <br />"
 
-#: ../includes/components/quoter/class.flagship-quoter.php:68
+#: includes/components/quoter/class.flagship-quoter.php:57
 msgid "Unable to retrieve the latest quote."
 msgstr "FlagShip n'est pas capable de récupérer les couts d'envoi."
 
-#: ../includes/components/shipment/class.flagship-shipment.php:44
+#: includes/components/shipment/class.flagship-shipment.php:44
 #, php-format
 msgid "You have flagship shipment for this order. FlagShip ID (%s)"
 msgstr ""
 "Vous avez une expédition FlagShip pour cette commande. FlagShip ID (%s)"
 
-#: ../includes/components/shipment/class.flagship-shipment.php:86
+#: includes/components/shipment/class.flagship-shipment.php:86
 #, php-format
 msgid "Unable to void shipment with FlagShip ID (%s)"
 msgstr "Incapable d'annuler l'expédition FlagShip avec FlagShip ID (%s)"
 
-#: ../includes/components/shipment/class.flagship-shipment.php:153
+#: includes/components/shipment/class.flagship-shipment.php:153
 #, php-format
 msgid "Unable to access shipment with FlagShip ID (%s)"
 msgstr "Incapable d'accéder aux données d'expédition avec FlagShip ID (%s)"
 
-#: ../includes/components/validation/class.flagship-validation.php:59
+#: includes/components/validation/class.flagship-validation.php:59
 msgid " is not a valid phone number."
 msgstr "n'est pas un numéro de téléphone valide."
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:6
+#: templates/meta-boxes/order-flagship-shipping-actions.php:6
 msgid "Summary"
 msgstr "Sommaire"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:9
+#: templates/meta-boxes/order-flagship-shipping-actions.php:9
 msgid "Service"
 msgstr ""
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:11
+#: templates/meta-boxes/order-flagship-shipping-actions.php:11
 msgid "Tracking Number"
 msgstr "Numéro de suivi"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:13
+#: templates/meta-boxes/order-flagship-shipping-actions.php:13
 msgid "Cost"
 msgstr "Côut"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:15
+#: templates/meta-boxes/order-flagship-shipping-actions.php:15
 msgid "Print labels"
 msgstr "Imprimer les étiquettes"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:16
+#: templates/meta-boxes/order-flagship-shipping-actions.php:16
 msgid "Regular label"
 msgstr "Étiquette standard"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:16
+#: templates/meta-boxes/order-flagship-shipping-actions.php:16
 msgid "Thermal label"
 msgstr "Étiquette thermale"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:22
+#: templates/meta-boxes/order-flagship-shipping-actions.php:22
 msgid "Confirmation ID"
 msgstr "Numéro de confirmation"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:24
+#: templates/meta-boxes/order-flagship-shipping-actions.php:24
 msgid "Date"
 msgstr ""
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:26
+#: templates/meta-boxes/order-flagship-shipping-actions.php:26
 msgid "Void pick-up"
 msgstr "Annuler le ramassage"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:29
+#: templates/meta-boxes/order-flagship-shipping-actions.php:29
 msgid "Request for pick-up"
 msgstr "Demande de ramassage"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:31
+#: templates/meta-boxes/order-flagship-shipping-actions.php:31
 msgid "Schedule"
 msgstr "Demander"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:35
+#: templates/meta-boxes/order-flagship-shipping-actions.php:35
 msgid "Cancel Shipment"
 msgstr "Annuler cette expédition"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:35
+#: templates/meta-boxes/order-flagship-shipping-actions.php:35
 msgid "use with caution"
 msgstr "attention"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:36
+#: templates/meta-boxes/order-flagship-shipping-actions.php:36
 msgid "Void Shipment"
 msgstr "Annuler cette expédition"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:40
+#: templates/meta-boxes/order-flagship-shipping-actions.php:40
 msgid "Client Choosen Rate"
 msgstr "Service choisi par le client"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:53
+#: templates/meta-boxes/order-flagship-shipping-actions.php:53
 msgid "Requote Rates"
 msgstr "Estimation récente"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:64
+#: templates/meta-boxes/order-flagship-shipping-actions.php:64
 msgid "Options"
 msgstr ""
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:71
+#: templates/meta-boxes/order-flagship-shipping-actions.php:71
 msgid "Shipping Date (Optional, default today):"
 msgstr "Date d'expédition (optionnel, aujourd'hui par défaut)"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:78
+#: templates/meta-boxes/order-flagship-shipping-actions.php:78
 msgid "Enable Insurance"
 msgstr "Assurer mon expédition"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:84
+#: templates/meta-boxes/order-flagship-shipping-actions.php:84
 msgid "Insured items' value (Required):"
 msgstr "Valeur totale des produits (Requis):"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:87
+#: templates/meta-boxes/order-flagship-shipping-actions.php:87
 msgid ""
 "<br/>$ value of the items to insure. Note that exlusions apply, see <a href="
 "\"https://www.flagshipcompany.com/terms-and-conditions\" target=\"_blank"
@@ -620,61 +634,61 @@ msgstr ""
 "href=\"https://www.flagshipcompany.com/fr/modalites-et-conditions/\" target="
 "\"_blank\">ici</a> pour savoir plus"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:93
+#: templates/meta-boxes/order-flagship-shipping-actions.php:93
 msgid "Description (Required):"
 msgstr "Description (Requis):"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:101
+#: templates/meta-boxes/order-flagship-shipping-actions.php:101
 msgid "<abbr title=\"cash on delivery\">Enable COD</abbr>"
 msgstr "<abbr title=\"cash on delivery\">PSL(COD)</abbr>"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:119
+#: templates/meta-boxes/order-flagship-shipping-actions.php:119
 msgid "Payable to (Required):"
 msgstr "payé à (Requis):"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:126
+#: templates/meta-boxes/order-flagship-shipping-actions.php:126
 msgid "Receiver Phone (Required):"
 msgstr "Téléphone (Requis):"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:133
+#: templates/meta-boxes/order-flagship-shipping-actions.php:133
 msgid "Amount (Required):"
 msgstr "Montant (Requis):"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:153
+#: templates/meta-boxes/order-flagship-shipping-actions.php:153
 msgid "Signatured Required"
 msgstr "Signature requise"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:159
+#: templates/meta-boxes/order-flagship-shipping-actions.php:159
 msgid "Reference (Optional):"
 msgstr "Référence (Optionnel):"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:164
+#: templates/meta-boxes/order-flagship-shipping-actions.php:164
 msgid "Driver Instruction (Optional):"
 msgstr "Instructions pour le livreur (Optionnel):"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:169
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:212
+#: templates/meta-boxes/order-flagship-shipping-actions.php:169
+#: templates/meta-boxes/order-flagship-shipping-actions.php:212
 msgid "Create shipment"
 msgstr "Créer l'expédition"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:170
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:213
+#: templates/meta-boxes/order-flagship-shipping-actions.php:170
+#: templates/meta-boxes/order-flagship-shipping-actions.php:213
 msgid "Requote"
 msgstr "Reéstimer"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:201
+#: templates/meta-boxes/order-flagship-shipping-actions.php:201
 msgid "Shipment was not quoted with FlagShip Shipping."
 msgstr "Le commande n'a pas encore eu l'estimation."
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:204
+#: templates/meta-boxes/order-flagship-shipping-actions.php:204
 msgid "Latest rates"
 msgstr "Estimation récente"
 
-#: ../templates/meta-boxes/order-flagship-shipping-actions.php:215
+#: templates/meta-boxes/order-flagship-shipping-actions.php:215
 msgid "Get a quote"
 msgstr "Avoir une estimation"
 
-#: ../templates/notice.php:4
+#: templates/notice.php:4
 msgid "Set your FlagShip Shipping token."
 msgstr "Configurer votre clé (token) FlagShip."
 

@@ -127,11 +127,27 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
                     'maxlength' => 255,
                 ),
             ),
-            'shipper_criteria' => array(
-                'title' => __('Shipper Information', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            'shipping_rates_configs' => array(
+                'title' => 'Options',
                 'type' => 'title',
-                'id' => 'flagship_shipping_criteria',
-                'description' => __('Shipper information which allows getting live rates, create shipment, schedule pick-up, etc.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'id' => 'flagship_shipping_configs',
+            ),
+            'allow_standard_rates' => array(
+                'title' => __('Offer Standard Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'yes',
+                'checkboxgroup' => 'start',
+            ),
+            'allow_express_rates' => array(
+                'title' => __('Offer Express Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'yes',
+            ),
+            'allow_overnight_rates' => array(
+                'title' => __('Offer Overnight Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'yes',
+                'checkboxgroup' => 'end',
             ),
             'offer_rates' => array(
                 'title' => __('Offer Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -147,6 +163,12 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
                     '4' => __('4 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                     '5' => __('5 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 ),
+            ),
+            'shipper_criteria' => array(
+                'title' => __('Shipper Information', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'id' => 'flagship_shipping_criteria',
+                'description' => __('Shipper information which allows getting live rates, create shipment, schedule pick-up, etc.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
             'origin' => array(
                 'title' => __('Shipper Postal Code', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
