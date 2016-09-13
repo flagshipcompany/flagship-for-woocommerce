@@ -70,4 +70,14 @@ class FlagshipShippingUnitTestCase extends WP_UnitTestCase
         }
         file_put_contents($home.'/Desktop/data', date('Y-m-d H:i:s')."\t".print_r($text, 1)."\n", FILE_APPEND | LOCK_EX);
     }
+
+    protected function setAccessProtectedMethod($object, $methodName)
+    {
+        $reflect = new ReflectionObject($object);
+
+        $method = $reflect->getMethod($methodName);
+        $method->setAccessible(true);
+
+        return $method;
+    }
 }

@@ -106,7 +106,7 @@ class Flagship_Quoter extends Flagship_Component
             }
 
             $shipping_rate = array(
-                'id' => FLAGSHIP_SHIPPING_PLUGIN_ID.'|'.$rate['service']['courier_name'].'|'.$rate['service']['courier_code'].'|'.$rate['service']['courier_desc'].'|'.strtotime($rate['service']['estimated_delivery_date']),
+                'id' => $this->ctx['configs']->get('FLAGSHIP_SHIPPING_PLUGIN_ID').'|'.$rate['service']['courier_name'].'|'.$rate['service']['courier_code'].'|'.$rate['service']['courier_desc'].'|'.strtotime($rate['service']['estimated_delivery_date']),
                 'label' => $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'],
                 'cost' => number_format($rate['price']['subtotal'] + ($markup['type'] == 'percentage' ? $rate['price']['subtotal'] * $markup['rate'] / 100 : $markup['rate']), 2),
                 'calc_tax' => 'per_order', // we do not let WC compute tax

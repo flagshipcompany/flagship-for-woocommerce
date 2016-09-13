@@ -68,7 +68,7 @@ class Flagship_Notification extends Flagship_Component
     {
         if (!empty($this->notifications)) {
             $this->prev = array(
-                'notifications' => $this->notification,
+                'notifications' => $this->notifications,
                 'notice_scope' => $this->notice_scope,
                 'extras' => $this->extras,
             );
