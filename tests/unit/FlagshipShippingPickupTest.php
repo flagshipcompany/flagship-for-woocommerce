@@ -53,7 +53,7 @@ class FlagshipShippingPickupTest extends FlagshipShippingUnitTestCase
                 ),
             ),
             'shipment_id' => '1517011',
-            'date' => '2016-09-13',
+            'date' => date('Y-m-d'),
         );
 
         $this->flagshipQuoteRates = require __DIR__.'/../fixtures/FlagshipQuoteRates.php';
@@ -82,7 +82,7 @@ class FlagshipShippingPickupTest extends FlagshipShippingUnitTestCase
             'courier' => 'purolator',
             'boxes' => 1,
             'weight' => 1,
-            'date' => '2016-09-13',
+            'date' => date('Y-m-d'),
             'from' => '09:00',
             'until' => '17:00',
             'units' => 'imperial',

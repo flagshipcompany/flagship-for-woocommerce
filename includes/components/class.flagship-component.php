@@ -17,6 +17,7 @@ class Flagship_Component
 
     protected function console($value)
     {
+        $this->ctx->load('Console');
         $this->ctx['console']->log($value);
     }
 }
