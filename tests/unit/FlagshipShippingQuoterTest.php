@@ -113,8 +113,26 @@ class FlagshipShippingQuoterTest extends FlagshipShippingUnitTestCase
         ), $method->invoke($this->ctx['quoter'], $this->order));
     }
 
+    public function testQuoterGetProcessedRatesFiltered()
+    {
+        $this->ctx['options']->set('allow_express_rates', 'no');
+        $this->ctx['options']->set('allow_overnight_rates', 'no');
+
+        $wcRates = $this->ctx['quoter']->get_processed_rates($this->flagshipQuoteRates);
+
+        $wcRate = array();
+
+        foreach ($wcRates as $rate) {
+            $this->assertRegexp('/(standard|ground)/i', $rate['id']);
+        }
+    }
+
     public function testQuoterGetProcessedRates()
     {
+        $this->ctx['options']->set('allow_express_rates', 'yes');
+        $this->ctx['options']->set('allow_overnight_rates', 'yes');
+        $this->ctx['options']->set('allow_standard_rates', 'yes');
+
         $wcRates = $this->ctx['quoter']->get_processed_rates($this->flagshipQuoteRates);
 
         $wcRate = array();
