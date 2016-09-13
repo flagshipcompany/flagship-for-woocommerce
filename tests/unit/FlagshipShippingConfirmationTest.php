@@ -89,7 +89,7 @@ class FlagshipShippingConfirmationTest extends FlagshipShippingUnitTestCase
                 'ci_items' => array(
                     0 => array(
                         'product_name' => 'Dummy Product',
-                        'description' => false,
+                        'description' => '',
                         'country_of_origin' => 'CA',
                         'quantity' => '4',
                         'unit_price' => '10',

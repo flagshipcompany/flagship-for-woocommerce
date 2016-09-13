@@ -158,9 +158,11 @@ class Flagship_Confirmation extends Flagship_Component
         foreach ($order_items as $order_item) {
             $product = $order->get_product_from_item($order_item);
 
+            $description = substr(get_post($product->id)->post_content, 0, 50);
+
             $items['ci_items'][] = array(
                 'product_name' => $product->get_title(),
-                'description' => substr(get_post($product->id)->post_content, 0, 50),
+                'description' => (!empty($description) ? $description : ''),
                 'country_of_origin' => 'CA',
                 'quantity' => $order_item['qty'],
                 'unit_price' => $product->get_price(),

@@ -94,7 +94,7 @@ class Flagship_Pickup extends Flagship_Component
             'until' => $this->ctx['options']->get('default_pickup_time_to', '17:00'),
             'units' => 'imperial',
             'location' => 'Reception',
-            'to_country' => $order->shipping_country,
+            'to_country' => $shipping['order']->shipping_country,
             'is_ground' => false,
         );
 
