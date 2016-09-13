@@ -1,0 +1,23 @@
+{
+  "name": "flagship-for-woocommerce",
+  "version": "0.1.13",
+  "description": "FlagShip Shipping Plugin for WooCommerce",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flagshipcompany/flagship-for-woocommerce.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flagshipcompany/flagship-for-woocommerce/issues"
+  },
+  "homepage": "https://github.com/flagshipcompany/flagship-for-woocommerce#readme"
+}
