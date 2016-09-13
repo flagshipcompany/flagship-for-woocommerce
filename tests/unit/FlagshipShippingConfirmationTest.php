@@ -47,7 +47,7 @@ class FlagshipShippingConfirmationTest extends FlagshipShippingUnitTestCase
             ),
             'packages' => array(
                 'items' => array(
-                    array(
+                    0 => array(
                         'width' => 1,
                         'height' => 1,
                         'length' => 1,
@@ -87,7 +87,7 @@ class FlagshipShippingConfirmationTest extends FlagshipShippingUnitTestCase
             'declared_items' => array(
                 'currency' => 'GBP',
                 'ci_items' => array(
-                    array(
+                    0 => array(
                         'product_name' => 'Dummy Product',
                         'description' => '',
                         'country_of_origin' => 'CA',
