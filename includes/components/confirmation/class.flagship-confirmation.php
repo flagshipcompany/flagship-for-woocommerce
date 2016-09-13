@@ -72,54 +72,55 @@ class Flagship_Confirmation extends Flagship_Component
 
     protected function get_options()
     {
+        $request = $this->ctx['request']->request;
         $options = array();
 
-        if (isset($_REQUEST['flagship_shipping_enable_insurance'])
-            && $_REQUEST['flagship_shipping_enable_insurance'] == 'yes'
-            && $_REQUEST['flagship_shipping_insurance_value'] > 0
-            && $_REQUEST['flagship_shipping_insurance_description']
+        if ($request->has('flagship_shipping_enable_insurance')
+            && $request->get('flagship_shipping_enable_insurance') == 'yes'
+            && $request->get('flagship_shipping_insurance_value') > 0
+            && $request->get('flagship_shipping_insurance_description')
         ) {
             $options['insurance'] = array(
-                'value' => sanitize_text_field($_REQUEST['flagship_shipping_insurance_value']),
-                'description' => sanitize_text_field($_REQUEST['flagship_shipping_insurance_description']),
+                'value' => sanitize_text_field($request->get('flagship_shipping_insurance_value')),
+                'description' => sanitize_text_field($request->get('flagship_shipping_insurance_description')),
             );
         }
 
-        if (isset($_REQUEST['flagship_shipping_enable_cod'])
-            && $_REQUEST['flagship_shipping_enable_cod'] == 'yes'
-            && $_REQUEST['flagship_shipping_cod_method']
-            && $_REQUEST['flagship_shipping_cod_payable_to']
-            && $_REQUEST['flagship_shipping_cod_receiver_phone']
-            && $_REQUEST['flagship_shipping_cod_amount']
-            && $_REQUEST['flagship_shipping_cod_currency']
+        if ($request->has('flagship_shipping_enable_cod')
+            && $request->get('flagship_shipping_enable_cod') == 'yes'
+            && $request->get('flagship_shipping_cod_method')
+            && $request->get('flagship_shipping_cod_payable_to')
+            && $request->get('flagship_shipping_cod_receiver_phone')
+            && $request->get('flagship_shipping_cod_amount')
+            && $request->get('flagship_shipping_cod_currency')
         ) {
             $options['cod'] = array(
-                'method' => sanitize_text_field($_REQUEST['flagship_shipping_cod_method']),
-                'payable_to' => sanitize_text_field($_REQUEST['flagship_shipping_cod_payable_to']),
-                'receiver_phone' => sanitize_text_field($_REQUEST['flagship_shipping_cod_receiver_phone']),
-                'amount' => sanitize_text_field($_REQUEST['flagship_shipping_cod_amount']),
-                'currency' => sanitize_text_field($_REQUEST['flagship_shipping_cod_currency']),
+                'method' => sanitize_text_field($request->get('flagship_shipping_cod_method')),
+                'payable_to' => sanitize_text_field($request->get('flagship_shipping_cod_payable_to')),
+                'receiver_phone' => sanitize_text_field($request->get('flagship_shipping_cod_receiver_phone')),
+                'amount' => sanitize_text_field($request->get('flagship_shipping_cod_amount')),
+                'currency' => sanitize_text_field($request->get('flagship_shipping_cod_currency')),
             );
         }
 
-        if (isset($_REQUEST['flagship_shipping_signature_required'])) {
-            $options['signature_required'] = $_REQUEST['flagship_shipping_signature_required'] == 'yes';
+        if ($request->has('flagship_shipping_signature_required')) {
+            $options['signature_required'] = $request->get('flagship_shipping_signature_required') == 'yes';
         }
 
-        if (isset($_REQUEST['flagship_shipping_reference'])
-            && $_REQUEST['flagship_shipping_reference']) {
-            $options['reference'] = sanitize_text_field($_REQUEST['flagship_shipping_reference']);
+        if ($request->has('flagship_shipping_reference')
+            && $request->get('flagship_shipping_reference')) {
+            $options['reference'] = sanitize_text_field($request->get('flagship_shipping_reference'));
         }
 
-        if (isset($_REQUEST['flagship_shipping_driver_instructions'])
-            && $_REQUEST['flagship_shipping_driver_instructions']) {
-            $options['driver_instructions'] = sanitize_text_field($_REQUEST['flagship_shipping_driver_instructions']);
+        if ($request->has('flagship_shipping_driver_instructions')
+            && $request->get('flagship_shipping_driver_instructions')) {
+            $options['driver_instructions'] = sanitize_text_field($request->get('flagship_shipping_driver_instructions'));
         }
 
-        if (isset($_REQUEST['flagship_shipping_date'])
-            && strtotime($_REQUEST['flagship_shipping_date']) >= strtotime(date('Y-m-d'))
+        if ($request->has('flagship_shipping_date')
+            && strtotime($request->get('flagship_shipping_date')) >= strtotime(date('Y-m-d'))
         ) {
-            $options['shipping_date'] = sanitize_text_field($_REQUEST['flagship_shipping_date']);
+            $options['shipping_date'] = sanitize_text_field($request->get('flagship_shipping_date'));
         }
 
         return $options;

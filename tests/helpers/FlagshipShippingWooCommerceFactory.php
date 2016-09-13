@@ -88,11 +88,11 @@ class FlagshipShippingWooCommerceFactory
         );
         $order->add_shipping(
             new WC_Shipping_Rate(
-                'flat_rate_shipping',
-                'Flat rate shipping',
+                'flagship_shipping_method|Purolator|PurolatorExpress|Purolator Express|1473811200',
+                'Purolator - Purolator Express',
                 '10',
                 $shipping_taxes,
-                'flat_rate'
+                'flagship_shipping_method'
             )
         );
 
