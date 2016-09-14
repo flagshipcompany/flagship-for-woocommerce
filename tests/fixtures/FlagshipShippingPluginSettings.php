@@ -19,6 +19,7 @@ return array(
     'shipper_residential' => 'no',
     'default_package_box_split' => 'no',
     'default_package_box_split_weight' => '20',
+    'apply_tax_by_flagship' => 'no',
     'default_shipping_markup_type' => 'percentage',
     'default_shipping_markup' => '10.00',
     'default_pickup_time_from' => '09:00',

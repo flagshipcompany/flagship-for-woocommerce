@@ -27,8 +27,6 @@ class Flagship_Url extends Flagship_Component
                 return false;
         }
 
-        $this->console($args);
-
         $url = add_query_arg($args, $base_url);
 
         if (!$escape) {

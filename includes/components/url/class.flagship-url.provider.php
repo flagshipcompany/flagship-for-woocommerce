@@ -6,6 +6,6 @@ class Flagship_Url_Provider
 {
     public function provide(Flagship_Application $ctx)
     {
-        $flagship['url'] = new Flagship_Url($ctx);
+        $ctx['url'] = new Flagship_Url($ctx);
     }
 }

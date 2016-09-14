@@ -24,7 +24,7 @@ class Flagship_Shipment extends Flagship_Component
 
         $this->service = $this->get_service();
 
-        if ($this->service['provider'] == FLAGSHIP_SHIPPING_PLUGIN_ID) {
+        if ($this->service['provider'] == $this->ctx['configs']->get('FLAGSHIP_SHIPPING_PLUGIN_ID')) {
             $this->type = 'NOT_CREATED';
 
             return $this;

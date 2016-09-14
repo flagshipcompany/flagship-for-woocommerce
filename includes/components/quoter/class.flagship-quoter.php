@@ -109,13 +109,13 @@ class Flagship_Quoter extends Flagship_Component
 
             $enable_tax = ($this->ctx['options']->get('apply_tax_by_flagship') == 'yes');
 
-            $markup = ($markup['type'] == 'percentage') ? ($rate['price']['subtotal'] * $markup['rate'] / 100) : $markup['rate'];
+            $markup_cost = ($markup['type'] == 'percentage') ? (floatval($rate['price']['subtotal']) * floatval($markup['rate']) / 100) : floatval($markup['rate']);
             $cost = $enable_tax ? $rate['price']['total'] : $rate['price']['subtotal'];
 
             $shipping_rate = array(
                 'id' => $this->ctx['configs']->get('FLAGSHIP_SHIPPING_PLUGIN_ID').'|'.$rate['service']['courier_name'].'|'.$rate['service']['courier_code'].'|'.$rate['service']['courier_desc'].'|'.strtotime($rate['service']['estimated_delivery_date']),
                 'label' => $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'],
-                'cost' => number_format($cost + $markup, 2),
+                'cost' => number_format($cost + $markup_cost, 2),
                 'calc_tax' => 'per_order',
             );
 
