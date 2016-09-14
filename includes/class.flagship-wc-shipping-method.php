@@ -22,10 +22,12 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
         $this->enabled = $this->get_option('enabled');
         $this->token = $this->get_option('token');
         $this->required_address = $this->get_option('shipping_cost_requires_address', 'no');
-        $this->init();
 
         // providers
         $this->ctx->load('Quoter');
+        $this->ctx->load('Url');
+
+        $this->init();
     }
 
     /**
@@ -269,6 +271,18 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
                     'min' => 0,
                     'step' => 1,
                 ),
+            ),
+            'shipping_taxation' => array(
+                'title' => __('Tax', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'id' => 'flagship_shipping_markup',
+            ),
+            'apply_tax_by_flagship' => array(
+                'title' => __('Calculate tax', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'label' => __('Click here to include taxes in the price. Only use this if WooCommerce is not applying taxes to your cart', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'description' => __('If you have taxes enabled, make sure you don’t click this box or you will double tax the shipping fees.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'default' => 'no',
             ),
             'shipping_markup' => array(
                 'title' => __('Markup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
