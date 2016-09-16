@@ -99,6 +99,7 @@ class Flagship_Client extends Flagship_Component
     protected function make_headers(array $headers)
     {
         $headers['X-Smartship-Token'] = $this->token;
+        $headers['X-WP-FS4WC-Version'] = $this->ctx['configs']->get('FLAGSHIP_SHIPPING_PLUGIN_VERSION');
 
         return $headers;
     }
