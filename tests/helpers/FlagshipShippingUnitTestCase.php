@@ -17,7 +17,7 @@ class FlagshipShippingUnitTestCase extends WP_UnitTestCase
 
         $settings = include __DIR__.'/../fixtures/FlagshipApplicationSettings.php';
 
-        $this->ctx = Flagship_Application::get_instance();
+        $this->ctx = FSApplicationContext::get_instance();
 
         $this->ctx->load('Configs');
         $this->ctx['configs']->add($settings);

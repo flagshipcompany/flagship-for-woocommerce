@@ -21,7 +21,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
      */
     public static function output($post)
     {
-        $ctx = Flagship_Application::get_instance();
+        $ctx = FSApplicationContext::get_instance();
         $order = wc_get_order($post->ID);
 
         $ctx->load('Shipment');
@@ -43,7 +43,7 @@ class WC_Meta_Box_Order_Flagship_Shipping_Actions
      */
     public static function save($post_id, $post)
     {
-        $ctx = Flagship_Application::get_instance();
+        $ctx = FSApplicationContext::get_instance();
 
         $order = wc_get_order($post_id);
 

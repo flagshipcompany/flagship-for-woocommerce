@@ -4,7 +4,7 @@ require_once __DIR__.'/class.flagship-hook.php';
 
 class Flagship_Hook_Provider
 {
-    public function provide(Flagship_Application $ctx)
+    public function provide(FSApplicationContext $ctx)
     {
         $ctx['hooks'] = new Flagship_Hook($ctx);
 

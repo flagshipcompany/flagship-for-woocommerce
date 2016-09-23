@@ -10,7 +10,7 @@ class FlagShip_WC_Shipping_Method extends WC_Shipping_Method
     public function __construct()
     {
         // flagship app
-        $this->ctx = FlagShip_Application::get_instance();
+        $this->ctx = FSApplicationContext::get_instance();
 
         $this->id = $this->ctx['configs']->get('FLAGSHIP_SHIPPING_PLUGIN_ID'); // Id for your shipping method. Should be uunique.
         $this->method_title = __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN);  // Title shown in admin

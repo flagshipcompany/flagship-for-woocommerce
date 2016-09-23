@@ -67,7 +67,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
     {
         global $post, $woocommerce;
 
-        $flagship = Flagship_Application::get_instance();
+        $flagship = FSApplicationContext::get_instance();
 
         switch ($column) {
             case 'order_ids':
@@ -252,7 +252,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
 
     protected static function schedule_pickup($post_ids)
     {
-        $flagship = Flagship_Application::get_instance();
+        $flagship = FSApplicationContext::get_instance();
 
         $flagship->load('Pickup');
 
@@ -287,7 +287,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
 
     protected static function void_pickup($post_ids)
     {
-        $flagship = Flagship_Application::get_instance();
+        $flagship = FSApplicationContext::get_instance();
 
         foreach ($post_ids as $post_id) {
             if ($pickup_id = get_post_meta($post_id, 'id', true)) {
@@ -305,7 +305,7 @@ class Wc_Admin_Post_Types_Flagship_Shipping_Pickup
 
     protected static function reschedule_pickup($post_ids)
     {
-        $flagship = Flagship_Application::get_instance();
+        $flagship = FSApplicationContext::get_instance();
 
         $flagship->load('Pickup');
 

@@ -36,13 +36,10 @@ if (is_admin()) {
 // Check if WooCommerce is active
 if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
     //
-    require_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'includes/class.flagship-application.php';
+    require __DIR__.'/vendor/autoload.php';
 
-    Flagship_Application::init(array(
-        'FLAGSHIP_SHIPPING_PLUGIN_ID' => 'flagship_shipping_method',
-        'FLAGSHIP_SHIPPING_API_ENTRY_POINT' => 'https://api.smartship.io',
-        'FLAGSHIP_SHIPPING_API_TIMEOUT' => 14,
-        'FLAGSHIP_SHIPPING_PLUGIN_DEBUG' => false,
-        'FLAGSHIP_SHIPPING_PLUGIN_VERSION' => '0.1.12',
-    ));
+    \FS\Context\ApplicationContext::initialize(
+        new \FS\Container(),
+        new \FS\Configurations\WordPress()
+    );
 }

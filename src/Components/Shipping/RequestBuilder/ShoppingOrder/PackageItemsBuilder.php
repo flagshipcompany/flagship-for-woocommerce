@@ -1,0 +1,38 @@
+<?php
+
+namespace FS\Components\Shipping\RequestBuilder\ShoppingOrder;
+
+class PackageItemsBuilder extends \FS\Components\Shipping\RequestBuilder\AbstractPackageItemsBuilder implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
+{
+    protected function makeProductItems($order = null)
+    {
+        $order_items = $order->get_items();
+        $product_items = array();
+
+        foreach ($order_items as $order_item) {
+            $product = $order->get_product_from_item($order_item);
+
+            $count = 0;
+
+            list(
+                $width,
+                $length,
+                $height,
+                $weight
+            ) = $this->getProductDimensions($product);
+
+            do {
+                $product_items[] = array(
+                    'width' => $width,
+                    'height' => $height,
+                    'length' => $length,
+                    'weight' => $weight,
+                );
+
+                ++$count;
+            } while ($count < $order_item['qty']);
+        }
+
+        return $product_items;
+    }
+}

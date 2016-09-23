@@ -114,7 +114,7 @@ class Flagship_Pickup extends Flagship_Component
 
     public function get_multiple_pickup_schedule_request($courier_shippings)
     {
-        $flagship = Flagship_Application::get_instance();
+        $flagship = FSApplicationContext::get_instance();
 
         $pickup_requests = array();
 

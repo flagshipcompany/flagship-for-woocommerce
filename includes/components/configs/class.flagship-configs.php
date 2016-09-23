@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__.'/../class.flagship-component.php';
+// require_once __DIR__.'/../class.flagship-component.php';
 
-class Flagship_Configs extends Flagship_Component
+class Flagship_Configs extends FSComponent
 {
     protected $configs = array();
 

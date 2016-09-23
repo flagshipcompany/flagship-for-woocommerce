@@ -4,7 +4,7 @@ require_once __DIR__.'/class.flagship-client.php';
 
 class Flagship_Client_Provider
 {
-    public function provide(Flagship_Application $ctx)
+    public function provide(FSApplicationContext $ctx)
     {
         $ctx['client'] = new Flagship_Client($ctx);
         $ctx['client']

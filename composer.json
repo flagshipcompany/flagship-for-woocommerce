@@ -1,0 +1,19 @@
+{
+    "name": "flagshipcompany/flagship-for-woocommerce",
+    "description": "An e-shipping courier solution that helps you shipping anything from Canada.",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "yi-FLS",
+            "email": "yi-cheng@flagshipcompany.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-4": { "FS\\": "src/" }
+    }
+}
