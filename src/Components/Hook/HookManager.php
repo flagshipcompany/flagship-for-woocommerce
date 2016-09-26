@@ -20,6 +20,6 @@ class HookManager extends \FS\Components\AbstractComponent implements \FS\Compon
 
     public function registerHook($class)
     {
-        $this->hookCtx->getComponent($class)->setApplicationContext($this->ctx)->register();
+        $this->hookCtx->getComponent($class)->setApplicationContext($this->getApplicationContext())->register();
     }
 }

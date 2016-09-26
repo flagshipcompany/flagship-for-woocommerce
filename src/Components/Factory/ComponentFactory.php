@@ -26,7 +26,7 @@ class ComponentFactory implements ComponentFactoryInterface, \FS\Context\Applica
         return $container[$class];
     }
 
-    public function setApplicationContext(\FS\Context\ApplicationContextInterface $ctx)
+    public function setApplicationContext(\FS\Context\ApplicationContextInterface $ctx = null)
     {
         $this->ctx = $ctx;
 

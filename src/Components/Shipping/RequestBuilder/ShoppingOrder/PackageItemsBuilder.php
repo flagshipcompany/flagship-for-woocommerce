@@ -4,13 +4,13 @@ namespace FS\Components\Shipping\RequestBuilder\ShoppingOrder;
 
 class PackageItemsBuilder extends \FS\Components\Shipping\RequestBuilder\AbstractPackageItemsBuilder implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {
-    protected function makeProductItems($order = null)
+    protected function makeProductItems($payload = null)
     {
-        $order_items = $order->get_items();
+        $order_items = $payload['order']->get_items();
         $product_items = array();
 
         foreach ($order_items as $order_item) {
-            $product = $order->get_product_from_item($order_item);
+            $product = $payload['order']->get_product_from_item($order_item);
 
             $count = 0;
 

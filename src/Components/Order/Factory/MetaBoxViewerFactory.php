@@ -6,7 +6,7 @@ class MetaBoxViewerFactory extends \FS\Components\AbstractComponent implements V
 {
     public function getViewer(\FS\Components\Order\ShoppingOrder $order)
     {
-        $viewer = $this->ctx->getComponent('\\FS\\Components\\Order\\Factory\\MetaBoxViewer');
+        $viewer = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\Factory\\MetaBoxViewer');
 
         $viewer->setTemplate('meta-boxes/order-flagship-shipping-actions');
         $viewer->setPayload($this->makePayload($order));
@@ -18,7 +18,7 @@ class MetaBoxViewerFactory extends \FS\Components\AbstractComponent implements V
     {
         $payload = array();
 
-        $settings = $this->ctx->getComponent('\\FS\\Components\\Settings');
+        $settings = $this->getApplicationContext()->getComponent('\\FS\\Components\\Settings');
         $shipment = $order->get('flagship_shipping_raw');
 
         $service = $order->getShippingService();

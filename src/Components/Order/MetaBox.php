@@ -6,10 +6,11 @@ class MetaBox extends \FS\Components\AbstractComponent
 {
     public function display(\FS\Components\Order\ShoppingOrder $order)
     {
-        $notifier = $this->ctx->getComponent('\\FS\\Components\\Notifier');
-        $notifier->scope('shop_order', array('id' => $order->getId()));
+        $notifier = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Notifier');
+        $factory = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Order\\Factory\\MetaBoxViewerFactory');
 
-        $factory = $this->ctx->getComponent('\\FS\\Components\\Order\\Factory\\MetaBoxViewerFactory');
         $viewer = $factory->getViewer($order);
 
         $notifier->view();
@@ -18,19 +19,10 @@ class MetaBox extends \FS\Components\AbstractComponent
 
     public function createShipment(\FS\Components\Order\ShoppingOrder $order)
     {
-        $service = $order->getShippingService();
-        $shippingMethodInstanceId = $service['instance_id'] ? $service['instance_id'] : false;
-
-        $options = $this->ctx->getComponent('\\FS\\Components\\Options');
-        $options->sync($shippingMethodInstanceId);
-
-        $notifier = $this->ctx->getComponent('\\FS\\Components\\Notifier');
-        $notifier->scope('shop_order', array('id' => $order->getId()));
-
-        $client = $this->ctx->getComponent('\\FS\\Components\\Http\\Client');
-        $client->setToken($options->get('token'));
-
-        $command = $this->ctx->getComponent('\\FS\\Components\\Shipping\\Command');
+        $options = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Options');
+        $notifier = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Notifier');
 
         $shipment = $order->get('flagship_shipping_raw');
 
@@ -40,13 +32,18 @@ class MetaBox extends \FS\Components\AbstractComponent
             return $this;
         }
 
-        $factory = $this->ctx->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderConfirmationRequestFactory');
+        $client = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Http\\Client');
+        $command = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Shipping\\Command');
+        $factory = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderConfirmationRequestFactory');
 
         $response = $command->confirm(
             $client,
             $factory->setPayload(array(
                 'order' => $order,
-                'request' => $this->ctx->getComponent('\\FS\\Components\\Web\\RequestParam'),
+                'request' => $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam'),
                 'options' => $options,
             ))->getRequest()
         );
@@ -67,14 +64,10 @@ class MetaBox extends \FS\Components\AbstractComponent
 
     public function voidShipment(\FS\Components\Order\ShoppingOrder $order)
     {
-        $service = $order->getShippingService();
-        $shippingMethodInstanceId = $service['instance_id'] ? $service['instance_id'] : false;
-
-        $options = $this->ctx->getComponent('\\FS\\Components\\Options');
-        $options->sync($shippingMethodInstanceId);
-
-        $notifier = $this->ctx->getComponent('\\FS\\Components\\Notifier');
-        $notifier->scope('shop_order', array('id' => $order->getId()));
+        $options = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Options');
+        $notifier = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Notifier');
 
         $shipment = $order->get('flagship_shipping_raw');
         $shipmentId = $order->get('flagship_shipping_shipment_id');
@@ -85,8 +78,8 @@ class MetaBox extends \FS\Components\AbstractComponent
             return;
         }
 
-        $client = $this->ctx->getComponent('\\FS\\Components\\Http\\Client');
-        $client->setToken($options->get('token'));
+        $client = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Http\\Client');
 
         $response = $client->delete('/ship/shipments/'.$shipmentId);
 
@@ -109,20 +102,18 @@ class MetaBox extends \FS\Components\AbstractComponent
 
     public function requoteShipment(\FS\Components\Order\ShoppingOrder $order)
     {
-        $service = $order->getShippingService();
-        $shippingMethodInstanceId = $service['instance_id'] ? $service['instance_id'] : false;
-
-        $options = $this->ctx->getComponent('\\FS\\Components\\Options');
-        $options->sync($shippingMethodInstanceId);
-
-        $client = $this->ctx->getComponent('\\FS\\Components\\Http\\Client');
-        $client->setToken($options->get('token'));
-
-        $command = $this->ctx->getComponent('\\FS\\Components\\Shipping\\Command');
-        $factory = $this->ctx->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderRateRequestFactory');
-        $rateProcessor = $this->ctx->getComponent('\\FS\\Components\\Shipping\\RateProcessor');
-        $notifier = $this->ctx->getComponent('\\FS\\Components\\Notifier');
-        $notifier->scope('shop_order', array('id' => $order->getId()));
+        $options = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Options');
+        $client = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Http\\Client');
+        $command = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Shipping\\Command');
+        $factory = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderRateRequestFactory');
+        $rateProcessor = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Shipping\\RateProcessor');
+        $notifier = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Notifier');
 
         $response = $command->quote(
             $client,
@@ -153,23 +144,18 @@ class MetaBox extends \FS\Components\AbstractComponent
 
     public function schedulePickup(\FS\Components\Order\ShoppingOrder $order)
     {
-        $service = $order->getShippingService();
-        $shippingMethodInstanceId = $service['instance_id'] ? $service['instance_id'] : false;
-
-        $options = $this->ctx->getComponent('\\FS\\Components\\Options');
-        $options->sync($shippingMethodInstanceId);
-
-        $notifier = $this->ctx->getComponent('\\FS\\Components\\Notifier');
-        $notifier->scope('shop_order', array('id' => $order->getId()));
-
-        $client = $this->ctx->getComponent('\\FS\\Components\\Http\\Client');
-        $client->setToken($options->get('token'));
-
-        $command = $this->ctx->getComponent('\\FS\\Components\\Shipping\\Command');
-
-        $request = $this->ctx->getComponent('\\FS\\Components\\Web\\RequestParam');
-
-        $factory = $this->ctx->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPickupRequestFactory');
+        $options = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Options');
+        $notifier = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Notifier');
+        $client = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Http\\Client');
+        $command = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Shipping\\Command');
+        $request = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Web\\RequestParam');
+        $factory = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPickupRequestFactory');
 
         $shipment = $order->get('flagship_shipping_raw');
 
@@ -200,17 +186,12 @@ class MetaBox extends \FS\Components\AbstractComponent
 
     public function voidPickup(\FS\Components\Order\ShoppingOrder $order)
     {
-        $service = $order->getShippingService();
-        $shippingMethodInstanceId = $service['instance_id'] ? $service['instance_id'] : false;
-
-        $options = $this->ctx->getComponent('\\FS\\Components\\Options');
-        $options->sync($shippingMethodInstanceId);
-
-        $client = $this->ctx->getComponent('\\FS\\Components\\Http\\Client');
-        $client->setToken($options->get('token'));
-
-        $notifier = $this->ctx->getComponent('\\FS\\Components\\Notifier');
-        $notifier->scope('shop_order', array('id' => $order->getId()));
+        $options = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Options');
+        $client = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Http\\Client');
+        $notifier = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Notifier');
 
         $shipment = $order->get('flagship_shipping_raw');
 

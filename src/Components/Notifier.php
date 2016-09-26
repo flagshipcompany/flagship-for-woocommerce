@@ -191,7 +191,7 @@ class Notifier extends \FS\Components\AbstractComponent
     public function cart_view()
     {
         if ($this->isSilenced()) {
-            $this->ctx->getComponent('\\FS\\Components\\Options')->log($this->notifications);
+            $this->getApplicationContext()->getComponent('\\FS\\Components\\Options')->log($this->notifications);
         } else {
             \wc_clear_notices();
 

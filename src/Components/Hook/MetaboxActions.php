@@ -16,7 +16,7 @@ class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterfac
 
         // add meta boxes (eg: side box)
         $this->add('add_meta_boxes');
-        $this->add('woocommerce_process_shop_order_meta');
+        $this->add('woocommerce_process_shop_order_meta', 'metaBoxActionWrapper');
 
         // add pickup custom post type
         $this->add('init', 'woocomerce_register_post_type_action');
@@ -24,7 +24,7 @@ class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterfac
 
     public function add_meta_boxes_action()
     {
-        $metaBox = $this->ctx->getComponent('\\FS\\Components\\Order\\MetaBox');
+        $metaBox = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\MetaBox');
 
         add_meta_box(
             'wc-flagship-shipping-box',
@@ -41,15 +41,33 @@ class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterfac
         \Wc_Admin_Post_Types_Flagship_Shipping_Pickup::register();
     }
 
-    public function woocommerce_process_shop_order_meta_action($post_id, $post)
+    public function metaBoxActionWrapper($post_id, $post)
     {
         $order = wc_get_order($post_id);
-        $shoppingOrder = $this->ctx->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
+        $shoppingOrder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
 
         $shoppingOrder->setWcOrder($order);
 
-        $metaBox = $this->ctx->getComponent('\\FS\\Components\\Order\\MetaBox');
-        $rp = $this->ctx->getComponent('\\FS\\Components\\Web\\RequestParam');
+        $metaBox = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\MetaBox');
+        $rp = $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam');
+
+        // config components for metabox action usage
+        $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Notifier')
+            ->scope('shop_order', array('id' => $shoppingOrder->getId()));
+
+        // load instance shipping method used by this shopping order
+        $service = $shoppingOrder->getShippingService();
+        $shippingMethodInstanceId = $service['instance_id'] ? $service['instance_id'] : false;
+
+        $options = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Options')
+            ->sync($shippingMethodInstanceId);
+
+        // set up token
+        $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Http\\Client')
+            ->setToken($options->get('token'));
 
         switch ($rp->request->get('flagship_shipping_shipment_action')) {
             case 'shipment-create':
@@ -74,8 +92,8 @@ class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterfac
     {
         $order = wc_get_order($post->ID);
 
-        $metaBox = $this->ctx->getComponent('\\FS\\Components\\Order\\MetaBox');
-        $shoppingOrder = $this->ctx->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
+        $metaBox = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\MetaBox');
+        $shoppingOrder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
 
         $shoppingOrder->setWcOrder($order);
 

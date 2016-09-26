@@ -27,7 +27,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->setRequestPart(
             'packages',
             $this->makeRequestPart(
-                $this->ctx->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\PackageItemsBuilder'),
+                $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\PackageItemsBuilder'),
                 $this->payload['order']->getWcOrder()
             )
         );
@@ -42,7 +42,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->setRequestPart(
             'service',
             $this->makeRequestPart(
-                $this->ctx->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\ShippingServiceBuilder'),
+                $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\ShippingServiceBuilder'),
                 $this->payload
             )
         );
@@ -50,7 +50,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->setRequestPart(
             'options',
             $this->makeRequestPart(
-                $this->ctx->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\ShippingOptionsBuilder'),
+                $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\ShippingOptionsBuilder'),
                 $this->payload + $request->getRequest()
             )
         );

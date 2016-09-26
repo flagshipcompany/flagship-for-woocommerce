@@ -6,7 +6,7 @@ class AddressValidator extends \FS\Components\AbstractComponent implements Valid
 {
     public function validate($target, \FS\Components\Notifier $notifier)
     {
-        $client = $this->ctx->getComponent('\\FS\\Components\\Http\\Client');
+        $client = $this->getApplicationContext()->getComponent('\\FS\\Components\\Http\\Client');
 
         $response = $client->get(
             '/addresses/integrity',

@@ -66,7 +66,7 @@ class Options extends \FS\Components\AbstractComponent implements Factory\Compon
     public function sync($instanceId = false)
     {
         if ($instanceId !== false) {
-            $settings = $this->ctx->getComponent('\\FS\\Components\\Settings');
+            $settings = $this->getApplicationContext()->getComponent('\\FS\\Components\\Settings');
 
             $this->setWpOptionName('woocommerce_'.$settings['FLAGSHIP_SHIPPING_PLUGIN_ID'].'_'.$instanceId.'_settings');
         }

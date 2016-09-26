@@ -8,7 +8,7 @@ class SetupFilters extends Engine implements Factory\HookRegisterAwareInterface
 
     public function register()
     {
-        $this->add('woocommerce_shipping_methods');
+        $this->add('woocommerce_shipping_methods', 'registerShippingMethod');
 
         if (is_admin()) {
             // add setting link to plugin page
@@ -23,9 +23,9 @@ class SetupFilters extends Engine implements Factory\HookRegisterAwareInterface
      *
      * @return array list of shipping methods name
      */
-    public function woocommerce_shipping_methods_filter($methods)
+    public function registerShippingMethod($methods)
     {
-        $id = $this->ctx->getComponent('\\FS\\Components\\Settings')['FLAGSHIP_SHIPPING_PLUGIN_ID'];
+        $id = $this->getApplicationContext()->getComponent('\\FS\\Components\\Settings')['FLAGSHIP_SHIPPING_PLUGIN_ID'];
 
         $methods[$id] = '\\FS\\Components\\Shipping\\Methods\\FlagshipWcShippingMethod';
 
@@ -43,7 +43,7 @@ class SetupFilters extends Engine implements Factory\HookRegisterAwareInterface
     public function plugin_page_setting_links_action($links, $file)
     {
         if ($file == FLAGSHIP_SHIPPING_PLUGIN_BASENAME) {
-            array_unshift($links, $this->ctx->getComponent('\\FS\\Components\\Html')->a('flagship_shipping_settings', __('Settings', FLAGSHIP_SHIPPING_TEXT_DOMAIN), array(
+            array_unshift($links, $this->getApplicationContext()->getComponent('\\FS\\Components\\Html')->a('flagship_shipping_settings', __('Settings', FLAGSHIP_SHIPPING_TEXT_DOMAIN), array(
                 'escape' => true,
                 'target' => true,
             )));

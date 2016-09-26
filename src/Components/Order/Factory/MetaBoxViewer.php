@@ -9,7 +9,7 @@ class MetaBoxViewer extends \FS\Components\AbstractComponent implements ViewerIn
 
     public function render()
     {
-        $this->ctx->getComponent('\\FS\\Components\\Viewer')->render($this->template, $this->payload);
+        $this->getApplicationContext()->getComponent('\\FS\\Components\\Viewer')->render($this->template, $this->payload);
     }
 
     public function setTemplate($template)

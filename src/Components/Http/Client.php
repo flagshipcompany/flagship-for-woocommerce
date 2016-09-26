@@ -61,9 +61,9 @@ class Client extends \FS\Components\AbstractComponent
         $ar = new Response(json_decode(wp_remote_retrieve_body($response), true), wp_remote_retrieve_response_code($response));
 
         if (!$ar->isSuccessful()) {
-            $this->ctx
+            $this->getApplicationContext()
                 ->getComponent('\\FS\\Components\\Notifier')
-                ->error('FlagShip API Error: '.$this->ctx->getComponent('\\FS\\Components\\Html')->ul($ar->getError()));
+                ->error('FlagShip API Error: '.$this->getApplicationContext()->getComponent('\\FS\\Components\\Html')->ul($ar->getError()));
         }
 
         return $ar;

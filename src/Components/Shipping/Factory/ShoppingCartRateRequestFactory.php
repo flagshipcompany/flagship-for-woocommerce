@@ -27,7 +27,7 @@ class ShoppingCartRateRequestFactory extends AbstractRequestFactory implements F
         $request->setRequestPart(
             'packages',
             $this->makeRequestPart(
-                $this->ctx->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingCart\\PackageItemsBuilder'),
+                $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingCart\\PackageItemsBuilder'),
                 $this->payload
             )
         );

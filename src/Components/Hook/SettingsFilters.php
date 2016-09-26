@@ -9,7 +9,7 @@ class SettingsFilters extends Engine implements Factory\HookRegisterAwareInterfa
 
     public function register()
     {
-        $settings = $this->ctx->getComponent('\\FS\\Components\\Settings');
+        $settings = $this->getApplicationContext()->getComponent('\\FS\\Components\\Settings');
 
         // validate settings before save
         $this->add(
@@ -23,8 +23,8 @@ class SettingsFilters extends Engine implements Factory\HookRegisterAwareInterfa
 
     public function onSaveOptions($sanitized_fields, $shippingMethod)
     {
-        $notifier = $this->ctx->getComponent('\\FS\\Components\\Notifier');
-        $validator = $this->ctx->getComponent('\\FS\\Components\\Validation\\SettingsValidator');
+        $notifier = $this->getApplicationContext()->getComponent('\\FS\\Components\\Notifier');
+        $validator = $this->getApplicationContext()->getComponent('\\FS\\Components\\Validation\\SettingsValidator');
 
         $sanitized_fields = $validator->validate(
             $sanitized_fields,

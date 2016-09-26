@@ -10,7 +10,7 @@ class PackageItemsBuilder extends \FS\Components\Shipping\RequestBuilder\Abstrac
 
         $notices = array();
 
-        $notifier = $this->ctx->getComponent('\\FS\\Components\\Notifier');
+        $notifier = $this->getApplicationContext()->getComponent('\\FS\\Components\\Notifier');
         $notifier->scope('cart');
 
         if ($payload['options']->get('disable_api_warning') == 'yes') {

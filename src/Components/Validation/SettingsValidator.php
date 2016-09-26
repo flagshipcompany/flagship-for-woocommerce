@@ -8,7 +8,7 @@ class SettingsValidator extends \FS\Components\AbstractComponent implements Vali
     {
         // if user set/update token, we need to use the latest entered one
         if (isset($target['token'])) {
-            $this->ctx->getComponent('\\FS\\Components\\Http\\Client')->setToken($target['token']);
+            $this->getApplicationContext()->getComponent('\\FS\\Components\\Http\\Client')->setToken($target['token']);
         }
 
         // enabled?
@@ -21,15 +21,13 @@ class SettingsValidator extends \FS\Components\AbstractComponent implements Vali
         $phoneValidator->validate($target['shipper_phone_number'], $notifier);
 
         // address
-        $addressValidator = $this->ctx->getComponent('\\FS\\Components\\Validation\\AddressValidator');
+        $addressValidator = $this->getApplicationContext()->getComponent('\\FS\\Components\\Validation\\AddressValidator');
         $address = $addressValidator->validate(array(
             'postal_code' => $target['origin'],
             'state' => $target['freight_shipper_state'],
             'city' => $target['freight_shipper_city'],
             'country' => 'CA',
         ), $notifier);
-
-        $this->debug($address);
 
         $target['origin'] = $address['postal_code'];
         $target['freight_shipper_state'] = $address['state'];
@@ -53,10 +51,8 @@ class SettingsValidator extends \FS\Components\AbstractComponent implements Vali
         }
 
         // overall integrity, send mock quote request
-        $integrityValidator = $this->ctx->getComponent('\\FS\\Components\\Validation\\SettingsIntegrityValidator');
+        $integrityValidator = $this->getApplicationContext()->getComponent('\\FS\\Components\\Validation\\SettingsIntegrityValidator');
         $integrityValidator->validate($target, $notifier);
-
-        $this->debug($target);
 
         return $target;
     }

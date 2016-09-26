@@ -15,8 +15,8 @@ class RateProcessor extends \FS\Components\AbstractComponent
             return $wcShippingRates;
         }
 
-        $options = $this->ctx->getComponent('\\FS\\Components\\Options');
-        $settings = $this->ctx->getComponent('\\FS\\Components\\Settings');
+        $options = $this->getApplicationContext()->getComponent('\\FS\\Components\\Options');
+        $settings = $this->getApplicationContext()->getComponent('\\FS\\Components\\Settings');
 
         $markup = array(
             'type' => $options->get('default_shipping_markup_type'),
@@ -77,7 +77,7 @@ class RateProcessor extends \FS\Components\AbstractComponent
             'intlExpressEarlyAm' => 'overnight',
         );
 
-        $options = $this->ctx->getComponent('\\FS\\Components\\Options');
+        $options = $this->getApplicationContext()->getComponent('\\FS\\Components\\Options');
 
         $enabled = array(
             'standard' => ($options->get('allow_standard_rates') == 'yes'),

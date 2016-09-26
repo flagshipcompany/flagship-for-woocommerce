@@ -19,7 +19,7 @@ abstract class AbstractPackageItemsBuilder extends \FS\Components\AbstractCompon
 
     protected function makePackageItems($product_items)
     {
-        $options = $this->ctx->getComponent('\\FS\\Components\\Options');
+        $options = $this->getApplicationContext()->getComponent('\\FS\\Components\\Options');
 
         $package_box_max_weight = (int) $options->get('default_package_box_split_weight', 20);
         $package_item_in_same_box = $options->get('default_package_box_split', 'no') == 'yes';

@@ -6,13 +6,13 @@ class Html extends \FS\Components\AbstractComponent
 {
     public function a($name_or_href, $text = null, array $extras = array())
     {
-        $extras = array_merge(array('text_domain' => $this->ctx->text_domain, 'escape' => true, 'target' => false), $extras);
+        $extras = array_merge(array('text_domain' => $this->getApplicationContext()->text_domain, 'escape' => true, 'target' => false), $extras);
 
         if (!$text) {
             $text = $href;
         }
 
-        $url = $this->ctx->getComponent('\\FS\\Components\\Url')->make($name_or_href, $extras['escape']);
+        $url = $this->getApplicationContext()->getComponent('\\FS\\Components\\Url')->make($name_or_href, $extras['escape']);
 
         if ($extras['escape']) {
             $href = $url ? $url : esc_url($name_or_href);

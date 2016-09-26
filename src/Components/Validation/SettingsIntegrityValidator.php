@@ -6,7 +6,7 @@ class SettingsIntegrityValidator extends \FS\Components\AbstractComponent implem
 {
     public function validate($target, \FS\Components\Notifier $notifier)
     {
-        $client = $this->ctx->getComponent('\\FS\\Components\\Http\\Client');
+        $client = $this->getApplicationContext()->getComponent('\\FS\\Components\\Http\\Client');
 
         $request = array(
             'from' => array(
