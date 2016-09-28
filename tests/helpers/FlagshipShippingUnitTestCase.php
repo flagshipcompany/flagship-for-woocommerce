@@ -17,8 +17,25 @@ class FlagshipShippingUnitTestCase extends WP_UnitTestCase
 
         $settings = include __DIR__.'/../fixtures/FlagshipApplicationSettings.php';
 
-        $this->ctx = \FS\Context\ApplicationContext::getInstance();
-        $this->ctx->initialize(new \FS\Container(), new \FS\Configuration());
+        $ctx = \FS\Context\ApplicationContext::getInstance();
+
+        $ctx->setContainer(new \FS\Container());
+        $ctx->setConfiguration(new \FS\Configuration());
+
+        $ctx->getComponents(array(
+            '\\FS\\Components\\Web\\RequestParam',
+            '\\FS\\Components\\Settings',
+            '\\FS\\Components\\Options',
+            '\\FS\\Components\\Debugger',
+            '\\FS\\Components\\Html',
+            '\\FS\\Components\\Viewer',
+            '\\FS\\Components\\Url',
+            '\\FS\\Components\\Notifier',
+            // '\\FS\\Components\\Hook\\HookManager',
+            '\\FS\\Components\\Http\\Client',
+        ));
+
+        $this->ctx = $ctx;
     }
 
     /**
