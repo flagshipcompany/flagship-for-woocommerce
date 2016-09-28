@@ -59,7 +59,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
      */
     public function init()
     {
-        $this->instance_form_fields = array(
+        $formFields = array(
             'basics' => array(
                 'title' => __('Essentials', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
@@ -343,6 +343,9 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'description' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
         );
+
+        $this->instance_form_fields = $formFields;
+        $this->form_fields = $formFields;
 
         // Save settings in admin if you have any defined
         add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));

@@ -8,8 +8,6 @@ class Pickup extends \FS\Components\AbstractComponent
     {
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
-        $options->sync(5);
-
         $requestFactory = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
         $orderShippingsFactory = $this->getApplicationContext()
@@ -58,7 +56,6 @@ class Pickup extends \FS\Components\AbstractComponent
     {
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
-        $options->sync(5);
 
         $client = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Http\\Client');
@@ -88,8 +85,6 @@ class Pickup extends \FS\Components\AbstractComponent
     {
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
-        $options->sync(5);
-
         $requestFactory = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
         $orderShippingsFactory = $this->getApplicationContext()
