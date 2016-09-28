@@ -10,8 +10,14 @@ class ShippingServiceBuilder extends \FS\Components\AbstractComponent implements
 
         $service = $payload['order']->getShippingService($overloadShippingMethod);
 
-        return array_filter($service, function ($key) {
-            return $key == 'courier_name' || $key == 'courier_code';
-        }, ARRAY_FILTER_USE_KEY);
+        $retService = array();
+
+        foreach ($service as $key => $value) {
+        	if ($key == 'courier_name' || $key == 'courier_code') {
+        		$retService[$key] = $value;
+        	}
+        }
+
+        return $retService;
     }
 }
