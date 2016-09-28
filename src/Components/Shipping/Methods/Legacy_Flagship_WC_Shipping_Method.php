@@ -1,10 +1,8 @@
 <?php
 
-namespace FS\Components\Shipping\Methods;
-
-class LegacyFlagShipWCShippingMethod extends \WC_Shipping_Method
+class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
 {
-    protected $app;
+    protected $ctx;
 
     /**
      * Constructor for your shipping class.
@@ -118,7 +116,7 @@ class LegacyFlagShipWCShippingMethod extends \WC_Shipping_Method
 
         $rates = $rateProcessor->convertToWcShippingRate($response->getBody(), $this->instance_id);
 
-        $offer_rates = $this->get_instance_option('offer_rates', 'all');
+        $offer_rates = $this->get_option('offer_rates', 'all');
 
         if ($offer_rates == 'all') {
             foreach ($rates as $rate) {

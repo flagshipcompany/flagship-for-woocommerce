@@ -30,7 +30,9 @@ class SetupFilters extends Engine implements Factory\HookRegisterAwareInterface
         if (\version_compare(WC()->version, '2.6', '>=')) {
             $methods[$id] = '\\FS\\Components\\Shipping\\Methods\\FlagshipWcShippingMethod';
         } else {
-            $methods[] = '\\FS\\Components\\Shipping\\Methods\\LegacyFlagshipWcShippingMethod';
+            include_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'src/Components/Shipping/Methods/Legacy_Flagship_WC_Shipping_Method.php';
+
+            $methods[$id] = new \FlagShip_WC_Shipping_Method();
         }
 
         return $methods;
