@@ -4,17 +4,19 @@ namespace FS\Components\Shipping\RequestBuilder\ShoppingOrder;
 
 class ReceiverAddressBuilder extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {
-    public function build($order = null)
+    public function build($payload = null)
     {
+        $wcOrder = $payload['order']->getWcOrder();
+
         $address = array(
-            'name' => $order->shipping_company,
-            'attn' => $order->shipping_first_name.' '.$order->shipping_last_name,
-            'address' => trim($order->shipping_address_1.' '.$order->shipping_address_2),
-            'city' => $order->shipping_city,
-            'state' => $order->shipping_state,
-            'country' => $order->shipping_country,
-            'postal_code' => $order->shipping_postcode,
-            'phone' => $order->billing_phone, // no such a field in the shipping!?
+            'name' => $wcOrder->shipping_company,
+            'attn' => $wcOrder->shipping_first_name.' '.$wcOrder->shipping_last_name,
+            'address' => trim($wcOrder->shipping_address_1.' '.$wcOrder->shipping_address_2),
+            'city' => $wcOrder->shipping_city,
+            'state' => $wcOrder->shipping_state,
+            'country' => $wcOrder->shipping_country,
+            'postal_code' => $wcOrder->shipping_postcode,
+            'phone' => $wcOrder->billing_phone, // no such a field in the shipping!?
         );
 
         if (empty($address['name'])) {

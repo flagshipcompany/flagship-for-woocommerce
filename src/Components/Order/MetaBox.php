@@ -24,7 +24,7 @@ class MetaBox extends \FS\Components\AbstractComponent
         $notifier = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Notifier');
 
-        $shipment = $order->get('flagship_shipping_raw');
+        $shipment = $order->getFlagShipRaw();
 
         if ($shipment) {
             $notifier->warning(sprintf('You have flagship shipment for this order. FlagShip ID (%s)', $this->shipment['shipment_id']));
@@ -54,12 +54,12 @@ class MetaBox extends \FS\Components\AbstractComponent
 
         $confirmed = $response->getBody();
 
-        $order->delete('flagship_shipping_requote_rates')
-            ->set('flagship_shipping_shipment_id', $confirmed['shipment_id'])
-            ->set('flagship_shipping_shipment_tracking_number', $confirmed['tracking_number'])
-            ->set('flagship_shipping_courier_name', $confirmed['service']['courier_name'])
-            ->set('flagship_shipping_courier_service_code', $confirmed['service']['courier_code'])
-            ->set('flagship_shipping_raw', $confirmed);
+        $order->deleteAttribute('flagship_shipping_requote_rates')
+            ->setAttribute('flagship_shipping_shipment_id', $confirmed['shipment_id'])
+            ->setAttribute('flagship_shipping_shipment_tracking_number', $confirmed['tracking_number'])
+            ->setAttribute('flagship_shipping_courier_name', $confirmed['service']['courier_name'])
+            ->setAttribute('flagship_shipping_courier_service_code', $confirmed['service']['courier_code'])
+            ->setFlagShipRaw($confirmed);
     }
 
     public function voidShipment(\FS\Components\Order\ShoppingOrder $order)
@@ -69,8 +69,8 @@ class MetaBox extends \FS\Components\AbstractComponent
         $notifier = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Notifier');
 
-        $shipment = $order->get('flagship_shipping_raw');
-        $shipmentId = $order->get('flagship_shipping_shipment_id');
+        $shipment = $order->getAttribute('flagship_shipping_raw');
+        $shipmentId = $order->getAttribute('flagship_shipping_shipment_id');
 
         if (!$shipment || !$shipmentId) {
             $notifier->warning(sprintf('Unable to access shipment with FlagShip ID (%s)', $shipmentId));
@@ -90,14 +90,14 @@ class MetaBox extends \FS\Components\AbstractComponent
         }
 
         if (empty($shipment['pickup'])) {
-            $order->delete('flagship_shipping_raw');
+            $order->deleteAttribute('flagship_shipping_raw');
 
             return;
         }
 
         $this->voidPickup($order);
 
-        $order->delete('flagship_shipping_raw');
+        $order->deleteAttribute('flagship_shipping_raw');
     }
 
     public function requoteShipment(\FS\Components\Order\ShoppingOrder $order)
@@ -118,7 +118,7 @@ class MetaBox extends \FS\Components\AbstractComponent
         $response = $command->quote(
             $client,
             $factory->setPayload(array(
-                'order' => $order->getWcOrder(),
+                'order' => $order,
                 'options' => $options,
             ))->getRequest()
         );
@@ -138,7 +138,7 @@ class MetaBox extends \FS\Components\AbstractComponent
         }
 
         if ($wcShippingRates) {
-            $order->set('flagship_shipping_requote_rates', $wcShippingRates);
+            $order->setAttribute('flagship_shipping_requote_rates', $wcShippingRates);
         }
     }
 
@@ -157,7 +157,7 @@ class MetaBox extends \FS\Components\AbstractComponent
         $factory = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPickupRequestFactory');
 
-        $shipment = $order->get('flagship_shipping_raw');
+        $shipment = $order->getFlagShipRaw();
 
         if (!$shipment) {
             return;
@@ -181,7 +181,7 @@ class MetaBox extends \FS\Components\AbstractComponent
 
         $shipment['pickup'] = $response->getBody();
 
-        $order->set('flagship_shipping_raw', $shipment);
+        $order->setFlagShipRaw($shipment);
     }
 
     public function voidPickup(\FS\Components\Order\ShoppingOrder $order)
@@ -193,7 +193,7 @@ class MetaBox extends \FS\Components\AbstractComponent
         $notifier = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Notifier');
 
-        $shipment = $order->get('flagship_shipping_raw');
+        $shipment = $order->getFlagShipRaw();
 
         $response = $client->delete('/pickups/'.$shipment['pickup']['id']);
 
@@ -205,6 +205,6 @@ class MetaBox extends \FS\Components\AbstractComponent
 
         unset($shipment['pickup']);
 
-        $order->set('flagship_shipping_raw', $shipment);
+        $order->setFlagShipRaw($shipment);
     }
 }

@@ -6,11 +6,11 @@ class PackageItemsBuilder extends \FS\Components\Shipping\RequestBuilder\Abstrac
 {
     protected function makeProductItems($payload = null)
     {
-        $order_items = $payload['order']->get_items();
+        $order_items = $payload['order']->getWcOrder()->get_items();
         $product_items = array();
 
         foreach ($order_items as $order_item) {
-            $product = $payload['order']->get_product_from_item($order_item);
+            $product = $payload['order']->getWcOrder()->get_product_from_item($order_item);
 
             $count = 0;
 

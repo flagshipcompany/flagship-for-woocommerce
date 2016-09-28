@@ -6,14 +6,16 @@ abstract class AbstractComponent extends \FS\Context\Support\AbstractApplication
 {
     protected static $scope = 'singleton';
 
-    public function getScope()
+    public static function getScope()
     {
-        return self::$scope;
+        return static::$scope;
     }
 
     public function debug($var)
     {
-        $this->getApplicationContext()->getComponent('\\FS\\Components\\Debugger')->log($var);
+        $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Debugger')
+            ->log($var);
     }
 
     public function isContextRequired()

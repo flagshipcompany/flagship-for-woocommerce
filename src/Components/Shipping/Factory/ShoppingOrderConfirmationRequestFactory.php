@@ -16,7 +16,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
 
         $toAddress = $this->makeRequestPart(
             new \FS\Components\Shipping\RequestBuilder\ShoppingOrder\ReceiverAddressBuilder(),
-            $this->payload['order']->getWcOrder()
+            $this->payload
         );
 
         $request->setRequestPart(
@@ -28,7 +28,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
             'packages',
             $this->makeRequestPart(
                 $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\PackageItemsBuilder'),
-                $this->payload['order']->getWcOrder()
+                $this->payload
             )
         );
 

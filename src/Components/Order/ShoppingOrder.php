@@ -4,11 +4,17 @@ namespace FS\Components\Order;
 
 class ShoppingOrder extends \FS\Components\AbstractComponent implements WcOrderAwareInterface
 {
+    protected static $scope = 'prototype';
+
+    protected static $domesticCountry = 'CA';
+
     protected $wcOrder;
+    protected $shipment = null;
 
     public function setWcOrder($wcOrder)
     {
         $this->wcOrder = $wcOrder;
+        $this->getShipment(true);
 
         return $this;
     }
@@ -23,14 +29,14 @@ class ShoppingOrder extends \FS\Components\AbstractComponent implements WcOrderA
         return $this->wcOrder->id;
     }
 
-    public function get($key)
+    public function getAttribute($key)
     {
         $data = get_post_meta($this->getId(), $key, true);
 
         return $data;
     }
 
-    public function set($key, $value)
+    public function setAttribute($key, $value)
     {
         // fix double quote slash
         if (is_string($value)) {
@@ -42,9 +48,47 @@ class ShoppingOrder extends \FS\Components\AbstractComponent implements WcOrderA
         return $this;
     }
 
-    public function delete($key)
+    public function getShipment($forceSync = false)
+    {
+        if (!$forceSync) {
+            return $this->shipment;
+        }
+
+        $rawShipment = $this->getFlagShipRaw();
+
+        if (!$rawShipment) {
+            return;
+        }
+
+        $this->shipment = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\Shipment');
+        // $this->shipment = new \FS\Components\Order\Shipment();
+
+        // $this->shipment->setApplicationContext($this->getApplicationContext());
+        $this->shipment->setRawShipment($rawShipment);
+
+        return $this->shipment;
+    }
+
+    public function isInternational()
+    {
+        return $this->getWcOrder()->shipping_country != self::$domesticCountry;
+    }
+
+    public function deleteAttribute($key)
     {
         delete_post_meta($this->getId(), $key);
+
+        return $this;
+    }
+
+    public function getFlagShipRaw($key = 'flagship_shipping_raw')
+    {
+        return $this->getAttribute($key);
+    }
+
+    public function setFlagShipRaw($data)
+    {
+        $this->setAttribute('flagship_shipping_raw', $data);
 
         return $this;
     }

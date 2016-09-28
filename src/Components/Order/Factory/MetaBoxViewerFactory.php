@@ -19,7 +19,7 @@ class MetaBoxViewerFactory extends \FS\Components\AbstractComponent implements V
         $payload = array();
 
         $settings = $this->getApplicationContext()->getComponent('\\FS\\Components\\Settings');
-        $shipment = $order->get('flagship_shipping_raw');
+        $shipment = $order->getFlagShipRaw();
 
         $service = $order->getShippingService();
 
@@ -46,7 +46,7 @@ class MetaBoxViewerFactory extends \FS\Components\AbstractComponent implements V
         }
 
         // requotes
-        if ($requoteRates = $order->get('flagship_shipping_requote_rates')) {
+        if ($requoteRates = $order->getAttribute('flagship_shipping_requote_rates')) {
             $payload['requote_rates'] = $requoteRates;
         }
 

@@ -16,7 +16,7 @@ class ShoppingOrderRateRequestFactory extends AbstractRequestFactory implements 
 
         $toAddress = $this->makeRequestPart(
             new \FS\Components\Shipping\RequestBuilder\ShoppingOrder\ReceiverAddressBuilder(),
-            $this->payload['order']
+            $this->payload
         );
 
         $request->setRequestPart(

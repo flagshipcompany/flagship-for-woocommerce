@@ -2,8 +2,6 @@
 
 namespace FS\Components\Hook;
 
-require_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php';
-
 class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterface
 {
     protected $type = 'action';
@@ -15,14 +13,11 @@ class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterfac
         }
 
         // add meta boxes (eg: side box)
-        $this->add('add_meta_boxes');
+        $this->add('add_meta_boxes', 'addMetaBoxAction');
         $this->add('woocommerce_process_shop_order_meta', 'metaBoxActionWrapper');
-
-        // add pickup custom post type
-        $this->add('init', 'woocomerce_register_post_type_action');
     }
 
-    public function add_meta_boxes_action()
+    public function addMetaBoxAction()
     {
         $metaBox = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\MetaBox');
 
@@ -36,17 +31,12 @@ class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterfac
         );
     }
 
-    public function woocomerce_register_post_type_action()
-    {
-        \Wc_Admin_Post_Types_Flagship_Shipping_Pickup::register();
-    }
-
     public function metaBoxActionWrapper($post_id, $post)
     {
-        $order = wc_get_order($post_id);
+        $wcOrder = wc_get_order($post_id);
         $shoppingOrder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
 
-        $shoppingOrder->setWcOrder($order);
+        $shoppingOrder->setWcOrder($wcOrder);
 
         $metaBox = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\MetaBox');
         $rp = $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam');
@@ -90,12 +80,12 @@ class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterfac
 
     public function metaBoxDisplayWrapper($post)
     {
-        $order = wc_get_order($post->ID);
+        $wcOrder = wc_get_order($post->ID);
 
         $metaBox = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\MetaBox');
         $shoppingOrder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
 
-        $shoppingOrder->setWcOrder($order);
+        $shoppingOrder->setWcOrder($wcOrder);
 
         $metaBox->display($shoppingOrder);
     }
