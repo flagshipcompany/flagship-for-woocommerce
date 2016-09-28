@@ -74,7 +74,7 @@ class FlattenOrderShippingsFactory extends \FS\Components\AbstractComponent
                 continue;
             }
 
-            $type = $isInternatioanl ? 'international' : 'domestic';
+            $type = $isInternational ? 'international' : 'domestic';
 
             if ($courier == 'ups') {
                 $data[$courier][$type][] = $order;

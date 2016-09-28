@@ -14,21 +14,21 @@ class PickupPostTypeActions extends Engine implements Factory\HookRegisterAwareI
                 'woocommerce_register_post_type_flagship_shipping_pickup',
                 array(
                     'labels' => array(
-                            'name' => __('Pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'singular_name' => __('Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'menu_name' => _x('Pick-ups', 'Admin menu name', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'add_new' => __('Add Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'add_new_item' => __('Schedule New Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'edit' => __('Edit', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'edit_item' => __('Edit Coupon', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'new_item' => __('New Coupon', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'view' => __('View Pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'view_item' => __('View Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'search_items' => __('Search Pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'not_found' => __('No Pick-ups found', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'not_found_in_trash' => __('No Pick-ups found in trash', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                            'parent' => __('Parent pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                        ),
+                        'name' => __('Pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'singular_name' => __('Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'menu_name' => _x('Pick-ups', 'Admin menu name', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'add_new' => __('Add Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'add_new_item' => __('Schedule New Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'edit' => __('Edit', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'edit_item' => __('Edit Coupon', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'new_item' => __('New Coupon', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'view' => __('View Pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'view_item' => __('View Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'search_items' => __('Search Pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'not_found' => __('No Pick-ups found', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'not_found_in_trash' => __('No Pick-ups found in trash', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                        'parent' => __('Parent pick-ups', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                    ),
                     'description' => __('This is where you can add new coupons that customers can use in your store.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                     'public' => false,
                     'show_ui' => true,
@@ -64,6 +64,10 @@ class PickupPostTypeActions extends Engine implements Factory\HookRegisterAwareI
         add_filter('list_table_primary_column', array($this, 'list_table_primary_column'), 10, 2);
 
         add_action('load-edit.php', array($this, 'save'));
+
+        // add_action('admin_menu', function(){
+        //     add_submenu_page('woocommerce', __('Pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN), _x('Pick-ups', 'Admin menu name', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'create_posts', 'edit.php?post_type=flagship_pickup');
+        // }, 12);
     }
 
     public function render_flagship_pickup_columns($column, $post_id)

@@ -28,6 +28,6 @@ class Shipment extends \FS\Components\AbstractComponent
 
     public function isFedexGround()
     {
-        return $this->getCourier() == 'fedex' && (strpos($this->rawShipment['shipment']['service']['courier_code'], 'FedexGround') !== false);
+        return $this->getCourier() == 'fedex' && (strpos($this->rawShipment['service']['courier_code'], 'FedexGround') !== false);
     }
 }

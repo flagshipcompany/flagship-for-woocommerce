@@ -17,25 +17,8 @@ class FlagshipShippingUnitTestCase extends WP_UnitTestCase
 
         $settings = include __DIR__.'/../fixtures/FlagshipApplicationSettings.php';
 
-        $this->ctx = FSApplicationContext::get_instance();
-
-        $this->ctx->load('Configs');
-        $this->ctx['configs']->add($settings);
-
-        $this->ctx->dependency(array(
-            'Request',
-            'Html',
-            'View',
-            'Options',
-            'Client',
-            'Notification',
-            'Validation',
-            // 'Hook',
-            'Url',
-            'Address',
-        ));
-
-        $this->ctx['options']->sync();
+        $this->ctx = \FS\Context\ApplicationContext::getInstance();
+        $this->ctx->initialize(new \FS\Container(), new \FS\Configuration());
     }
 
     /**
@@ -54,6 +37,11 @@ class FlagshipShippingUnitTestCase extends WP_UnitTestCase
         $settings = include_once __DIR__.'/../fixtures/FlagshipShippingPluginSettings.php';
 
         update_option('woocommerce_flagship_shipping_method_settings', $settings);
+    }
+
+    public function getApplicationContext()
+    {
+        return $this->ctx;
     }
 
     public function log($var)

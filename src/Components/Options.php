@@ -58,7 +58,7 @@ class Options extends \FS\Components\AbstractComponent implements Factory\Compon
         $this->sync();
         $this->options[$key] = $value;
 
-        update_option($this->name, $this->options);
+        update_option($this->wpOptionName, $this->options);
 
         return $this;
     }

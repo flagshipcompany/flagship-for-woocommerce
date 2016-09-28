@@ -75,7 +75,7 @@ class ShippingOptionsBuilder extends \FS\Components\AbstractComponent implements
                 'inquiry_phone' => preg_replace('(\D)', '', $payload['from']['phone']),
             );
 
-            $shippingOptions['declared_items'] = $this->getDeclaredItems($order);
+            $shippingOptions['declared_items'] = $this->getDeclaredItems($payload['order']);
         }
 
         return $shippingOptions;
@@ -86,10 +86,10 @@ class ShippingOptionsBuilder extends \FS\Components\AbstractComponent implements
         $items = array();
         $items['currency'] = strtoupper(get_woocommerce_currency());
 
-        $order_items = $order->get_items();
+        $order_items = $order->getWcOrder()->get_items();
 
         foreach ($order_items as $order_item) {
-            $product = $order->get_product_from_item($order_item);
+            $product = $order->getWcOrder()->get_product_from_item($order_item);
 
             $description = substr(get_post($product->id)->post_content, 0, 50);
 

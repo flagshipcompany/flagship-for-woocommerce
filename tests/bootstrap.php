@@ -39,7 +39,7 @@ class Flagship_For_WooCommerce_Tests_Bootstrap
     public function loadPlugin()
     {
         require $this->pluginDir.'/flagship-for-woocommerce.php';
-        require_once $this->pluginDir.'/includes/FSApplicationContext.php';
+        require_once $this->pluginDir.'/vendor/autoload.php';
     }
 
     public function loadWooCommerce()

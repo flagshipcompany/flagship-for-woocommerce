@@ -6,7 +6,7 @@ class Settings extends \FS\Container
 {
     protected static $scope = 'singleton';
 
-    public function getScope()
+    public static function getScope()
     {
         return self::$scope;
     }
