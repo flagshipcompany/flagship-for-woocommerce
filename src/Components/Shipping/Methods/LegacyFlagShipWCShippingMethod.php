@@ -46,10 +46,10 @@ class LegacyFlagShipWCShippingMethod extends \WC_Shipping_Method
 
         load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-for-woocommerce/languages');
 
-        // filters
-        $this->ctx
-            ->getComponent('\\FS\\Components\\Hook\\HookManager')
-            ->registerHook('\\FS\\Components\\Hook\\SettingsFilters');
+        // // filters
+        // $this->ctx
+        //     ->getComponent('\\FS\\Components\\Hook\\HookManager')
+        //     ->registerHook('\\FS\\Components\\Hook\\SettingsFilters');
     }
 
     /**
@@ -73,13 +73,20 @@ class LegacyFlagShipWCShippingMethod extends \WC_Shipping_Method
      */
     public function calculate_shipping($package = array())
     {
-        $command = $this->ctx->getComponent('\\FS\\Components\\Shipping\\Command');
-        $factory = $this->ctx->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingCartRateRequestFactory');
-        $client = $this->ctx->getComponent('\\FS\\Components\\Http\\Client');
-        $notifier = $this->ctx->getComponent('\\FS\\Components\\Http\\Notifier');
-        $convertor = $this->ctx->getComponent('\\FS\\Shipping\\RateConvertor');
-
+        $options = $this->ctx
+            ->getComponent('\\FS\\Components\\Options');
+        $command = $this->ctx
+            ->getComponent('\\FS\\Components\\Shipping\\Command');
+        $factory = $this->ctx
+            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingCartRateRequestFactory');
+        $client = $this->ctx
+            ->getComponent('\\FS\\Components\\Http\\Client');
+        $client->setToken($options->get('token'));
+        $notifier = $this->ctx
+            ->getComponent('\\FS\\Components\\Notifier');
         $notifier->scope('cart');
+        $rateProcessor = $this->ctx
+            ->getComponent('\\FS\\Components\\Shipping\\RateProcessor');
 
         // when store owner disable front end warning for their customer
         if ($options->equal('disable_api_warning', 'yes')) {
@@ -96,7 +103,10 @@ class LegacyFlagShipWCShippingMethod extends \WC_Shipping_Method
 
         $response = $command->quote(
             $client,
-            $factory->setPayload($package)->getRequest()
+            $factory->setPayload(array(
+                'package' => $package,
+                'options' => $options,
+            ))->getRequest()
         );
 
         if (!$response->isSuccessful()) {
@@ -106,9 +116,9 @@ class LegacyFlagShipWCShippingMethod extends \WC_Shipping_Method
             return;
         }
 
-        $rates = $convertor->convertToWcShippingRate($response->getBody());
+        $rates = $rateProcessor->convertToWcShippingRate($response->getBody(), $this->instance_id);
 
-        $offer_rates = $this->get_option('offer_rates');
+        $offer_rates = $this->get_instance_option('offer_rates', 'all');
 
         if ($offer_rates == 'all') {
             foreach ($rates as $rate) {
@@ -133,7 +143,7 @@ class LegacyFlagShipWCShippingMethod extends \WC_Shipping_Method
             --$count;
         }
 
-        $this->ctx['notification']->view();
+        $notifier->view();
     }
 
     public function init_form_fields()
