@@ -10,12 +10,13 @@ class Url extends \FS\Components\AbstractComponent
         $base_url;
 
         $page = \version_compare(WC()->version, '2.1', '>=') ? 'wc-settings' : 'woocommerce_settings';
+        $isVer26OorNewer = \version_compare(WC()->version, '2.6', '>=');
 
         switch ($name) {
             case 'flagship_shipping_settings':
                 $args['page'] = $page;
                 $args['tab'] = 'shipping';
-                $args['section'] = 'flagship_wc_shipping_method';
+                $args['section'] = $isVer26OorNewer ? $this->getApplicationContext()->getComponent('\\FS\\Components\\Settings')['FLAGSHIP_SHIPPING_PLUGIN_ID'] : 'flagship_wc_shipping_method';
                 $base_url = admin_url('admin.php');
                 break;
             case 'wc_tax_settings':
