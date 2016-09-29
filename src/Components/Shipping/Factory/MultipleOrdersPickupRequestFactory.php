@@ -4,13 +4,15 @@ namespace FS\Components\Shipping\Factory;
 
 class MultipleOrdersPickupRequestFactory extends AbstractRequestFactory implements FormattedRequestInterface
 {
-    public function makeRequest(FormattedRequestInterface $request)
+    public function makeRequest(FormattedRequestInterface $request, \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory $factory)
     {
         $request->setRequestPart(
             'address',
             $this->makeRequestPart(
-                new \FS\Components\Shipping\RequestBuilder\ShipperAddressBuilder(),
-                $this->payload['options']
+                $factory->getBuilder('ShipperAddress', array(
+                    'type' => 'order',
+                )),
+                $this->payload
             )
         );
 

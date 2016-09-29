@@ -2,11 +2,12 @@
 
 namespace FS\Components\Http;
 
-class Client extends \FS\Components\AbstractComponent
+class Client extends \FS\Components\AbstractComponent implements RequestRunner\RequestRunnerAwareInterface
 {
     protected $token = null;
     protected $apiEntryPoint;
     protected $timeout;
+    protected $requestRunner;
 
     public function setToken($token)
     {
@@ -34,39 +35,31 @@ class Client extends \FS\Components\AbstractComponent
         return (bool) $this->token;
     }
 
+    public function setRequestRunner(RequestRunner\RequestRunnerInterface $requestRunner)
+    {
+        $this->requestRunner = $requestRunner;
+
+        return $this;
+    }
+
+    public function getRequestRunner()
+    {
+        return $this->requestRunner;
+    }
+
     public function request($uri, $data = array(), $method = 'GET', array $headers = array())
     {
-        $url = $this->apiEntryPoint.$uri;
+        $configs = array();
 
-        $args = array();
-        $args['method'] = $method;
-        $args['body'] = $data;
+        $configs['url'] = $this->apiEntryPoint.$uri;
+        $configs['method'] = $method;
+        $configs['data'] = $data;
+        $configs['headers'] = $this->makeHeaders($headers);
+        $configs['timeout'] = $this->timeout;
 
-        $args['headers'] = $this->makeHeaders($headers);
-        $args['timeout'] = $this->timeout; // seconds
+        $response = $this->getRequestRunner()->run($configs);
 
-        try {
-            $response = wp_remote_request(esc_url_raw($url), $args);
-
-            if (is_wp_error($response)) {
-                throw new \Exception($response->get_error_message(), 500 | wp_remote_retrieve_response_code($response));
-            }
-        } catch (Exception $e) {
-            return new Response(array(
-                'errors' => array(array($e->getMessage())),
-                'content' => array(),
-            ), $e->getCode());
-        }
-
-        $ar = new Response(json_decode(wp_remote_retrieve_body($response), true), wp_remote_retrieve_response_code($response));
-
-        if (!$ar->isSuccessful()) {
-            $this->getApplicationContext()
-                ->getComponent('\\FS\\Components\\Notifier')
-                ->error('FlagShip API Error: '.$this->getApplicationContext()->getComponent('\\FS\\Components\\Html')->ul($ar->getError()));
-        }
-
-        return $ar;
+        return $response;
     }
 
     public function get($uri, array $data = array())

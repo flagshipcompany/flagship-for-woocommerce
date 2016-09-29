@@ -42,7 +42,7 @@ class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterfac
         $rp = $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam');
 
         // config components for metabox action usage
-        $this->getApplicationContext()
+        $notifier = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Notifier')
             ->scope('shop_order', array('id' => $shoppingOrder->getId()));
 
@@ -86,6 +86,10 @@ class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterfac
         $shoppingOrder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
 
         $shoppingOrder->setWcOrder($wcOrder);
+
+        $notifier = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Notifier')
+            ->scope('shop_order', array('id' => $shoppingOrder->getId()));
 
         $metaBox->display($shoppingOrder);
     }

@@ -23,7 +23,7 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
 
     public function testShipperAddressRequestBuilder()
     {
-        $builder = new \FS\Components\Shipping\RequestBuilder\ShipperAddressBuilder();
+        $builder = new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\ShipperAddressBuilder();
         $options = $this->ctx->getComponent('\\FS\\Components\\Options');
 
         $this->assertSame(array(
@@ -36,12 +36,12 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
             'attn' => 'FlagShip Tester',
             'phone' => '+1 866 320 8383',
             'ext' => '',
-        ), $builder->build($options));
+        ), $builder->build(array('options' => $options)));
     }
 
     public function testShoppingCartPackageItemsBuilder()
     {
-        $builder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingCart\\PackageItemsBuilder');
+        $builder = new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Cart\PackageItemsBuilder();
 
         $this->assertSame(array(
             'items' => array(
@@ -58,12 +58,13 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
         ), $builder->build(array(
             'package' => $this->package,
             'options' => $this->ctx->getComponent('\\FS\\Components\\Options'),
+            'notifier' => $this->ctx->getComponent('\\FS\\Components\\Notifier'),
         )));
     }
 
     public function testShoppingCartReceiverAddressBuilder()
     {
-        $builder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingCart\\ReceiverAddressBuilder');
+        $builder = new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Cart\ReceiverAddressBuilder();
 
         $this->assertSame(array(
             'country' => 'CA',
@@ -71,12 +72,14 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
             'city' => 'Verdun',
             'postal_code' => 'H3E 1H2',
             'address' => '1460 N. MAIN STREET, # 9 ',
-        ), $builder->build($this->package));
+        ), $builder->build(array(
+            'package' => $this->package,
+        )));
     }
 
     public function testShoppingOrderPackageItemsBuilder()
     {
-        $builder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\PackageItemsBuilder');
+        $builder = new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Order\PackageItemsBuilder();
 
         $this->assertSame(array(
             'items' => array(
@@ -98,7 +101,7 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
 
     public function testShoppingOrderReceiverAddressBuilder()
     {
-        $builder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\ReceiverAddressBuilder');
+        $builder = new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Order\ReceiverAddressBuilder();
 
         $this->assertSame(array(
             'name' => 'WooCompany',

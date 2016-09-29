@@ -20,7 +20,7 @@ class ApplicationContext extends AbstractApplicationContext implements \FS\Compo
         $this->getComponent('\\FS\\Components\\Debugger')->log($data);
     }
 
-    public static function initialize(\FS\Container $container, \FS\Configuration $configuration)
+    public static function initialize(\FS\Container $container, \FS\Components\Factory\ConfigurationInterface $configuration)
     {
         $ctx = self::getInstance();
 
@@ -39,42 +39,6 @@ class ApplicationContext extends AbstractApplicationContext implements \FS\Compo
             '\\FS\\Components\\Hook\\HookManager',
             '\\FS\\Components\\Http\\Client',
         ));
-
-        return $ctx;
-    }
-
-    public static function init($configs = array())
-    {
-        $ctx = self::getInstance();
-
-        $ctx->getComponent('\\FS\\Components\\Configs\\Configuration');
-
-        spl_autoload_register(array('FSApplicationContext', 'autoload'));
-
-        $ctx->load('Configs');
-        $ctx['configs']->add($configs);
-        if ($ctx['configs']->get('FLAGSHIP_SHIPPING_PLUGIN_DEBUG')) {
-            $ctx['configs']->add(array(
-                'FLAGSHIP_SHIPPING_API_ENTRY_POINT' => 'http://127.0.0.1:3002',
-            ));
-
-            $ctx->load('Console');
-        }
-
-        $ctx->dependency(array(
-            'Request', //
-            'Html',
-            'View',
-            'Options', //
-            'Client',
-            'Notification',
-            'Validation',
-            'Hook',
-            'Url',
-            'Address',
-        ));
-
-        $component = new FSComponent($ctx);
 
         return $ctx;
     }

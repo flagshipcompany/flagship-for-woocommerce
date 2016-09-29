@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\ShoppingOrder;
+namespace FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Order;
 
 class PackageItemsBuilder extends \FS\Components\Shipping\RequestBuilder\AbstractPackageItemsBuilder implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {

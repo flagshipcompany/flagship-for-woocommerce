@@ -4,18 +4,22 @@ namespace FS\Components\Shipping\Factory;
 
 class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory implements FormattedRequestInterface
 {
-    public function makeRequest(FormattedRequestInterface $request)
+    public function makeRequest(FormattedRequestInterface $request, \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory $factory)
     {
         $request->setRequestPart(
             'from',
             $this->makeRequestPart(
-                new \FS\Components\Shipping\RequestBuilder\ShipperAddressBuilder(),
-                $this->payload['options']
+                $factory->getBuilder('ShipperAddress', array(
+                    'type' => 'order',
+                )),
+                $this->payload
             )
         );
 
         $toAddress = $this->makeRequestPart(
-            new \FS\Components\Shipping\RequestBuilder\ShoppingOrder\ReceiverAddressBuilder(),
+            $factory->getBuilder('ReceiverAddress', array(
+                'type' => 'order',
+            )),
             $this->payload
         );
 
@@ -27,7 +31,9 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->setRequestPart(
             'packages',
             $this->makeRequestPart(
-                $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\PackageItemsBuilder'),
+                $factory->getBuilder('PackageItems', array(
+                    'type' => 'order',
+                )),
                 $this->payload
             )
         );
@@ -42,7 +48,9 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->setRequestPart(
             'service',
             $this->makeRequestPart(
-                $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\ShippingServiceBuilder'),
+                $factory->getBuilder('ShippingService', array(
+                    'type' => 'order',
+                )),
                 $this->payload
             )
         );
@@ -50,7 +58,9 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->setRequestPart(
             'options',
             $this->makeRequestPart(
-                $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\ShippingOptionsBuilder'),
+                $factory->getBuilder('ShippingOptions', array(
+                    'type' => 'order',
+                )),
                 $this->payload + $request->getRequest()
             )
         );

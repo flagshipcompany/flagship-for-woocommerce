@@ -9,7 +9,7 @@ abstract class AbstractPackageItemsBuilder extends \FS\Components\AbstractCompon
     public function build($payload = null)
     {
         $packages = array(
-            'items' => $this->makePackageItems($this->makeProductItems($payload)),
+            'items' => $this->makePackageItems($this->makeProductItems($payload), $payload),
             'units' => 'imperial',
             'type' => 'package',
         );
@@ -17,9 +17,9 @@ abstract class AbstractPackageItemsBuilder extends \FS\Components\AbstractCompon
         return $packages;
     }
 
-    protected function makePackageItems($product_items)
+    protected function makePackageItems($product_items, $payload)
     {
-        $options = $this->getApplicationContext()->getComponent('\\FS\\Components\\Options');
+        $options = $payload['options'];
 
         $package_box_max_weight = (int) $options->get('default_package_box_split_weight', 20);
         $package_item_in_same_box = $options->get('default_package_box_split', 'no') == 'yes';

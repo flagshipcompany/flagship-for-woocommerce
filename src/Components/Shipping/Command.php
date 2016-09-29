@@ -11,7 +11,7 @@ class Command extends \FS\Components\AbstractComponent
             $request->getRequest()
         );
 
-        return $response;
+        return $this->validate($response);
     }
 
     public function confirm(\FS\Components\Http\Client $client, Factory\FormattedRequestInterface $request)
@@ -21,7 +21,7 @@ class Command extends \FS\Components\AbstractComponent
             $request->getRequest()
         );
 
-        return $response;
+        return $this->validate($response);
     }
 
     public function pickup(\FS\Components\Http\Client $client, Factory\FormattedRequestInterface $request)
@@ -30,6 +30,17 @@ class Command extends \FS\Components\AbstractComponent
             '/pickups',
             $request->getRequest()
         );
+
+        return $this->validate($response);
+    }
+
+    protected function validate(\FS\Components\Http\Response $response)
+    {
+        if (!$response->isSuccessful()) {
+            $this->getApplicationContext()
+                ->getComponent('\\FS\\Components\\Notifier')
+                ->error('FlagShip API Error: '.$this->getApplicationContext()->getComponent('\\FS\\Components\\Html')->ul($response->getError()));
+        }
 
         return $response;
     }

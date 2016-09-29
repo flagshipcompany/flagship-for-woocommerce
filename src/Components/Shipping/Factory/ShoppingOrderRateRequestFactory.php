@@ -4,18 +4,22 @@ namespace FS\Components\Shipping\Factory;
 
 class ShoppingOrderRateRequestFactory extends AbstractRequestFactory implements FormattedRequestInterface
 {
-    public function makeRequest(FormattedRequestInterface $request)
+    public function makeRequest(FormattedRequestInterface $request, \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory $factory)
     {
         $request->setRequestPart(
             'from',
             $this->makeRequestPart(
-                new \FS\Components\Shipping\RequestBuilder\ShipperAddressBuilder(),
-                $this->payload['options']
+                $factory->getBuilder('ShipperAddress', array(
+                    'type' => 'order',
+                )),
+                $this->payload
             )
         );
 
         $toAddress = $this->makeRequestPart(
-            new \FS\Components\Shipping\RequestBuilder\ShoppingOrder\ReceiverAddressBuilder(),
+            $factory->getBuilder('ReceiverAddress', array(
+                'type' => 'order',
+            )),
             $this->payload
         );
 
@@ -27,7 +31,9 @@ class ShoppingOrderRateRequestFactory extends AbstractRequestFactory implements 
         $request->setRequestPart(
             'packages',
             $this->makeRequestPart(
-                $this->getApplicationContext()->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShoppingOrder\\PackageItemsBuilder'),
+                $factory->getBuilder('PackageItems', array(
+                    'type' => 'order',
+                )),
                 $this->payload
             )
         );

@@ -10,8 +10,10 @@ abstract class AbstractRequestFactory extends \FS\Components\AbstractComponent i
     public function getRequest()
     {
         $request = new \FS\Components\Shipping\FormattedRequest();
+        $factory = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\Factory\\RequestBuilderFactory');
 
-        $this->makeRequest($request);
+        $this->makeRequest($request, $factory);
 
         return $request;
     }
@@ -23,7 +25,7 @@ abstract class AbstractRequestFactory extends \FS\Components\AbstractComponent i
         return $this;
     }
 
-    abstract public function makeRequest(FormattedRequestInterface $request);
+    abstract public function makeRequest(FormattedRequestInterface $request, \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory $factory);
 
     protected function makeRequestPart(
         \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface $builder,

@@ -422,6 +422,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             $factory->setPayload(array(
                 'package' => $package,
                 'options' => $options,
+                'notifier' => $notifier,
             ))->getRequest()
         );
 

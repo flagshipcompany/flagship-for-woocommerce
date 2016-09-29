@@ -1,11 +1,13 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\ShoppingCart;
+namespace FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Cart;
 
 class ReceiverAddressBuilder extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {
-    public function build($package = null)
+    public function build($payload = null)
     {
+        $package = $payload['package'];
+
         $address = array(
             'country' => $package['destination']['country'],
             'state' => $package['destination']['state'],

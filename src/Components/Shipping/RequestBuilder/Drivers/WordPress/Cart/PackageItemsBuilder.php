@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\ShoppingCart;
+namespace FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Cart;
 
 class PackageItemsBuilder extends \FS\Components\Shipping\RequestBuilder\AbstractPackageItemsBuilder implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {
@@ -8,9 +8,7 @@ class PackageItemsBuilder extends \FS\Components\Shipping\RequestBuilder\Abstrac
     {
         $product_items = array();
 
-        $notices = array();
-
-        $notifier = $this->getApplicationContext()->getComponent('\\FS\\Components\\Notifier');
+        $notifier = $payload['notifier'];
         $notifier->scope('cart');
 
         if ($payload['options']->get('disable_api_warning') == 'yes') {

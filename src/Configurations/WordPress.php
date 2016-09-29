@@ -1,13 +1,12 @@
 <?php
 
-namespace FS;
+namespace FS\Configurations;
 
-class Configuration implements \FS\Components\Factory\ConfigurationInterface
+class WordPress implements \FS\Components\Factory\ConfigurationInterface
 {
     public function getOptions()
     {
         $options = new \FS\Components\Options();
-
         $options->setWpOptionName('woocommerce_flagship_shipping_method_settings');
 
         return $options;
@@ -74,8 +73,26 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
 
         $client->setTimeout($settings['FLAGSHIP_SHIPPING_API_TIMEOUT']);
         $client->setEntryPoint($settings['FLAGSHIP_SHIPPING_API_ENTRY_POINT']);
+        $client->setRequestRunner($this->getRequestRunner());
 
         return $client;
+    }
+
+    public function getRequestRunner()
+    {
+        $requestRunner = new \FS\Components\Http\RequestRunner\RequestRunner();
+        $requestRunner->setRequestRunnerDriver(new \FS\Components\Http\RequestRunner\Drivers\WordPress());
+
+        return $requestRunner;
+    }
+
+    public function getRequestBuilderFactory()
+    {
+        $factory = new \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory();
+
+        $factory->setFactoryDriver(new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\FactoryDriver());
+
+        return $factory;
     }
 
     public function getRateProcessor()

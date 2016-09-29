@@ -70,6 +70,7 @@ class RequestFactoryTestCase extends \FlagshipShippingUnitTestCase
         $request = $factory->setPayload(array(
             'package' => $this->package,
             'options' => $options,
+            'notifier' => $this->ctx->getComponent('\\FS\\Components\\Notifier'),
         ))->getRequest();
 
         $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Factory\\FormattedRequestInterface');
@@ -224,7 +225,7 @@ class RequestFactoryTestCase extends \FlagshipShippingUnitTestCase
             'order' => $this->order,
             'options' => $options,
             'shipment' => $this->order->getShipment(true)->getRawShipment(),
-            'date' => $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam')->request->get('flagship_shipping_pickup_schedule_date', date('Y-m-d')),
+            'date' => $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam')->request->get('flagship_shipping_pickup_schedule_date', '2016-09-28'),
         ))->getRequest();
 
         $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Factory\\FormattedRequestInterface');

@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\ShoppingOrder;
+namespace FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Order;
 
 class ShippingServiceBuilder extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {
@@ -13,9 +13,9 @@ class ShippingServiceBuilder extends \FS\Components\AbstractComponent implements
         $retService = array();
 
         foreach ($service as $key => $value) {
-        	if ($key == 'courier_name' || $key == 'courier_code') {
-        		$retService[$key] = $value;
-        	}
+            if ($key == 'courier_name' || $key == 'courier_code') {
+                $retService[$key] = $value;
+            }
         }
 
         return $retService;
