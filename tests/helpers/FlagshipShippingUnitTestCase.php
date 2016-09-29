@@ -17,25 +17,25 @@ class FlagshipShippingUnitTestCase extends WP_UnitTestCase
 
         $settings = include __DIR__.'/../fixtures/FlagshipApplicationSettings.php';
 
-        $this->ctx = Flagship_Application::get_instance();
+        $ctx = \FS\Context\ApplicationContext::getInstance();
 
-        $this->ctx->load('Configs');
-        $this->ctx['configs']->add($settings);
+        $ctx->setContainer(new \FS\Container());
+        $ctx->setConfiguration(new \FS\Configurations\WordPress());
 
-        $this->ctx->dependency(array(
-            'Request',
-            'Html',
-            'View',
-            'Options',
-            'Client',
-            'Notification',
-            'Validation',
-            // 'Hook',
-            'Url',
-            'Address',
+        $ctx->getComponents(array(
+            '\\FS\\Components\\Web\\RequestParam',
+            '\\FS\\Components\\Settings',
+            '\\FS\\Components\\Options',
+            '\\FS\\Components\\Debugger',
+            '\\FS\\Components\\Html',
+            '\\FS\\Components\\Viewer',
+            '\\FS\\Components\\Url',
+            '\\FS\\Components\\Notifier',
+            // '\\FS\\Components\\Hook\\HookManager',
+            '\\FS\\Components\\Http\\Client',
         ));
 
-        $this->ctx['options']->sync();
+        $this->ctx = $ctx;
     }
 
     /**
@@ -56,19 +56,9 @@ class FlagshipShippingUnitTestCase extends WP_UnitTestCase
         update_option('woocommerce_flagship_shipping_method_settings', $settings);
     }
 
-    public function log($var)
+    public function getApplicationContext()
     {
-        $home = exec('echo ~');
-        $text = $var;
-        if (!is_string($var) && !is_array($var)) {
-            ob_start();
-            var_dump($var);
-            $text = strip_tags(ob_get_clean());
-        }
-        if (is_array($var)) {
-            $text = json_encode($var, JSON_PRETTY_PRINT);
-        }
-        file_put_contents($home.'/Desktop/data', date('Y-m-d H:i:s')."\t".print_r($text, 1)."\n", FILE_APPEND | LOCK_EX);
+        return $this->ctx;
     }
 
     protected function setAccessProtectedMethod($object, $methodName)

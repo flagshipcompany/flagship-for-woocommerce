@@ -14,7 +14,7 @@
 	</php>
 	<testsuites>
 		<testsuite>
-			<directory suffix=".php">./tests/unit</directory>
+			<directory suffix=".php">./tests/Shipping</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
