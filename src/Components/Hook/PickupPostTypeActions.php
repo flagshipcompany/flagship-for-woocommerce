@@ -109,12 +109,16 @@ class PickupPostTypeActions extends Engine implements Factory\HookRegisterAwareI
                 echo $pickup_date;
                 break;
             case 'shipping_address':
-                $shipperAddressBuilder = $this->getApplicationContext()
-                    ->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\ShipperAddressBuilder');
+                $factory = $this->getApplicationContext()
+                    ->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\Factory\\RequestBuilderFactory');
+                $shipperAddressBuilder = $factory->getBuilder('ShipperAddress');
+
                 $options = $this->getApplicationContext()
                     ->getComponent('\\FS\\Components\\Options');
 
-                $address = $shipperAddressBuilder->build($options);
+                $address = $shipperAddressBuilder->build(array(
+                    'options' => $options,
+                ));
 
                 echo $address['postal_code'].'<br/><small class="meta">'.$address['city'].', '.$address['state'].'</small>';
                 break;
