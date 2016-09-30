@@ -3,12 +3,12 @@
 - Tags: eshipping, courier, e-commerce, commerce, woothemes, wordpress ecommerce, affiliate, shipping, tax
 - Requires at least: 4.4
 - Tested up to: 4.4
-- Stable tag: 0.1.12
+- Stable tag: 1.0.0
 - License: GPLv3
 - License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 ## Installation Guide
-> **Flagship For WooCommerce** requires WordPress 4.4+ WooCommerce Plugin version 2.5. (do not support v2.6!) For WooCommerce installation guide, please visit [woocommerce installation guide](https://docs.woothemes.com/document/installing-uninstalling-woocommerce/). 
+> **Flagship For WooCommerce** requires WordPress 4.4+ WooCommerce Plugin version 2.6.x. For WooCommerce installation guide, please visit [woocommerce installation guide](https://docs.woothemes.com/document/installing-uninstalling-woocommerce/). 
 
 ### Pre-installation Checklist
 - [ ] I want to have an awesome shipping solution from Canada to anywhere.
