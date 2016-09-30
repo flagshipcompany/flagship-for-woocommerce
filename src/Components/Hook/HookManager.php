@@ -8,7 +8,7 @@ class HookManager extends \FS\Components\AbstractComponent implements \FS\Compon
     {
         $this->registerHook('\\FS\\Components\\Hook\\SetupActions');
         $this->registerHook('\\FS\\Components\\Hook\\SetupFilters');
-        $this->registerHook('\\FS\\Components\\Hook\\MetaBoxActions');
+        $this->registerHook('\\FS\\Components\\Hook\\MetaboxActions');
         $this->registerHook('\\FS\\Components\\Hook\\PickupPostTypeActions');
     }
 

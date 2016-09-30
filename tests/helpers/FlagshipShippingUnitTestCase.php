@@ -31,7 +31,7 @@ class FlagshipShippingUnitTestCase extends WP_UnitTestCase
             '\\FS\\Components\\Viewer',
             '\\FS\\Components\\Url',
             '\\FS\\Components\\Notifier',
-            // '\\FS\\Components\\Hook\\HookManager',
+            '\\FS\\Components\\Hook\\HookManager',
             '\\FS\\Components\\Http\\Client',
         ));
 
