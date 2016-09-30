@@ -92,7 +92,10 @@ class Client extends \FS\Components\AbstractComponent implements RequestRunner\R
 
     protected function makeHeaders(array $headers)
     {
+        $settings = $this->getApplicationContext()->getComponent('\\FS\\Components\\Settings');
+
         $headers['X-Smartship-Token'] = $this->token;
+        $headers['X-F4WC-Version'] = $settings['FLAGSHIP_FOR_WOOCOMMERCE_VERSION'];
 
         return $headers;
     }
