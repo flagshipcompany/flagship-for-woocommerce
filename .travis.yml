@@ -43,3 +43,6 @@ notifications:
   email:
     recipients:
       - Developers@flagshipcompany.com
+  slack:
+    rooms:
+      - flagshipcompany:Kb9L2QjrwcZh3uMYqMG7Qam6#developers
