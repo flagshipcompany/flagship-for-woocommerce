@@ -1,10 +1,5 @@
 language: php
 
-notifications:
-  email:
-    on_success: never
-    on_failure: change
-
 branches:
   only:
     - master
@@ -45,5 +40,3 @@ notifications:
       - Developers@flagshipcompany.com
   slack:
     secure: VQlDQlkZJcX4gyhr6zDeKmzF1WB3BkQBxxjpibTBTTZTjGDWTYThKIt7goee6l82SW/LDw1FEoEMDN6GGIY34J4GBNuuIDZgUs6gIqGALLUfsgSGgpVyrTISaYEf6z/YEZqSW17YutfWTBtiDh+JI14fuPfCpSen2x0iF8q2k7A/bVnREm03Z+K4fwtkaZ/KJZfgCW4yREFF2QdTIhDoZ1ZZQy87de5NdxmyqRdRljww/eKmCNPjNZPAN3kvjPsh7onlJ/FmsPKPM5EXgm6GxMXZEN8SpxdkZwW3cGuPVsKko7fDrwCabMW/kPh+a6pFEx5fzeheE9zU+ATp/ocaiH3zJevBBRxru1c7BmulslcAZOeXHxWpQ4a1yHaLae8Aq6E/DoBLs0gJPPVnHAW+QkliwUHrGFThl0tZrAFDypE571ByBNEPj2FYFYi8+wuDpgh+lZ22J4juQkFBiNa+m/FA1MGxrV6ugKgD7sLahSIorNTsKB5jmeyz91Mqz8+FYaGpEKf/BvQiFWoXfKqOaEvGIbJCyF0pZIH/eThwHnlsA/QMSEzPv4EOfmHQG/mZhT6Z2Yc8KDs3nbQflbufIilsO4aA3r1ehXacKexb0sAlC5Yo69WcJtTCnoaNvUU1Hqn3WiXYWFRMo65tsNj90xlBHRFewvRlaQzeo+H5OgU=
-
-#Kb9L2QjrwcZh3uMYqMG7Qam6#developers
