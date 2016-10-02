@@ -1,5 +1,10 @@
 language: php
 
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+
 branches:
   only:
     - master
@@ -39,4 +44,5 @@ notifications:
     recipients:
       - Developers@flagshipcompany.com
   slack:
-    secure: VQlDQlkZJcX4gyhr6zDeKmzF1WB3BkQBxxjpibTBTTZTjGDWTYThKIt7goee6l82SW/LDw1FEoEMDN6GGIY34J4GBNuuIDZgUs6gIqGALLUfsgSGgpVyrTISaYEf6z/YEZqSW17YutfWTBtiDh+JI14fuPfCpSen2x0iF8q2k7A/bVnREm03Z+K4fwtkaZ/KJZfgCW4yREFF2QdTIhDoZ1ZZQy87de5NdxmyqRdRljww/eKmCNPjNZPAN3kvjPsh7onlJ/FmsPKPM5EXgm6GxMXZEN8SpxdkZwW3cGuPVsKko7fDrwCabMW/kPh+a6pFEx5fzeheE9zU+ATp/ocaiH3zJevBBRxru1c7BmulslcAZOeXHxWpQ4a1yHaLae8Aq6E/DoBLs0gJPPVnHAW+QkliwUHrGFThl0tZrAFDypE571ByBNEPj2FYFYi8+wuDpgh+lZ22J4juQkFBiNa+m/FA1MGxrV6ugKgD7sLahSIorNTsKB5jmeyz91Mqz8+FYaGpEKf/BvQiFWoXfKqOaEvGIbJCyF0pZIH/eThwHnlsA/QMSEzPv4EOfmHQG/mZhT6Z2Yc8KDs3nbQflbufIilsO4aA3r1ehXacKexb0sAlC5Yo69WcJtTCnoaNvUU1Hqn3WiXYWFRMo65tsNj90xlBHRFewvRlaQzeo+H5OgU=
+    rooms:
+      - secure: iV0AoTLc7TLo2iGeMCzQivzWSgLbEeyJnsVXPv3ybnctozUiWc4jkR8FJGfxnciYFd8dLqY5TL8qMn4Zsgr4GNGoULaDIDgtOykzx2PTxKK+SdG+qjWtbVVkO9KxSXFgD2AnGT4Yhe9fHrQGWD5s+oy78mNS6Q+M6UyLsLyXpGi99MgyfjzQuK4UqJROwaiznxgAOHIQUHXCDjPHDtVM5BIBBJkVcn/StOlBwvakxoX/4LdAhSpxg7Fa5nYlcsMGKd38ZeFGPx2r70wQhSnQFC81/f34350tmsAwjfQo0VI+O1KnWlQ+Af2b9jV2u782HWv8EPW2u7tFYZzEpgW/ePveEqtLu0oRkJaNi+Q7rfEYJ3ntVmethzZ2zd52H5MBS4PpgO9iaD9obM5Sev/GXfzPQ4mYNh814yWmXQfiM2ph92okYjUixVSXOi24iEC4bGtp1K9IGRQi3eVegHUgMb8gjTHzmIVrgV8uAGle8eaEnpdn01o1ShG32munvh+FCac8nE+j53xCjnEKKhYlFxj0SNG5ipVOByaGZzCKKI9iV6ZFQi2E8xDbALZtANfjQgboHiahlXWX2/osBD/xHkg9Wcd6/UMjmf9fOk+7KE8S+u7xkhVqNqVMID6oL/IVgVhQleaouV71n2q0K974U24Rs/1wbpFkMlcfs995lpU=
