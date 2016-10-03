@@ -20,7 +20,7 @@ class WordPress implements \FS\Components\Factory\ConfigurationInterface
         $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'] = 'flagship_shipping_method';
         $settings['FLAGSHIP_SHIPPING_API_ENTRY_POINT'] = $settings['FLAGSHIP_SHIPPING_PLUGIN_DEBUG'] ? 'http://127.0.0.1:3002' : 'https://api.smartship.io';
         $settings['FLAGSHIP_SHIPPING_API_TIMEOUT'] = 14;
-        $settings['FLAGSHIP_FOR_WOOCOMMERCE_VERSION'] = '1.0.2';
+        $settings['FLAGSHIP_FOR_WOOCOMMERCE_VERSION'] = FLAGSHIP_SHIPPING_PLUGIN_VERSION;
 
         return $settings;
     }
