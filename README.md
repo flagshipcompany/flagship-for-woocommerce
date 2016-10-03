@@ -1,9 +1,6 @@
-# FlagShip for WooCommerce [![Build Status](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce.svg?branch=master)](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce) [![GitHub release](https://github.com/flagshipcompany/flagship-for-woocommerce/releases/latest)]()
-- Contributors: FLS
+# FlagShip for WooCommerce [![Build Status](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce.svg?branch=master)](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce) [![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg?maxAge=2592000)](https://github.com/flagshipcompany/flagship-for-woocommerce/releases/latest)
+
 - Tags: eshipping, courier, e-commerce, commerce, woothemes, wordpress ecommerce, affiliate, shipping, tax
-- Requires at least: 4.4
-- Tested up to: 4.4
-- Stable tag: 1.0.2
 - License: GPLv3
 - License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
