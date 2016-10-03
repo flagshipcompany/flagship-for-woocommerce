@@ -36,5 +36,19 @@
 
 - Enable flagShip shipping by checking the checbox `Enable this shipping method`
 - Take some time to fill all of the settings. (Access Token is absolutely required. Otherwise, You won't be able to get discounted rate nor being able to print the shipping labels.)
+- For WooCommerce v2.6.x or newer, you must additionally fill settings per each of shipping zones that had "FlagShip Shipping" as shipping method. To configure the settings per shipping zone, simlpy go through WooCommerce Settings > Shipping > Shipping Zones and click on each of the link entitled by "FlagShip Shipping". You may customize your settings per shipping zones. i.e. different FlagShip Shipping settings for different shipping zones. 
+
+> **Lacking of shipping** settings per shipping zone may cause plugin to throw API warning such as "_FlagShip API Error:
+Missing `x-smartship-token` header or could not find a valid token or your company is banned or disabled. Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance._"
+
+This is how the shipping zones page might look like:
+
+> ![capture all flagship shipping 100116](https://cloud.githubusercontent.com/assets/5373898/19041682/fa13c97e-8956-11e6-8907-df3f6728c1d1.png)
+
+This is how it might look like your own shipping zones' settings:
+
+> ![screen shot 2016-10-03 at 11 00 58 am](https://cloud.githubusercontent.com/assets/5373898/19042098/bbaabd94-8958-11e6-89d3-7aad04ded212.png)
+
+
 - Don't forget to save the settings by clicking on `Save changes` button on the bottom of the page.
 
