@@ -1,4 +1,4 @@
-# FlagShip for WooCommerce [![Build Status](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce.svg?branch=master)](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce)
+# FlagShip for WooCommerce [![Build Status](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce.svg?branch=master)](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce) [![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg?maxAge=2592000)]()
 - Contributors: FLS
 - Tags: eshipping, courier, e-commerce, commerce, woothemes, wordpress ecommerce, affiliate, shipping, tax
 - Requires at least: 4.4
