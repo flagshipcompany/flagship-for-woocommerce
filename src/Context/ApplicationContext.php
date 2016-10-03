@@ -5,6 +5,7 @@ namespace FS\Context;
 class ApplicationContext extends AbstractApplicationContext implements \FS\Components\Factory\ComponentFactoryInterface
 {
     public static $instance;
+    public $text_domain = FLAGSHIP_SHIPPING_TEXT_DOMAIN;
 
     public function getComponents(array $classes)
     {
