@@ -23,7 +23,7 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
 
     public function testShipperAddressRequestBuilder()
     {
-        $builder = new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\ShipperAddressBuilder();
+        $builder = new \FS\Configurations\WordPress\RequestBuilder\ShipperAddressBuilder();
         $options = $this->ctx->getComponent('\\FS\\Components\\Options');
 
         $this->assertSame(array(
@@ -41,7 +41,7 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
 
     public function testShoppingCartPackageItemsBuilder()
     {
-        $builder = new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Cart\PackageItemsBuilder();
+        $builder = new \FS\Configurations\WordPress\RequestBuilder\Cart\PackageItemsBuilder();
 
         $this->assertSame(array(
             'items' => array(
@@ -64,7 +64,7 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
 
     public function testShoppingCartReceiverAddressBuilder()
     {
-        $builder = new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Cart\ReceiverAddressBuilder();
+        $builder = new \FS\Configurations\WordPress\RequestBuilder\Cart\ReceiverAddressBuilder();
 
         $this->assertSame(array(
             'country' => 'CA',
@@ -79,7 +79,7 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
 
     public function testShoppingOrderPackageItemsBuilder()
     {
-        $builder = new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Order\PackageItemsBuilder();
+        $builder = new \FS\Configurations\WordPress\RequestBuilder\Order\PackageItemsBuilder();
 
         $this->assertSame(array(
             'items' => array(
@@ -101,7 +101,7 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
 
     public function testShoppingOrderReceiverAddressBuilder()
     {
-        $builder = new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Order\ReceiverAddressBuilder();
+        $builder = new \FS\Configurations\WordPress\RequestBuilder\Order\ReceiverAddressBuilder();
 
         $this->assertSame(array(
             'name' => 'WooCompany',
