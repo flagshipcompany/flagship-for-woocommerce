@@ -20,7 +20,7 @@ class FlagshipShippingUnitTestCase extends WP_UnitTestCase
         $ctx = \FS\Context\ApplicationContext::getInstance();
 
         $ctx->setContainer(new \FS\Container());
-        $ctx->setConfiguration(new \FS\Configurations\WordPress());
+        $ctx->setConfiguration(new \FS\Configurations\WordPress\Configuration());
 
         $ctx->getComponents(array(
             '\\FS\\Components\\Web\\RequestParam',

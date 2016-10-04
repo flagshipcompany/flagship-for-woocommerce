@@ -1,8 +1,8 @@
 <?php
 
-namespace FS\Configurations;
+namespace FS\Configurations\WordPress;
 
-class WordPress implements \FS\Components\Factory\ConfigurationInterface
+class Configuration implements \FS\Components\Factory\ConfigurationInterface
 {
     public function getOptions()
     {
@@ -82,7 +82,7 @@ class WordPress implements \FS\Components\Factory\ConfigurationInterface
     public function getRequestRunner()
     {
         $requestRunner = new \FS\Components\Http\RequestRunner\RequestRunner();
-        $requestRunner->setRequestRunnerDriver(new \FS\Components\Http\RequestRunner\Drivers\WordPress());
+        $requestRunner->setRequestRunnerDriver(new \FS\Configurations\WordPress\Http\RequestRunner\Driver());
 
         return $requestRunner;
     }
@@ -91,7 +91,7 @@ class WordPress implements \FS\Components\Factory\ConfigurationInterface
     {
         $factory = new \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory();
 
-        $factory->setFactoryDriver(new \FS\Components\Shipping\RequestBuilder\Drivers\WordPress\FactoryDriver());
+        $factory->setFactoryDriver(new RequestBuilder\Factory\Driver());
 
         return $factory;
     }

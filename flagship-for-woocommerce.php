@@ -40,6 +40,6 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 
     \FS\Context\ApplicationContext::initialize(
         new \FS\Container(),
-        new \FS\Configurations\WordPress()
+        new \FS\Configurations\WordPress\Configuration()
     );
 }

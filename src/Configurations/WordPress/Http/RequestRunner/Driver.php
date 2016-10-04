@@ -1,8 +1,8 @@
 <?php
 
-namespace FS\Components\Http\RequestRunner\Drivers;
+namespace FS\Configurations\WordPress\Http\RequestRunner;
 
-class WordPress implements \FS\Components\Http\RequestRunner\RequestRunnerInterface
+class Driver implements \FS\Components\Http\RequestRunner\RequestRunnerInterface
 {
     public function run($configs)
     {

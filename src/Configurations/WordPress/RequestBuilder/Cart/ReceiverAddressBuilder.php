@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Cart;
+namespace FS\Configurations\WordPress\RequestBuilder\Cart;
 
 class ReceiverAddressBuilder extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {

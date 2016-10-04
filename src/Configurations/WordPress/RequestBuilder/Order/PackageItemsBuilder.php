@@ -1,8 +1,8 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\Drivers\WordPress\Order;
+namespace FS\Configurations\WordPress\RequestBuilder\Order;
 
-class PackageItemsBuilder extends \FS\Components\Shipping\RequestBuilder\AbstractPackageItemsBuilder implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
+class PackageItemsBuilder extends \FS\Configurations\WordPress\RequestBuilder\AbstractPackageItemsBuilder implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {
     protected function makeProductItems($payload = null)
     {

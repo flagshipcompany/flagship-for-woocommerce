@@ -1,8 +1,8 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder;
+namespace FS\Configurations\WordPress\RequestBuilder;
 
-abstract class AbstractPackageItemsBuilder extends \FS\Components\AbstractComponent implements RequestBuilderInterface
+abstract class AbstractPackageItemsBuilder extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {
     public static $scope = 'prototype';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\Drivers\WordPress;
+namespace FS\Configurations\WordPress\RequestBuilder;
 
 class ShipperAddressBuilder extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {
