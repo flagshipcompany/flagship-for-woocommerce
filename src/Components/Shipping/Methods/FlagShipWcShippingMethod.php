@@ -33,9 +33,9 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         $this->enabled = $this->get_instance_option('enabled');
 
         // load components
-        $this->ctx
-            ->getComponent('\\FS\\Components\\Hook\\HookManager')
-            ->registerHook('\\FS\\Components\\Hook\\SettingsFilters');
+        // $this->ctx
+        //     ->getComponent('\\FS\\Components\\Hook\\HookManager')
+        //     ->registerHook('\\FS\\Components\\Hook\\SettingsFilters');
 
         $this->ctx
             ->getComponent('\\FS\\Components\\Shipping\\Command');

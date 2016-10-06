@@ -7,6 +7,7 @@ class ApplicationListenerFactory extends \FS\Components\AbstractComponent
     public function addApplicationListeners(\FS\Context\ConfigurableApplicationContextInterface $context)
     {
         $context
+            ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\PluginInitialization(), $context))
             ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\MetaboxOperations(), $context))
             ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\MetaboxDisplay(), $context))
             ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\ShippingMethodSetup(), $context))
