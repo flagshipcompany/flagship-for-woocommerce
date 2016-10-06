@@ -2,7 +2,7 @@
 
 namespace FS\Context;
 
-class ApplicationContext extends AbstractApplicationContext implements \FS\Components\Factory\ComponentFactoryInterface
+class ApplicationContext extends AbstractApplicationContext implements ConfigurableApplicationContextInterface,\FS\Components\Factory\ComponentFactoryInterface
 {
     public static $instance;
     public $text_domain = FLAGSHIP_SHIPPING_TEXT_DOMAIN;
@@ -37,9 +37,14 @@ class ApplicationContext extends AbstractApplicationContext implements \FS\Compo
             '\\FS\\Components\\Viewer',
             '\\FS\\Components\\Url',
             '\\FS\\Components\\Notifier',
+            '\\FS\\Components\\Event\\ApplicationEventCaster',
+            '\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory',
             '\\FS\\Components\\Hook\\HookManager',
             '\\FS\\Components\\Http\\Client',
         ));
+
+        $ctx->getComponent('\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory')
+            ->addApplicationListeners($ctx);
 
         return $ctx;
     }

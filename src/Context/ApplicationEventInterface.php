@@ -2,6 +2,9 @@
 
 namespace FS\Context;
 
-interface ApplicationEventInterface {
-	
+interface ApplicationEventInterface
+{
+	public function setInputs($inputs);
+
+	public function getInputs();
 }

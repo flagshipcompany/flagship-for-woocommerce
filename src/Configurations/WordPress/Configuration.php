@@ -90,8 +90,15 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
     public function getRequestBuilderFactory()
     {
         $factory = new \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory();
-
         $factory->setFactoryDriver(new RequestBuilder\Factory\Driver());
+
+        return $factory;
+    }
+
+    public function getApplicationListenerFactory()
+    {
+        $factory = new \FS\Components\Event\Factory\ApplicationListenerFactory();
+        $factory->setApplicationListenerFactoryDriver(new Event\ApplicationListenerFactory());
 
         return $factory;
     }

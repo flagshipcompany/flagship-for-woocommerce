@@ -2,9 +2,26 @@
 
 namespace FS\Context;
 
-abstract class AbstractApplicationContext implements ApplicationContextInterface, \FS\Components\Factory\ComponentFactoryInterface
+abstract class AbstractApplicationContext implements ConfigurableApplicationContextInterface, 
+    ApplicationEventPublisherInterface,
+    \FS\Components\Factory\ComponentFactoryInterface
 {
     protected $container;
+
+    public function addApplicationListener(ApplicationListenerInterface $listener)
+    {
+        $this->getApplicationEventCaster()->addApplicationListener($listener);
+    }
+
+    public function getApplicationEventCaster()
+    {
+        return $this->getComponent('\\FS\\Components\\Event\\ApplicationEventCaster');
+    }
+
+    public function publishEvent(ApplicationEventInterface $event)
+    {
+        return $this->getApplicationEventCaster()->castEvent($event);
+    }
 
     public function setContainer(\FS\Container $container)
     {

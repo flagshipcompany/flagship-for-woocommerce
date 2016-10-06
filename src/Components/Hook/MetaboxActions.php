@@ -80,17 +80,27 @@ class MetaboxActions extends Engine implements Factory\HookRegisterAwareInterfac
 
     public function metaBoxDisplayWrapper($post)
     {
-        $wcOrder = wc_get_order($post->ID);
-
-        $metaBox = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\MetaBox');
+        $event = new \FS\Configurations\WordPress\Event\ShopOrderMetaboxEvent();
         $shoppingOrder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
-
+        
+        $wcOrder = wc_get_order($post->ID);
         $shoppingOrder->setWcOrder($wcOrder);
 
-        $notifier = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Notifier')
-            ->scope('shop_order', array('id' => $shoppingOrder->getId()));
+        $event->setInputs(array('order' => $shoppingOrder));
 
-        $metaBox->display($shoppingOrder);
+        $this->getApplicationContext()->publishEvent($event);
+
+        // $wcOrder = wc_get_order($post->ID);
+
+        // $metaBox = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\MetaBox');
+        // $shoppingOrder = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
+
+        // $shoppingOrder->setWcOrder($wcOrder);
+
+        // $notifier = $this->getApplicationContext()
+        //     ->getComponent('\\FS\\Components\\Notifier')
+        //     ->scope('shop_order', array('id' => $shoppingOrder->getId()));
+
+        // $metaBox->display($shoppingOrder);
     }
 }

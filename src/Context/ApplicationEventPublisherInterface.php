@@ -4,5 +4,5 @@ namespace FS\Context;
 
 interface ApplicationEventPublisherInterface
 {
-	public function publishEvent(ApplicationEventIntrface $event);
+	public function publishEvent(ApplicationEventInterface $event);
 }

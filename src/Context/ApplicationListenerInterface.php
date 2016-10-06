@@ -4,5 +4,7 @@ namespace FS\Context;
 
 interface ApplicationListenerInterface
 {
-	public function onApplicationEvent($event);
+	public function getSupportedEvent();
+
+	public function onApplicationEvent(ApplicationEventInterface $event);
 }
