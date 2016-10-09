@@ -11,6 +11,21 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
 
     public function onApplicationEvent(\FS\Context\ApplicationEventInterface $event, \FS\Context\ConfigurableApplicationContextInterface $context)
     {
+        $type = $event->getInputs()['type'];
+        $postIds = $event->getInputs()['postIds'];
+        $pickup = $context->getComponent('\\FS\\Components\\Order\\Pickup');
+
+        switch ($type) {
+            case 'schedule':
+                $pickup->schedulePickup($pickup->makeShoppingOrders($postIds));
+                break;
+            case 'void':
+                $pickup->voidPickup($postIds);
+                break;
+            case 'reschedule':
+                $pickup->reschedulePickup($postIds);
+                break;
+        }
     }
 
     public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)
@@ -231,7 +246,40 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
             return $default;
         }, 10, 2);
 
-        add_action('load-edit.php', array($this, 'save'));
+        \add_action('load-edit.php', function () use($context) {
+            $wp_list_table = _get_list_table('WP_Posts_List_Table');
+            $action = $wp_list_table->current_action();
+            $postIds = array_map('absint', (array) $_REQUEST['post']);
+
+            $event = new \FS\Configurations\WordPress\Event\PickupPostTypeEvent();
+
+            switch ($action) {
+                case 'flagship_shipping_pickup_schedule':
+                    $event->setInputs(array(
+                        'type' => 'schedule',
+                        'postIds' => $postIds,
+                    ));
+
+                    $context->publishEvent($event);
+                    break;
+                case 'flagship_shipping_pickup_void':
+                    $event->setInputs(array(
+                        'type' => 'void',
+                        'postIds' => $postIds,
+                    ));
+
+                    $context->publishEvent($event);
+                    break;
+                case 'flagship_shipping_pickup_reschedule':
+                    $event->setInputs(array(
+                        'type' => 'reschedule',
+                        'postIds' => $postIds,
+                    ));
+
+                    $context->publishEvent($event);
+                    break;
+            }
+        });
     }
 
     public function getNativeHookType()

@@ -15,6 +15,7 @@ class ApplicationListenerFactory extends \FS\Components\AbstractComponent
 
         if (\is_admin()) {
             $context->addApplicationListener($this->getNativeHookPublishedListener(new Listener\PluginPageSettingLink(), $context));
+            $context->addApplicationListener($this->getNativeHookPublishedListener(new Listener\PickupPostType(), $context));
         }
     }
 

@@ -15,7 +15,7 @@ class PluginInitialization extends \FS\Components\AbstractComponent implements \
 
     public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)
     {
-        add_action('init', function () {
+        \add_action('init', function () {
             load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-for-woocommerce/languages/');
         });
     }

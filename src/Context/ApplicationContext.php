@@ -39,7 +39,6 @@ class ApplicationContext extends AbstractApplicationContext implements Configura
             '\\FS\\Components\\Notifier',
             '\\FS\\Components\\Event\\ApplicationEventCaster',
             '\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory',
-            '\\FS\\Components\\Hook\\HookManager',
             '\\FS\\Components\\Http\\Client',
         ));
 
