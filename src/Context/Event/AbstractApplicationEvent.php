@@ -4,17 +4,26 @@ namespace FS\Context\Event;
 
 abstract class AbstractApplicationEvent implements \FS\Context\ApplicationEventInterface
 {
-	protected $inputs = null;
+    protected $inputs = null;
 
-	public function setInputs($inputs)
-	{
-		$this->inputs = $inputs;
+    public function setInputs($inputs)
+    {
+        $this->inputs = $inputs;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getInputs()
-	{
-		return $this->inputs;
-	}
+    public function getInputs()
+    {
+        return $this->inputs;
+    }
+
+    public function getInput($key, $default = null)
+    {
+        if (isset($inputs[$key])) {
+            return $inputs[$key];
+        }
+
+        return $default;
+    }
 }

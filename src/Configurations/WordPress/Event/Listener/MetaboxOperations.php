@@ -13,7 +13,7 @@ class MetaboxOperations extends \FS\Components\AbstractComponent implements \FS\
         \FS\Context\ApplicationEventInterface $event,
         \FS\Context\ConfigurableApplicationContextInterface $context
     ) {
-        $order = $event->getInputs()['order'];
+        $order = $event->getInput('order');
 
         $metaBox = $context
             ->getComponent('\\FS\\Components\\Order\\MetaBox');
