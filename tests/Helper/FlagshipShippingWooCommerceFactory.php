@@ -1,5 +1,7 @@
 <?php
 
+namespace FS\Test\Helper;
+
 class FlagshipShippingWooCommerceFactory
 {
     /**
@@ -29,7 +31,7 @@ class FlagshipShippingWooCommerceFactory
         update_post_meta($product, '_visibility', 'visible');
         update_post_meta($product, '_stock_status', 'instock');
 
-        return new WC_Product_Simple($product);
+        return new \WC_Product_Simple($product);
     }
 
     public static function createSimpleShippingFlatRate()
@@ -82,12 +84,12 @@ class FlagshipShippingWooCommerceFactory
         $order->set_address($shipping_address, 'shipping');
 
         // Add shipping costs
-        $shipping_taxes = WC_Tax::calc_shipping_tax(
+        $shipping_taxes = \WC_Tax::calc_shipping_tax(
             '10',
-            WC_Tax::get_shipping_tax_rates()
+            \WC_Tax::get_shipping_tax_rates()
         );
         $order->add_shipping(
-            new WC_Shipping_Rate(
+            new \WC_Shipping_Rate(
                 'flagship_shipping_method|Purolator|PurolatorExpress|Purolator Express|1473811200',
                 'Purolator - Purolator Express',
                 '10',

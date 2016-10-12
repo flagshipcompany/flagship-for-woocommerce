@@ -1,8 +1,8 @@
 <?php
 
-namespace FS\Shipping\RequestBuilder;
+namespace FS\Test\Shipping\RequestBuilder;
 
-class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
+class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
 {
     protected $package;
     protected $order;
@@ -11,13 +11,13 @@ class RequestBuilderTestCase extends \FlagshipShippingUnitTestCase
     {
         parent::setUp();
 
-        $this->package = require __DIR__.'/../../fixtures/Package.php';
+        $this->package = require __DIR__.'/../../Fixture/Package.php';
         $this->order = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Order\\ShoppingOrder')
-            ->setWcOrder(\FlagshipShippingWooCommerceFactory::createSimpleOrder());
+            ->setWcOrder(\FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleOrder());
 
         foreach ($this->package['contents'] as $key => $package) {
-            $this->package['contents'][$key]['data'] = \FlagshipShippingWooCommerceFactory::createSimpleProduct();
+            $this->package['contents'][$key]['data'] = \FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleProduct();
         }
     }
 

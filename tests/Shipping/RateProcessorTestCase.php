@@ -1,14 +1,14 @@
 <?php
 
-namespace FS\Shipping;
+namespace FS\Test\Shipping;
 
-class RateProcessorTestCase extends \FlagshipShippingUnitTestCase
+class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->flagshipQuoteRates = require __DIR__.'/../fixtures/FlagshipQuoteRates.php';
+        $this->flagshipQuoteRates = require __DIR__.'/../Fixture/FlagshipQuoteRates.php';
     }
 
     public function testRateProcessorProtectedFilterByEnabledType()

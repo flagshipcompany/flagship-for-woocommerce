@@ -2,16 +2,16 @@
 
 namespace FS\Shipping\RequestFactory;
 
-class RequestFactoryTestCase extends \FlagshipShippingUnitTestCase
+class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->package = require __DIR__.'/../../fixtures/Package.php';
+        $this->package = require __DIR__.'/../../Fixture/Package.php';
         $this->order = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Order\\ShoppingOrder')
-            ->setWcOrder(\FlagshipShippingWooCommerceFactory::createSimpleOrder());
+            ->setWcOrder(\FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleOrder());
 
         $this->order->setFlagShipRaw(array(
             'shipment_id' => 1517028,
@@ -56,7 +56,7 @@ class RequestFactoryTestCase extends \FlagshipShippingUnitTestCase
         $this->order->getShipment(true);
 
         foreach ($this->package['contents'] as $key => $package) {
-            $this->package['contents'][$key]['data'] = \FlagshipShippingWooCommerceFactory::createSimpleProduct();
+            $this->package['contents'][$key]['data'] = \FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleProduct();
         }
     }
 

@@ -1,58 +1,65 @@
 <?php
-/**
- * PHPUnit bootstrap file.
- *
- * @category Tests
- *
- * @author   ryan <yi-cheng@flagshipcompany.com>
- *
- * @link https://github.com/flagshipcompany/flagship-for-woocommerce
- */
-class Flagship_For_WooCommerce_Tests_Bootstrap
-{
-    protected $wpTestsDir = null;
-    protected $testsDir = null;
-    protected $pluginDir = null;
 
-    public function __construct()
-    {
-        $this->testsDir = dirname(__FILE__);
-        $this->pluginDir = dirname($this->testsDir);
+require_once __DIR__.'/../vendor/autoload.php';
 
-        $this->wpTestsDir = getenv('WP_TESTS_DIR') ? getenv('WP_TESTS_DIR') : '/tmp/wordpress-tests-lib';
+\FS\Test\Helper\Bootstrap::initialize(
+    dirname(__FILE__),
+    getenv('WP_TESTS_DIR') ? getenv('WP_TESTS_DIR') : '/tmp/wordpress-tests-lib'
+);
 
-        // Give access to tests_add_filter() function.
-        require_once $this->wpTestsDir.'/includes/functions.php';
+// /**
+//  * PHPUnit bootstrap file.
+//  *
+//  * @category Tests
+//  *
+//  * @author   ryan <yi-cheng@flagshipcompany.com>
+//  *
+//  * @link https://github.com/flagshipcompany/flagship-for-woocommerce
+//  */
+// class Flagship_For_WooCommerce_Tests_Bootstrap
+// {
+//     protected $wpTestsDir = null;
+//     protected $testsDir = null;
+//     protected $pluginDir = null;
 
-        // Load WooCommerce
-        tests_add_filter('muplugins_loaded', array($this, 'loadWooCommerce'));
+//     public function __construct()
+//     {
+//         $this->testsDir = dirname(__FILE__);
+//         $this->pluginDir = dirname($this->testsDir);
 
-        // Load the plugin
-        tests_add_filter('muplugins_loaded', array($this, 'loadPlugin'));
+//         $this->wpTestsDir = getenv('WP_TESTS_DIR') ? getenv('WP_TESTS_DIR') : '/tmp/wordpress-tests-lib';
 
-        // Start up the WP testing environment.
-        include_once $this->wpTestsDir.'/includes/bootstrap.php';
+//         // Give access to tests_add_filter() function.
+//         require_once $this->wpTestsDir.'/includes/functions.php';
 
-        $this->dependency();
-    }
+//         // Load WooCommerce
+//         tests_add_filter('muplugins_loaded', array($this, 'loadWooCommerce'));
 
-    public function loadPlugin()
-    {
-        require $this->pluginDir.'/flagship-for-woocommerce.php';
-        require_once $this->pluginDir.'/vendor/autoload.php';
-    }
+//         // Load the plugin
+//         tests_add_filter('muplugins_loaded', array($this, 'loadPlugin'));
 
-    public function loadWooCommerce()
-    {
-        require_once $this->pluginDir.'/../woocommerce/woocommerce.php';
-        require_once $this->pluginDir.'/../woocommerce/includes/admin/wc-admin-functions.php';
-    }
+//         // Start up the WP testing environment.
+//         include_once $this->wpTestsDir.'/includes/bootstrap.php';
 
-    public function dependency()
-    {
-        require_once $this->testsDir.'/helpers/FlagshipShippingUnitTestCase.php';
-        require_once $this->testsDir.'/helpers/FlagshipShippingWooCommerceFactory.php';
-    }
-}
+//         // $this->dependency();
+//     }
 
-new Flagship_For_WooCommerce_Tests_Bootstrap();
+//     public function loadPlugin()
+//     {
+//         require $this->pluginDir.'/flagship-for-woocommerce.php';
+//     }
+
+//     public function loadWooCommerce()
+//     {
+//         require_once $this->pluginDir.'/../woocommerce/woocommerce.php';
+//         require_once $this->pluginDir.'/../woocommerce/includes/admin/wc-admin-functions.php';
+//     }
+
+//     public function dependency()
+//     {
+//         require_once $this->testsDir.'/helpers/FlagshipShippingUnitTestCase.php';
+//         require_once $this->testsDir.'/helpers/FlagshipShippingWooCommerceFactory.php';
+//     }
+// }
+
+// new Flagship_For_WooCommerce_Tests_Bootstrap();
