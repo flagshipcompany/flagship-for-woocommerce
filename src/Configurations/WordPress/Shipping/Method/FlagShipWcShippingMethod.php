@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Components\Shipping\Methods;
+namespace FS\Configurations\WordPress\Shipping\Method;
 
 class FlagShipWcShippingMethod extends \WC_Shipping_Method
 {

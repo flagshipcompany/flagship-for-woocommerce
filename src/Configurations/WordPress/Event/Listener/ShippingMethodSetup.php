@@ -9,17 +9,19 @@ class ShippingMethodSetup extends \FS\Components\AbstractComponent implements \F
         return 'FS\\Configurations\\WordPress\\Event\\ShippingMethodSetupEvent';
     }
 
-    public function onApplicationEvent(\FS\Context\ApplicationEventInterface $event, \FS\Context\ConfigurableApplicationContextInterface $context)
-    {
+    public function onApplicationEvent(
+        \FS\Context\ApplicationEventInterface $event,
+        \FS\Context\ConfigurableApplicationContextInterface $context
+    ) {
         $methods = $event->getInputs();
 
         $settings = $context->getComponent('\\FS\\Components\\Settings');
         $id = $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'];
 
         if (\version_compare(WC()->version, '2.6', '>=')) {
-            $methods[$id] = '\\FS\\Components\\Shipping\\Methods\\FlagShipWcShippingMethod';
+            $methods[$id] = '\\FS\\Configurations\\WordPress\\Shipping\\Method\\FlagShipWcShippingMethod';
         } else {
-            include_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'src/Components/Shipping/Methods/Legacy_Flagship_WC_Shipping_Method.php';
+            include_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php';
 
             $methods[$id] = new \FlagShip_WC_Shipping_Method();
         }

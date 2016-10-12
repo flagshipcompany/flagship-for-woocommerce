@@ -9,8 +9,10 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
         return false;
     }
 
-    public function onApplicationEvent(\FS\Context\ApplicationEventInterface $event, \FS\Context\ConfigurableApplicationContextInterface $context)
-    {
+    public function onApplicationEvent(
+        \FS\Context\ApplicationEventInterface $event,
+        \FS\Context\ConfigurableApplicationContextInterface $context
+    ) {
         $type = $event->getInputs()['type'];
         $postIds = $event->getInputs()['postIds'];
         $pickup = $context->getComponent('\\FS\\Components\\Order\\Pickup');
@@ -246,7 +248,7 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
             return $default;
         }, 10, 2);
 
-        \add_action('load-edit.php', function () use($context) {
+        \add_action('load-edit.php', function () use ($context) {
             $wp_list_table = _get_list_table('WP_Posts_List_Table');
             $action = $wp_list_table->current_action();
             $postIds = array_map('absint', (array) $_REQUEST['post']);

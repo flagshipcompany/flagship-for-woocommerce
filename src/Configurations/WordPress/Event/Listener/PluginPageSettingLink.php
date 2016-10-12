@@ -9,8 +9,10 @@ class PluginPageSettingLink extends \FS\Components\AbstractComponent implements 
         return 'FS\\Configurations\\WordPress\\Event\\PluginPageSettingLinkEvent';
     }
 
-    public function onApplicationEvent(\FS\Context\ApplicationEventInterface $event, \FS\Context\ConfigurableApplicationContextInterface $context)
-    {
+    public function onApplicationEvent(
+        \FS\Context\ApplicationEventInterface $event,
+        \FS\Context\ConfigurableApplicationContextInterface $context
+    ) {
         $inputs = $event->getInputs();
 
         if ($inputs['file'] == FLAGSHIP_SHIPPING_PLUGIN_BASENAME) {

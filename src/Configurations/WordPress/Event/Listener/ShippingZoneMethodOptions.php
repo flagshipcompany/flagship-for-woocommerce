@@ -9,8 +9,10 @@ class ShippingZoneMethodOptions extends \FS\Components\AbstractComponent impleme
         return 'FS\\Configurations\\WordPress\\Event\\ShippingZoneMethodOptionsEvent';
     }
 
-    public function onApplicationEvent(\FS\Context\ApplicationEventInterface $event, \FS\Context\ConfigurableApplicationContextInterface $context)
-    {
+    public function onApplicationEvent(
+        \FS\Context\ApplicationEventInterface $event,
+        \FS\Context\ConfigurableApplicationContextInterface $context
+    ) {
         $fields = $event->getInputs()['fields'];
 
         $notifier = $context->getComponent('\\FS\\Components\\Notifier');

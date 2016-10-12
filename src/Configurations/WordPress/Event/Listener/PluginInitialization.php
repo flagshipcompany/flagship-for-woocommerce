@@ -9,8 +9,10 @@ class PluginInitialization extends \FS\Components\AbstractComponent implements \
         return false;
     }
 
-    public function onApplicationEvent(\FS\Context\ApplicationEventInterface $event, \FS\Context\ConfigurableApplicationContextInterface $context)
-    {
+    public function onApplicationEvent(
+        \FS\Context\ApplicationEventInterface $event,
+        \FS\Context\ConfigurableApplicationContextInterface $context
+    ) {
     }
 
     public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)

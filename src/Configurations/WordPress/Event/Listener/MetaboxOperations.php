@@ -9,8 +9,10 @@ class MetaboxOperations extends \FS\Components\AbstractComponent implements \FS\
         return 'FS\\Configurations\\WordPress\\Event\\MetaboxOperationsEvent';
     }
 
-    public function onApplicationEvent(\FS\Context\ApplicationEventInterface $event, \FS\Context\ConfigurableApplicationContextInterface $context)
-    {
+    public function onApplicationEvent(
+        \FS\Context\ApplicationEventInterface $event,
+        \FS\Context\ConfigurableApplicationContextInterface $context
+    ) {
         $order = $event->getInputs()['order'];
 
         $metaBox = $context

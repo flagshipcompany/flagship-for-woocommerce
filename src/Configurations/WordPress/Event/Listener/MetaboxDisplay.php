@@ -9,8 +9,10 @@ class MetaboxDisplay extends \FS\Components\AbstractComponent implements \FS\Con
         return 'FS\\Configurations\\WordPress\\Event\\MetaboxDisplayEvent';
     }
 
-    public function onApplicationEvent(\FS\Context\ApplicationEventInterface $event, \FS\Context\ConfigurableApplicationContextInterface $context)
-    {
+    public function onApplicationEvent(
+        \FS\Context\ApplicationEventInterface $event,
+        \FS\Context\ConfigurableApplicationContextInterface $context
+    ) {
         $order = $event->getInputs()['order'];
 
         $metaBox = $context
@@ -34,7 +36,7 @@ class MetaboxDisplay extends \FS\Components\AbstractComponent implements \FS\Con
                     $event = new \FS\Configurations\WordPress\Event\MetaboxDisplayEvent();
                     $order = $context->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
 
-                    $wcOrder = wc_get_order($postId);
+                    $wcOrder = \wc_get_order($postId);
                     $order->setWcOrder($wcOrder);
 
                     $event->setInputs(array('order' => $order));
