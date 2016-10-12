@@ -13,16 +13,16 @@ class PluginPageSettingLink extends \FS\Components\AbstractComponent implements 
         \FS\Context\ApplicationEventInterface $event,
         \FS\Context\ConfigurableApplicationContextInterface $context
     ) {
-        $inputs = $event->getInputs();
+        $links = $event->getInput('links');
 
         if ($inputs['file'] == FLAGSHIP_SHIPPING_PLUGIN_BASENAME) {
-            array_unshift($inputs['links'], $context->getComponent('\\FS\\Components\\Html')->a('flagship_shipping_settings', __('Settings', FLAGSHIP_SHIPPING_TEXT_DOMAIN), array(
+            array_unshift($links, $context->getComponent('\\FS\\Components\\Html')->a('flagship_shipping_settings', __('Settings', FLAGSHIP_SHIPPING_TEXT_DOMAIN), array(
                 'escape' => true,
                 'target' => true,
             )));
         }
 
-        return $inputs['links'];
+        return $links;
     }
 
     public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)

@@ -13,8 +13,8 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
         \FS\Context\ApplicationEventInterface $event,
         \FS\Context\ConfigurableApplicationContextInterface $context
     ) {
-        $type = $event->getInputs()['type'];
-        $postIds = $event->getInputs()['postIds'];
+        $type = $event->getInput('type');
+        $postIds = $event->getInputs('postIds');
         $pickup = $context->getComponent('\\FS\\Components\\Order\\Pickup');
 
         switch ($type) {

@@ -13,7 +13,7 @@ class ShippingZoneMethodOptions extends \FS\Components\AbstractComponent impleme
         \FS\Context\ApplicationEventInterface $event,
         \FS\Context\ConfigurableApplicationContextInterface $context
     ) {
-        $fields = $event->getInputs()['fields'];
+        $fields = $event->getInput('fields');
 
         $notifier = $context->getComponent('\\FS\\Components\\Notifier');
         $validator = $context->getComponent('\\FS\\Components\\Validation\\SettingsValidator');
