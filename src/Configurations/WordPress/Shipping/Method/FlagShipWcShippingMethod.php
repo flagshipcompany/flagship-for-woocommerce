@@ -389,78 +389,18 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
      */
     public function calculate_shipping($package = array())
     {
-        $options = $this->ctx->getComponent('\\FS\\Components\\Options');
-        $options->sync($this->instance_id);
+        // use instance method's options
+        $options = $this->ctx
+            ->getComponent('\\FS\\Components\\Options')
+            ->sync($this->instance_id);
 
-        $command = $this->ctx->getComponent('\\FS\\Components\\Shipping\\Command');
+        $event = new \FS\Configurations\WordPress\Event\CalculateShippingEvent();
+        $event->setInputs(array(
+            'package' => $package,
+            'method' => $this,
+        ));
 
-        $factory = $this->ctx->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingCartRateRequestFactory');
-
-        $client = $this->ctx->getComponent('\\FS\\Components\\Http\\Client');
-        $client->setToken($options->get('token'));
-
-        $notifier = $this->ctx->getComponent('\\FS\\Components\\Notifier');
-
-        $rateProcessor = $this->ctx->getComponent('\\FS\\Components\\Shipping\\RateProcessor');
-        $notifier->scope('cart');
-
-        // when store owner disable front end warning for their customer
-        if ($options->equal('disable_api_warning', 'yes')) {
-            $notifier->enableSilentLogging();
-        }
-
-        // no shipping address, alert customer
-        if (empty($package['destination']['postcode'])) {
-            $notifier->notice('Add shipping address to get shipping rates! (click "Calculate Shipping")');
-            $notifier->view();
-
-            return;
-        }
-
-        $response = $command->quote(
-            $client,
-            $factory->setPayload(array(
-                'package' => $package,
-                'options' => $options,
-                'notifier' => $notifier,
-            ))->getRequest()
-        );
-
-        if (!$response->isSuccessful()) {
-            $notifier->error('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>');
-            $notifier->view();
-
-            return;
-        }
-
-        $rates = $rateProcessor->convertToWcShippingRate($response->getBody(), $this->instance_id);
-
-        $offer_rates = $this->get_instance_option('offer_rates', 'all');
-
-        if ($offer_rates == 'all') {
-            foreach ($rates as $rate) {
-                $this->add_rate($rate);
-            }
-
-            return;
-        }
-
-        if ($offer_rates == 'cheapest') {
-            $this->add_rate($rates[0]);
-
-            return;
-        }
-
-        $count = intval($offer_rates);
-
-        while ($count > 0 && $rates) {
-            $rate = array_shift($rates);
-            $this->add_rate($rate);
-
-            --$count;
-        }
-
-        $notifier->view();
+        $this->ctx->publishEvent($event);
     }
 
     /**

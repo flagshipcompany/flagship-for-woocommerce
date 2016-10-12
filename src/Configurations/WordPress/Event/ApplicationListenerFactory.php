@@ -11,7 +11,8 @@ class ApplicationListenerFactory extends \FS\Components\AbstractComponent
             ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\MetaboxOperations(), $context))
             ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\MetaboxDisplay(), $context))
             ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\ShippingMethodSetup(), $context))
-            ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\ShippingZoneMethodOptions(), $context));
+            ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\ShippingZoneMethodOptions(), $context))
+            ->addApplicationListener(new Listener\CalculateShipping());
 
         if (\is_admin()) {
             $context->addApplicationListener($this->getNativeHookPublishedListener(new Listener\PluginPageSettingLink(), $context));

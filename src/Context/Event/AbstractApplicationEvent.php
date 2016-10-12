@@ -20,8 +20,8 @@ abstract class AbstractApplicationEvent implements \FS\Context\ApplicationEventI
 
     public function getInput($key, $default = null)
     {
-        if (isset($inputs[$key])) {
-            return $inputs[$key];
+        if (isset($this->inputs[$key])) {
+            return $this->inputs[$key];
         }
 
         return $default;
