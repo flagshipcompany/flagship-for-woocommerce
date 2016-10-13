@@ -16,7 +16,7 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
     {
         $settings = new \FS\Components\Settings();
 
-        $settings['FLAGSHIP_SHIPPING_PLUGIN_DEBUG'] = true;
+        $settings['FLAGSHIP_SHIPPING_PLUGIN_DEBUG'] = false;
         $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'] = 'flagship_shipping_method';
         $settings['FLAGSHIP_SHIPPING_API_ENTRY_POINT'] = $settings['FLAGSHIP_SHIPPING_PLUGIN_DEBUG'] ? 'http://127.0.0.1:3002' : 'https://api.smartship.io';
         $settings['FLAGSHIP_SHIPPING_API_TIMEOUT'] = 14;
@@ -91,6 +91,14 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
     {
         $factory = new \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory();
         $factory->setFactoryDriver(new RequestBuilder\Factory\Driver());
+
+        return $factory;
+    }
+
+    public function getRateProcessorFactory()
+    {
+        $factory = new \FS\Components\Shipping\RateProcessor\Factory\RateProcessorFactory();
+        $factory->setFactoryDriver(new RateProcessor\Factory\Driver());
 
         return $factory;
     }

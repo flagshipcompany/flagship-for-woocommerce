@@ -16,6 +16,7 @@ class CalculateShipping extends \FS\Components\AbstractComponent implements \FS\
         $package = $event->getInput('package');
         $method = $event->getInput('method');
 
+        $settings = $context->getComponent('\\FS\\Components\\Settings');
         $options = $context
             ->getComponent('\\FS\\Components\\Options');
         $command = $context
@@ -28,8 +29,8 @@ class CalculateShipping extends \FS\Components\AbstractComponent implements \FS\
         $notifier = $context
             ->getComponent('\\FS\\Components\\Notifier')
             ->scope('cart');
-        $rateProcessor = $context
-            ->getComponent('\\FS\\Components\\Shipping\\RateProcessor');
+        $rateProcessorFactory = $context
+            ->getComponent('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
 
         // when store owner disable front end warning for their customer
         if ($options->equal('disable_api_warning', 'yes')) {
@@ -60,31 +61,48 @@ class CalculateShipping extends \FS\Components\AbstractComponent implements \FS\
             return;
         }
 
-        $rates = $rateProcessor->convertToWcShippingRate($response->getBody(), $this->instance_id);
+        $rates = $response->getBody();
 
-        $offer_rates = $method->get_instance_option('offer_rates', 'all');
+        // filter and process on returned rates
+        $rates = $rateProcessorFactory
+            ->getRateProcessor('EnabledRate')
+            ->getProcessedRates($rates, array(
+                'enabled' => array(
+                    'standard' => ($options->get('allow_standard_rates') == 'yes'),
+                    'express' => ($options->get('allow_express_rates') == 'yes'),
+                    'overnight' => ($options->get('allow_overnight_rates') == 'yes'),
+                ),
+            ));
 
-        if ($offer_rates == 'all') {
-            foreach ($rates as $rate) {
-                $method->add_rate($rate);
-            }
+        $rates = $rateProcessorFactory
+            ->getRateProcessor('CourierExcludedRate')
+            ->getProcessedRates($rates, array(
+                'excluded' => array_filter(array('fedex', 'ups', 'purolator'), function ($courier) use ($options) {
+                    return $options->not_equal('disable_courier_'.$courier, 'no');
+                }),
+            ));
 
-            return;
-        }
+        $rates = $rateProcessorFactory
+            ->getRateProcessor('XNumberOfBestRate')
+            ->getProcessedRates($rates, array(
+                'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
+                'offered' => $method->get_instance_option('offer_rates', 'all'),
+            ));
 
-        if ($offer_rates == 'cheapest') {
-            $method->add_rate($rates[0]);
+        $rates = $rateProcessorFactory
+            ->getRateProcessor('NativeRate')
+            ->getProcessedRates($rates, array(
+                'settings' => $settings,
+                'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
+                'markup' =>  array(
+                    'type' => $options->get('default_shipping_markup_type'),
+                    'rate' => $options->get('default_shipping_markup'),
+                ),
+                'instanceId' => property_exists($method, 'instance_id') ? $method->instance_id : false,
+            ));
 
-            return;
-        }
-
-        $count = intval($offer_rates);
-
-        while ($count > 0 && $rates) {
-            $rate = array_shift($rates);
+        foreach ($rates as $rate) {
             $method->add_rate($rate);
-
-            --$count;
         }
 
         $notifier->view();

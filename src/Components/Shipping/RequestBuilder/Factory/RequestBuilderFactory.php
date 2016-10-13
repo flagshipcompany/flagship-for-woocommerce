@@ -2,7 +2,7 @@
 
 namespace FS\Components\Shipping\RequestBuilder\Factory;
 
-class RequestBuilderFactory extends \FS\Components\AbstractComponent implements FactoryInterface, FactoryDriverAwareInterface
+class RequestBuilderFactory extends \FS\Components\AbstractComponent implements FactoryInterface, \FS\Components\Factory\DriverAwareInterface
 {
     protected $driver;
 
@@ -11,7 +11,7 @@ class RequestBuilderFactory extends \FS\Components\AbstractComponent implements 
         return $this->getFactoryDriver()->getBuilder($resource, $context);
     }
 
-    public function setFactoryDriver(FactoryDriverInterface $driver)
+    public function setFactoryDriver(\FS\Components\Factory\DriverInterface $driver)
     {
         $this->driver = $driver;
 

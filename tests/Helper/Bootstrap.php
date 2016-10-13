@@ -25,10 +25,7 @@ class Bootstrap
         \tests_add_filter('muplugins_loaded', array($this, 'loadPlugin'));
 
         // Start up the WP testing environment.
-        include_once $this->wpTestsDir.'/includes/bootstrap.php';
-
-        // $this->dependency();
-    }
+        include_once $this->wpTestsDir.'/includes/bootstrap.php';    }
 
     public function loadPlugin()
     {
@@ -39,12 +36,6 @@ class Bootstrap
     {
         require_once $this->pluginDir.'/../woocommerce/woocommerce.php';
         require_once $this->pluginDir.'/../woocommerce/includes/admin/wc-admin-functions.php';
-    }
-
-    public function dependency()
-    {
-        require_once $this->testsDir.'/helpers/FlagshipShippingUnitTestCase.php';
-        require_once $this->testsDir.'/helpers/FlagshipShippingWooCommerceFactory.php';
     }
 
     public static function initialize($testDir, $wpTestDir)

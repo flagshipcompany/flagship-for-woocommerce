@@ -43,11 +43,6 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
         add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));
 
         load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-for-woocommerce/languages');
-
-        // // filters
-        // $this->ctx
-        //     ->getComponent('\\FS\\Components\\Hook\\HookManager')
-        //     ->registerHook('\\FS\\Components\\Hook\\SettingsFilters');
     }
 
     /**
