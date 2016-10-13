@@ -30,7 +30,7 @@ class EnabledRateProcessor extends \FS\Components\AbstractComponent implements \
         }
 
         return array_filter($rates, function ($rate) use ($enabled) {
-            return $enabled[self::$mapping[$rate['service']['flagship_code']]];
+            return $enabled[\FS\Configurations\WordPress\RateProcessor\EnabledRateProcessor::$mapping[$rate['service']['flagship_code']]];
         });
     }
 }
