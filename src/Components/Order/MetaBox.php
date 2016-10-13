@@ -110,10 +110,10 @@ class MetaBox extends \FS\Components\AbstractComponent
             ->getComponent('\\FS\\Components\\Shipping\\Command');
         $factory = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderRateRequestFactory');
-        $rateProcessor = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\RateProcessor');
         $notifier = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Notifier');
+        $rateProcessorFactory = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
 
         $response = $command->quote(
             $client,
@@ -129,7 +129,15 @@ class MetaBox extends \FS\Components\AbstractComponent
             return;
         }
 
-        $rates = $rateProcessor->convertToWcShippingRate($response->getBody(), $shippingMethodInstanceId);
+        $rates = $response->getBody();
+
+        $rates = $rateProcessorFactory
+            ->getRateProcessor('ProcessRate')
+            ->getProcessedRates($rates, array(
+                'factory' => $rateProcessorFactory,
+                'options' => $options,
+                'instanceId' => property_exists($method, 'instance_id') ? $method->instance_id : false,
+            ));
 
         $wcShippingRates = array();
 
