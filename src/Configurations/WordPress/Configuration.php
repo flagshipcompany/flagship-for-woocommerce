@@ -103,6 +103,14 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
         return $factory;
     }
 
+    public function getValidatorFactory()
+    {
+        $factory = new \FS\Components\Validation\Factory\ValidatorFactory();
+        $factory->setFactoryDriver(new Validation\Factory\Driver());
+
+        return $factory;
+    }
+
     public function getApplicationListenerFactory()
     {
         $factory = new \FS\Components\Event\Factory\ApplicationListenerFactory();
