@@ -4,13 +4,14 @@ namespace FS\Configurations\WordPress\RateProcessor;
 
 class ProcessRateProcessor extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RateProcessor\RateProcessorInterface
 {
-	public function getProcessedRates($rates, $payload = array())
-	{
-		$options = $payload['options'];
-		$instanceId = $payload['instanceId'];
-		$factory = $payload['factory'];
+    public function getProcessedRates($rates, $payload = array())
+    {
+        $options = $payload['options'];
+        $instanceId = $payload['instanceId'];
+        $factory = $payload['factory'];
+        $methodId = $payload['methodId'];
 
-		$rates = $factory
+        $rates = $factory
             ->getRateProcessor('EnabledRate')
             ->getProcessedRates($rates, array(
                 'enabled' => array(
@@ -38,9 +39,9 @@ class ProcessRateProcessor extends \FS\Components\AbstractComponent implements \
         $rates = $factory
             ->getRateProcessor('NativeRate')
             ->getProcessedRates($rates, array(
-                'settings' => $settings,
+                'methodId' => $methodId,
                 'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
-                'markup' =>  array(
+                'markup' => array(
                     'type' => $options->get('default_shipping_markup_type'),
                     'rate' => $options->get('default_shipping_markup'),
                 ),
@@ -48,5 +49,5 @@ class ProcessRateProcessor extends \FS\Components\AbstractComponent implements \
             ));
 
         return $rates;
-	}
+    }
 }

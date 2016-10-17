@@ -69,6 +69,7 @@ class CalculateShipping extends \FS\Components\AbstractComponent implements \FS\
                 'factory' => $rateProcessorFactory,
                 'options' => $options,
                 'instanceId' => property_exists($method, 'instance_id') ? $method->instance_id : false,
+                'methodId' => $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'],
             ));
 
         foreach ($rates as $rate) {

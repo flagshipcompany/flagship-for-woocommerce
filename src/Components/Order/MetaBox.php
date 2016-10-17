@@ -104,6 +104,8 @@ class MetaBox extends \FS\Components\AbstractComponent
     {
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
+        $settings = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Settings');
         $client = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Http\\Client');
         $command = $this->getApplicationContext()
@@ -137,6 +139,7 @@ class MetaBox extends \FS\Components\AbstractComponent
                 'factory' => $rateProcessorFactory,
                 'options' => $options,
                 'instanceId' => property_exists($method, 'instance_id') ? $method->instance_id : false,
+                'methodId' => $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'],
             ));
 
         $wcShippingRates = array();
