@@ -13,9 +13,7 @@ abstract class AbstractComponent extends \FS\Context\Support\AbstractApplication
 
     public function debug($var)
     {
-        $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Debugger')
-            ->log($var);
+        $this->getApplicationContext()->debug($var);
     }
 
     public function isContextRequired()

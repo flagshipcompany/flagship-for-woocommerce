@@ -6,7 +6,7 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
 {
     public function getSupportedEvent()
     {
-        return false;
+        return 'FS\\Configurations\\WordPress\\Event\\PickupPostTypeEvent';
     }
 
     public function onApplicationEvent(
@@ -14,7 +14,7 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
         \FS\Context\ConfigurableApplicationContextInterface $context
     ) {
         $type = $event->getInput('type');
-        $postIds = $event->getInputs('postIds');
+        $postIds = $event->getInput('postIds');
         $pickup = $context->getComponent('\\FS\\Components\\Order\\Pickup');
 
         switch ($type) {
@@ -281,7 +281,7 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
                     $context->publishEvent($event);
                     break;
             }
-        });
+        }, 10);
     }
 
     public function getNativeHookType()
