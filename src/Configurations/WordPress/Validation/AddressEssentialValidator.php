@@ -1,8 +1,8 @@
 <?php
 
-namespace FS\Components\Validation;
+namespace FS\Configurations\WordPress\Validation;
 
-class AddressValidator extends \FS\Components\AbstractComponent implements ValidatorInterface
+class AddressEssentialValidator extends \FS\Components\Validation\AbstractValidator implements \FS\Components\Validation\ValidatorInterface
 {
     public function validate($target, \FS\Components\Notifier $notifier)
     {

@@ -8,7 +8,13 @@ class ValidatorFactory extends \FS\Components\AbstractComponent implements Facto
 
     public function getValidator($resource, $context = array())
     {
-        return $this->getFactoryDriver()->getBuilder($resource, $context);
+        $validator = $this->getFactoryDriver()->getValidator($resource, $context);
+
+        if ($validator) {
+            return $validator->setApplicationContext($this->getApplicationContext());
+        }
+
+        throw new \Exception('Unable to resolve validator: '.$resource, 500);
     }
 
     public function setFactoryDriver(\FS\Components\Factory\DriverInterface $driver)

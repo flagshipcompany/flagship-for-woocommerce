@@ -1,14 +1,17 @@
 <?php
 
-namespace FS\Components\Validation;
+namespace FS\Configurations\WordPress\Validation;
 
-class SettingsValidator extends \FS\Components\AbstractComponent implements ValidatorInterface
+class SettingsValidator extends \FS\Components\Validation\AbstractValidator implements \FS\Components\Validation\ValidatorInterface
 {
     public function validate($target, \FS\Components\Notifier $notifier)
     {
+        $context = $this->getApplicationContext();
+        $factory = $context->getComponent('\\FS\\Components\\Validation\\Factory\\ValidatorFactory');
+
         // if user set/update token, we need to use the latest entered one
         if (isset($target['token'])) {
-            $this->getApplicationContext()->getComponent('\\FS\\Components\\Http\\Client')->setToken($target['token']);
+            $context->getComponent('\\FS\\Components\\Http\\Client')->setToken($target['token']);
         }
 
         // enabled?
@@ -17,11 +20,11 @@ class SettingsValidator extends \FS\Components\AbstractComponent implements Vali
         }
 
         // phone
-        $phoneValidator = new PhoneValidator();
+        $phoneValidator = $factory->getValidator('Phone');
         $phoneValidator->validate($target['shipper_phone_number'], $notifier);
 
         // address
-        $addressValidator = $this->getApplicationContext()->getComponent('\\FS\\Components\\Validation\\AddressValidator');
+        $addressValidator = $factory->getValidator('AddressEssential');
         $address = $addressValidator->validate(array(
             'postal_code' => $target['origin'],
             'state' => $target['freight_shipper_state'],
@@ -51,7 +54,7 @@ class SettingsValidator extends \FS\Components\AbstractComponent implements Vali
         }
 
         // overall integrity, send mock quote request
-        $integrityValidator = $this->getApplicationContext()->getComponent('\\FS\\Components\\Validation\\SettingsIntegrityValidator');
+        $integrityValidator = $factory->getValidator('Integrity');
         $integrityValidator->validate($target, $notifier);
 
         return $target;
