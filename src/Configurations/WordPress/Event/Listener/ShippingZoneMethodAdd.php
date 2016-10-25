@@ -25,8 +25,9 @@ class ShippingZoneMethodAdd extends \FS\Components\AbstractComponent implements 
     {
         \add_action('woocommerce_shipping_zone_method_added', function ($instanceId, $type, $zoneId) use ($context) {
             $settings = $context->getComponent('\\FS\\Components\\Settings');
+            $options = $context->getComponent('\\FS\\Components\\Options');
 
-            if ($type == $settings['FLAGSHIP_SHIPPING_PLUGIN_ID']) {
+            if ($type == $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'] && $options->all()) {
                 $event = new \FS\Configurations\WordPress\Event\ShippingZoneMethodAddEvent();
                 $event->setInputs(array(
                     'instanceId' => $instanceId,
