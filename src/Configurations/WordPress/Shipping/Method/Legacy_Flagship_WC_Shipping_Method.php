@@ -414,7 +414,7 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
                         <tr>
                             <td width="20%"><?php echo date('Y-m-d H:i:s', $log['timestamp']);
         ?></td>
-                            <td><?php $this->ctx['html']->ul_e($log['log']);
+                            <td><?php $this->ctx->getComponent('\\FS\\Components\\Html')->ul_e($log['log']);
         ?></td>
                         </tr>
                         <?php endforeach;
