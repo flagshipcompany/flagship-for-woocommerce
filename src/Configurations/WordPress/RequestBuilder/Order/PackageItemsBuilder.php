@@ -6,11 +6,11 @@ class PackageItemsBuilder extends \FS\Configurations\WordPress\RequestBuilder\Ab
 {
     protected function makeProductItems($payload = null)
     {
-        $order_items = $payload['order']->getWcOrder()->get_items();
+        $order_items = $payload['order']->getNativeOrder()->get_items();
         $product_items = array();
 
         foreach ($order_items as $order_item) {
-            $product = $payload['order']->getWcOrder()->get_product_from_item($order_item);
+            $product = $payload['order']->getNativeOrder()->get_product_from_item($order_item);
 
             $count = 0;
 

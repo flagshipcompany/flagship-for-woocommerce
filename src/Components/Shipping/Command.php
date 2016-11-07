@@ -34,6 +34,16 @@ class Command extends \FS\Components\AbstractComponent
         return $this->validate($response);
     }
 
+    public function pack(\FS\Components\Http\Client $client, Factory\FormattedRequestInterface $request)
+    {
+        $response = $client->post(
+            '/ship/packing',
+            $request->getRequest()
+        );
+
+        return $this->validate($response);
+    }
+
     protected function validate(\FS\Components\Http\Response $response)
     {
         if (!$response->isSuccessful()) {

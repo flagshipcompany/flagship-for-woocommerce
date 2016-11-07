@@ -4,7 +4,7 @@ namespace FS\Components\Order\Factory;
 
 class MetaBoxViewerFactory extends \FS\Components\AbstractComponent implements ViewerFactoryInterface
 {
-    public function getViewer(\FS\Components\Order\ShoppingOrder $order)
+    public function getViewer(\FS\Components\Shop\OrderInterface $order)
     {
         $viewer = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\Factory\\MetaBoxViewer');
 
@@ -14,12 +14,12 @@ class MetaBoxViewerFactory extends \FS\Components\AbstractComponent implements V
         return $viewer;
     }
 
-    public function makePayload(\FS\Components\Order\ShoppingOrder $order)
+    public function makePayload(\FS\Components\Shop\OrderInterface $order)
     {
         $payload = array();
 
         $settings = $this->getApplicationContext()->getComponent('\\FS\\Components\\Settings');
-        $shipment = $order->getFlagShipRaw();
+        $shipment = $order->getShipment();
 
         $service = $order->getShippingService();
 
@@ -36,7 +36,7 @@ class MetaBoxViewerFactory extends \FS\Components\AbstractComponent implements V
             $payload['type'] = 'create';
             $payload['service'] = $service;
             $payload['cod'] = array(
-                'currency' => strtoupper(get_woocommerce_currency()),
+                'currency' => strtoupper(\get_woocommerce_currency()),
             );
         }
 
@@ -46,7 +46,7 @@ class MetaBoxViewerFactory extends \FS\Components\AbstractComponent implements V
         }
 
         // requotes
-        if ($requoteRates = $order->getAttribute('flagship_shipping_requote_rates')) {
+        if ($requoteRates = $order['flagship_shipping_requote_rates']) {
             $payload['requote_rates'] = $requoteRates;
         }
 

@@ -34,10 +34,10 @@ class MetaboxDisplay extends \FS\Components\AbstractComponent implements \FS\Con
                 __('FlagShip', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 function ($postId, $post) use ($context) {
                     $event = new \FS\Configurations\WordPress\Event\MetaboxDisplayEvent();
-                    $order = $context->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
 
-                    $wcOrder = \wc_get_order($postId);
-                    $order->setWcOrder($wcOrder);
+                    $order = $context->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory')->getOrder('order', array(
+                        'id' => $postId,
+                    ));
 
                     $event->setInputs(array('order' => $order));
 

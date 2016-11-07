@@ -86,10 +86,10 @@ class ShippingOptionsBuilder extends \FS\Components\AbstractComponent implements
         $items = array();
         $items['currency'] = strtoupper(get_woocommerce_currency());
 
-        $order_items = $order->getWcOrder()->get_items();
+        $order_items = $order->getNativeOrder()->get_items();
 
         foreach ($order_items as $order_item) {
-            $product = $order->getWcOrder()->get_product_from_item($order_item);
+            $product = $order->getNativeOrder()->get_product_from_item($order_item);
 
             $description = substr(get_post($product->id)->post_content, 0, 50);
 

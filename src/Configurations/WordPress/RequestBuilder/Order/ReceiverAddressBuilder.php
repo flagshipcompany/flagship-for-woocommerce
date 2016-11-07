@@ -6,18 +6,7 @@ class ReceiverAddressBuilder extends \FS\Components\AbstractComponent implements
 {
     public function build($payload = null)
     {
-        $wcOrder = $payload['order']->getWcOrder();
-
-        $address = array(
-            'name' => $wcOrder->shipping_company,
-            'attn' => $wcOrder->shipping_first_name.' '.$wcOrder->shipping_last_name,
-            'address' => trim($wcOrder->shipping_address_1.' '.$wcOrder->shipping_address_2),
-            'city' => $wcOrder->shipping_city,
-            'state' => $wcOrder->shipping_state,
-            'country' => $wcOrder->shipping_country,
-            'postal_code' => $wcOrder->shipping_postcode,
-            'phone' => $wcOrder->billing_phone, // no such a field in the shipping!?
-        );
+        $address = $payload['order']->getReceiverAddress();
 
         if (empty($address['name'])) {
             $address['name'] = $address['attn'] ? $address['attn'] : 'Receiver';

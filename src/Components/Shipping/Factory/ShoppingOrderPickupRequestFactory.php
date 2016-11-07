@@ -62,7 +62,7 @@ class ShoppingOrderPickupRequestFactory extends AbstractRequestFactory implement
 
         $request->setRequestPart(
             'to_country',
-            $this->payload['order']->getWcOrder()->shipping_country
+            $this->payload['order']->getNativeOrder()->shipping_country
         );
 
         $request->setRequestPart(
