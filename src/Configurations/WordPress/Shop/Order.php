@@ -93,7 +93,9 @@ class Order extends \FS\Components\Shop\AbstractModel implements \ArrayAccess, \
 
     public function offsetExists($offset)
     {
-        return empty(get_post_meta($this->getId(), $offset, true));
+        $existed = get_post_meta($this->getId(), $offset, true);
+
+        return empty($existed);
     }
 
     public function offsetUnset($offset)
