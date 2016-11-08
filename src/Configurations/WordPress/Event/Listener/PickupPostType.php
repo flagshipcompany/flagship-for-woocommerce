@@ -16,10 +16,14 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
         $type = $event->getInput('type');
         $postIds = $event->getInput('postIds');
         $pickup = $context->getComponent('\\FS\\Components\\Order\\Pickup');
+        $factory = $context->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory');
 
         switch ($type) {
             case 'schedule':
-                $pickup->schedulePickup($pickup->makeShoppingOrders($postIds));
+                $pickup->schedulePickup($factory->getModel(
+                    \FS\Components\Shop\Factory\FactoryInterface::RESOURCE_ORDER_COLLECTION,
+                    array('ids' => $postIds)
+                ));
                 break;
             case 'void':
                 $pickup->voidPickup($postIds);

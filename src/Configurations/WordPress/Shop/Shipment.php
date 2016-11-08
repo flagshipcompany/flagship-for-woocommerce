@@ -2,23 +2,22 @@
 
 namespace FS\Configurations\WordPress\Shop;
 
-class Shipment extends \FS\Container
+class Shipment extends \FS\Components\Shop\AbstractModel
 {
-    public static function createFromRaw(array $raw)
-    {
-        $shipment = new self();
-
-        foreach ($raw as $key => $value) {
-            $shipment[$key] = $value;
-        }
-
-        return $shipment;
-    }
-
     public function setReceiverAddress($address)
     {
         $this['to'] = $address;
 
         return $this;
+    }
+
+    public function getCourier()
+    {
+        return strtolower($this['service']['courier_name']);
+    }
+
+    public function isFedexGround()
+    {
+        return $this->getCourier() == 'fedex' && (strpos($this['service']['courier_code'], 'FedexGround') !== false);
     }
 }

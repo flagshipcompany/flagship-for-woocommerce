@@ -1,8 +1,8 @@
 <?php
 
-namespace FS;
+namespace FS\Components\Shop;
 
-class Container implements \ArrayAccess, \JsonSerializable
+abstract class AbstractModel extends \FS\Components\AbstractComponent implements \ArrayAccess, \JsonSerializable
 {
     protected $container = array();
 

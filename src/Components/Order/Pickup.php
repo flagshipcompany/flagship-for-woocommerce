@@ -87,6 +87,8 @@ class Pickup extends \FS\Components\AbstractComponent
             ->getComponent('\\FS\\Components\\Options');
         $requestFactory = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
+        $shopFactory = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory');
         $orderShippingsFactory = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
         $client = $this->getApplicationContext()
@@ -105,7 +107,10 @@ class Pickup extends \FS\Components\AbstractComponent
 
             $orderIds = get_post_meta($pickupPostId, 'order_ids', true);
 
-            $this->schedulePickup($this->makeShoppingOrders($orderIds), $pickupPostIds);
+            $this->schedulePickup($shopFactory->getModel(
+                \FS\Components\Shop\Factory\FactoryInterface::RESOURCE_ORDER_COLLECTION,
+                array('ids' => $orderIds)
+            ), $pickupPostIds);
         }
 
         $sendback = add_query_arg(array('post_type' => 'flagship_pickup', 'ids' => implode(',', $pickupPostIds)), '');
@@ -131,21 +136,5 @@ class Pickup extends \FS\Components\AbstractComponent
         }
 
         return $id;
-    }
-
-    public function makeShoppingOrders($postIds = null)
-    {
-        $orders = array();
-
-        foreach ($postIds as $postId) {
-            if ($wcOrder = \wc_get_order($postId)) {
-                $order = $this->getApplicationContext()->getComponent('\\FS\\Components\\Order\\ShoppingOrder');
-                $order->setWcOrder($wcOrder);
-
-                $orders[] = $order;
-            }
-        }
-
-        return $orders;
     }
 }

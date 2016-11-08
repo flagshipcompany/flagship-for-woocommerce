@@ -6,12 +6,12 @@ class ShopFactory extends \FS\Components\AbstractComponent implements FactoryInt
 {
     protected $driver;
 
-    public function getOrder($resource, $context = array())
+    public function getModel($resource, $context = array())
     {
-        $order = $this->getFactoryDriver()->getOrder($resource, $context);
+        $order = $this->getFactoryDriver()->getModel($resource, $context);
 
         if ($order) {
-            return $order;
+            return $order->setApplicationContext($this->getApplicationContext());
         }
 
         throw new \Exception('Unable to resolve shop order: '.$resource, 500);

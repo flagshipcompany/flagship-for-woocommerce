@@ -35,11 +35,13 @@ class MetaboxDisplay extends \FS\Components\AbstractComponent implements \FS\Con
                 function ($postId, $post) use ($context) {
                     $event = new \FS\Configurations\WordPress\Event\MetaboxDisplayEvent();
 
-                    $order = $context->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory')->getOrder('order', array(
+                    $order = $context->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory')->getModel('order', array(
                         'id' => $postId,
                     ));
 
-                    $event->setInputs(array('order' => $order));
+                    $event->setInputs(array(
+                        'order' => $order,
+                    ));
 
                     $context->publishEvent($event);
                 },

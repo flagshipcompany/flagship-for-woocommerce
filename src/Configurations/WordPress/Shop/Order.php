@@ -2,7 +2,7 @@
 
 namespace FS\Configurations\WordPress\Shop;
 
-class Order extends \FS\Components\AbstractComponent implements \ArrayAccess, \FS\Components\Shop\OrderInterface
+class Order extends \FS\Components\Shop\AbstractModel implements \ArrayAccess, \FS\Components\Shop\OrderInterface
 {
     protected $nativeOrder;
     protected $cache = array();
@@ -36,25 +36,30 @@ class Order extends \FS\Components\AbstractComponent implements \ArrayAccess, \F
             return;
         }
 
-        $shipment = Shipment::createFromRaw($raw);
+        $factory = $this->getApplicationContext()->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory');
 
-        $shipment->setReceiverAddress($this->getReceiverAddress());
-
-        return $shipment;
+        return $factory->getModel(
+            \FS\Components\Shop\Factory\FactoryInterface::RESOURCE_SHIPMENT,
+            array('raw' => $raw)
+        )->setReceiverAddress($this->getReceiverAddress());
     }
 
     public function getReceiverAddress()
     {
-        return array(
-            'name' => $this->getNativeOrder()->shipping_company,
-            'attn' => $this->getNativeOrder()->shipping_first_name.' '.$this->getNativeOrder()->shipping_last_name,
-            'address' => trim($this->getNativeOrder()->shipping_address_1.' '.$this->getNativeOrder()->shipping_address_2),
-            'city' => $this->getNativeOrder()->shipping_city,
-            'state' => $this->getNativeOrder()->shipping_state,
-            'country' => $this->getNativeOrder()->shipping_country,
-            'postal_code' => $this->getNativeOrder()->shipping_postcode,
-            'phone' => $this->getNativeOrder()->billing_phone, // no such a field in the shipping!?
-        );
+        if (!isset($this->cache['to_address'])) {
+            $this->cache['to_address'] = array(
+                'name' => $this->getNativeOrder()->shipping_company,
+                'attn' => $this->getNativeOrder()->shipping_first_name.' '.$this->getNativeOrder()->shipping_last_name,
+                'address' => trim($this->getNativeOrder()->shipping_address_1.' '.$this->getNativeOrder()->shipping_address_2),
+                'city' => $this->getNativeOrder()->shipping_city,
+                'state' => $this->getNativeOrder()->shipping_state,
+                'country' => $this->getNativeOrder()->shipping_country,
+                'postal_code' => $this->getNativeOrder()->shipping_postcode,
+                'phone' => $this->getNativeOrder()->billing_phone, // no such a field in the shipping!?
+            );
+        }
+
+        return $this->cache['to_address'];
     }
 
     public function isInternational()

@@ -56,7 +56,7 @@ class MetaboxOperations extends \FS\Components\AbstractComponent implements \FS\
     {
         \add_action('woocommerce_process_shop_order_meta', function ($postId, $post) use ($context) {
             $event = new \FS\Configurations\WordPress\Event\MetaboxOperationsEvent();
-            $order = $context->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory')->getOrder('order', array(
+            $order = $context->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory')->getModel('order', array(
                 'id' => $postId,
             ));
 

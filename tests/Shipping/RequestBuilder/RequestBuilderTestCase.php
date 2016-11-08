@@ -13,8 +13,10 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
 
         $this->package = require __DIR__.'/../../Fixture/Package.php';
         $this->order = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Order\\ShoppingOrder')
-            ->setWcOrder(\FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleOrder());
+            ->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory')
+            ->getModel('order', array(
+                'nativeOrder' => \FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleOrder(),
+            ));
 
         foreach ($this->package['contents'] as $key => $package) {
             $this->package['contents'][$key]['data'] = \FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleProduct();
@@ -77,7 +79,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
         )));
     }
 
-    public function testShoppingOrderPackageItemsBuilder()
+    public function testShopOrderPackageItemsBuilder()
     {
         $builder = new \FS\Configurations\WordPress\RequestBuilder\Order\PackageItemsBuilder();
 
@@ -99,7 +101,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
         )));
     }
 
-    public function testShoppingOrderReceiverAddressBuilder()
+    public function testShopOrderReceiverAddressBuilder()
     {
         $builder = new \FS\Configurations\WordPress\RequestBuilder\Order\ReceiverAddressBuilder();
 

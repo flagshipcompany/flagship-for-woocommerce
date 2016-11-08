@@ -194,7 +194,7 @@ class MetaBox extends \FS\Components\AbstractComponent
 
         $shipment['pickup'] = $response->getBody();
 
-        $order['flagship_shipping_raw'] = $shipment;
+        $order['flagship_shipping_raw'] = $shipment->jsonSerialize();
     }
 
     public function voidPickup(\FS\Components\Shop\OrderInterface $order)
@@ -218,6 +218,6 @@ class MetaBox extends \FS\Components\AbstractComponent
 
         unset($shipment['pickup']);
 
-        $order['flagship_shipping_raw'] = $shipment;
+        $order['flagship_shipping_raw'] = $shipment->jsonSerialize();
     }
 }
