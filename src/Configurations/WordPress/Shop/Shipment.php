@@ -2,7 +2,7 @@
 
 namespace FS\Configurations\WordPress\Shop;
 
-class Shipment extends \FS\Components\Shop\AbstractModel
+class Shipment extends \FS\Components\Model\AbstractModel
 {
     public function setReceiverAddress($address)
     {

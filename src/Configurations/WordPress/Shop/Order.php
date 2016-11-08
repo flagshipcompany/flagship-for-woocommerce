@@ -2,7 +2,7 @@
 
 namespace FS\Configurations\WordPress\Shop;
 
-class Order extends \FS\Components\Shop\AbstractModel implements \ArrayAccess, \FS\Components\Shop\OrderInterface
+class Order extends \FS\Components\Model\AbstractModel implements \ArrayAccess, \FS\Components\Shop\OrderInterface
 {
     protected $nativeOrder;
     protected $cache = array();
@@ -65,6 +65,15 @@ class Order extends \FS\Components\Shop\AbstractModel implements \ArrayAccess, \
     public function isInternational()
     {
         return $this->getNativeOrder()->shipping_country != 'CA';
+    }
+
+    public function hasQuote()
+    {
+        $settings = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Settings');
+        $service = $this->getShippingService();
+
+        return $service['provider'] == $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'];
     }
 
     // order interface

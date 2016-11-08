@@ -8,13 +8,47 @@ class MetaBox extends \FS\Components\AbstractComponent
     {
         $notifier = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Notifier');
-        $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Order\\Factory\\MetaBoxViewerFactory');
+        $view = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\View\\Factory\\ViewFactory')
+            ->getView(\FS\Configurations\WordPress\View\Factory\Driver::RESOURCE_METABOX);
+        $settings = $this->getApplicationContext()
+            ->getComponent('\\FS\\Components\\Settings');
 
-        $viewer = $factory->getViewer($order);
+        $shipment = $order->getShipment();
+        $service = $order->getShippingService();
 
         $notifier->view();
-        $viewer->render();
+
+        // shipment created
+        if ($shipment) {
+            return $view->render(array(
+                'type' => 'created',
+                'shipment' => $shipment,
+            ));
+        }
+
+        $payload = array();
+
+        // quoted but no shipment created
+        if (!$shipment && $order->hasQuote()) {
+            $payload['type'] = 'create';
+            $payload['service'] = $service;
+            $payload['cod'] = array(
+                'currency' => strtoupper(\get_woocommerce_currency()),
+            );
+        }
+
+        // possibly not quoted with FS
+        if (!isset($payload['type'])) {
+            $payload['type'] = 'unavailable';
+        }
+
+        // requotes
+        if ($requoteRates = $order['flagship_shipping_requote_rates']) {
+            $payload['requote_rates'] = $requoteRates;
+        }
+
+        $view->render($payload);
     }
 
     public function createShipment(\FS\Components\Shop\OrderInterface $order)

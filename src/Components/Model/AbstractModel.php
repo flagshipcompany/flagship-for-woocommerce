@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Components\Shop;
+namespace FS\Components\Model;
 
 abstract class AbstractModel extends \FS\Components\AbstractComponent implements \ArrayAccess, \JsonSerializable
 {

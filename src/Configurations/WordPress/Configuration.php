@@ -119,6 +119,14 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
         return $factory;
     }
 
+    public function getViewFactory()
+    {
+        $factory = new \FS\Components\View\Factory\ViewFactory();
+        $factory->setFactoryDriver(new View\Factory\Driver());
+
+        return $factory;
+    }
+
     public function getApplicationListenerFactory()
     {
         $factory = new \FS\Components\Event\Factory\ApplicationListenerFactory();
