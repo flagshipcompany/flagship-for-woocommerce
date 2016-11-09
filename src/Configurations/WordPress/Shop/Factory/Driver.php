@@ -24,7 +24,7 @@ class Driver extends \FS\Components\AbstractComponent implements \FS\Components\
                 $orders = array();
 
                 if (isset($context['ids'])) {
-                    foreach ($context['id'] as $id) {
+                    foreach ($context['ids'] as $id) {
                         $orders[] = $this->getModel(self::RESOURCE_ORDER, array(
                             'id' => $id,
                         ));

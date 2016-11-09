@@ -15,13 +15,13 @@ class MetaboxDisplay extends \FS\Components\AbstractComponent implements \FS\Con
     ) {
         $order = $event->getInput('order');
 
-        $metaBox = $context
-            ->getComponent('\\FS\\Components\\Order\\MetaBox');
+        $controller = $context
+            ->getComponent('\\FS\\Configurations\\WordPress\\Shipping\\Shipment\\MetaboxController');
         $notifier = $context
             ->getComponent('\\FS\\Components\\Notifier')
             ->scope('shop_order', array('id' => $order->getId()));
 
-        $metaBox->display($order);
+        $controller->display($order);
     }
 
     public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)

@@ -1,8 +1,8 @@
 <?php
 
-namespace FS\Components\Order;
+namespace FS\Configurations\WordPress\Shipping\Shipment;
 
-class MetaBox extends \FS\Components\AbstractComponent
+class MetaboxController extends \FS\Components\AbstractComponent
 {
     public function display(\FS\Components\Shop\OrderInterface $order)
     {

@@ -16,7 +16,7 @@ class MetaboxOperations extends \FS\Components\AbstractComponent implements \FS\
         $order = $event->getInput('order');
 
         $metaBox = $context
-            ->getComponent('\\FS\\Components\\Order\\MetaBox');
+            ->getComponent('\\FS\\Configurations\\WordPress\\Shipping\\Shipment\\MetaboxController');
         $rp = $context
             ->getComponent('\\FS\\Components\\Web\\RequestParam');
         $notifier = $context

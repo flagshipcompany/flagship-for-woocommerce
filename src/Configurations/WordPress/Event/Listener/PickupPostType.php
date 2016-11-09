@@ -15,7 +15,7 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
     ) {
         $type = $event->getInput('type');
         $postIds = $event->getInput('postIds');
-        $pickup = $context->getComponent('\\FS\\Components\\Order\\Pickup');
+        $pickup = $context->getComponent('\\FS\\Configurations\\WordPress\\Shipping\\Pickup\\PickupController');
         $factory = $context->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory');
 
         switch ($type) {

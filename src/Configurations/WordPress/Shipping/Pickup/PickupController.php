@@ -1,8 +1,8 @@
 <?php
 
-namespace FS\Components\Order;
+namespace FS\Configurations\WordPress\Shipping\Pickup;
 
-class Pickup extends \FS\Components\AbstractComponent
+class PickupController extends \FS\Components\AbstractComponent
 {
     public function schedulePickup($orders, $pickupPostIds = array())
     {
