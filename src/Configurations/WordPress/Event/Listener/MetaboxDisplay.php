@@ -27,8 +27,6 @@ class MetaboxDisplay extends \FS\Components\AbstractComponent implements \FS\Con
     public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)
     {
         \add_action('add_meta_boxes', function () use ($context) {
-            $context->getComponent('\\FS\\Components\\Order\\MetaBox');
-
             \add_meta_box(
                 'wc-flagship-shipping-box',
                 __('FlagShip', FLAGSHIP_SHIPPING_TEXT_DOMAIN),

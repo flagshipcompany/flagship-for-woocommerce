@@ -5,7 +5,7 @@ namespace FS\Configurations\WordPress\RequestBuilder\Factory;
 class Driver extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RequestBuilder\Factory\FactoryInterface, \FS\Components\Factory\DriverInterface
 {
     public function getBuilder($resource, $context = array())
-    {   
+    {
         switch ($resource) {
             case 'ShipperAddress':
                 return new \FS\Configurations\WordPress\RequestBuilder\ShipperAddressBuilder();
@@ -21,7 +21,7 @@ class Driver extends \FS\Components\AbstractComponent implements \FS\Components\
                 if (isset($context['type']) && $context['type'] == 'cart') {
                     return new \FS\Configurations\WordPress\RequestBuilder\Cart\PackageItemsBuilder();
                 } else {
-                    return new \FS\Configurations\WordPress\RequestBuilder\Order\PackageItemsBuilder();
+                    return new \FS\Configurations\WordPress\RequestBuilder\Order\PackageItems\FallbackBuilder();
                 }
                 // no break
             case 'ShippingService':

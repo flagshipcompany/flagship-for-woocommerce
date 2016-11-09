@@ -8,7 +8,9 @@ class RequestBuilderFactory extends \FS\Components\AbstractComponent implements 
 
     public function getBuilder($resource, $context = array())
     {
-        return $this->getFactoryDriver()->getBuilder($resource, $context);
+        return $this->getFactoryDriver()
+            ->getBuilder($resource, $context)
+            ->setApplicationContext($this->getApplicationContext());
     }
 
     public function setFactoryDriver(\FS\Components\Factory\DriverInterface $driver)

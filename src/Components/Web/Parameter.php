@@ -62,7 +62,15 @@ class Parameter
      */
     public function get($key, $default = null)
     {
-        return array_key_exists($key, $this->parameters) ? ($this->sanitize ? sanitize_text_field($this->parameters[$key]) : $this->parameters[$key]) : $default;
+        if (!$this->has($key)) {
+            return $default;
+        }
+
+        if ($this->sanitize && is_scalar($this->parameters[$key])) {
+            return sanitize_text_field($this->parameters[$key]);
+        }
+
+        return $this->parameters[$key];
     }
 
     /**
