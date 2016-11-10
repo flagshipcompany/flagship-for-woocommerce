@@ -17,12 +17,30 @@ class Driver extends \FS\Components\AbstractComponent implements \FS\Components\
                     return new \FS\Configurations\WordPress\RequestBuilder\Order\ReceiverAddressBuilder();
                 }
                 // no break
+            case 'PackageBox':
+                return new \FS\Configurations\WordPress\RequestBuilder\PackageBoxBuilder();
+                // no break
+            case 'ProductItem':
+                return new \FS\Configurations\WordPress\RequestBuilder\ProductItemBuilder();
+                // no break
             case 'PackageItems':
-                if (isset($context['type']) && $context['type'] == 'cart') {
-                    return new \FS\Configurations\WordPress\RequestBuilder\Cart\PackageItemsBuilder();
-                } else {
-                    return new \FS\Configurations\WordPress\RequestBuilder\Order\PackageItems\FallbackBuilder();
+                $isCart = isset($context['type']) && $context['type'] == 'cart';
+                $usePackingApi = isset($context['usePackingApi']) && $context['usePackingApi'];
+
+                if ($isCart && $usePackingApi) {
+                    return new \FS\Configurations\WordPress\RequestBuilder\Cart\PackageItems\ApiBuilder();
                 }
+
+                if ($isCart) {
+                    return new \FS\Configurations\WordPress\RequestBuilder\Cart\PackageItems\FallbackBuilder();
+                }
+
+                if (!$isCart && $usePackingApi) {
+                    return new \FS\Configurations\WordPress\RequestBuilder\Order\PackageItems\ApiBuilder();
+                }
+
+                return new \FS\Configurations\WordPress\RequestBuilder\Order\PackageItems\FallbackBuilder();
+
                 // no break
             case 'ShippingService':
                 return new \FS\Configurations\WordPress\RequestBuilder\Order\ShippingServiceBuilder();

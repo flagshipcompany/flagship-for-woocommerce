@@ -52,8 +52,6 @@ class ShippingZoneMethodOptions extends \FS\Components\AbstractComponent impleme
             }
         }
 
-        $context->debug($fields);
-
         return $fields;
     }
 

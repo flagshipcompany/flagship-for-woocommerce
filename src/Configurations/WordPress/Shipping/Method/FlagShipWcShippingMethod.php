@@ -40,7 +40,8 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
 
         $options = $this->ctx
             ->getComponent('\\FS\\Components\\Options');
-        $options->sync($this->instance_id);
+
+        $options->sync($instance_id);
 
         $this->isLegacy = \version_compare(WC()->version, '2.6', '<');
 
@@ -224,6 +225,13 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                     'min' => 0,
                     'step' => 1,
                 ),
+            ),
+            'enable_packing_api' => array(
+                'title' => __('FlagShip Packing', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'label' => __('Allow FlagShip to pack the order\'s products, given sets of package box dimension', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'description' => __('By enabling this packing method, you will have to provide at least one Package Box dimensions. It will also ignore all settings from the normal weight driven packing method.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'default' => 'no',
             ),
             'package_box' => array(
                 'type' => 'package_box',

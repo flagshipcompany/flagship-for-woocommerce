@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Configurations\WordPress\RequestBuilder\Order\PackageItems;
+namespace FS\Configurations\WordPress\RequestBuilder\Cart\PackageItems;
 
 class ApiBuilder extends FallbackBuilder implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
 {
@@ -29,8 +29,6 @@ class ApiBuilder extends FallbackBuilder implements \FS\Components\Shipping\Requ
 
         // when failed, we need to use fallback
         if (!$response->isSuccessful()) {
-            $notifier->warning('Unable to use FlagShip Packing API. Use fallback weight driven packing.');
-
             return parent::makePackageItems($productItems, $payload);
         }
 

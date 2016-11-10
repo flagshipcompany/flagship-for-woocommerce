@@ -33,6 +33,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
             $this->makeRequestPart(
                 $factory->getBuilder('PackageItems', array(
                     'type' => 'order',
+                    'usePackingApi' => $this->payload['options']->equal('enable_packing_api', 'yes'),
                 )),
                 $this->payload
             )

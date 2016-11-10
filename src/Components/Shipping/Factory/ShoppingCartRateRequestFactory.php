@@ -33,6 +33,7 @@ class ShoppingCartRateRequestFactory extends AbstractRequestFactory implements F
             $this->makeRequestPart(
                 $factory->getBuilder('PackageItems', array(
                     'type' => 'cart',
+                    'usePackingApi' => $this->payload['options']->equal('enable_packing_api', 'yes'),
                 )),
                 $this->payload
             )

@@ -18,7 +18,8 @@ class FallbackBuilder extends \FS\Configurations\WordPress\RequestBuilder\Abstra
                 $width,
                 $length,
                 $height,
-                $weight
+                $weight,
+                $id
             ) = $this->getProductDimensions($product);
 
             do {
@@ -27,6 +28,7 @@ class FallbackBuilder extends \FS\Configurations\WordPress\RequestBuilder\Abstra
                     'height' => $height,
                     'length' => $length,
                     'weight' => $weight,
+                    'id' => $id,
                 );
 
                 ++$count;

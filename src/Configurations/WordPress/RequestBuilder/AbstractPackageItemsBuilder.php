@@ -87,6 +87,7 @@ abstract class AbstractPackageItemsBuilder extends \FS\Components\AbstractCompon
             $product->length ? max(1, ceil(woocommerce_get_dimension($product->length, 'in'))) : 1,
             $product->height ? max(1, ceil(woocommerce_get_dimension($product->height, 'in'))) : 1,
             $product->weight ? max(1, ceil(woocommerce_get_weight($product->weight, 'lbs'))) : 1,
+            $product->get_id(),
         );
     }
 }
