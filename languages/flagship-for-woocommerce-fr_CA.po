@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: FlagShip for WooCommerce 0.1.9\n"
 "Report-Msgid-Bugs-To: https://github.com/flagshipcompany/flagship-for-"
 "woocommerce/issues\n"
-"POT-Creation-Date: 2016-09-14 14:47-0400\n"
-"PO-Revision-Date: 2016-09-14 14:49-0400\n"
+"POT-Creation-Date: 2016-11-11 11:25-0500\n"
+"PO-Revision-Date: 2016-11-11 11:41-0500\n"
 "Last-Translator: (Ryan) Yi Cheng Shen <yi-cheng@flagshipcompany.com>\n"
 "Language-Team: (Ryan) Yi Cheng Shen <yi-cheng@flagshipcompany.com>\n"
 "Language: fr_CA\n"
@@ -18,149 +18,194 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: node_modules\n"
 
-#: includes/admin/meta-boxes/class.wc-meta-box-order-flagship-shipping-actions.php:9
-#, fuzzy
+#: src/Components/Shipping/Command.php:52
+msgid "FlagShip API Error: "
+msgstr ""
+
+#: src/Configurations/WordPress/Event/Listener/CalculateShipping.php:42
+msgid ""
+"Add shipping address to get shipping rates! (click \"Calculate Shipping\")"
+msgstr ""
+"Ajoutez une adresses d'expédition pour voir les taux! ( cliquez \"Calculer "
+"les frais d'expédition\")"
+
+#: src/Configurations/WordPress/Event/Listener/CalculateShipping.php:58
+#: src/Configurations/WordPress/Shipping/Shipment/MetaboxController.php:164
+msgid ""
+"Flagship Shipping has some difficulty in retrieving the rates. Please "
+"contact site administrator for assistance.<br/>"
+msgstr ""
+"FlagShip n'est pas capable de récupérer les couts d'envoi. SVP contactez "
+"l'administrateur du site. <br />"
+
+#: src/Configurations/WordPress/Event/Listener/MetaboxDisplay.php:32
 msgid "FlagShip"
 msgstr "FlagShip"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:14
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:45
 msgid "Pick-ups"
 msgstr "Ramassages"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:15
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:46
 #: templates/meta-boxes/order-flagship-shipping-actions.php:21
 msgid "Pick-up"
 msgstr "Ramassage"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:17
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:48
 msgid "Add Pick-up"
 msgstr "+ Ramassage"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:18
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:49
 msgid "Schedule New Pick-up"
 msgstr "Nouveau ramassage"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:19
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:50
 msgid "Edit"
 msgstr ""
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:20
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:51
 msgid "Edit Coupon"
 msgstr ""
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:21
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:52
 msgid "New Coupon"
 msgstr "Nouveau Coupon"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:22
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:53
 msgid "View Pick-ups"
 msgstr "Voir ramassages"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:23
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:54
 msgid "View Pick-up"
 msgstr "Voir ramassage"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:24
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:55
 msgid "Search Pick-ups"
 msgstr "Rechercher ramassage"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:25
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:56
 msgid "No Pick-ups found"
 msgstr "Aucun ramassage"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:26
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:57
 msgid "No Pick-ups found in trash"
 msgstr "Aucun ramassage dans la corbeille"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:27
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:58
 msgid "Parent pick-ups"
 msgstr "Ramassages"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:29
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:60
 msgid ""
 "This is where you can add new coupons that customers can use in your store."
 msgstr ""
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:146
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:88
 msgid "Order IDs"
 msgstr "Commande IDs"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:149
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:91
 msgid "Courier"
 msgstr "Courrier"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:150
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:92
 msgid "#. Boxes"
 msgstr "# de paquet"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:151
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:93
 msgid "Weight"
 msgstr "Poids"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:152
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:94
 #, fuzzy
 msgid "Address"
 msgstr "Adresse"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:153
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:95
 msgid "Pick-up Time"
 msgstr "Heure de ramassage"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:154
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:96
 msgid "Status"
 msgstr "Status"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:155
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:97
 msgid "Actions"
 msgstr ""
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:174
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:176
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:198
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:200
 msgid "Void pick-ups"
 msgstr "Annuler le ramassage"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:177
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:178
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:201
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:202
 msgid "Reschedule pick-ups"
 msgstr "Renouveller le ramassage"
 
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:226
-#: includes/admin/post-types/class.wc-admin-post-types-flagship-shipping-pickup.php:227
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:235
+#: src/Configurations/WordPress/Event/Listener/PickupPostType.php:236
 msgid "Schedule pick-up"
 msgstr "Nouveau ramassage"
 
-#: includes/class.flagship-wc-shipping-method.php:16
-#: includes/class.flagship-wc-shipping-method.php:19
-#: includes/class.flagship-wc-shipping-method.php:111
-#: includes/class.flagship-wc-shipping-method.php:120
+#: src/Configurations/WordPress/Event/Listener/PluginPageSettingLink.php:19
+msgid "Settings"
+msgstr "Paramètres"
+
+#: src/Configurations/WordPress/RequestBuilder/Cart/PackageItems/FallbackBuilder.php:24
+#, php-format
+msgid "Product %s is missing weight, weight default to 1 lbs."
+msgstr ""
+"Le poids est manquant pour le produit %s, poids utilisé par défaut est de 1 "
+"livre."
+
+#: src/Configurations/WordPress/RequestBuilder/Order/PackageItems/ApiBuilder.php:32
+msgid "Unable to use FlagShip Packing API. Use fallback weight driven packing."
+msgstr ""
+
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:21
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:30
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:65
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:74
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:16
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:19
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:87
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:96
 msgid "FlagShip Shipping"
 msgstr "Expédition FlagShip"
 
-#: includes/class.flagship-wc-shipping-method.php:17
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:22
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:17
 msgid "Obtains real time shipping rates via FlagShip Shipping API"
 msgstr "Obtient des tarifs d’expédition en temps réel"
 
-#: includes/class.flagship-wc-shipping-method.php:106
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:60
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:82
 msgid "Essentials"
 msgstr "Général"
 
-#: includes/class.flagship-wc-shipping-method.php:113
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:67
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:89
 msgid "Enable this shipping method"
 msgstr "Activer et utiliser"
 
-#: includes/class.flagship-wc-shipping-method.php:117
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:71
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:93
 msgid "Method Title"
 msgstr "Titre"
 
-#: includes/class.flagship-wc-shipping-method.php:119
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:73
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:95
 msgid "This controls the name of the shipping service during checkout."
 msgstr "Ceci contrôle le nom du service d’expédition au checkout"
 
-#: includes/class.flagship-wc-shipping-method.php:124
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:78
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:100
 msgid "FlagShip Access Token"
 msgstr "Clé FlagShip"
 
-#: includes/class.flagship-wc-shipping-method.php:126
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:80
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:102
 msgid ""
 "After <a href=\"https://www.flagshipcompany.com/sign-up/\">signup</a>, get a "
 "<a target=\"_blank\" href=\"https://auth.smartship.io/tokens/\">access token "
@@ -170,204 +215,275 @@ msgstr ""
 "vous/“> inscrit </a>, <a target=\"_blank\" href=\"https://auth.smartship.io/"
 "tokens/\">générez une clé FlagShip ici</a>"
 
-#: includes/class.flagship-wc-shipping-method.php:138
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:92
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:114
 msgid "Offer Standard Rates"
 msgstr "Tarifs Standards"
 
-#: includes/class.flagship-wc-shipping-method.php:144
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:98
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:120
 msgid "Offer Express Rates"
 msgstr "Tarifs Express"
 
-#: includes/class.flagship-wc-shipping-method.php:149
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:103
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:125
 msgid "Offer Overnight Rates"
 msgstr "Tarifs Overnight"
 
-#: includes/class.flagship-wc-shipping-method.php:155
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:109
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:131
 msgid "Offer Rates"
 msgstr "Tarifs"
 
-#: includes/class.flagship-wc-shipping-method.php:161
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:115
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:137
 msgid "Offer the customer all returned rates"
 msgstr "Montrer tous les tarifs"
 
-#: includes/class.flagship-wc-shipping-method.php:162
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:116
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:138
 msgid "Offer the customer the cheapest rate only"
 msgstr "Montrer seulement le meilleur tarif"
 
-#: includes/class.flagship-wc-shipping-method.php:163
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:117
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:139
 msgid "2 cheapest rates"
 msgstr "2 meilleurs tarifs"
 
-#: includes/class.flagship-wc-shipping-method.php:164
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:118
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:140
 msgid "3 cheapest rates"
 msgstr "3 meilleurs tarifs"
 
-#: includes/class.flagship-wc-shipping-method.php:165
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:119
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:141
 msgid "4 cheapest rates"
 msgstr "4 meilleurs tarifs"
 
-#: includes/class.flagship-wc-shipping-method.php:166
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:120
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:142
 msgid "5 cheapest rates"
 msgstr "5 meilleurs tarifs"
 
-#: includes/class.flagship-wc-shipping-method.php:170
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:124
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:146
 msgid "Shipper Information"
 msgstr "Informations sur l’expéditeur"
 
-#: includes/class.flagship-wc-shipping-method.php:173
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:127
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:149
 msgid ""
 "Shipper information which allows getting live rates, create shipment, "
 "schedule pick-up, etc."
 msgstr ""
 "Information pour l’estimation, la création d’expédition, le ramassage, etc."
 
-#: includes/class.flagship-wc-shipping-method.php:176
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:130
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:152
 msgid "Shipper Postal Code"
 msgstr "Code postal de l’expéditeur"
 
-#: includes/class.flagship-wc-shipping-method.php:178
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:132
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:154
 msgid ""
 "Enter a valid <strong>Canadian</strong> postal code for the <strong>Shipper</"
 "strong>."
 msgstr "Entrez un code postal valide pour l’expéditeur."
 
-#: includes/class.flagship-wc-shipping-method.php:182
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:136
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:158
 msgid "Shipper City"
 msgstr "Ville de l’expéditeur"
 
-#: includes/class.flagship-wc-shipping-method.php:185
-#: includes/class.flagship-wc-shipping-method.php:207
-#: includes/class.flagship-wc-shipping-method.php:222
-#: includes/class.flagship-wc-shipping-method.php:231
-#: includes/class.flagship-wc-shipping-method.php:243
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:139
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:161
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:176
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:185
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:197
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:161
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:183
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:198
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:207
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:219
 msgid "Required"
 msgstr "Requis"
 
-#: includes/class.flagship-wc-shipping-method.php:188
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:142
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:164
 msgid "Shipper Province"
 msgstr "Province de l’expéditeur"
 
-#: includes/class.flagship-wc-shipping-method.php:193
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:147
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:169
 msgid "Alberta"
 msgstr ""
 
-#: includes/class.flagship-wc-shipping-method.php:194
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:148
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:170
 msgid "British Columbia"
 msgstr "Colombie Britannique"
 
-#: includes/class.flagship-wc-shipping-method.php:195
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:149
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:171
 msgid "Manitoba"
 msgstr ""
 
-#: includes/class.flagship-wc-shipping-method.php:196
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:150
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:172
 msgid "New Brunswick"
 msgstr "Nouveau Brunswick"
 
-#: includes/class.flagship-wc-shipping-method.php:197
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:151
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:173
 msgid "NewFoundland & Labrador"
 msgstr "Terre Neuve & Labrador"
 
-#: includes/class.flagship-wc-shipping-method.php:198
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:152
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:174
 msgid "Northwest Territories"
 msgstr "Territoires du Nord Ouest"
 
-#: includes/class.flagship-wc-shipping-method.php:199
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:153
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:175
 msgid "Nova Scotia"
 msgstr "Nouvelle Écosse"
 
-#: includes/class.flagship-wc-shipping-method.php:200
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:154
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:176
 msgid "Nunavut"
 msgstr ""
 
-#: includes/class.flagship-wc-shipping-method.php:201
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:155
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:177
 msgid "Ontario"
 msgstr ""
 
-#: includes/class.flagship-wc-shipping-method.php:202
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:156
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:178
 msgid "Prince Edward Island"
 msgstr "Île du Prince Edouard"
 
-#: includes/class.flagship-wc-shipping-method.php:203
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:157
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:179
 msgid "Quebec"
 msgstr "Québec"
 
-#: includes/class.flagship-wc-shipping-method.php:204
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:158
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:180
 msgid "Saskatchwen"
 msgstr ""
 
-#: includes/class.flagship-wc-shipping-method.php:205
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:159
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:181
 msgid "Yukon"
 msgstr ""
 
-#: includes/class.flagship-wc-shipping-method.php:210
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:164
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:186
 msgid "Shipper Person Name"
 msgstr "Nom d'expéditeur (Attention)"
 
-#: includes/class.flagship-wc-shipping-method.php:213
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:167
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:189
 msgid "Required, maximum 21 characters"
 msgstr "Requis, maximum de 21 caractères;"
 
-#: includes/class.flagship-wc-shipping-method.php:219
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:173
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:195
 msgid "Shipper Company Name"
 msgstr "Nom de compagnie d'expéditeur"
 
-#: includes/class.flagship-wc-shipping-method.php:228
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:182
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:204
 msgid "Shipper Phone Number"
 msgstr "Numéro de téléphone d'expéditeur"
 
-#: includes/class.flagship-wc-shipping-method.php:234
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:188
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:210
 msgid "Shipper Phone Extension Number"
 msgstr "Numéro d'extension d'expéditeur"
 
-#: includes/class.flagship-wc-shipping-method.php:237
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:191
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:213
 msgid "Optional, if applicable"
 msgstr "Optionnel"
 
-#: includes/class.flagship-wc-shipping-method.php:240
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:194
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:216
 msgid "Shipper Street Address"
 msgstr "Adresse civile d'expéditeur"
 
-#: includes/class.flagship-wc-shipping-method.php:246
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:200
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:222
 msgid "Residential"
 msgstr "Résidentiel"
 
-#: includes/class.flagship-wc-shipping-method.php:247
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:201
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:223
 msgid "Shipper Address is Residential?"
 msgstr "L'adresse de l’expéditeur est-il résidentiel?"
 
-#: includes/class.flagship-wc-shipping-method.php:252
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:206
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:228
 msgid "Parcel / Packaging"
 msgstr "Pièces"
 
-#: includes/class.flagship-wc-shipping-method.php:254
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:208
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:230
 msgid "How to split your items into boxes"
 msgstr "Comment répartir les produits dans les boites"
 
-#: includes/class.flagship-wc-shipping-method.php:258
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:212
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:234
 msgid "Box Split"
 msgstr "Répartir vos envois dans les boîtes "
 
-#: includes/class.flagship-wc-shipping-method.php:259
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:213
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:235
 msgid "Everything in one package box?"
 msgstr "Tous les envois dans la même boîte?"
 
-#: includes/class.flagship-wc-shipping-method.php:264
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:218
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:240
 msgid "Box Split Weight"
 msgstr "Poids par boîte"
 
-#: includes/class.flagship-wc-shipping-method.php:265
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:219
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:241
 msgid "Maximun weight per each package box (lbs)"
 msgstr "Poids maximal par boîte (livre)"
 
-#: includes/class.flagship-wc-shipping-method.php:276
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:230
+msgid "FlagShip Packing"
+msgstr "Méthode d'emballage FlagShip"
+
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:231
+msgid ""
+"Allow FlagShip to pack the order's products, given sets of package box "
+"dimension"
+msgstr "Fournir une solution d'emballage"
+
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:233
+msgid ""
+"By enabling this packing method, you will have to provide at least one "
+"Package Box dimensions. It will also ignore all settings from the normal "
+"weight driven packing method."
+msgstr ""
+"Vous devez avoir au moins un type de boîte pour utiliser la méthode "
+"d'emballage FlagShip"
+
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:240
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:252
 msgid "Tax"
 msgstr ""
 
-#: includes/class.flagship-wc-shipping-method.php:281
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:245
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:257
 msgid "Calculate tax"
 msgstr "Calcul de Tax"
 
-#: includes/class.flagship-wc-shipping-method.php:282
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:246
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:258
 msgid ""
 "Click here to include taxes in the price. Only use this if WooCommerce is "
 "not applying taxes to your cart"
@@ -375,7 +491,8 @@ msgstr ""
 "Cliquez ici pour inclure les taxes dans le prix. Utilisez cette option "
 "seulement si WooCommerce n’applique pas les taxes au panier."
 
-#: includes/class.flagship-wc-shipping-method.php:284
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:248
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:260
 msgid ""
 "If you have taxes enabled, make sure you don’t click this box or you will "
 "double tax the shipping fees."
@@ -383,19 +500,23 @@ msgstr ""
 "Si vous avez les taxes d’activées, assurez vous de ne pas cocher cette boite "
 "ou vous appliquerez les taxes deux fois sur les couts d’envoi."
 
-#: includes/class.flagship-wc-shipping-method.php:288
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:252
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:264
 msgid "Markup"
 msgstr "Marge Commerciale"
 
-#: includes/class.flagship-wc-shipping-method.php:290
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:254
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:266
 msgid "Store owner may apply additional fee for shipping."
 msgstr "L’expéditeur peut choisir d’appliquer une marge sur l’expédition."
 
-#: includes/class.flagship-wc-shipping-method.php:294
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:258
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:270
 msgid "Shipping Cost Markup Type"
 msgstr "Type de marge sur le cout"
 
-#: includes/class.flagship-wc-shipping-method.php:295
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:259
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:271
 msgid ""
 "Shipping Cost Markup Type can be either flat rate (i.e. dollar valued) or "
 "percentage rate (i.e. rate based on certain percentage)"
@@ -403,55 +524,68 @@ msgstr ""
 "Le type de marge sur l’expédition peut être montant fixe (en $) ou un taux "
 "(en %)"
 
-#: includes/class.flagship-wc-shipping-method.php:299
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:263
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:275
 msgid "Flat rate"
 msgstr "Montant fixe"
 
-#: includes/class.flagship-wc-shipping-method.php:300
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:264
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:276
 msgid "Percentage"
 msgstr "Pourcentage"
 
-#: includes/class.flagship-wc-shipping-method.php:305
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:269
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:281
 msgid "Shipping Cost Markup"
 msgstr "Marge commerciale d'expédition"
 
-#: includes/class.flagship-wc-shipping-method.php:310
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:274
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:286
 msgid "Pickup"
 msgstr "Ramassage"
 
-#: includes/class.flagship-wc-shipping-method.php:312
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:276
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:288
 msgid "schedule pick-up for your shipment. Don't forget to attach labels!"
 msgstr "Planifier un ramassage. Préparez et attachez toutes les étiquettes."
 
-#: includes/class.flagship-wc-shipping-method.php:316
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:280
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:292
 msgid "Pick-up Start Time"
 msgstr "Ramassage à partir de"
 
-#: includes/class.flagship-wc-shipping-method.php:333
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:297
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:309
 msgid "Pick-up End Time"
 msgstr "Ramassage jusqu'à"
 
-#: includes/class.flagship-wc-shipping-method.php:350
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:314
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:326
 msgid "Contact Email"
 msgstr "Courriel"
 
-#: includes/class.flagship-wc-shipping-method.php:360
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:324
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:336
 msgid "Disable FedEx Rates"
 msgstr "Désactiver FedEx"
 
-#: includes/class.flagship-wc-shipping-method.php:366
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:330
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:342
 msgid "Disable UPS Rates"
 msgstr "Désactiver UPS"
 
-#: includes/class.flagship-wc-shipping-method.php:371
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:335
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:347
 msgid "Disable Purolator Rates"
 msgstr "Désactiver Purolator"
 
-#: includes/class.flagship-wc-shipping-method.php:377
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:341
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:353
 msgid "Disable Cart/Checkout API warning"
 msgstr "Cacher les messages d’erreur"
 
-#: includes/class.flagship-wc-shipping-method.php:380
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:344
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:356
 msgid ""
 "Once disabled, FlagShip will store warnings under following option \"Cart/"
 "Checkout API warning logs\""
@@ -459,110 +593,83 @@ msgstr ""
 "Une fois cachés, les messages d’erreur seront affichés dans la section "
 "suivante"
 
-#: includes/class.flagship-wc-shipping-method.php:385
+#: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:349
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:361
 msgid "Cart/Checkout API warning logs (10 latest)"
 msgstr "Messages d’erreur (10 récents)"
 
-#: includes/class.flagship-wc-shipping-method.php:432
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:408
+#: templates/option/log.php:15
 msgid "Timestamp"
 msgstr "Date"
 
-#: includes/class.flagship-wc-shipping-method.php:433
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:409
+#: templates/option/log.php:16
 msgid "Log"
 msgstr "Message"
 
-#: includes/components/client/class.flagship-client.php:65
-msgid "FlagShip API Error: "
-msgstr ""
-
-#: includes/components/hook/class.flagship-settings-filters.php:50
-msgid "FlagShip Shipping is disabled."
-msgstr "FlagShip n'est pas activé."
-
-#: includes/components/hook/class.flagship-settings-filters.php:75
-msgid "Address corrected to match with shipper's postal code."
-msgstr "L'adresse a été changée pour correspondre au code postal."
-
-#: includes/components/hook/class.flagship-settings-filters.php:90
-msgid "Shipper person name is missing."
-msgstr "Nom de l’expéditeur est manquant."
-
-#: includes/components/hook/class.flagship-settings-filters.php:94
-msgid "Shipper company name is missing."
-msgstr "Nom de compagnie de l’expéditeur est manquant."
-
-#: includes/components/hook/class.flagship-settings-filters.php:98
-msgid "Shipper phone number is missing."
-msgstr "Numéro de téléphone de l’expéditeur est manquant."
-
-#: includes/components/hook/class.flagship-settings-filters.php:102
-msgid "Shipper address's streetline is missing."
-msgstr "Numéro d’adresse de l’expéditeur est manquant."
-
-#: includes/components/hook/class.flagship-settings-filters.php:117
-msgid "<strong>Shipping Integrity Failure:</strong> <br/>"
-msgstr "<strong>Problème d'intégrité de la configuration:</strong> <br/>"
-
-#: includes/components/hook/class.flagship-setup-filters.php:44
-msgid "Settings"
-msgstr "Paramètres"
-
-#: includes/components/package/class.flagship-package.php:103
-#, php-format
-msgid "Product %s is missing weight, weight default to 1 lbs."
-msgstr ""
-"Le poids est manquant pour le produit %s, poids utilisé par défaut est de 1 "
-"livre."
-
-#: includes/components/pickup/class.flagship-pickup.php:38
-#, php-format
-msgid "Unable to schedule pick-up with FlagShip ID (%s)"
-msgstr ""
-"Incapable d’annuler la demande de ramassage avec FlagShip Ramassage ID (%s)"
-
-#: includes/components/pickup/class.flagship-pickup.php:74
-#, php-format
-msgid "Unable to void pick-up with FlagShip Pickup ID (%s)"
-msgstr "Incapable d'annuler l'expédition avec FlagShip ID (%s)"
-
-#: includes/components/quoter/class.flagship-quoter.php:20
-msgid ""
-"Add shipping address to get shipping rates! (click \"Calculate Shipping\")"
-msgstr ""
-"Ajoutez une adresses d'expédition pour voir les taux! ( cliquez \"Calculer "
-"les frais d'expédition\")"
-
-#: includes/components/quoter/class.flagship-quoter.php:35
-msgid ""
-"Flagship Shipping has some difficulty in retrieving the rates. Please "
-"contact site administrator for assistance.<br/>"
-msgstr ""
-"FlagShip n'est pas capable de récupérer les couts d'envoi. SVP contactez "
-"l'administrateur du site. <br />"
-
-#: includes/components/quoter/class.flagship-quoter.php:57
-msgid "Unable to retrieve the latest quote."
-msgstr "FlagShip n'est pas capable de récupérer les couts d'envoi."
-
-#: includes/components/shipment/class.flagship-shipment.php:44
+#: src/Configurations/WordPress/Shipping/Shipment/MetaboxController.php:64
 #, php-format
 msgid "You have flagship shipment for this order. FlagShip ID (%s)"
 msgstr ""
 "Vous avez une expédition FlagShip pour cette commande. FlagShip ID (%s)"
 
-#: includes/components/shipment/class.flagship-shipment.php:86
-#, php-format
-msgid "Unable to void shipment with FlagShip ID (%s)"
-msgstr "Incapable d'annuler l'expédition FlagShip avec FlagShip ID (%s)"
-
-#: includes/components/shipment/class.flagship-shipment.php:153
+#: src/Configurations/WordPress/Shipping/Shipment/MetaboxController.php:111
 #, php-format
 msgid "Unable to access shipment with FlagShip ID (%s)"
 msgstr "Incapable d'accéder aux données d'expédition avec FlagShip ID (%s)"
 
-#: includes/components/validation/class.flagship-validation.php:59
+#: src/Configurations/WordPress/Shipping/Shipment/MetaboxController.php:122
+#, php-format
+msgid "Unable to void shipment with FlagShip ID (%s)"
+msgstr "Incapable d'annuler l'expédition FlagShip avec FlagShip ID (%s)"
+
+#: src/Configurations/WordPress/Shipping/Shipment/MetaboxController.php:225
+#, php-format
+msgid "Unable to schedule pick-up with FlagShip ID (%s)"
+msgstr ""
+"Incapable d’annuler la demande de ramassage avec FlagShip Ramassage ID (%s)"
+
+#: src/Configurations/WordPress/Shipping/Shipment/MetaboxController.php:249
+#, php-format
+msgid "Unable to void pick-up with FlagShip Pickup ID (%s)"
+msgstr "Incapable d'annuler l'expédition avec FlagShip ID (%s)"
+
+#: src/Configurations/WordPress/Validation/AddressEssentialValidator.php:24
+msgid "Address corrected to match with shipper's postal code."
+msgstr "L'adresse a été changée pour correspondre au code postal."
+
+#: src/Configurations/WordPress/Validation/IntegrityValidator.php:54
+msgid "<strong>Shipping Integrity Failure:</strong> <br/>"
+msgstr "<strong>Problème d'intégrité de la configuration:</strong> <br/>"
+
+#: src/Configurations/WordPress/Validation/PhoneValidator.php:12
 msgid " is not a valid phone number."
 msgstr "n'est pas un numéro de téléphone valide."
+
+#: src/Configurations/WordPress/Validation/PhoneValidator.php:12
+msgid "'"
+msgstr ""
+
+#: src/Configurations/WordPress/Validation/SettingsValidator.php:19
+msgid "FlagShip Shipping is disabled."
+msgstr "FlagShip n'est pas activé."
+
+#: src/Configurations/WordPress/Validation/SettingsValidator.php:41
+msgid "Shipper person name is missing."
+msgstr "Nom de l’expéditeur est manquant."
+
+#: src/Configurations/WordPress/Validation/SettingsValidator.php:45
+msgid "Shipper company name is missing."
+msgstr "Nom de compagnie de l’expéditeur est manquant."
+
+#: src/Configurations/WordPress/Validation/SettingsValidator.php:49
+msgid "Shipper phone number is missing."
+msgstr "Numéro de téléphone de l’expéditeur est manquant."
+
+#: src/Configurations/WordPress/Validation/SettingsValidator.php:53
+msgid "Shipper address's streetline is missing."
+msgstr "Numéro d’adresse de l’expéditeur est manquant."
 
 #: templates/meta-boxes/order-flagship-shipping-actions.php:6
 msgid "Summary"
@@ -715,6 +822,45 @@ msgstr "Avoir une estimation"
 #: templates/notice.php:4
 msgid "Set your FlagShip Shipping token."
 msgstr "Configurer votre clé (token) FlagShip."
+
+#: templates/option/package-box.php:2
+msgid "Package Box"
+msgstr "Boîte"
+
+#: templates/option/package-box.php:9
+msgid "Model Name"
+msgstr "Modèle"
+
+#: templates/option/package-box.php:10
+msgid "Length (in)"
+msgstr "LO (po)"
+
+#: templates/option/package-box.php:11
+msgid "Width (in)"
+msgstr "LA (po)"
+
+#: templates/option/package-box.php:12
+msgid "Height (in)"
+msgstr "H (po)"
+
+#: templates/option/package-box.php:13
+msgid "Weight (LB)"
+msgstr "Poids (LBS)"
+
+#: templates/option/package-box.php:14
+msgid "Max. Supported (LB)"
+msgstr "Poids Max. (LBS)"
+
+#: templates/option/package-box.php:41
+msgid "+ Add package box"
+msgstr "Ajouter une boîte"
+
+#: templates/option/package-box.php:44
+msgid "Remove selected package box(es)"
+msgstr "Enlever une(des) boîte(s)"
+
+#~ msgid "Unable to retrieve the latest quote."
+#~ msgstr "FlagShip n'est pas capable de récupérer les couts d'envoi."
 
 #~ msgid "Unable to access shipment with FlagShip ID"
 #~ msgstr "Incapable d'accéder aux données d'expédition avec FlagShip ID"
