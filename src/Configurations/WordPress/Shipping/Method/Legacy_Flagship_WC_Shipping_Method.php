@@ -248,6 +248,16 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
                     'step' => 1,
                 ),
             ),
+            'enable_packing_api' => array(
+                'title' => __('FlagShip Packing', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'label' => __('Allow FlagShip to pack the order\'s products, given sets of package box dimension', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'description' => __('By enabling this packing method, you will have to provide at least one Package Box dimensions. It will also ignore all settings from the normal weight driven packing method.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'default' => 'no',
+            ),
+            'package_box' => array(
+                'type' => 'package_box',
+            ),
             'shipping_taxation' => array(
                 'title' => __('Tax', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
@@ -362,14 +372,11 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
             ),
         );
     }
-
     /**
      * render log type.
      */
     public function generate_log_html($key, $data)
     {
-        $field_key = $this->get_field_key($key);
-
         $defaults = array(
             'title' => '',
             'disabled' => false,
@@ -383,51 +390,40 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
             'custom_attributes' => array(),
         );
 
-        $data = wp_parse_args($data, $defaults);
-        $logs = $this->get_option($key, array());
-
         ob_start();
-        ?>
-        <tr valign="top">
-            <th scope="row" class="titledesc">
-                <?php echo wp_kses_post($data['title']);
-        ?>
-            </th>
-            <td class="forminp">
-                <input type="hidden" 
-                    id="<?php echo esc_attr($field_key);
-        ?>"
-                    name="<?php echo esc_attr($field_key);
-        ?>"
-                    value=""
-                />
-        <?php if ($logs) : ?>
-                <table class="wc_gateways widefat" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th><?php _e('Timestamp', FLAGSHIP_SHIPPING_TEXT_DOMAIN) ?></th>
-                            <th><?php _e('Log', FLAGSHIP_SHIPPING_TEXT_DOMAIN) ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($logs as $log) :?>
-                        <tr>
-                            <td width="20%"><?php echo date('Y-m-d H:i:s', $log['timestamp']);
-        ?></td>
-                            <td><?php $this->ctx->getComponent('\\FS\\Components\\Html')->ul_e($log['log']);
-        ?></td>
-                        </tr>
-                        <?php endforeach;
-        ?>
-                    </tbody>
-                </table>
-                <?php echo $this->get_description_html($data);
-        ?>
-        <?php endif;
-        ?>
-            </td>
-        </tr>
-        <?php
+
+        $view = $this->ctx
+            ->getComponent('\\FS\\Components\\View\\Factory\\ViewFactory')
+            ->getView(\FS\Configurations\WordPress\View\Factory\Driver::RESOURCE_OPTION_LOG);
+
+        $view->render(array(
+            'field_key' => $this->get_field_key($key),
+            'data' => \wp_parse_args($data, $defaults),
+            'logs' => $this->get_option($key, array()),
+            'description' => $this->get_description_html($data),
+        ));
+
+        return ob_get_clean();
+    }
+
+    /**
+     * Generate account details html.
+     *
+     * @return string
+     */
+    public function generate_package_box_html($key, $data)
+    {
+        ob_start();
+
+        $packageBoxes = $this->get_option($key, array());
+
+        $view = $this->ctx
+            ->getComponent('\\FS\\Components\\View\\Factory\\ViewFactory')
+            ->getView(\FS\Configurations\WordPress\View\Factory\Driver::RESOURCE_OPTION_PACKAGE_BOX);
+
+        $view->render(array(
+            'packageBoxes' => $packageBoxes,
+        ));
 
         return ob_get_clean();
     }
