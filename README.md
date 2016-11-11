@@ -6,3 +6,6 @@
 
 ## Installation Guide
 Go to [installation guide](https://github.com/flagshipcompany/flagship-for-woocommerce/wiki/Installation-&-Setup)
+
+## Usage Topics
+How to pack your products into packaging boxes? consider the [packing method](https://github.com/flagshipcompany/flagship-for-woocommerce/wiki/Packing-Method)
