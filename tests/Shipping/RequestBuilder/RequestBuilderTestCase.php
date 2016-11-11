@@ -43,7 +43,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
 
     public function testShoppingCartPackageItemsBuilder()
     {
-        $builder = new \FS\Configurations\WordPress\RequestBuilder\Cart\PackageItemsBuilder();
+        $builder = new \FS\Configurations\WordPress\RequestBuilder\Cart\PackageItems\FallbackBuilder();
 
         $this->assertSame(array(
             'items' => array(
@@ -81,7 +81,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
 
     public function testShopOrderPackageItemsBuilder()
     {
-        $builder = new \FS\Configurations\WordPress\RequestBuilder\Order\PackageItemsBuilder();
+        $builder = new \FS\Configurations\WordPress\RequestBuilder\Order\PackageItems\FallbackBuilder();
 
         $this->assertSame(array(
             'items' => array(

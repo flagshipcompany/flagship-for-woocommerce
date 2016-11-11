@@ -6,11 +6,11 @@ class FallbackBuilder extends \FS\Configurations\WordPress\RequestBuilder\Abstra
 {
     protected function makeProductItems($payload = null)
     {
-        $order_items = $payload['order']->getNativeOrder()->get_items();
-        $product_items = array();
+        $orderItems = $payload['order']->getNativeOrder()->get_items();
+        $productItems = array();
 
-        foreach ($order_items as $order_item) {
-            $product = $payload['order']->getNativeOrder()->get_product_from_item($order_item);
+        foreach ($orderItems as $orderItem) {
+            $product = $payload['order']->getNativeOrder()->get_product_from_item($orderItem);
 
             $count = 0;
 
@@ -23,7 +23,7 @@ class FallbackBuilder extends \FS\Configurations\WordPress\RequestBuilder\Abstra
             ) = $this->getProductDimensions($product);
 
             do {
-                $product_items[] = array(
+                $productItems[] = array(
                     'width' => $width,
                     'height' => $height,
                     'length' => $length,
@@ -32,9 +32,9 @@ class FallbackBuilder extends \FS\Configurations\WordPress\RequestBuilder\Abstra
                 );
 
                 ++$count;
-            } while ($count < $order_item['qty']);
+            } while ($count < $orderItem['qty']);
         }
 
-        return $product_items;
+        return $productItems;
     }
 }
