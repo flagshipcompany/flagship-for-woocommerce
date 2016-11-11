@@ -15,7 +15,7 @@ class PluginPageSettingLink extends \FS\Components\AbstractComponent implements 
     ) {
         $links = $event->getInput('links');
 
-        if ($inputs['file'] == FLAGSHIP_SHIPPING_PLUGIN_BASENAME) {
+        if ($event->getInput('file') == FLAGSHIP_SHIPPING_PLUGIN_BASENAME) {
             array_unshift($links, $context->getComponent('\\FS\\Components\\Html')->a('flagship_shipping_settings', __('Settings', FLAGSHIP_SHIPPING_TEXT_DOMAIN), array(
                 'escape' => true,
                 'target' => true,
