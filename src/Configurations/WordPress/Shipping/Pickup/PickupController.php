@@ -49,7 +49,8 @@ class PickupController extends \FS\Components\AbstractComponent
             'post_type' => 'flagship_pickup',
         ), '');
 
-        wp_redirect(esc_url_raw($sendback));
+        \wp_redirect(esc_url_raw($sendback));
+        exit();
     }
 
     public function voidPickup($pickupPostIds)
@@ -79,6 +80,7 @@ class PickupController extends \FS\Components\AbstractComponent
 
         $sendback = add_query_arg(array('post_type' => 'flagship_pickup'), '');
         wp_redirect(esc_url_raw($sendback));
+        exit();
     }
 
     public function reschedulePickup($pickupPostIds)
@@ -114,7 +116,8 @@ class PickupController extends \FS\Components\AbstractComponent
         }
 
         $sendback = add_query_arg(array('post_type' => 'flagship_pickup', 'ids' => implode(',', $pickupPostIds)), '');
-        wp_redirect(esc_url_raw($sendback));
+        \wp_redirect(esc_url_raw($sendback));
+        exit();
     }
 
     public function savePickup($pickup = array(), $id = null)

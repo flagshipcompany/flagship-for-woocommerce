@@ -105,11 +105,10 @@ class MetaboxController extends \FS\Components\AbstractComponent
         $notifier = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Notifier');
 
-        $shipment = $order['flagship_shipping_raw'];
-        $shipmentId = $order['flagship_shipping_shipment_id'];
+        $shipment = $order->getShipment();
 
-        if (!$shipment || !$shipmentId) {
-            $notifier->warning(sprintf('Unable to access shipment with FlagShip ID (%s)', $shipmentId));
+        if (!$shipment) {
+            $notifier->warning(sprintf('Unable to access shipment with FlagShip ID (%s)', $shipment->getId()));
 
             return;
         }
@@ -117,10 +116,10 @@ class MetaboxController extends \FS\Components\AbstractComponent
         $client = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Http\\Client');
 
-        $response = $client->delete('/ship/shipments/'.$shipmentId);
+        $response = $client->delete('/ship/shipments/'.$shipment->getId());
 
         if (!$response->isSuccessful()) {
-            $notifier->warning(sprintf('Unable to void shipment with FlagShip ID (%s)', $shipmentId));
+            $notifier->warning(sprintf('Unable to void shipment with FlagShip ID (%s)', $shipment->getId()));
 
             return;
         }
@@ -167,6 +166,8 @@ class MetaboxController extends \FS\Components\AbstractComponent
             return;
         }
 
+        $service = $order->getShippingService();
+
         $rates = $response->getBody();
 
         $rates = $rateProcessorFactory
@@ -174,7 +175,7 @@ class MetaboxController extends \FS\Components\AbstractComponent
             ->getProcessedRates($rates, array(
                 'factory' => $rateProcessorFactory,
                 'options' => $options,
-                'instanceId' => property_exists($method, 'instance_id') ? $method->instance_id : false,
+                'instanceId' => $service['instance_id'] ? $service['instance_id'] : false,
                 'methodId' => $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'],
             ));
 

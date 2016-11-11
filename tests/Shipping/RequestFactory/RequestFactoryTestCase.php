@@ -223,7 +223,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
         $request = $factory->setPayload(array(
             'order' => $this->order,
             'options' => $options,
-            'shipment' => $this->order['flagship_shipping_raw'],
+            'shipment' => $this->order->getShipment(),
             'date' => $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam')->request->get('flagship_shipping_pickup_schedule_date', '2016-09-28'),
         ))->getRequest();
 

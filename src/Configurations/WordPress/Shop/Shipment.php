@@ -11,6 +11,11 @@ class Shipment extends \FS\Components\Model\AbstractModel
         return $this;
     }
 
+    public function getId()
+    {
+        return $this['shipment_id'];
+    }
+
     public function getCourier()
     {
         return strtolower($this['service']['courier_name']);
