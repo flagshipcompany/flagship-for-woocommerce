@@ -16,8 +16,12 @@ class Order extends \FS\Components\Model\AbstractModel implements \ArrayAccess, 
         return $this->cache['id'];
     }
 
-    public function getShippingService()
+    public function getShippingService($overloadMethod = null)
     {
+        if ($overloadMethod) {
+            return self::parseShippingServicePhrase($overloadMethod);
+        }
+
         if (!isset($this->cache['shippingService'])) {
             $methods = $this->getNativeOrder()->get_shipping_methods();
             $phrase = $methods[key($methods)]['method_id'];
