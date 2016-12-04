@@ -9,7 +9,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->setRequestPart(
             'from',
             $this->makeRequestPart(
-                $factory->getBuilder('ShipperAddress', array(
+                $factory->getShipperAddressBuilder(array(
                     'type' => 'order',
                 )),
                 $this->payload

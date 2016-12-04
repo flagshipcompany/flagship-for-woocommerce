@@ -9,7 +9,7 @@ class ShoppingOrderRateRequestFactory extends AbstractRequestFactory implements 
         $request->setRequestPart(
             'from',
             $this->makeRequestPart(
-                $factory->getBuilder('ShipperAddress', array(
+                $factory->getShipperAddressBuilder(array(
                     'type' => 'order',
                 )),
                 $this->payload

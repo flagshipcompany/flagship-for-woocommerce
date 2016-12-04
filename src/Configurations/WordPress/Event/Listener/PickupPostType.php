@@ -141,7 +141,7 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
                     $options = $context
                         ->getComponent('\\FS\\Components\\Options');
 
-                    $builder = $factory->getBuilder('ShipperAddress');
+                    $builder = $factory->getShipperAddressBuilder();
 
                     $address = $builder->build(array(
                         'options' => $options,

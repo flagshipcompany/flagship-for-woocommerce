@@ -50,4 +50,9 @@ class Driver extends \FS\Components\AbstractComponent implements \FS\Components\
                 // no break
         }
     }
+
+    public function getShipperAddressBuilder($context = array())
+    {
+        return new \FS\Configurations\WordPress\RequestBuilder\ShipperAddressBuilder();
+    }
 }
