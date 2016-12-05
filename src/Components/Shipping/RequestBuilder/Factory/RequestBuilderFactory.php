@@ -20,6 +20,13 @@ class RequestBuilderFactory extends \FS\Components\AbstractComponent implements 
             ->setApplicationContext($this->getApplicationContext());
     }
 
+    public function getShippingServiceBuilder($context = array())
+    {
+        return $this->getFactoryDriver()
+            ->getShippingServiceBuilder($context)
+            ->setApplicationContext($this->getApplicationContext());
+    }
+
     public function setFactoryDriver(\FS\Components\Factory\DriverInterface $driver)
     {
         $this->driver = $driver;
