@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/flagshipcompany/flagship-for-"
 "woocommerce/issues\n"
 "POT-Creation-Date: 2017-01-20 11:48-0500\n"
-"PO-Revision-Date: 2017-01-20 11:48-0500\n"
+"PO-Revision-Date: 2017-01-20 11:53-0500\n"
 "Last-Translator: (Ryan) Yi Cheng Shen <yi-cheng@flagshipcompany.com>\n"
 "Language-Team: (Ryan) Yi Cheng Shen <yi-cheng@flagshipcompany.com>\n"
 "Language: fr_FR\n"
@@ -700,7 +700,7 @@ msgstr "Étiquette thermale"
 
 #: templates/meta-boxes/order-flagship-shipping-actions.php:37
 msgid "Commercial invoice"
-msgstr ""
+msgstr "Facture commerciale"
 
 #: templates/meta-boxes/order-flagship-shipping-actions.php:46
 msgid "Confirmation ID"
