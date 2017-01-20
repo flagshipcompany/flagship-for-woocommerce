@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: FlagShip for WooCommerce 0.1.9\n"
 "Report-Msgid-Bugs-To: https://github.com/flagshipcompany/flagship-for-"
 "woocommerce/issues\n"
-"POT-Creation-Date: 2016-11-11 11:25-0500\n"
-"PO-Revision-Date: 2016-11-11 11:41-0500\n"
+"POT-Creation-Date: 2017-01-20 11:47-0500\n"
+"PO-Revision-Date: 2017-01-20 11:48-0500\n"
 "Last-Translator: (Ryan) Yi Cheng Shen <yi-cheng@flagshipcompany.com>\n"
 "Language-Team: (Ryan) Yi Cheng Shen <yi-cheng@flagshipcompany.com>\n"
 "Language: fr_CA\n"
@@ -47,7 +47,7 @@ msgid "Pick-ups"
 msgstr "Ramassages"
 
 #: src/Configurations/WordPress/Event/Listener/PickupPostType.php:46
-#: templates/meta-boxes/order-flagship-shipping-actions.php:21
+#: templates/meta-boxes/order-flagship-shipping-actions.php:45
 msgid "Pick-up"
 msgstr "Ramassage"
 
@@ -454,16 +454,19 @@ msgid "Maximun weight per each package box (lbs)"
 msgstr "Poids maximal par boîte (livre)"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:230
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:252
 msgid "FlagShip Packing"
 msgstr "Méthode d'emballage FlagShip"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:231
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:253
 msgid ""
 "Allow FlagShip to pack the order's products, given sets of package box "
 "dimension"
 msgstr "Fournir une solution d'emballage"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:233
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:255
 msgid ""
 "By enabling this packing method, you will have to provide at least one "
 "Package Box dimensions. It will also ignore all settings from the normal "
@@ -473,17 +476,17 @@ msgstr ""
 "d'emballage FlagShip"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:240
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:252
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:262
 msgid "Tax"
 msgstr ""
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:245
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:257
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:267
 msgid "Calculate tax"
 msgstr "Calcul de Tax"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:246
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:258
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:268
 msgid ""
 "Click here to include taxes in the price. Only use this if WooCommerce is "
 "not applying taxes to your cart"
@@ -492,7 +495,7 @@ msgstr ""
 "seulement si WooCommerce n’applique pas les taxes au panier."
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:248
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:260
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:270
 msgid ""
 "If you have taxes enabled, make sure you don’t click this box or you will "
 "double tax the shipping fees."
@@ -501,22 +504,22 @@ msgstr ""
 "ou vous appliquerez les taxes deux fois sur les couts d’envoi."
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:252
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:264
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:274
 msgid "Markup"
 msgstr "Marge Commerciale"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:254
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:266
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:276
 msgid "Store owner may apply additional fee for shipping."
 msgstr "L’expéditeur peut choisir d’appliquer une marge sur l’expédition."
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:258
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:270
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:280
 msgid "Shipping Cost Markup Type"
 msgstr "Type de marge sur le cout"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:259
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:271
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:281
 msgid ""
 "Shipping Cost Markup Type can be either flat rate (i.e. dollar valued) or "
 "percentage rate (i.e. rate based on certain percentage)"
@@ -525,67 +528,67 @@ msgstr ""
 "(en %)"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:263
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:275
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:285
 msgid "Flat rate"
 msgstr "Montant fixe"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:264
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:276
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:286
 msgid "Percentage"
 msgstr "Pourcentage"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:269
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:281
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:291
 msgid "Shipping Cost Markup"
 msgstr "Marge commerciale d'expédition"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:274
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:286
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:296
 msgid "Pickup"
 msgstr "Ramassage"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:276
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:288
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:298
 msgid "schedule pick-up for your shipment. Don't forget to attach labels!"
 msgstr "Planifier un ramassage. Préparez et attachez toutes les étiquettes."
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:280
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:292
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:302
 msgid "Pick-up Start Time"
 msgstr "Ramassage à partir de"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:297
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:309
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:319
 msgid "Pick-up End Time"
 msgstr "Ramassage jusqu'à"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:314
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:326
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:336
 msgid "Contact Email"
 msgstr "Courriel"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:324
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:336
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:346
 msgid "Disable FedEx Rates"
 msgstr "Désactiver FedEx"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:330
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:342
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:352
 msgid "Disable UPS Rates"
 msgstr "Désactiver UPS"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:335
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:347
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:357
 msgid "Disable Purolator Rates"
 msgstr "Désactiver Purolator"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:341
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:353
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:363
 msgid "Disable Cart/Checkout API warning"
 msgstr "Cacher les messages d’erreur"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:344
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:356
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:366
 msgid ""
 "Once disabled, FlagShip will store warnings under following option \"Cart/"
 "Checkout API warning logs\""
@@ -594,19 +597,9 @@ msgstr ""
 "suivante"
 
 #: src/Configurations/WordPress/Shipping/Method/FlagShipWcShippingMethod.php:349
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:361
+#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:371
 msgid "Cart/Checkout API warning logs (10 latest)"
 msgstr "Messages d’erreur (10 récents)"
-
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:408
-#: templates/option/log.php:15
-msgid "Timestamp"
-msgstr "Date"
-
-#: src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:409
-#: templates/option/log.php:16
-msgid "Log"
-msgstr "Message"
 
 #: src/Configurations/WordPress/Shipping/Shipment/MetaboxController.php:64
 #, php-format
@@ -675,87 +668,97 @@ msgstr "Numéro d’adresse de l’expéditeur est manquant."
 msgid "Summary"
 msgstr "Sommaire"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:9
+#: templates/meta-boxes/order-flagship-shipping-actions.php:13
 msgid "Service"
 msgstr ""
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:11
+#: templates/meta-boxes/order-flagship-shipping-actions.php:17
 msgid "Tracking Number"
 msgstr "Numéro de suivi"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:13
+#: templates/meta-boxes/order-flagship-shipping-actions.php:21
 msgid "Cost"
 msgstr "Côut"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:15
+#: templates/meta-boxes/order-flagship-shipping-actions.php:25
 msgid "Print labels"
 msgstr "Imprimer les étiquettes"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:16
+#: templates/meta-boxes/order-flagship-shipping-actions.php:28
 msgid "Regular label"
 msgstr "Étiquette standard"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:16
+#: templates/meta-boxes/order-flagship-shipping-actions.php:29
+#: templates/meta-boxes/order-flagship-shipping-actions.php:33
+#: templates/meta-boxes/order-flagship-shipping-actions.php:38
+msgid "Print"
+msgstr "Imprimer"
+
+#: templates/meta-boxes/order-flagship-shipping-actions.php:32
 msgid "Thermal label"
 msgstr "Étiquette thermale"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:22
+#: templates/meta-boxes/order-flagship-shipping-actions.php:37
+msgid "Commercial invoice"
+msgstr ""
+
+#: templates/meta-boxes/order-flagship-shipping-actions.php:46
 msgid "Confirmation ID"
 msgstr "Numéro de confirmation"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:24
+#: templates/meta-boxes/order-flagship-shipping-actions.php:48
 msgid "Date"
 msgstr ""
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:26
+#: templates/meta-boxes/order-flagship-shipping-actions.php:50
 msgid "Void pick-up"
 msgstr "Annuler le ramassage"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:29
+#: templates/meta-boxes/order-flagship-shipping-actions.php:53
 msgid "Request for pick-up"
 msgstr "Demande de ramassage"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:31
+#: templates/meta-boxes/order-flagship-shipping-actions.php:55
 msgid "Schedule"
 msgstr "Demander"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:35
+#: templates/meta-boxes/order-flagship-shipping-actions.php:59
 msgid "Cancel Shipment"
 msgstr "Annuler cette expédition"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:35
+#: templates/meta-boxes/order-flagship-shipping-actions.php:59
 msgid "use with caution"
 msgstr "attention"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:36
+#: templates/meta-boxes/order-flagship-shipping-actions.php:60
 msgid "Void Shipment"
 msgstr "Annuler cette expédition"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:40
+#: templates/meta-boxes/order-flagship-shipping-actions.php:64
 msgid "Client Choosen Rate"
 msgstr "Service choisi par le client"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:53
+#: templates/meta-boxes/order-flagship-shipping-actions.php:77
 msgid "Requote Rates"
 msgstr "Estimation récente"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:64
+#: templates/meta-boxes/order-flagship-shipping-actions.php:88
 msgid "Options"
 msgstr ""
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:71
+#: templates/meta-boxes/order-flagship-shipping-actions.php:95
 msgid "Shipping Date (Optional, default today):"
 msgstr "Date d'expédition (optionnel, aujourd'hui par défaut)"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:78
+#: templates/meta-boxes/order-flagship-shipping-actions.php:102
 msgid "Enable Insurance"
 msgstr "Assurer mon expédition"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:84
+#: templates/meta-boxes/order-flagship-shipping-actions.php:108
 msgid "Insured items' value (Required):"
 msgstr "Valeur totale des produits (Requis):"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:87
+#: templates/meta-boxes/order-flagship-shipping-actions.php:111
 msgid ""
 "<br/>$ value of the items to insure. Note that exlusions apply, see <a href="
 "\"https://www.flagshipcompany.com/terms-and-conditions\" target=\"_blank"
@@ -765,63 +768,71 @@ msgstr ""
 "href=\"https://www.flagshipcompany.com/fr/modalites-et-conditions/\" target="
 "\"_blank\">ici</a> pour savoir plus"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:93
+#: templates/meta-boxes/order-flagship-shipping-actions.php:117
 msgid "Description (Required):"
 msgstr "Description (Requis):"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:101
+#: templates/meta-boxes/order-flagship-shipping-actions.php:125
 msgid "<abbr title=\"cash on delivery\">Enable COD</abbr>"
 msgstr "<abbr title=\"cash on delivery\">PSL(COD)</abbr>"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:119
+#: templates/meta-boxes/order-flagship-shipping-actions.php:143
 msgid "Payable to (Required):"
 msgstr "payé à (Requis):"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:126
+#: templates/meta-boxes/order-flagship-shipping-actions.php:150
 msgid "Receiver Phone (Required):"
 msgstr "Téléphone (Requis):"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:133
+#: templates/meta-boxes/order-flagship-shipping-actions.php:157
 msgid "Amount (Required):"
 msgstr "Montant (Requis):"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:153
+#: templates/meta-boxes/order-flagship-shipping-actions.php:177
 msgid "Signatured Required"
 msgstr "Signature requise"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:159
+#: templates/meta-boxes/order-flagship-shipping-actions.php:183
 msgid "Reference (Optional):"
 msgstr "Référence (Optionnel):"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:164
+#: templates/meta-boxes/order-flagship-shipping-actions.php:188
 msgid "Driver Instruction (Optional):"
 msgstr "Instructions pour le livreur (Optionnel):"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:169
-#: templates/meta-boxes/order-flagship-shipping-actions.php:212
+#: templates/meta-boxes/order-flagship-shipping-actions.php:193
+#: templates/meta-boxes/order-flagship-shipping-actions.php:236
 msgid "Create shipment"
 msgstr "Créer l'expédition"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:170
-#: templates/meta-boxes/order-flagship-shipping-actions.php:213
+#: templates/meta-boxes/order-flagship-shipping-actions.php:194
+#: templates/meta-boxes/order-flagship-shipping-actions.php:237
 msgid "Requote"
 msgstr "Reéstimer"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:201
+#: templates/meta-boxes/order-flagship-shipping-actions.php:225
 msgid "Shipment was not quoted with FlagShip Shipping."
 msgstr "Le commande n'a pas encore eu l'estimation."
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:204
+#: templates/meta-boxes/order-flagship-shipping-actions.php:228
 msgid "Latest rates"
 msgstr "Estimation récente"
 
-#: templates/meta-boxes/order-flagship-shipping-actions.php:215
+#: templates/meta-boxes/order-flagship-shipping-actions.php:239
 msgid "Get a quote"
 msgstr "Avoir une estimation"
 
 #: templates/notice.php:4
 msgid "Set your FlagShip Shipping token."
 msgstr "Configurer votre clé (token) FlagShip."
+
+#: templates/option/log.php:15
+msgid "Timestamp"
+msgstr "Date"
+
+#: templates/option/log.php:16
+msgid "Log"
+msgstr "Message"
 
 #: templates/option/package-box.php:2
 msgid "Package Box"

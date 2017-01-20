@@ -42,6 +42,8 @@ class Driver extends \FS\Components\AbstractComponent implements \FS\Components\
             case 'ShippingOptions':
                 return new \FS\Configurations\WordPress\RequestBuilder\Order\ShippingOptionsBuilder();
                 // no break
+            case 'CommercialInvoice':
+                return new \FS\Configurations\WordPress\RequestBuilder\Order\CommercialInvoiceBuilder();
         }
     }
 

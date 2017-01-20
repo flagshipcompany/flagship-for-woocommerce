@@ -66,6 +66,22 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
             )
         );
 
+        if ($toAddress['country'] == 'CA') {
+            return $request;
+        }
+
+        // build commercial invoice
+        $ci = $this->makeRequestPart(
+            $factory->getBuilder('CommercialInvoice', array(
+                'type' => 'order',
+            )),
+            $this->payload + $request->getRequest()
+        );
+
+        $request->setRequestPart('sold_to', $ci['sold_to']);
+        $request->setRequestPart('inquiry', $ci['inquiry']);
+        $request->setRequestPart('declared_items', $ci['declared_items']);
+
         return $request;
     }
 }
