@@ -39,9 +39,9 @@ class FlagshipShippingUnitTestCase extends \WP_UnitTestCase
      */
     public static function setUpBeforeClass()
     {
-        $settings = include_once __DIR__.'/../Fixture/FlagshipShippingPluginSettings.php';
+        $options = include __DIR__.'/../Fixture/FlagshipShippingPluginSettings.php';
 
-        update_option('woocommerce_flagship_shipping_method_settings', $settings);
+        update_option('woocommerce_flagship_shipping_method_settings', $options);
     }
 
     public function getApplicationContext()

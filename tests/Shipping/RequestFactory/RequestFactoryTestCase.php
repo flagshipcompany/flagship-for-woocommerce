@@ -176,37 +176,37 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
             ),
             'options' => array(
                 'address_correction' => true,
-                'sold_to' => array(
-                    'sold_to_address' => array(
-                        'name' => 'WooCompany',
-                        'attn' => 'Jeroen Sormani',
-                        'address' => 'WooAddress',
-                        'city' => 'WooCity',
-                        'state' => 'NY',
-                        'country' => 'US',
-                        'postal_code' => '123456',
-                        'phone' => '',
-                    ),
-                    'duties_payer' => 'C',
-                    'reason_for_export' => 'P',
+            ),
+            'sold_to' => array(
+                'sold_to_address' => array(
+                    'name' => 'WooCompany',
+                    'attn' => 'Jeroen Sormani',
+                    'address' => 'WooAddress',
+                    'city' => 'WooCity',
+                    'state' => 'NY',
+                    'country' => 'US',
+                    'postal_code' => '123456',
+                    'phone' => '',
                 ),
-                'inquiry' => array(
-                    'company' => 'FlagShip WooCommerce Test App',
-                    'name' => 'FlagShip Tester',
-                    'inquiry_phone' => '18663208383',
-                ),
-                'declared_items' => array(
-                    'currency' => 'GBP',
-                    'ci_items' => array(
-                        0 => array(
-                            'product_name' => 'Dummy Product',
-                            'description' => '',
-                            'country_of_origin' => 'CA',
-                            'quantity' => '4',
-                            'unit_price' => '10',
-                            'unit_weight' => 1,
-                            'unit_of_measurement' => 'kilogram',
-                        ),
+                'duties_payer' => 'C',
+                'reason_for_export' => 'P',
+            ),
+            'inquiry' => array(
+                'company' => 'FlagShip WooCommerce Test App',
+                'name' => 'FlagShip Tester',
+                'inquiry_phone' => '18663208383',
+            ),
+            'declared_items' => array(
+                'currency' => 'GBP',
+                'ci_items' => array(
+                    0 => array(
+                        'product_name' => 'Dummy Product',
+                        'description' => '',
+                        'country_of_origin' => 'CA',
+                        'quantity' => '4',
+                        'unit_price' => '10',
+                        'unit_weight' => 1,
+                        'unit_of_measurement' => 'kilogram',
                     ),
                 ),
             ),
