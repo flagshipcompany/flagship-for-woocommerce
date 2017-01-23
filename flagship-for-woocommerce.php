@@ -34,8 +34,9 @@ if (is_admin()) {
     $update = new Flagship_Autoupdate(__FILE__, 'flagshipcompany', 'flagship-for-woocommerce');
 }
 
+include_once ABSPATH.'wp-admin/includes/plugin.php';
 // Check if WooCommerce is active
-if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
+if (is_plugin_active('woocommerce/woocommerce.php')) {
     require __DIR__.'/vendor/autoload.php';
 
     \FS\Context\ApplicationContext::initialize(
