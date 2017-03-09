@@ -8,3 +8,7 @@ docs                export-ignore
 phpunit.xml.dist    export-ignore
 README.md           export-ignore
 tests				export-ignore
+bin					export-ignore
+node_modules		export-ignore
+package.json		export-ignore
+gulpfile.js			export-ignore
