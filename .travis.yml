@@ -4,6 +4,7 @@ branches:
   only:
     - master
     - /^rfc.*$/
+    - /^(\d+\.)?(\d+\.)?(\*|\d+)$/
 
 php:
   - 5.3
