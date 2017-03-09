@@ -2,7 +2,9 @@
 
 namespace FS\Configurations\WordPress\RequestBuilder\Cart\PackageItems;
 
-class ApiBuilder extends FallbackBuilder implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
+use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
+
+class ApiBuilder extends FallbackBuilder implements RequestBuilderInterface
 {
     public function makePackageItems($productItems, $payload)
     {

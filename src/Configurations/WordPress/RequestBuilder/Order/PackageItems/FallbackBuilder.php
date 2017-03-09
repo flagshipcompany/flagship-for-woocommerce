@@ -2,7 +2,10 @@
 
 namespace FS\Configurations\WordPress\RequestBuilder\Order\PackageItems;
 
-class FallbackBuilder extends \FS\Configurations\WordPress\RequestBuilder\AbstractPackageItemsBuilder implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
+use FS\Configurations\WordPress\RequestBuilder\AbstractPackageItemsBuilder;
+use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
+
+class FallbackBuilder extends AbstractPackageItemsBuilder implements RequestBuilderInterface
 {
     protected function makeProductItems($payload = null)
     {

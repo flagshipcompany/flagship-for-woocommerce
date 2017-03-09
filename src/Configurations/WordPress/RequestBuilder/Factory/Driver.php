@@ -2,7 +2,11 @@
 
 namespace FS\Configurations\WordPress\RequestBuilder\Factory;
 
-class Driver extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RequestBuilder\Factory\FactoryInterface, \FS\Components\Factory\DriverInterface
+use FS\Components\AbstractComponent;
+use FS\Components\Shipping\RequestBuilder\Factory\FactoryInterface;
+use FS\Components\Factory\DriverInterface;
+
+class Driver extends AbstractComponent implements FactoryInterface, DriverInterface
 {
     public function getBuilder($resource, $context = array())
     {
