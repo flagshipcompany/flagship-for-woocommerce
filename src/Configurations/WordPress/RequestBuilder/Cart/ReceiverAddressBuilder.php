@@ -2,7 +2,10 @@
 
 namespace FS\Configurations\WordPress\RequestBuilder\Cart;
 
-class ReceiverAddressBuilder extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
+use FS\Components\AbstractComponent;
+use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
+
+class ReceiverAddressBuilder extends AbstractComponent implements RequestBuilderInterface
 {
     public function build($payload = null)
     {

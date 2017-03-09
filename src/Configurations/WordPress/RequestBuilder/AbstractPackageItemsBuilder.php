@@ -2,7 +2,10 @@
 
 namespace FS\Configurations\WordPress\RequestBuilder;
 
-abstract class AbstractPackageItemsBuilder extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RequestBuilder\RequestBuilderInterface
+use FS\Components\AbstractComponent;
+use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
+
+abstract class AbstractPackageItemsBuilder extends AbstractComponent implements RequestBuilderInterface
 {
     public static $scope = 'prototype';
 
@@ -13,6 +16,13 @@ abstract class AbstractPackageItemsBuilder extends \FS\Components\AbstractCompon
             'units' => 'imperial',
             'type' => 'package',
         );
+
+        // verify if each package item's weight is at least 1 lb
+        foreach ($packages['items'] as $key => $item) {
+            if ($item['weight'] < 1) {
+                $packages['items'][$key]['weight'] = 1;
+            }
+        }
 
         return $packages;
     }
@@ -86,7 +96,8 @@ abstract class AbstractPackageItemsBuilder extends \FS\Components\AbstractCompon
             $product->width ? max(1, ceil(woocommerce_get_dimension($product->width, 'in'))) : 1,
             $product->length ? max(1, ceil(woocommerce_get_dimension($product->length, 'in'))) : 1,
             $product->height ? max(1, ceil(woocommerce_get_dimension($product->height, 'in'))) : 1,
-            $product->weight ? max(1, ceil(woocommerce_get_weight($product->weight, 'lbs'))) : 1,
+            // when product weight is not defined, default to 0.001 lb (in accordance with shopify client "1 gram")
+            $product->weight ? (float) woocommerce_get_weight($product->weight, 'lbs') : 0.001,
             $product->get_id(),
         );
     }
