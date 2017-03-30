@@ -16,7 +16,7 @@
     "minimum-stability": "stable",
     "name": "flagshipcompany/flagship-for-woocommerce",
     "require": {
-        "php": ">=5.3.2"
+        "php": ">=5.4"
     },
     "scripts": {
         "test:prep": [

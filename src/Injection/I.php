@@ -18,6 +18,7 @@ class I
     protected static $data = [
         'debug' => false,
     ];
+
     protected static $instance;
 
     public static function action(string $hook, callable $cb = null, array $options = [])
