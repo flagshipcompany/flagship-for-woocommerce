@@ -4,11 +4,11 @@
  * Plugin Name: Flagship WooCommerce Shipping
  * Plugin URI: https://github.com/flagshipcompany/flagship-for-woocommerce
  * Description: An e-shipping courier solution that helps you shipping anything from Canada. Beautifully. To get started: 1) Click the "Activate" link to the left of this description, 2) <a href="http://smartship.flagshipcompany.com/">Sign up for an FlagShip account</a> to get an API key, and 3) Go to settings page to fill basic shipping credentials
- * Version: 1.1.5
+ * Version: 1.1.4
  * Author: FlagShip Courier Solution
  * Author URI: https://github.com/flagshipcompany/flagship-for-woocommerce
  * Requires at least: 4.4
- * Tested up to: 4.7.x
+ * Tested up to: 4.7.3
  *
  * Text Domain: flagship-for-woocommerce
  * Domain Path: /languages/
@@ -31,12 +31,6 @@ I::boot(__DIR__);
 
 define('FLAGSHIP_SHIPPING_PLUGIN_DIR', I::directory('PLUGIN'));
 define('FLAGSHIP_SHIPPING_TEXT_DOMAIN', I::get('TEXT_DOMAIN'));
-
-require_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'includes/update/class.flagship-autoupdate.php';
-
-if (is_admin()) {
-    $update = new Flagship_Autoupdate(__FILE__, 'flagshipcompany', 'flagship-for-woocommerce');
-}
 
 I::group(function () {
     \FS\Context\ApplicationContext::initialize(

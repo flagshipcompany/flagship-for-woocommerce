@@ -12,6 +12,7 @@ use FS\Injection\Injector\UriRewrite;
 use FS\Injection\Injector\Asset;
 use FS\Injection\Pico\Engine;
 use FS\Security\TokenAccess;
+use FS\Injection\Updater\Autoupdate;
 
 class I
 {
@@ -281,6 +282,10 @@ class I
 
         if (isset($config['version']) && $config['version']) {
             self::set('__VERSION__', $config['version']);
+        }
+
+        if (isset($config['auto-updater']) && $config['auto-updater'] && \is_admin() && isset($config['bootstrap']) && $config['bootstrap']) {
+            new Autoupdate($baseDir.'/'.$config['bootstrap'], 'flagshipcompany', 'flagship-for-woocommerce');
         }
     }
 

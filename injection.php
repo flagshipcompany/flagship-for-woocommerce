@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 return [
-    'version' => '1.1.5',
+    'version' => '1.1.4',
     'autoload' => [
         'psr-4' => [
             'FS\\' => 'src/',
@@ -25,4 +25,6 @@ return [
         ],
     ],
     'debug' => false,
+    'auto-updater' => true,
+    'bootstrap' => 'flagship-for-woocommerce.php',
 ];
