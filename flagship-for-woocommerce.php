@@ -23,6 +23,10 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
+require __DIR__.'/src/Injection/I.php';
+
+use FS\Injection\I;
+
 define('FLAGSHIP_SHIPPING_PLUGIN_VERSION', '1.1.5');
 define('FLAGSHIP_SHIPPING_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('FLAGSHIP_SHIPPING_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -37,7 +41,7 @@ if (is_admin()) {
 include_once ABSPATH.'wp-admin/includes/plugin.php';
 // Check if WooCommerce is active
 if (is_plugin_active('woocommerce/woocommerce.php')) {
-    require __DIR__.'/vendor/autoload.php';
+    I::boot(__DIR__);
 
     \FS\Context\ApplicationContext::initialize(
         new \FS\Container(),

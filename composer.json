@@ -1,22 +1,27 @@
 {
-    "name": "flagshipcompany/flagship-for-woocommerce",
-    "description": "An e-shipping courier solution that helps you shipping anything from Canada.",
-    "type": "wordpress-plugin",
-    "license": "GPL-3.0",
     "authors": [
         {
-            "name": "yi-FLS",
-            "email": "yi-cheng@flagshipcompany.com"
+            "email": "yi-cheng@flagshipcompany.com",
+            "name": "yi-FLS"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {
-        "php": ">=5.3.2"
-    },
     "autoload": {
         "psr-4": {
             "FS\\": "src/",
             "FS\\Test\\": "tests/"
         }
-    }
+    },
+    "description": "An e-shipping courier solution that helps you shipping anything from Canada.",
+    "license": "GPL-3.0",
+    "minimum-stability": "stable",
+    "name": "flagshipcompany/flagship-for-woocommerce",
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "scripts": {
+        "test:prep": [
+            "bash bin/install-wp-tests.sh wordpress_test root '' localhost"
+        ]
+    },
+    "type": "wordpress-plugin"
 }

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../src/Injection/I.php';
 
 \FS\Test\Helper\Bootstrap::initialize(
     dirname(__FILE__),
