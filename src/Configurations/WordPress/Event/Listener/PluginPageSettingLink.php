@@ -2,6 +2,8 @@
 
 namespace FS\Configurations\WordPress\Event\Listener;
 
+use FS\Injection\I;
+
 class PluginPageSettingLink extends \FS\Components\AbstractComponent implements \FS\Context\ApplicationListenerInterface, \FS\Configurations\WordPress\Event\NativeHookInterface
 {
     public function getSupportedEvent()
@@ -15,7 +17,7 @@ class PluginPageSettingLink extends \FS\Components\AbstractComponent implements 
     ) {
         $links = $event->getInput('links');
 
-        if ($event->getInput('file') == FLAGSHIP_SHIPPING_PLUGIN_BASENAME) {
+        if ($event->getInput('file') == I::basename()) {
             array_unshift($links, $context->getComponent('\\FS\\Components\\Html')->a('flagship_shipping_settings', __('Settings', FLAGSHIP_SHIPPING_TEXT_DOMAIN), array(
                 'escape' => true,
                 'target' => true,
@@ -27,7 +29,7 @@ class PluginPageSettingLink extends \FS\Components\AbstractComponent implements 
 
     public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)
     {
-        \add_filter('plugin_action_links_'.FLAGSHIP_SHIPPING_PLUGIN_BASENAME, function ($links, $file) use ($context) {
+        \add_filter('plugin_action_links_'.I::basename(), function ($links, $file) use ($context) {
             $event = new \FS\Configurations\WordPress\Event\PluginPageSettingLinkEvent();
             $event->setInputs(array(
                 'links' => $links,

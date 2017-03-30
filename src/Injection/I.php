@@ -157,11 +157,27 @@ class I
         self::$data[$key] = $value;
     }
 
-    public static function get($key)
+    public static function get($keys)
     {
-        if (isset(self::$data[$key])) {
-            return self::$data[$key];
+        $keys = explode('.', $keys);
+
+        if (count($keys) == 0) {
+            return isset(self::$data[$keys]) ? self::$data[$keys] : null;
         }
+
+        $value = self::$data[array_shift($keys)];
+
+        while ($keys) {
+            $key = array_shift($keys);
+
+            if (!isset($value[$key])) {
+                return;
+            }
+
+            $value = $value[$key];
+        }
+
+        return $value;
     }
 
     public static function option($keys)
@@ -185,6 +201,27 @@ class I
         }
 
         return $option;
+    }
+
+    /**
+     * plugin version
+     * must define in 'injection.php'.
+     *
+     * @return string
+     */
+    public static function version()
+    {
+        return self::get('__VERSION__');
+    }
+
+    public static function basename()
+    {
+        return self::get('BASENAME');
+    }
+
+    public static function directory(string $type)
+    {
+        return self::get('DIRECTORY.'.$type);
     }
 
     public static function token($source = 'COOKIE')
@@ -240,6 +277,10 @@ class I
             foreach ($config['extra'] as $key => $value) {
                 self::set($key, $value);
             }
+        }
+
+        if (isset($config['version']) && $config['version']) {
+            self::set('__VERSION__', $config['version']);
         }
     }
 

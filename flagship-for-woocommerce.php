@@ -27,10 +27,10 @@ require __DIR__.'/src/Injection/I.php';
 
 use FS\Injection\I;
 
-define('FLAGSHIP_SHIPPING_PLUGIN_VERSION', '1.1.5');
-define('FLAGSHIP_SHIPPING_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('FLAGSHIP_SHIPPING_PLUGIN_BASENAME', plugin_basename(__FILE__));
-define('FLAGSHIP_SHIPPING_TEXT_DOMAIN', 'flagship-for-woocommerce');
+I::boot(__DIR__);
+
+define('FLAGSHIP_SHIPPING_PLUGIN_DIR', I::directory('PLUGIN'));
+define('FLAGSHIP_SHIPPING_TEXT_DOMAIN', I::get('TEXT_DOMAIN'));
 
 require_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'includes/update/class.flagship-autoupdate.php';
 
@@ -38,13 +38,11 @@ if (is_admin()) {
     $update = new Flagship_Autoupdate(__FILE__, 'flagshipcompany', 'flagship-for-woocommerce');
 }
 
-include_once ABSPATH.'wp-admin/includes/plugin.php';
-// Check if WooCommerce is active
-if (is_plugin_active('woocommerce/woocommerce.php')) {
-    I::boot(__DIR__);
-
+I::group(function () {
     \FS\Context\ApplicationContext::initialize(
         new \FS\Container(),
         new \FS\Configurations\WordPress\Configuration()
     );
-}
+}, [
+    'dependencies' => ['woocommerce/woocommerce.php'],
+]);
