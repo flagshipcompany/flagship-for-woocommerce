@@ -225,6 +225,11 @@ class I
         return self::get('DIRECTORY.'.$type);
     }
 
+    public static function textDomain()
+    {
+        return self::get('__TEXT_DOMAIN__');
+    }
+
     public static function token($source = 'COOKIE')
     {
         return new TokenAccess(
@@ -238,7 +243,9 @@ class I
     {
         $config = require_once $baseDir.'/injection.php';
 
-        if (isset($config['autoload'])) {
+        if (isset($config['autoload']) && $config['autoload']) {
+            $config['autoload']['psr-4']['FS\\Injection\\'] = 'src/Injection/';
+
             spl_autoload_register(function ($class) use ($config, $baseDir) {
                 $hit = false;
 
@@ -271,7 +278,7 @@ class I
         }
 
         if (isset($config['debug']) && $config['debug']) {
-            self::$data['debug'] = true;
+            self::$data['__DEBUG__'] = true;
         }
 
         if (isset($config['extra']) && $config['extra']) {
@@ -287,11 +294,15 @@ class I
         if (isset($config['auto-updater']) && $config['auto-updater'] && \is_admin() && isset($config['bootstrap']) && $config['bootstrap']) {
             new Autoupdate($baseDir.'/'.$config['bootstrap'], 'flagshipcompany', 'flagship-for-woocommerce');
         }
+
+        if (isset($config['text-domain']) && $config['text-domain']) {
+            self::set('__TEXT_DOMAIN__', $config['text-domain']);
+        }
     }
 
     public static function isDebugMode()
     {
-        return self::$data['debug'];
+        return self::$data['__DEBUG__'];
     }
 
     public static function __($var)

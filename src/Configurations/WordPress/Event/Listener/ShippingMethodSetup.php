@@ -2,6 +2,8 @@
 
 namespace FS\Configurations\WordPress\Event\Listener;
 
+use FS\Injection\I;
+
 class ShippingMethodSetup extends \FS\Components\AbstractComponent implements \FS\Context\ApplicationListenerInterface, \FS\Configurations\WordPress\Event\NativeHookInterface
 {
     public function getSupportedEvent()
@@ -21,7 +23,7 @@ class ShippingMethodSetup extends \FS\Components\AbstractComponent implements \F
         if (\version_compare(WC()->version, '2.6', '>=')) {
             $methods[$id] = '\\FS\\Configurations\\WordPress\\Shipping\\Method\\FlagShipWcShippingMethod';
         } else {
-            include_once FLAGSHIP_SHIPPING_PLUGIN_DIR.'src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php';
+            include_once I::directory('PLUGIN').'src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php';
 
             $methods[$id] = new \FlagShip_WC_Shipping_Method();
         }

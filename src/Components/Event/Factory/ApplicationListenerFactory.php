@@ -2,24 +2,32 @@
 
 namespace FS\Components\Event\Factory;
 
-class ApplicationListenerFactory extends \FS\Components\AbstractComponent
+use FS\Components\AbstractComponent;
+use FS\Configurations\WordPress\Event\Listener;
+
+class ApplicationListenerFactory extends AbstractComponent
 {
-	protected $driver;
+    public function addApplicationListeners(\FS\Context\ConfigurableApplicationContextInterface $context)
+    {
+        $context
+            ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\PluginInitialization(), $context))
+            ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\MetaboxOperations(), $context))
+            ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\MetaboxDisplay(), $context))
+            ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\ShippingMethodSetup(), $context))
+            ->addApplicationListener($this->getNativeHookPublishedListener(new Listener\ShippingZoneMethodOptions(), $context))
+            ->addApplicationListener(new Listener\CalculateShipping());
 
-	public function addApplicationListeners(\FS\Context\ConfigurableApplicationContextInterface $context)
-	{
-		$this->getApplicationListenerFactoryDriver()->addApplicationListeners($context);	
-	}
+        if (\is_admin()) {
+            $context->addApplicationListener($this->getNativeHookPublishedListener(new Listener\PluginPageSettingLink(), $context));
+            $context->addApplicationListener($this->getNativeHookPublishedListener(new Listener\PickupPostType(), $context));
+            $context->addApplicationListener($this->getNativeHookPublishedListener(new Listener\ShippingZoneMethodAdd(), $context));
+        }
+    }
 
-	public function getApplicationListenerFactoryDriver()
-	{
-		return $this->driver;
-	}
+    protected function getNativeHookPublishedListener(\FS\Configurations\WordPress\Event\NativeHookInterface $listener, \FS\Context\ConfigurableApplicationContextInterface $context)
+    {
+        $listener->publishNativeHook($context);
 
-	public function setApplicationListenerFactoryDriver($driver)
-	{
-		$this->driver = $driver;
-
-		return $this;
-	}
+        return $listener;
+    }
 }

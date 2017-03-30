@@ -129,13 +129,13 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
         return $factory;
     }
 
-    public function getApplicationListenerFactory()
-    {
-        $factory = new \FS\Components\Event\Factory\ApplicationListenerFactory();
-        $factory->setApplicationListenerFactoryDriver(new Event\ApplicationListenerFactory());
+    // public function getApplicationListenerFactory()
+    // {
+    //     $factory = new \FS\Components\Event\Factory\ApplicationListenerFactory();
+    //     $factory->setApplicationListenerFactoryDriver(new Event\ApplicationListenerFactory());
 
-        return $factory;
-    }
+    //     return $factory;
+    // }
 
     public function getRateProcessor()
     {

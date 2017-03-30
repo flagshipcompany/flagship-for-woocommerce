@@ -2,6 +2,8 @@
 
 namespace FS\Configurations\WordPress\View;
 
+use FS\Injection\I;
+
 class Vue extends \FS\Components\AbstractComponent
 {
     public function notice(array $payloads = array())
@@ -24,6 +26,6 @@ class Vue extends \FS\Components\AbstractComponent
 
         load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN);
 
-        include FLAGSHIP_SHIPPING_PLUGIN_DIR.'templates/'.$template.'.php';
+        include I::directory('PLUGIN').'templates/'.$template.'.php';
     }
 }

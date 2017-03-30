@@ -2,9 +2,12 @@
 
 namespace FS\Context;
 
-abstract class AbstractApplicationContext implements ConfigurableApplicationContextInterface,
+use FS\Components\Factory\ComponentFactoryInterface;
+
+abstract class AbstractApplicationContext implements
+    ConfigurableApplicationContextInterface,
     ApplicationEventPublisherInterface,
-    \FS\Components\Factory\ComponentFactoryInterface
+    ComponentFactoryInterface
 {
     protected $container;
 
@@ -17,7 +20,7 @@ abstract class AbstractApplicationContext implements ConfigurableApplicationCont
 
     public function getApplicationEventCaster()
     {
-        return $this->getComponent('\\FS\\Components\\Event\\ApplicationEventCaster');
+        return $this->_('\\FS\\Components\\Event\\ApplicationEventCaster');
     }
 
     public function publishEvent(ApplicationEventInterface $event)
@@ -55,5 +58,18 @@ abstract class AbstractApplicationContext implements ConfigurableApplicationCont
         $factory->setApplicationContext($this);
 
         return $factory->getComponent($class);
+    }
+
+    /**
+     * yes, this method name is merely a underscore.
+     * alias of getComponent.
+     *
+     * @param string $class
+     *
+     * @return Component
+     */
+    public function _(string $class)
+    {
+        return $this->getComponent($class);
     }
 }

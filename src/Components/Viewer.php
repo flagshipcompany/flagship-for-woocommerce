@@ -2,6 +2,8 @@
 
 namespace FS\Components;
 
+use FS\Injection\I;
+
 class Viewer extends \FS\Components\AbstractComponent
 {
     public function notice(array $payloads = array())
@@ -22,8 +24,8 @@ class Viewer extends \FS\Components\AbstractComponent
 
         $ctx = $this->ctx;
 
-        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+        load_plugin_textdomain(I::get('TEXT_DOMAIN'));
 
-        include FLAGSHIP_SHIPPING_PLUGIN_DIR.'templates/'.$template.'.php';
+        include I::directory('PLUGIN').'templates/'.$template.'.php';
     }
 }

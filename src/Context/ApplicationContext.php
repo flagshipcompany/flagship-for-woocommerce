@@ -2,33 +2,27 @@
 
 namespace FS\Context;
 
-class ApplicationContext extends AbstractApplicationContext implements ConfigurableApplicationContextInterface,\FS\Components\Factory\ComponentFactoryInterface
+use FS\Container;
+use FS\Components\Factory\ComponentFactoryInterface;
+use FS\Components\Factory\ConfigurationInterface;
+
+class ApplicationContext extends AbstractApplicationContext implements ConfigurableApplicationContextInterface, ComponentFactoryInterface
 {
     public static $instance;
-    public $text_domain = FLAGSHIP_SHIPPING_TEXT_DOMAIN;
-
-    public function getComponents(array $classes)
-    {
-        foreach ($classes as $class) {
-            $this->getComponent($class);
-        }
-
-        return $this;
-    }
 
     public function debug($data)
     {
-        $this->getComponent('\\FS\\Components\\Debugger')->log($data);
+        $this->_('\\FS\\Components\\Debugger')->log($data);
     }
 
-    public static function initialize(\FS\Container $container, \FS\Components\Factory\ConfigurationInterface $configuration)
+    public static function initialize(Container $container, ConfigurationInterface $configuration)
     {
         $ctx = self::getInstance();
 
         $ctx->setContainer($container);
         $ctx->setConfiguration($configuration);
 
-        $ctx->getComponents(array(
+        foreach ([
             '\\FS\\Components\\Web\\RequestParam',
             '\\FS\\Components\\Settings',
             '\\FS\\Components\\Options',
@@ -40,9 +34,11 @@ class ApplicationContext extends AbstractApplicationContext implements Configura
             '\\FS\\Components\\Event\\ApplicationEventCaster',
             '\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory',
             '\\FS\\Components\\Http\\Client',
-        ));
+        ] as $class) {
+            $ctx->_($class);
+        }
 
-        $ctx->getComponent('\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory')
+        $ctx->_('\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory')
             ->addApplicationListeners($ctx);
 
         return $ctx;
