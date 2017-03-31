@@ -2,7 +2,7 @@
 
 namespace FS\Components;
 
-class Notifier extends \FS\Components\AbstractComponent
+class Notifier extends AbstractComponent
 {
     public $notifications = array();
 
@@ -13,7 +13,7 @@ class Notifier extends \FS\Components\AbstractComponent
     protected $prev = array();
     protected $silent = false;
 
-    public function add($type = 'success', $message)
+    public function add($type, $message)
     {
         if ($this->notice_scope == 'shop_order') {
             return $this->shop_order_add($type, $message);
@@ -135,7 +135,7 @@ class Notifier extends \FS\Components\AbstractComponent
         return $this;
     }
 
-    protected function native_add($type = 'success', $message)
+    protected function native_add($type, $message)
     {
         if (!isset($this->notifications[$type])) {
             $this->notifications[$type] = array();
@@ -156,7 +156,7 @@ class Notifier extends \FS\Components\AbstractComponent
         return $this;
     }
 
-    protected function shop_order_add($type = 'success', $message)
+    protected function shop_order_add($type, $message)
     {
         $existing = get_post_meta($this->extras['id'], 'flagship_shipping_shop_order_meta_notification', true);
 

@@ -2,7 +2,9 @@
 
 namespace FS\Components;
 
-class Options extends \FS\Components\AbstractComponent implements Factory\ComponentPostConstructInterface
+use FS\Injection\I;
+
+class Options extends AbstractComponent implements Factory\ComponentPostConstructInterface
 {
     protected $options = array();
     protected $wpOptionName;
@@ -24,12 +26,12 @@ class Options extends \FS\Components\AbstractComponent implements Factory\Compon
         return isset($this->options[$name]) ? $this->options[$name] : $default;
     }
 
-    public function equal($name, $value)
+    public function eq($name, $value)
     {
         return $this->get($name) == $value;
     }
 
-    public function not_equal($name, $value)
+    public function neq($name, $value)
     {
         return $this->get($name) != $value;
     }
@@ -71,7 +73,7 @@ class Options extends \FS\Components\AbstractComponent implements Factory\Compon
             $this->setWpOptionName('woocommerce_'.$settings['FLAGSHIP_SHIPPING_PLUGIN_ID'].'_'.$instanceId.'_settings');
         }
 
-        $this->options = get_option($this->wpOptionName, array());
+        $this->options = I::option($this->wpOptionName);
 
         return $this;
     }

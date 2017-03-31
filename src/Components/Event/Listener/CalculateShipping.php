@@ -37,7 +37,7 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
             ->_('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
 
         // when store owner disable front end warning for their customer
-        if ($options->equal('disable_api_warning', 'yes')) {
+        if ($options->eq('disable_api_warning', 'yes')) {
             $notifier->enableSilentLogging();
         }
 

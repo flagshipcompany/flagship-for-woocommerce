@@ -2,7 +2,10 @@
 
 namespace FS\Components\Web;
 
-class RequestParam extends \FS\Components\AbstractComponent implements \FS\Components\Factory\ComponentInitializingInterface
+use FS\Components\AbstractComponent;
+use FS\Components\Factory\ComponentInitializingInterface;
+
+class RequestParam extends AbstractComponent implements ComponentInitializingInterface
 {
     public $request;
     public $query;

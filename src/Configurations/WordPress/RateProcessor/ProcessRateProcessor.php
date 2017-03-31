@@ -25,7 +25,7 @@ class ProcessRateProcessor extends \FS\Components\AbstractComponent implements \
             ->getRateProcessor('CourierExcludedRate')
             ->getProcessedRates($rates, array(
                 'excluded' => array_filter(array('fedex', 'ups', 'purolator'), function ($courier) use ($options) {
-                    return $options->not_equal('disable_courier_'.$courier, 'no');
+                    return $options->neq('disable_courier_'.$courier, 'no');
                 }),
             ));
 

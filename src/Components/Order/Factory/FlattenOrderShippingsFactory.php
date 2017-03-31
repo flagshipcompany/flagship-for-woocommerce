@@ -2,7 +2,9 @@
 
 namespace FS\Components\Order\Factory;
 
-class FlattenOrderShippingsFactory extends \FS\Components\AbstractComponent
+use FS\Components\AbstractComponent;
+
+class FlattenOrderShippingsFactory extends AbstractComponent
 {
     public function getFlattenOrderShippings($orders)
     {

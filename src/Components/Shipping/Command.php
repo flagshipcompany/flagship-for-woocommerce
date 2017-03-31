@@ -2,9 +2,13 @@
 
 namespace FS\Components\Shipping;
 
-class Command extends \FS\Components\AbstractComponent
+use FS\Components\AbstractComponent;
+use FS\Components\Http\Client;
+use FS\Components\Shipping\Factory\FormattedRequestInterface as FormattedRequest;
+
+class Command extends AbstractComponent
 {
-    public function quote(\FS\Components\Http\Client $client, Factory\FormattedRequestInterface $request)
+    public function quote(Client $client, FormattedRequest $request)
     {
         $response = $client->post(
             '/ship/rates',
@@ -14,7 +18,7 @@ class Command extends \FS\Components\AbstractComponent
         return $this->validate($response);
     }
 
-    public function confirm(\FS\Components\Http\Client $client, Factory\FormattedRequestInterface $request)
+    public function confirm(Client $client, FormattedRequest $request)
     {
         $response = $client->post(
             '/ship/confirm',
@@ -24,7 +28,7 @@ class Command extends \FS\Components\AbstractComponent
         return $this->validate($response);
     }
 
-    public function pickup(\FS\Components\Http\Client $client, Factory\FormattedRequestInterface $request)
+    public function pickup(Client $client, FormattedRequest $request)
     {
         $response = $client->post(
             '/pickups',
@@ -34,7 +38,7 @@ class Command extends \FS\Components\AbstractComponent
         return $this->validate($response);
     }
 
-    public function pack(\FS\Components\Http\Client $client, Factory\FormattedRequestInterface $request)
+    public function pack(Client $client, FormattedRequest $request)
     {
         $response = $client->post(
             '/ship/packing',
@@ -48,8 +52,8 @@ class Command extends \FS\Components\AbstractComponent
     {
         if (!$response->isSuccessful()) {
             $this->getApplicationContext()
-                ->getComponent('\\FS\\Components\\Notifier')
-                ->error('FlagShip API Error: '.$this->getApplicationContext()->getComponent('\\FS\\Components\\Html')->ul($response->getError()));
+                ->_('\\FS\\Components\\Notifier')
+                ->error('FlagShip API Error: '.$this->getApplicationContext()->_('\\FS\\Components\\Html')->ul($response->getError()));
         }
 
         return $response;

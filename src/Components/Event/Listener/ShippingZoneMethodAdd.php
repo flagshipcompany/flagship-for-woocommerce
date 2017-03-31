@@ -34,6 +34,7 @@ class ShippingZoneMethodAdd extends AbstractComponent implements ApplicationList
 
             if ($type == $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'] && $options->all()) {
                 $event = new ApplicationEvent(ApplicationEvent::SHIPPING_ZONE_METHOD_ADD);
+
                 $event->setInputs(array(
                     'instanceId' => $instanceId,
                 ));

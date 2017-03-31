@@ -34,6 +34,21 @@ class Configurator implements ConfigurationInterface
             $ctx->_($class);
         }
 
+        // below 3 statements are equivalent
+
+        // 1.
+        // foreach ([
+        //     '\\FS\\Components\\Web\\RequestParam',
+        // ] as $class) {
+        //     $ctx->_($class);
+        // }
+
+        // 2.
+        // $ctx->_('\\FS\\Components\\Web\\RequestParam');
+
+        // 3.
+        // $ctx['\\FS\\Components\\Web\\RequestParam'] = (new \FS\Components\Web\RequestParam())->setApplicationContext($ctx);
+
         // register events
         $ctx->_('\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory')
             ->addApplicationListeners([
