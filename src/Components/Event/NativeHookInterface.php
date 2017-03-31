@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Configurations\WordPress\Event;
+namespace FS\Components\Event;
 
 interface NativeHookInterface
 {

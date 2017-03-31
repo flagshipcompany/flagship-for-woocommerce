@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Configurations\WordPress\Event\Listener;
+namespace FS\Components\Event\Listener;
 
 class ShippingZoneMethodOptions extends \FS\Components\AbstractComponent implements \FS\Context\ApplicationListenerInterface, \FS\Configurations\WordPress\Event\NativeHookInterface
 {

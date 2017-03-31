@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Configurations\WordPress\Event\Listener;
+namespace FS\Components\Event\Listener;
 
 class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Context\ApplicationListenerInterface, \FS\Configurations\WordPress\Event\NativeHookInterface
 {
@@ -100,7 +100,6 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
         }, 10, 1);
 
         \add_action('manage_flagship_pickup_posts_custom_column', function ($column, $post_id) use ($context) {
-
             switch ($column) {
                 case 'order_ids':
                     $order_ids = get_post_meta($post_id, 'order_ids', true);
@@ -165,14 +164,12 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
 
                     if (!$cancelled) {
                         ?>
-                    <button class="button pickup-void" data-checkbox-id="<?php echo 'cb-select-'.$post_id;
-                        ?>">Void</button>
+                    <button class="button pickup-void" data-checkbox-id="<?php echo 'cb-select-'.$post_id; ?>">Void</button>
                     <?php
 
                     } else {
                         ?>
-                    <button class="button button-primary pickup-reschedule" data-checkbox-id="<?php echo 'cb-select-'.$post_id;
-                        ?>">Reschedule</button>
+                    <button class="button button-primary pickup-reschedule" data-checkbox-id="<?php echo 'cb-select-'.$post_id; ?>">Reschedule</button>
                     <?php
 
                     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Configurations\WordPress\Event\Listener;
+namespace FS\Components\Event\Listener;
 
 use FS\Injection\I;
 

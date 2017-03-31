@@ -4,12 +4,17 @@ namespace FS;
 
 use FS\Injection\I;
 use FS\Components\Factory\ConfigurationInterface;
+use FS\Components\Event\Listener;
 use FS\Configurations\WordPress;
-use FS\Configurations\WordPress\Event\Listener;
 use FS\Context\ConfigurableApplicationContextInterface as Context;
 
 class Configurator implements ConfigurationInterface
 {
+    /**
+     * configure application context.
+     *
+     * @param Context $ctx
+     */
     public function configure(Context $ctx)
     {
         // initialize singletons
