@@ -38,8 +38,7 @@ class ApplicationEventCaster extends AbstractComponent implements ComponentPostC
      */
     public function castEvent(Event $event)
     {
-        $reflected = new \ReflectionObject($event);
-        $eventName = $reflected->getName();
+        $eventName = $event->getType();
 
         if (isset($this->listeners[$eventName])) {
             return $this->invokeListener($this->listeners[$eventName], $event);

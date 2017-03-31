@@ -3,21 +3,25 @@
 namespace FS\Components\Event\Listener;
 
 use FS\Injection\I;
+use FS\Components\AbstractComponent;
+use FS\Context\ApplicationListenerInterface;
+use FS\Components\Event\NativeHookInterface;
+use FS\Context\ConfigurableApplicationContextInterface as Context;
+use FS\Context\ApplicationEventInterface as Event;
+use FS\Components\Event\ApplicationEvent;
 
-class ShippingMethodSetup extends \FS\Components\AbstractComponent implements \FS\Context\ApplicationListenerInterface, \FS\Configurations\WordPress\Event\NativeHookInterface
+class ShippingMethodSetup extends AbstractComponent implements ApplicationListenerInterface, NativeHookInterface
 {
     public function getSupportedEvent()
     {
-        return 'FS\\Configurations\\WordPress\\Event\\ShippingMethodSetupEvent';
+        return ApplicationEvent::SHIPPING_METHOD_SETUP;
     }
 
-    public function onApplicationEvent(
-        \FS\Context\ApplicationEventInterface $event,
-        \FS\Context\ConfigurableApplicationContextInterface $context
-    ) {
+    public function onApplicationEvent(Event $event, Context $context)
+    {
         $methods = $event->getInputs();
 
-        $settings = $context->getComponent('\\FS\\Components\\Settings');
+        $settings = $context->_('\\FS\\Components\\Settings');
         $id = $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'];
 
         if (\version_compare(WC()->version, '2.6', '>=')) {
@@ -31,10 +35,10 @@ class ShippingMethodSetup extends \FS\Components\AbstractComponent implements \F
         return $methods;
     }
 
-    public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)
+    public function publishNativeHook(Context $context)
     {
         \add_filter('woocommerce_shipping_methods', function ($methods) use ($context) {
-            $event = new \FS\Configurations\WordPress\Event\ShippingMethodSetupEvent();
+            $event = new ApplicationEvent(ApplicationEvent::SHIPPING_METHOD_SETUP);
             $event->setInputs($methods);
 
             return $context->publishEvent($event);

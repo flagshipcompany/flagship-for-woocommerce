@@ -2,21 +2,26 @@
 
 namespace FS\Components\Event\Listener;
 
-class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Context\ApplicationListenerInterface, \FS\Configurations\WordPress\Event\NativeHookInterface
+use FS\Components\AbstractComponent;
+use FS\Context\ApplicationListenerInterface;
+use FS\Components\Event\NativeHookInterface;
+use FS\Context\ConfigurableApplicationContextInterface as Context;
+use FS\Context\ApplicationEventInterface as Event;
+use FS\Components\Event\ApplicationEvent;
+
+class PickupPostType extends AbstractComponent implements ApplicationListenerInterface, NativeHookInterface
 {
     public function getSupportedEvent()
     {
-        return 'FS\\Configurations\\WordPress\\Event\\PickupPostTypeEvent';
+        return ApplicationEvent::PICKUP_POST_TYPE;
     }
 
-    public function onApplicationEvent(
-        \FS\Context\ApplicationEventInterface $event,
-        \FS\Context\ConfigurableApplicationContextInterface $context
-    ) {
+    public function onApplicationEvent(Event $event, Context $context)
+    {
         $type = $event->getInput('type');
         $postIds = $event->getInput('postIds');
-        $pickup = $context->getComponent('\\FS\\Configurations\\WordPress\\Shipping\\Pickup\\PickupController');
-        $factory = $context->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory');
+        $pickup = $context->_('\\FS\\Configurations\\WordPress\\Shipping\\Pickup\\PickupController');
+        $factory = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory');
 
         switch ($type) {
             case 'schedule':
@@ -34,7 +39,7 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
         }
     }
 
-    public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)
+    public function publishNativeHook(Context $context)
     {
         \register_post_type(
             'flagship_pickup',
@@ -136,9 +141,9 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
                     break;
                 case 'shipping_address':
                     $factory = $context
-                        ->getComponent('\\FS\\Components\\Shipping\\RequestBuilder\\Factory\\RequestBuilderFactory');
+                        ->_('\\FS\\Components\\Shipping\\RequestBuilder\\Factory\\RequestBuilderFactory');
                     $options = $context
-                        ->getComponent('\\FS\\Components\\Options');
+                        ->_('\\FS\\Components\\Options');
 
                     $builder = $factory->getShipperAddressBuilder();
 
@@ -254,7 +259,7 @@ class PickupPostType extends \FS\Components\AbstractComponent implements \FS\Con
             $action = $wp_list_table->current_action();
             $postIds = array_map('absint', (array) $_REQUEST['post']);
 
-            $event = new \FS\Configurations\WordPress\Event\PickupPostTypeEvent();
+            $event = new ApplicationEvent(ApplicationEvent::PICKUP_POST_TYPE);
 
             switch ($action) {
                 case 'flagship_shipping_pickup_schedule':

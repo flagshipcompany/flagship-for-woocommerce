@@ -2,17 +2,21 @@
 
 namespace FS\Components\Event\Listener;
 
-class CalculateShipping extends \FS\Components\AbstractComponent implements \FS\Context\ApplicationListenerInterface
+use FS\Components\AbstractComponent;
+use FS\Context\ApplicationListenerInterface;
+use FS\Context\ConfigurableApplicationContextInterface as Context;
+use FS\Context\ApplicationEventInterface as Event;
+use FS\Components\Event\ApplicationEvent;
+
+class CalculateShipping extends AbstractComponent implements ApplicationListenerInterface
 {
     public function getSupportedEvent()
     {
-        return 'FS\\Configurations\\WordPress\\Event\\CalculateShippingEvent';
+        return ApplicationEvent::CALCULATE_SHIPPING;
     }
 
-    public function onApplicationEvent(
-        \FS\Context\ApplicationEventInterface $event,
-        \FS\Context\ConfigurableApplicationContextInterface $context
-    ) {
+    public function onApplicationEvent(Event $event, Context $context)
+    {
         $package = $event->getInput('package');
         $method = $event->getInput('method');
 

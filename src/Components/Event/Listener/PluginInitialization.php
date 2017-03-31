@@ -2,11 +2,16 @@
 
 namespace FS\Components\Event\Listener;
 
-class PluginInitialization extends \FS\Components\AbstractComponent implements \FS\Context\ApplicationListenerInterface, \FS\Configurations\WordPress\Event\NativeHookInterface
+use FS\Components\AbstractComponent;
+use FS\Context\ApplicationListenerInterface;
+use FS\Components\Event\NativeHookInterface;
+use FS\Components\Event\ApplicationEvent;
+
+class PluginInitialization extends AbstractComponent implements ApplicationListenerInterface, NativeHookInterface
 {
     public function getSupportedEvent()
     {
-        return false;
+        return ApplicationEvent::PLUGIN_INITIALIZATION;
     }
 
     public function onApplicationEvent(

@@ -2,23 +2,28 @@
 
 namespace FS\Components\Event\Listener;
 
-class ShippingZoneMethodOptions extends \FS\Components\AbstractComponent implements \FS\Context\ApplicationListenerInterface, \FS\Configurations\WordPress\Event\NativeHookInterface
+use FS\Components\AbstractComponent;
+use FS\Context\ApplicationListenerInterface;
+use FS\Components\Event\NativeHookInterface;
+use FS\Context\ConfigurableApplicationContextInterface as Context;
+use FS\Context\ApplicationEventInterface as Event;
+use FS\Components\Event\ApplicationEvent;
+
+class ShippingZoneMethodOptions extends AbstractComponent implements ApplicationListenerInterface, NativeHookInterface
 {
     public function getSupportedEvent()
     {
-        return 'FS\\Configurations\\WordPress\\Event\\ShippingZoneMethodOptionsEvent';
+        return ApplicationEvent::SHIPPING_ZONE_METHOD_OPTIONS;
     }
 
-    public function onApplicationEvent(
-        \FS\Context\ApplicationEventInterface $event,
-        \FS\Context\ConfigurableApplicationContextInterface $context
-    ) {
+    public function onApplicationEvent(Event $event, Context $context)
+    {
         $fields = $event->getInput('fields');
 
-        $notifier = $context->getComponent('\\FS\\Components\\Notifier');
-        $factory = $context->getComponent('\\FS\\Components\\Validation\\Factory\\ValidatorFactory');
+        $notifier = $context->_('\\FS\\Components\\Notifier');
+        $factory = $context->_('\\FS\\Components\\Validation\\Factory\\ValidatorFactory');
         $validator = $factory->getValidator('Settings');
-        $request = $context->getComponent('\\FS\\Components\\Web\\RequestParam');
+        $request = $context->_('\\FS\\Components\\Web\\RequestParam');
 
         $fields = $validator->validate(
             $fields,
@@ -55,12 +60,12 @@ class ShippingZoneMethodOptions extends \FS\Components\AbstractComponent impleme
         return $fields;
     }
 
-    public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)
+    public function publishNativeHook(Context $context)
     {
-        $settings = $context->getComponent('\\FS\\Components\\Settings');
+        $settings = $context->_('\\FS\\Components\\Settings');
 
         \add_filter('woocommerce_shipping_'.$settings['FLAGSHIP_SHIPPING_PLUGIN_ID'].'_instance_settings_values', function ($fields, $method) use ($context) {
-            $event = new \FS\Configurations\WordPress\Event\ShippingZoneMethodOptionsEvent();
+            $event = new ApplicationEvent(ApplicationEvent::SHIPPING_ZONE_METHOD_OPTIONS);
             $event->setInputs(array(
                 'fields' => $fields,
                 'method' => $method,
@@ -70,7 +75,7 @@ class ShippingZoneMethodOptions extends \FS\Components\AbstractComponent impleme
         }, 10, 2);
 
         \add_filter('woocommerce_settings_api_sanitized_fields_'.$settings['FLAGSHIP_SHIPPING_PLUGIN_ID'], function ($fields) use ($context) {
-            $event = new \FS\Configurations\WordPress\Event\ShippingZoneMethodOptionsEvent();
+            $event = new ApplicationEvent(ApplicationEvent::SHIPPING_ZONE_METHOD_OPTIONS);
             $event->setInputs(array(
                 'fields' => $fields,
             ));

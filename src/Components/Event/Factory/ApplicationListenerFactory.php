@@ -11,7 +11,7 @@ class ApplicationListenerFactory extends AbstractComponent
         foreach ($listeners as $listener) {
             $reflected = new \ReflectionObject($listener);
 
-            if ($reflected->implementsInterface('\\FS\\Configurations\\WordPress\\Event\\NativeHookInterface')) {
+            if ($reflected->implementsInterface('\\FS\\Components\\Event\\NativeHookInterface')) {
                 $listener->publishNativeHook($this->getApplicationContext());
             }
 

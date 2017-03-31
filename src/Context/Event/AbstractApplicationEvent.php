@@ -2,7 +2,9 @@
 
 namespace FS\Context\Event;
 
-abstract class AbstractApplicationEvent implements \FS\Context\ApplicationEventInterface
+use FS\Context\ApplicationEventInterface;
+
+abstract class AbstractApplicationEvent implements ApplicationEventInterface
 {
     protected $inputs = null;
 

@@ -2,35 +2,40 @@
 
 namespace FS\Components\Event\Listener;
 
-class MetaboxOperations extends \FS\Components\AbstractComponent implements \FS\Context\ApplicationListenerInterface, \FS\Configurations\WordPress\Event\NativeHookInterface
+use FS\Components\AbstractComponent;
+use FS\Context\ApplicationListenerInterface;
+use FS\Components\Event\NativeHookInterface;
+use FS\Context\ConfigurableApplicationContextInterface as Context;
+use FS\Context\ApplicationEventInterface as Event;
+use FS\Components\Event\ApplicationEvent;
+
+class MetaboxOperations extends AbstractComponent implements ApplicationListenerInterface, NativeHookInterface
 {
     public function getSupportedEvent()
     {
-        return 'FS\\Configurations\\WordPress\\Event\\MetaboxOperationsEvent';
+        return ApplicationEvent::METABOX_OPERATIONS;
     }
 
-    public function onApplicationEvent(
-        \FS\Context\ApplicationEventInterface $event,
-        \FS\Context\ConfigurableApplicationContextInterface $context
-    ) {
+    public function onApplicationEvent(Event $event, Context $context)
+    {
         $order = $event->getInput('order');
 
         $metaBox = $context
-            ->getComponent('\\FS\\Configurations\\WordPress\\Shipping\\Shipment\\MetaboxController');
+            ->_('\\FS\\Configurations\\WordPress\\Shipping\\Shipment\\MetaboxController');
         $rp = $context
-            ->getComponent('\\FS\\Components\\Web\\RequestParam');
+            ->_('\\FS\\Components\\Web\\RequestParam');
         $notifier = $context
-            ->getComponent('\\FS\\Components\\Notifier')
+            ->_('\\FS\\Components\\Notifier')
             ->scope('shop_order', array('id' => $order->getId()));
 
         // load instance shipping method used by this shopping order
         $service = $order->getShippingService();
 
         $options = $context
-            ->getComponent('\\FS\\Components\\Options')
+            ->_('\\FS\\Components\\Options')
             ->sync($service['instance_id'] ? $service['instance_id'] : false);
         $context
-            ->getComponent('\\FS\\Components\\Http\\Client')
+            ->_('\\FS\\Components\\Http\\Client')
             ->setToken($options->get('token'));
 
         switch ($rp->request->get('flagship_shipping_shipment_action')) {
@@ -52,11 +57,11 @@ class MetaboxOperations extends \FS\Components\AbstractComponent implements \FS\
         }
     }
 
-    public function publishNativeHook(\FS\Context\ConfigurableApplicationContextInterface $context)
+    public function publishNativeHook(Context $context)
     {
         \add_action('woocommerce_process_shop_order_meta', function ($postId, $post) use ($context) {
-            $event = new \FS\Configurations\WordPress\Event\MetaboxOperationsEvent();
-            $order = $context->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory')->getModel('order', array(
+            $event = new ApplicationEvent(ApplicationEvent::METABOX_OPERATIONS);
+            $order = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory')->getModel('order', array(
                 'id' => $postId,
             ));
 
