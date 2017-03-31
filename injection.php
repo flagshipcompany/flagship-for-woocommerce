@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 return [
-    'version' => '1.1.4',
+    'version' => '1.1.5',
     'autoload' => [
         'psr-4' => [
             'FS\\' => 'src/',
@@ -14,7 +14,6 @@ return [
     ],
     'extra' => [
         'BASENAME' => plugin_basename(__DIR__.'/flagship-for-woocommerce.php'),
-        'GRANT_ACCESS_VERIFICATION_ENDPOINT' => 'https://test-smartshipng.flagshipcompany.com/webhook/grant-access',
         'DIRECTORY' => [
             'ASSETS' => '/assets',
             'PUBLIC_URL' => plugin_dir_url(__FILE__),

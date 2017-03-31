@@ -16,21 +16,21 @@ class CalculateShipping extends \FS\Components\AbstractComponent implements \FS\
         $package = $event->getInput('package');
         $method = $event->getInput('method');
 
-        $settings = $context->getComponent('\\FS\\Components\\Settings');
+        $settings = $context->_('\\FS\\Components\\Settings');
         $options = $context
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
         $command = $context
-            ->getComponent('\\FS\\Components\\Shipping\\Command');
+            ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingCartRateRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingCartRateRequestFactory');
         $client = $context
-            ->getComponent('\\FS\\Components\\Http\\Client')
+            ->_('\\FS\\Components\\Http\\Client')
             ->setToken($options->get('token'));
         $notifier = $context
-            ->getComponent('\\FS\\Components\\Notifier')
+            ->_('\\FS\\Components\\Notifier')
             ->scope('cart');
         $rateProcessorFactory = $context
-            ->getComponent('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
+            ->_('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
 
         // when store owner disable front end warning for their customer
         if ($options->equal('disable_api_warning', 'yes')) {

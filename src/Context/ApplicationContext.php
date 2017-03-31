@@ -3,10 +3,9 @@
 namespace FS\Context;
 
 use FS\Container;
-use FS\Components\Factory\ComponentFactoryInterface;
 use FS\Components\Factory\ConfigurationInterface;
 
-class ApplicationContext extends AbstractApplicationContext implements ConfigurableApplicationContextInterface, ComponentFactoryInterface
+class ApplicationContext extends AbstractApplicationContext
 {
     public static $instance;
 
@@ -15,31 +14,14 @@ class ApplicationContext extends AbstractApplicationContext implements Configura
         $this->_('\\FS\\Components\\Debugger')->log($data);
     }
 
-    public static function initialize(Container $container, ConfigurationInterface $configuration)
+    public static function initialize(Container $container, ConfigurationInterface $configurator)
     {
         $ctx = self::getInstance();
 
         $ctx->setContainer($container);
-        $ctx->setConfiguration($configuration);
+        $ctx->setConfiguration($configurator);
 
-        foreach ([
-            '\\FS\\Components\\Web\\RequestParam',
-            '\\FS\\Components\\Settings',
-            '\\FS\\Components\\Options',
-            '\\FS\\Components\\Debugger',
-            '\\FS\\Components\\Html',
-            '\\FS\\Components\\Viewer',
-            '\\FS\\Components\\Url',
-            '\\FS\\Components\\Notifier',
-            '\\FS\\Components\\Event\\ApplicationEventCaster',
-            '\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory',
-            '\\FS\\Components\\Http\\Client',
-        ] as $class) {
-            $ctx->_($class);
-        }
-
-        $ctx->_('\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory')
-            ->addApplicationListeners($ctx);
+        $ctx->configure($configurator);
 
         return $ctx;
     }

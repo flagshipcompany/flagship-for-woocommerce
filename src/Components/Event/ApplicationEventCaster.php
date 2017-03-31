@@ -2,35 +2,59 @@
 
 namespace FS\Components\Event;
 
-class ApplicationEventCaster extends \FS\Components\AbstractComponent implements \FS\Components\Factory\ComponentPostConstructInterface
+use FS\Components\AbstractComponent;
+use FS\Components\Factory\ComponentPostConstructInterface;
+use FS\Context\ApplicationListenerInterface as Listener;
+use FS\Context\ApplicationEventInterface as Event;
+use FS\Container;
+
+class ApplicationEventCaster extends AbstractComponent implements ComponentPostConstructInterface
 {
     protected $listeners;
 
     public function postConstruct()
     {
-        $this->listener = new \FS\Container();
+        $this->listeners = new Container();
     }
 
-    public function addApplicationListener(\FS\Context\ApplicationListenerInterface $listener)
+    /**
+     * register event listener.
+     *
+     * @param Listener $listener
+     */
+    public function addApplicationListener(Listener $listener)
     {
         $this->listeners[$listener->getSupportedEvent()] = $listener;
 
         return $this;
     }
 
-    public function castEvent(\FS\Context\ApplicationEventInterface $event)
+    /**
+     * try to associate event and event listener.
+     *
+     * @param Event $event
+     *
+     * @return mixed
+     */
+    public function castEvent(Event $event)
     {
         $reflected = new \ReflectionObject($event);
         $eventName = $reflected->getName();
 
-        foreach ($this->listeners as $listener) {
-            if ($eventName == $listener->getSupportedEvent()) {
-                return $this->invokeListener($listener, $event);
-            }
+        if (isset($this->listeners[$eventName])) {
+            return $this->invokeListener($this->listeners[$eventName], $event);
         }
     }
 
-    protected function invokeListener(\FS\Context\ApplicationListenerInterface $listener, \FS\Context\ApplicationEventInterface $event)
+    /**
+     * invoke event listener.
+     *
+     * @param Listener $listener
+     * @param Event    $event
+     *
+     * @return mixed
+     */
+    protected function invokeListener(Listener $listener, Event $event)
     {
         return $listener
             ->setApplicationContext($this->getApplicationContext())

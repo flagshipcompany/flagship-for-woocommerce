@@ -1,11 +1,51 @@
 <?php
 
-namespace FS\Configurations\WordPress;
+namespace FS;
 
 use FS\Injection\I;
+use FS\Components\Factory\ConfigurationInterface;
+use FS\Configurations\WordPress;
+use FS\Configurations\WordPress\Event\Listener;
+use FS\Context\ConfigurableApplicationContextInterface as Context;
 
-class Configuration implements \FS\Components\Factory\ConfigurationInterface
+class Configurator implements ConfigurationInterface
 {
+    public function configure(Context $ctx)
+    {
+        // initialize singletons
+        foreach ([
+            '\\FS\\Components\\Web\\RequestParam',
+            '\\FS\\Components\\Settings',
+            '\\FS\\Components\\Options',
+            '\\FS\\Components\\Debugger',
+            '\\FS\\Components\\Html',
+            '\\FS\\Components\\Viewer',
+            '\\FS\\Components\\Url',
+            '\\FS\\Components\\Notifier',
+            '\\FS\\Components\\Event\\ApplicationEventCaster',
+            '\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory',
+            '\\FS\\Components\\Http\\Client',
+        ] as $class) {
+            $ctx->_($class);
+        }
+
+        // register events
+        $ctx->_('\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory')
+            ->addApplicationListeners([
+                // normal
+                new Listener\PluginInitialization(),
+                new Listener\MetaboxOperations(),
+                new Listener\MetaboxDisplay(),
+                new Listener\ShippingMethodSetup(),
+                new Listener\ShippingZoneMethodOptions(),
+                new Listener\CalculateShipping(),
+                // admin
+                new Listener\PluginPageSettingLink(),
+                new Listener\PickupPostType(),
+                new Listener\ShippingZoneMethodAdd(),
+            ]);
+    }
+
     public function getOptions()
     {
         $options = new \FS\Components\Options();
@@ -92,7 +132,7 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
     public function getRequestBuilderFactory()
     {
         $factory = new \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory();
-        $factory->setFactoryDriver(new RequestBuilder\Factory\Driver());
+        $factory->setFactoryDriver(new WordPress\RequestBuilder\Factory\Driver());
 
         return $factory;
     }
@@ -100,7 +140,7 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
     public function getRateProcessorFactory()
     {
         $factory = new \FS\Components\Shipping\RateProcessor\Factory\RateProcessorFactory();
-        $factory->setFactoryDriver(new RateProcessor\Factory\Driver());
+        $factory->setFactoryDriver(new WordPress\RateProcessor\Factory\Driver());
 
         return $factory;
     }
@@ -108,7 +148,7 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
     public function getValidatorFactory()
     {
         $factory = new \FS\Components\Validation\Factory\ValidatorFactory();
-        $factory->setFactoryDriver(new Validation\Factory\Driver());
+        $factory->setFactoryDriver(new WordPress\Validation\Factory\Driver());
 
         return $factory;
     }
@@ -116,7 +156,7 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
     public function getShopFactory()
     {
         $factory = new \FS\Components\Shop\Factory\ShopFactory();
-        $factory->setFactoryDriver(new Shop\Factory\Driver());
+        $factory->setFactoryDriver(new WordPress\Shop\Factory\Driver());
 
         return $factory;
     }
@@ -124,18 +164,10 @@ class Configuration implements \FS\Components\Factory\ConfigurationInterface
     public function getViewFactory()
     {
         $factory = new \FS\Components\View\Factory\ViewFactory();
-        $factory->setFactoryDriver(new View\Factory\Driver());
+        $factory->setFactoryDriver(new WordPress\View\Factory\Driver());
 
         return $factory;
     }
-
-    // public function getApplicationListenerFactory()
-    // {
-    //     $factory = new \FS\Components\Event\Factory\ApplicationListenerFactory();
-    //     $factory->setApplicationListenerFactoryDriver(new Event\ApplicationListenerFactory());
-
-    //     return $factory;
-    // }
 
     public function getRateProcessor()
     {

@@ -3,6 +3,7 @@
 namespace FS\Context;
 
 use FS\Components\Factory\ComponentFactoryInterface;
+use FS\Components\Factory\ConfigurationInterface;
 
 abstract class AbstractApplicationContext implements
     ConfigurableApplicationContextInterface,
@@ -40,7 +41,7 @@ abstract class AbstractApplicationContext implements
         return $this->container;
     }
 
-    public function setConfiguration(\FS\Components\Factory\ConfigurationInterface $configuration)
+    public function setConfiguration(ConfigurationInterface $configuration)
     {
         $this->configuration = $configuration;
 
@@ -50,6 +51,11 @@ abstract class AbstractApplicationContext implements
     public function getConfiguration()
     {
         return $this->configuration;
+    }
+
+    public function configure(ConfigurationInterface $configurator)
+    {
+        $configurator->configure($this);
     }
 
     public function getComponent($class)

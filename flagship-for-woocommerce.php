@@ -28,7 +28,7 @@ require __DIR__.'/src/Injection/I.php';
 use FS\Injection\I;
 use FS\Context\ApplicationContext as App;
 use FS\Container;
-use FS\Configurations\WordPress\Configuration;
+use FS\Configurator;
 
 I::boot(__DIR__);
 
@@ -37,7 +37,7 @@ define('FLAGSHIP_SHIPPING_TEXT_DOMAIN', I::textDomain());
 
 // init app
 I::group(function () {
-    App::initialize(new Container(), new Configuration());
+    App::initialize(new Container(), new Configurator());
 }, [
     'dependencies' => ['woocommerce/woocommerce.php'],
 ]);
