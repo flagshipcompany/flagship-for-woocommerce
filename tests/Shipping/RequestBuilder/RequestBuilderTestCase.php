@@ -25,7 +25,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
 
     public function testShipperAddressRequestBuilder()
     {
-        $builder = new \FS\Configurations\WordPress\RequestBuilder\ShipperAddressBuilder();
+        $builder = new \FS\Components\Shipping\RequestBuilder\ShipperAddressBuilder();
         $options = $this->ctx->getComponent('\\FS\\Components\\Options');
 
         $this->assertSame(array(
@@ -43,7 +43,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
 
     public function testShoppingCartPackageItemsBuilder()
     {
-        $builder = new \FS\Configurations\WordPress\RequestBuilder\Cart\PackageItems\FallbackBuilder();
+        $builder = new \FS\Components\Shipping\RequestBuilder\Cart\PackageItems\FallbackBuilder();
 
         $this->assertSame(array(
             'items' => array(
@@ -66,7 +66,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
 
     public function testShoppingCartReceiverAddressBuilder()
     {
-        $builder = new \FS\Configurations\WordPress\RequestBuilder\Cart\ReceiverAddressBuilder();
+        $builder = new \FS\Components\Shipping\RequestBuilder\Cart\ReceiverAddressBuilder();
 
         $this->assertSame(array(
             'country' => 'CA',
@@ -81,7 +81,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
 
     public function testShopOrderPackageItemsBuilder()
     {
-        $builder = new \FS\Configurations\WordPress\RequestBuilder\Order\PackageItems\FallbackBuilder();
+        $builder = new \FS\Components\Shipping\RequestBuilder\Order\PackageItems\FallbackBuilder();
 
         $this->assertSame(array(
             'items' => array(
@@ -103,7 +103,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
 
     public function testShopOrderReceiverAddressBuilder()
     {
-        $builder = new \FS\Configurations\WordPress\RequestBuilder\Order\ReceiverAddressBuilder();
+        $builder = new \FS\Components\Shipping\RequestBuilder\Order\ReceiverAddressBuilder();
 
         $this->assertSame(array(
             'name' => 'WooCompany',

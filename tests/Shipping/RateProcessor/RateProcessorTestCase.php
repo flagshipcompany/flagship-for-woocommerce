@@ -20,7 +20,7 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
         $options->set('disable_courier_purolator', 'yes');
         $options->set('disable_courier_fedex', 'yes');
 
-        $processor = new \FS\Configurations\WordPress\RateProcessor\CourierExcludedRateProcessor();
+        $processor = new \FS\Components\Shipping\RateProcessor\CourierExcludedRateProcessor();
         $rates = $processor->getProcessedRates($this->flagshipQuoteRates, array(
             'excluded' => array_filter(array('fedex', 'ups', 'purolator'), function ($courier) use ($options) {
                 return $options->not_equal('disable_courier_'.$courier, 'no');
@@ -55,7 +55,7 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
         $options->set('allow_overnight_rates', 'no');
         $options->set('allow_standard_rates', 'no');
 
-        $processor = new \FS\Configurations\WordPress\RateProcessor\EnabledRateProcessor();
+        $processor = new \FS\Components\Shipping\RateProcessor\EnabledRateProcessor();
         $rates = $processor->getProcessedRates($this->flagshipQuoteRates, array(
             'enabled' => array(
                 'standard' => ($options->get('allow_standard_rates') == 'yes'),
@@ -83,7 +83,7 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
         $this->assertEquals(6, count($rates));
 
         foreach ($rates as $rate) {
-            $this->assertTrue(in_array(\FS\Configurations\WordPress\RateProcessor\EnabledRateProcessor::$mapping[$rate['service']['flagship_code']], $enabled));
+            $this->assertTrue(in_array(\FS\Components\Shipping\RateProcessor\EnabledRateProcessor::$mapping[$rate['service']['flagship_code']], $enabled));
         }
     }
 
@@ -94,7 +94,7 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
 
         $options->set('offer_rates', 'all');
 
-        $processor = new \FS\Configurations\WordPress\RateProcessor\XNumberOfBestRateProcessor();
+        $processor = new \FS\Components\Shipping\RateProcessor\XNumberOfBestRateProcessor();
         $allRates = $processor->getProcessedRates($this->flagshipQuoteRates, array(
             'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
             'offered' => $options->get('offer_rates', 'all'),
@@ -104,7 +104,7 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
 
         $options->set('offer_rates', 'cheapest');
 
-        $processor = new \FS\Configurations\WordPress\RateProcessor\XNumberOfBestRateProcessor();
+        $processor = new \FS\Components\Shipping\RateProcessor\XNumberOfBestRateProcessor();
         $rates = $processor->getProcessedRates($this->flagshipQuoteRates, array(
             'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
             'offered' => $options->get('offer_rates', 'all'),
@@ -114,7 +114,7 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
 
         $options->set('offer_rates', '5');
 
-        $processor = new \FS\Configurations\WordPress\RateProcessor\XNumberOfBestRateProcessor();
+        $processor = new \FS\Components\Shipping\RateProcessor\XNumberOfBestRateProcessor();
         $rates = $processor->getProcessedRates($this->flagshipQuoteRates, array(
             'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
             'offered' => $options->get('offer_rates', 'all'),
