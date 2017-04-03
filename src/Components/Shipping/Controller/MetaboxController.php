@@ -1,12 +1,13 @@
 <?php
 
-namespace FS\Components\Shipping\Shipment;
+namespace FS\Components\Shipping\Controller;
 
 use FS\Components\AbstractComponent;
+use FS\Components\Shop\OrderInterface;
 
 class MetaboxController extends AbstractComponent
 {
-    public function display(\FS\Components\Shop\OrderInterface $order)
+    public function display(OrderInterface $order)
     {
         $notifier = $this->getApplicationContext()
             ->_('\\FS\\Components\\Notifier');
@@ -53,7 +54,7 @@ class MetaboxController extends AbstractComponent
         $view->render($payload);
     }
 
-    public function createShipment(\FS\Components\Shop\OrderInterface $order)
+    public function createShipment(OrderInterface $order)
     {
         $options = $this->getApplicationContext()
             ->_('\\FS\\Components\\Options');
@@ -100,7 +101,7 @@ class MetaboxController extends AbstractComponent
         $order['flagship_shipping_raw'] = $confirmed;
     }
 
-    public function voidShipment(\FS\Components\Shop\OrderInterface $order)
+    public function voidShipment(OrderInterface $order)
     {
         $options = $this->getApplicationContext()
             ->_('\\FS\\Components\\Options');
@@ -137,7 +138,7 @@ class MetaboxController extends AbstractComponent
         unset($order['flagship_shipping_raw']);
     }
 
-    public function requoteShipment(\FS\Components\Shop\OrderInterface $order)
+    public function requoteShipment(OrderInterface $order)
     {
         $options = $this->getApplicationContext()
             ->_('\\FS\\Components\\Options');
@@ -192,7 +193,7 @@ class MetaboxController extends AbstractComponent
         }
     }
 
-    public function schedulePickup(\FS\Components\Shop\OrderInterface $order)
+    public function schedulePickup(OrderInterface $order)
     {
         $options = $this->getApplicationContext()
             ->_('\\FS\\Components\\Options');
@@ -234,7 +235,7 @@ class MetaboxController extends AbstractComponent
         $order['flagship_shipping_raw'] = $shipment->jsonSerialize();
     }
 
-    public function voidPickup(\FS\Components\Shop\OrderInterface $order)
+    public function voidPickup(OrderInterface $order)
     {
         $options = $this->getApplicationContext()
             ->_('\\FS\\Components\\Options');

@@ -9,17 +9,17 @@ class ApiBuilder extends FallbackBuilder implements RequestBuilderInterface
     public function makePackageItems($productItems, $payload)
     {
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
         $settings = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Settings');
+            ->_('\\FS\\Components\\Settings');
         $client = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Http\\Client');
+            ->_('\\FS\\Components\\Http\\Client');
         $command = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Command');
+            ->_('\\FS\\Components\\Shipping\\Command');
         $notifier = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Notifier');
+            ->_('\\FS\\Components\\Notifier');
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPackingRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPackingRequestFactory');
 
         $response = $command->pack(
             $client,

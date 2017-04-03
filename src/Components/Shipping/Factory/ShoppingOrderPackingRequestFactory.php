@@ -2,11 +2,13 @@
 
 namespace FS\Components\Shipping\Factory;
 
+use FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory;
+
 class ShoppingOrderPackingRequestFactory extends AbstractRequestFactory implements FormattedRequestInterface
 {
-    public function makeRequest(FormattedRequestInterface $request, \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory $factory)
+    public function makeRequest(FormattedRequestInterface $request, RequestBuilderFactory $factory)
     {
-        $request->setRequestPart(
+        $request->add(
             'items',
             $this->makeRequestPart(
                 $factory->getBuilder('ProductItem', array(
@@ -16,7 +18,7 @@ class ShoppingOrderPackingRequestFactory extends AbstractRequestFactory implemen
             )
         );
 
-        $request->setRequestPart(
+        $request->add(
             'boxes',
             $this->makeRequestPart(
                 $factory->getBuilder('PackageBox', array(
@@ -26,7 +28,7 @@ class ShoppingOrderPackingRequestFactory extends AbstractRequestFactory implemen
             )
         );
 
-        $request->setRequestPart(
+        $request->add(
             'units',
             'imperial'
         );

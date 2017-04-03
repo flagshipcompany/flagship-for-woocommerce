@@ -2,11 +2,13 @@
 
 namespace FS\Components\Shipping\Factory;
 
+use FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory;
+
 class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory implements FormattedRequestInterface
 {
-    public function makeRequest(FormattedRequestInterface $request, \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory $factory)
+    public function makeRequest(FormattedRequestInterface $request, RequestBuilderFactory $factory)
     {
-        $request->setRequestPart(
+        $request->add(
             'from',
             $this->makeRequestPart(
                 $factory->getShipperAddressBuilder(array(
@@ -23,12 +25,12 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
             $this->payload
         );
 
-        $request->setRequestPart(
+        $request->add(
             'to',
             $toAddress
         );
 
-        $request->setRequestPart(
+        $request->add(
             'packages',
             $this->makeRequestPart(
                 $factory->getBuilder('PackageItems', array(
@@ -39,14 +41,14 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
             )
         );
 
-        $request->setRequestPart(
+        $request->add(
             'payment',
             array(
                 'payer' => 'F',
             )
         );
 
-        $request->setRequestPart(
+        $request->add(
             'service',
             $this->makeRequestPart(
                 $factory->getShippingServiceBuilder(array(
@@ -56,7 +58,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
             )
         );
 
-        $request->setRequestPart(
+        $request->add(
             'options',
             $this->makeRequestPart(
                 $factory->getBuilder('ShippingOptions', array(
@@ -78,9 +80,9 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
             $this->payload + $request->getRequest()
         );
 
-        $request->setRequestPart('sold_to', $ci['sold_to']);
-        $request->setRequestPart('inquiry', $ci['inquiry']);
-        $request->setRequestPart('declared_items', $ci['declared_items']);
+        $request->add('sold_to', $ci['sold_to']);
+        $request->add('inquiry', $ci['inquiry']);
+        $request->add('declared_items', $ci['declared_items']);
 
         return $request;
     }

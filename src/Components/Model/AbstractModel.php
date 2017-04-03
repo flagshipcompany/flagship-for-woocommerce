@@ -2,7 +2,9 @@
 
 namespace FS\Components\Model;
 
-abstract class AbstractModel extends \FS\Components\AbstractComponent implements \ArrayAccess, \JsonSerializable
+use FS\Components\AbstractComponent;
+
+abstract class AbstractModel extends AbstractComponent implements \ArrayAccess, \JsonSerializable
 {
     protected $container = array();
 

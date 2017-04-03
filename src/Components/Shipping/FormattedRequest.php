@@ -6,7 +6,7 @@ class FormattedRequest implements Factory\FormattedRequestInterface
 {
     protected $request;
 
-    public function setRequestPart($key, $data)
+    public function add($key, $data)
     {
         $this->request[$key] = $data;
     }

@@ -20,7 +20,7 @@ class PickupPostType extends AbstractComponent implements ApplicationListenerInt
     {
         $type = $event->getInput('type');
         $postIds = $event->getInput('postIds');
-        $pickup = $context->_('\\FS\\Components\\Shipping\\Pickup\\PickupController');
+        $pickup = $context->_('\\FS\\Components\\Shipping\\Controller\\PickupController');
         $factory = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory');
 
         switch ($type) {

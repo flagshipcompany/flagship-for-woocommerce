@@ -2,11 +2,13 @@
 
 namespace FS\Components\Shipping\Factory;
 
+use FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory;
+
 class ShoppingOrderRateRequestFactory extends AbstractRequestFactory implements FormattedRequestInterface
 {
-    public function makeRequest(FormattedRequestInterface $request, \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory $factory)
+    public function makeRequest(FormattedRequestInterface $request, RequestBuilderFactory $factory)
     {
-        $request->setRequestPart(
+        $request->add(
             'from',
             $this->makeRequestPart(
                 $factory->getShipperAddressBuilder(array(
@@ -23,12 +25,12 @@ class ShoppingOrderRateRequestFactory extends AbstractRequestFactory implements 
             $this->payload
         );
 
-        $request->setRequestPart(
+        $request->add(
             'to',
             $toAddress
         );
 
-        $request->setRequestPart(
+        $request->add(
             'packages',
             $this->makeRequestPart(
                 $factory->getBuilder('PackageItems', array(
@@ -39,7 +41,7 @@ class ShoppingOrderRateRequestFactory extends AbstractRequestFactory implements 
             )
         );
 
-        $request->setRequestPart(
+        $request->add(
             'payment',
             array(
                 'payer' => 'F',
@@ -48,7 +50,7 @@ class ShoppingOrderRateRequestFactory extends AbstractRequestFactory implements 
 
         // validate north american address
         if (in_array($toAddress['country'], array('CA', 'US'))) {
-            $request->setRequestpart(
+            $request->add(
                 'options',
                 array(
                     'address_correction' => true,

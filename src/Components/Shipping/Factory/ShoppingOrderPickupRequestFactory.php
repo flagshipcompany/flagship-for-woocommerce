@@ -4,9 +4,9 @@ namespace FS\Components\Shipping\Factory;
 
 class ShoppingOrderPickupRequestFactory extends AbstractRequestFactory implements FormattedRequestInterface
 {
-    public function makeRequest(FormattedRequestInterface $request, \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory $factory)
+    public function makeRequest(FormattedRequestInterface $request, RequestBuilderFactory $factory)
     {
-        $request->setRequestPart(
+        $request->add(
             'address',
             $this->makeRequestPart(
                 $factory->getShipperAddressBuilder(array(
@@ -16,17 +16,17 @@ class ShoppingOrderPickupRequestFactory extends AbstractRequestFactory implement
             )
         );
 
-        $request->setRequestPart(
+        $request->add(
             'courier',
             strtolower($this->payload['shipment']['service']['courier_name'])
         );
 
-        $request->setRequestPart(
+        $request->add(
             'boxes',
             count($this->payload['shipment']['packages'])
         );
 
-        $request->setRequestPart(
+        $request->add(
             'weight',
             array_reduce($this->payload['shipment']['packages'], function ($carry, $package) {
                 $carry += $package['weight'];
@@ -35,37 +35,37 @@ class ShoppingOrderPickupRequestFactory extends AbstractRequestFactory implement
             }, 0)
         );
 
-        $request->setRequestPart(
+        $request->add(
             'date',
             $this->payload['date']
         );
 
-        $request->setRequestPart(
+        $request->add(
             'from',
             $this->payload['options']->get('default_pickup_time_from', '09:00')
         );
 
-        $request->setRequestPart(
+        $request->add(
             'until',
             $this->payload['options']->get('default_pickup_time_to', '17:00')
         );
 
-        $request->setRequestPart(
+        $request->add(
             'units',
             'imperial'
         );
 
-        $request->setRequestPart(
+        $request->add(
             'location',
             'Reception'
         );
 
-        $request->setRequestPart(
+        $request->add(
             'to_country',
             $this->payload['order']->getNativeOrder()->shipping_country
         );
 
-        $request->setRequestPart(
+        $request->add(
             'is_ground',
             (strtolower($this->payload['shipment']['service']['courier_name']) == 'fedex' && strpos($this->payload['shipment']['service']['courier_code'], 'FedexGround') !== false)
         );

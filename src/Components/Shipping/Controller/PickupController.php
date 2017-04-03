@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Components\Shipping\Pickup;
+namespace FS\Components\Shipping\Controller;
 
 use FS\Components\AbstractComponent;
 
