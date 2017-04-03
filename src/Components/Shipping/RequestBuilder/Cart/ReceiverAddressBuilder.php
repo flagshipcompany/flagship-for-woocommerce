@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Configurations\WordPress\RequestBuilder\Cart;
+namespace FS\Components\Shipping\RequestBuilder\Cart;
 
 use FS\Components\AbstractComponent;
 use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;

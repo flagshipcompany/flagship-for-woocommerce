@@ -144,14 +144,6 @@ class Configurator implements ConfigurationInterface
         return $client;
     }
 
-    public function getRequestBuilderFactory()
-    {
-        $factory = new \FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory();
-        $factory->setFactoryDriver(new WordPress\RequestBuilder\Factory\Driver());
-
-        return $factory;
-    }
-
     public function getValidatorFactory()
     {
         $factory = new \FS\Components\Validation\Factory\ValidatorFactory();

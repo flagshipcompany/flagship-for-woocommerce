@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Configurations\WordPress\RateProcessor;
+namespace FS\Components\Shipping\RateProcessor;
 
 use FS\Components\AbstractComponent;
 

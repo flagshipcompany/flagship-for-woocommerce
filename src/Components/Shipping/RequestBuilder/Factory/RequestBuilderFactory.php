@@ -2,40 +2,61 @@
 
 namespace FS\Components\Shipping\RequestBuilder\Factory;
 
-class RequestBuilderFactory extends \FS\Components\AbstractComponent implements FactoryInterface, \FS\Components\Factory\DriverAwareInterface
-{
-    protected $driver;
+use FS\Components\AbstractComponent;
+use FS\Components\Shipping\RequestBuilder;
 
+class RequestBuilderFactory extends AbstractComponent implements FactoryInterface
+{
     public function getBuilder($resource, $context = array())
     {
-        return $this->getFactoryDriver()
-            ->getBuilder($resource, $context)
-            ->setApplicationContext($this->getApplicationContext());
+        switch ($resource) {
+            case 'ReceiverAddress':
+                if (isset($context['type']) && $context['type'] == 'cart') {
+                    return new RequestBuilder\Cart\ReceiverAddressBuilder();
+                } else {
+                    return new RequestBuilder\Order\ReceiverAddressBuilder();
+                }
+                // no break
+            case 'PackageBox':
+                return new RequestBuilder\PackageBoxBuilder();
+                // no break
+            case 'ProductItem':
+                return new RequestBuilder\ProductItemBuilder();
+                // no break
+            case 'PackageItems':
+                $isCart = isset($context['type']) && $context['type'] == 'cart';
+                $usePackingApi = isset($context['usePackingApi']) && $context['usePackingApi'];
+
+                if ($isCart && $usePackingApi) {
+                    return new RequestBuilder\Cart\PackageItems\ApiBuilder();
+                }
+
+                if ($isCart) {
+                    return new RequestBuilder\Cart\PackageItems\FallbackBuilder();
+                }
+
+                if (!$isCart && $usePackingApi) {
+                    return new RequestBuilder\Order\PackageItems\ApiBuilder();
+                }
+
+                return new RequestBuilder\Order\PackageItems\FallbackBuilder();
+
+                // no break
+            case 'ShippingOptions':
+                return new RequestBuilder\Order\ShippingOptionsBuilder();
+                // no break
+            case 'CommercialInvoice':
+                return new RequestBuilder\Order\CommercialInvoiceBuilder();
+        }
     }
 
     public function getShipperAddressBuilder($context = array())
     {
-        return $this->getFactoryDriver()
-            ->getShipperAddressBuilder($context)
-            ->setApplicationContext($this->getApplicationContext());
+        return new RequestBuilder\ShipperAddressBuilder();
     }
 
     public function getShippingServiceBuilder($context = array())
     {
-        return $this->getFactoryDriver()
-            ->getShippingServiceBuilder($context)
-            ->setApplicationContext($this->getApplicationContext());
-    }
-
-    public function setFactoryDriver(\FS\Components\Factory\DriverInterface $driver)
-    {
-        $this->driver = $driver;
-
-        return $this;
-    }
-
-    public function getFactoryDriver()
-    {
-        return $this->driver;
+        return new RequestBuilder\Order\ShippingServiceBuilder();
     }
 }

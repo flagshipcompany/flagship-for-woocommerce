@@ -1,9 +1,8 @@
 <?php
 
-namespace FS\Configurations\WordPress\RequestBuilder;
+namespace FS\Components\Shipping\RequestBuilder;
 
 use FS\Components\AbstractComponent;
-use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
 
 class ProductItemBuilder extends AbstractComponent implements RequestBuilderInterface
 {

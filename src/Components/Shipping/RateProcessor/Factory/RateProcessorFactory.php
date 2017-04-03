@@ -12,19 +12,19 @@ class RateProcessorFactory extends AbstractComponent implements FactoryInterface
     {
         switch ($resource) {
             case 'NativeRate':
-                return new \FS\Configurations\WordPress\RateProcessor\NativeRateProcessor();
+                return new \FS\Components\Shipping\RateProcessor\NativeRateProcessor();
                 // no break
             case 'EnabledRate':
-                return new \FS\Configurations\WordPress\RateProcessor\EnabledRateProcessor();
+                return new \FS\Components\Shipping\RateProcessor\EnabledRateProcessor();
                 // no break
             case 'CourierExcludedRate':
-                return new \FS\Configurations\WordPress\RateProcessor\CourierExcludedRateProcessor();
+                return new \FS\Components\Shipping\RateProcessor\CourierExcludedRateProcessor();
                 // no break
             case 'XNumberOfBestRate':
-                return new \FS\Configurations\WordPress\RateProcessor\XNumberOfBestRateProcessor();
+                return new \FS\Components\Shipping\RateProcessor\XNumberOfBestRateProcessor();
                 // no break
             case 'ProcessRate':
-                return new \FS\Configurations\WordPress\RateProcessor\ProcessRateProcessor();
+                return new \FS\Components\Shipping\RateProcessor\ProcessRateProcessor();
                 // no break
         }
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace FS\Configurations\WordPress\RequestBuilder\Cart\PackageItems;
+namespace FS\Components\Shipping\RequestBuilder\Cart\PackageItems;
 
-use FS\Configurations\WordPress\RequestBuilder\AbstractPackageItemsBuilder;
+use FS\Components\Shipping\RequestBuilder\AbstractPackageItemsBuilder;
 use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
 
 class FallbackBuilder extends AbstractPackageItemsBuilder implements RequestBuilderInterface

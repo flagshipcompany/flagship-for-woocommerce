@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Configurations\WordPress\RequestBuilder\Order;
+namespace FS\Components\Shipping\RequestBuilder\Order;
 
 use FS\Components\AbstractComponent;
 use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
