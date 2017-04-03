@@ -1,8 +1,10 @@
 <?php
 
-namespace FS\Configurations\WordPress\Shop;
+namespace FS\Components\Shop;
 
-class Shipment extends \FS\Components\Model\AbstractModel
+use FS\Components\Model\AbstractModel;
+
+class Shipment extends AbstractModel
 {
     public function setReceiverAddress($address)
     {

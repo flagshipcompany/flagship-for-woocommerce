@@ -144,14 +144,6 @@ class Configurator implements ConfigurationInterface
         return $client;
     }
 
-    public function getShopFactory()
-    {
-        $factory = new \FS\Components\Shop\Factory\ShopFactory();
-        $factory->setFactoryDriver(new WordPress\Shop\Factory\Driver());
-
-        return $factory;
-    }
-
     public function getViewFactory()
     {
         $factory = new \FS\Components\View\Factory\ViewFactory();

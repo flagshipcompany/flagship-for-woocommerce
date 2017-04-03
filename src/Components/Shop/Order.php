@@ -1,8 +1,10 @@
 <?php
 
-namespace FS\Configurations\WordPress\Shop;
+namespace FS\Components\Shop;
 
-class Order extends \FS\Components\Model\AbstractModel implements \ArrayAccess, \FS\Components\Shop\OrderInterface
+use FS\Components\Model\AbstractModel;
+
+class Order extends AbstractModel implements \ArrayAccess, OrderInterface
 {
     protected $nativeOrder;
     protected $cache = array();
