@@ -2,24 +2,30 @@
 
 namespace FS\Components\Shipping\RateProcessor\Factory;
 
-class RateProcessorFactory extends \FS\Components\AbstractComponent implements FactoryInterface, \FS\Components\Factory\DriverAwareInterface
+use FS\Components\AbstractComponent;
+
+class RateProcessorFactory extends AbstractComponent implements FactoryInterface
 {
     protected $driver;
 
     public function getRateProcessor($resource, $context = array())
     {
-        return $this->getFactoryDriver()->getRateProcessor($resource, $context);
-    }
-
-    public function setFactoryDriver(\FS\Components\Factory\DriverInterface $driver)
-    {
-        $this->driver = $driver;
-
-        return $this;
-    }
-
-    public function getFactoryDriver()
-    {
-        return $this->driver;
+        switch ($resource) {
+            case 'NativeRate':
+                return new \FS\Configurations\WordPress\RateProcessor\NativeRateProcessor();
+                // no break
+            case 'EnabledRate':
+                return new \FS\Configurations\WordPress\RateProcessor\EnabledRateProcessor();
+                // no break
+            case 'CourierExcludedRate':
+                return new \FS\Configurations\WordPress\RateProcessor\CourierExcludedRateProcessor();
+                // no break
+            case 'XNumberOfBestRate':
+                return new \FS\Configurations\WordPress\RateProcessor\XNumberOfBestRateProcessor();
+                // no break
+            case 'ProcessRate':
+                return new \FS\Configurations\WordPress\RateProcessor\ProcessRateProcessor();
+                // no break
+        }
     }
 }

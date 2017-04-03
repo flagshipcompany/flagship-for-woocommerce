@@ -1,8 +1,10 @@
 <?php
 
-namespace FS\Configurations\WordPress\RateProcessor;
+namespace FS\Components\Shipping\RateProcessor;
 
-class ProcessRateProcessor extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RateProcessor\RateProcessorInterface
+use FS\Components\AbstractComponent;
+
+class ProcessRateProcessor extends AbstractComponent implements RateProcessorInterface
 {
     public function getProcessedRates($rates, $payload = array())
     {

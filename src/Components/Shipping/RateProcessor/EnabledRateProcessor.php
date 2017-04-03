@@ -1,8 +1,10 @@
 <?php
 
-namespace FS\Configurations\WordPress\RateProcessor;
+namespace FS\Components\Shipping\RateProcessor;
 
-class EnabledRateProcessor extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RateProcessor\RateProcessorInterface
+use FS\Components\AbstractComponent;
+
+class EnabledRateProcessor extends AbstractComponent implements RateProcessorInterface
 {
     public static $mapping = array(
         //  => standard

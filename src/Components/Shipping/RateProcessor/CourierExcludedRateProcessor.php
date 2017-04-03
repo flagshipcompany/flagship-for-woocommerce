@@ -2,7 +2,9 @@
 
 namespace FS\Configurations\WordPress\RateProcessor;
 
-class CourierExcludedRateProcessor extends \FS\Components\AbstractComponent implements \FS\Components\Shipping\RateProcessor\RateProcessorInterface
+use FS\Components\AbstractComponent;
+
+class CourierExcludedRateProcessor extends AbstractComponent implements RateProcessorInterface
 {
     public function getProcessedRates($rates, $payload = array())
     {

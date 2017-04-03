@@ -152,14 +152,6 @@ class Configurator implements ConfigurationInterface
         return $factory;
     }
 
-    public function getRateProcessorFactory()
-    {
-        $factory = new \FS\Components\Shipping\RateProcessor\Factory\RateProcessorFactory();
-        $factory->setFactoryDriver(new WordPress\RateProcessor\Factory\Driver());
-
-        return $factory;
-    }
-
     public function getValidatorFactory()
     {
         $factory = new \FS\Components\Validation\Factory\ValidatorFactory();
