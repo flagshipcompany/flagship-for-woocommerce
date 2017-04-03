@@ -21,7 +21,7 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
         $order = $event->getInput('order');
 
         $metaBox = $context
-            ->_('\\FS\\Configurations\\WordPress\\Shipping\\Shipment\\MetaboxController');
+            ->_('\\FS\\Components\\Shipping\\Shipment\\MetaboxController');
         $rp = $context
             ->_('\\FS\\Components\\Web\\RequestParam');
         $notifier = $context

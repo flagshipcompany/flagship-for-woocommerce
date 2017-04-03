@@ -25,7 +25,7 @@ class ShippingMethodSetup extends AbstractComponent implements ApplicationListen
         $id = $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'];
 
         if (\version_compare(WC()->version, '2.6', '>=')) {
-            $methods[$id] = '\\FS\\Configurations\\WordPress\\Shipping\\Method\\FlagShipWcShippingMethod';
+            $methods[$id] = '\\FS\\Components\Shipping\\Method\\FlagShipWcShippingMethod';
         } else {
             include_once I::directory('PLUGIN').'src/Configurations/WordPress/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php';
 

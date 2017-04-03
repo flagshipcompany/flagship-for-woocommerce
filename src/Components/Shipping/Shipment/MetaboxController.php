@@ -1,18 +1,20 @@
 <?php
 
-namespace FS\Configurations\WordPress\Shipping\Shipment;
+namespace FS\Components\Shipping\Shipment;
 
-class MetaboxController extends \FS\Components\AbstractComponent
+use FS\Components\AbstractComponent;
+
+class MetaboxController extends AbstractComponent
 {
     public function display(\FS\Components\Shop\OrderInterface $order)
     {
         $notifier = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Notifier');
+            ->_('\\FS\\Components\\Notifier');
         $view = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\View\\Factory\\ViewFactory')
+            ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
             ->getView(\FS\Components\View\Factory\ViewFactory::RESOURCE_METABOX);
         $settings = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Settings');
+            ->_('\\FS\\Components\\Settings');
 
         $shipment = $order->getShipment();
         $service = $order->getShippingService();
@@ -54,9 +56,9 @@ class MetaboxController extends \FS\Components\AbstractComponent
     public function createShipment(\FS\Components\Shop\OrderInterface $order)
     {
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
         $notifier = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Notifier');
+            ->_('\\FS\\Components\\Notifier');
 
         $shipment = $order->getShipment();
 
@@ -67,17 +69,17 @@ class MetaboxController extends \FS\Components\AbstractComponent
         }
 
         $client = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Http\\Client');
+            ->_('\\FS\\Components\\Http\\Client');
         $command = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Command');
+            ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderConfirmationRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderConfirmationRequestFactory');
 
         $response = $command->confirm(
             $client,
             $factory->setPayload(array(
                 'order' => $order,
-                'request' => $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam'),
+                'request' => $this->getApplicationContext()->_('\\FS\\Components\\Web\\RequestParam'),
                 'options' => $options,
             ))->getRequest()
         );
@@ -101,9 +103,9 @@ class MetaboxController extends \FS\Components\AbstractComponent
     public function voidShipment(\FS\Components\Shop\OrderInterface $order)
     {
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
         $notifier = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Notifier');
+            ->_('\\FS\\Components\\Notifier');
 
         $shipment = $order->getShipment();
 
@@ -114,7 +116,7 @@ class MetaboxController extends \FS\Components\AbstractComponent
         }
 
         $client = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Http\\Client');
+            ->_('\\FS\\Components\\Http\\Client');
 
         $response = $client->delete('/ship/shipments/'.$shipment->getId());
 
@@ -138,19 +140,19 @@ class MetaboxController extends \FS\Components\AbstractComponent
     public function requoteShipment(\FS\Components\Shop\OrderInterface $order)
     {
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
         $settings = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Settings');
+            ->_('\\FS\\Components\\Settings');
         $client = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Http\\Client');
+            ->_('\\FS\\Components\\Http\\Client');
         $command = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Command');
+            ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderRateRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderRateRequestFactory');
         $notifier = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Notifier');
+            ->_('\\FS\\Components\\Notifier');
         $rateProcessorFactory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
+            ->_('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
 
         $response = $command->quote(
             $client,
@@ -193,17 +195,17 @@ class MetaboxController extends \FS\Components\AbstractComponent
     public function schedulePickup(\FS\Components\Shop\OrderInterface $order)
     {
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
         $notifier = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Notifier');
+            ->_('\\FS\\Components\\Notifier');
         $client = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Http\\Client');
+            ->_('\\FS\\Components\\Http\\Client');
         $command = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Command');
+            ->_('\\FS\\Components\\Shipping\\Command');
         $request = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Web\\RequestParam');
+            ->_('\\FS\\Components\\Web\\RequestParam');
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPickupRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPickupRequestFactory');
 
         $shipment = $order->getShipment();
 
@@ -235,11 +237,11 @@ class MetaboxController extends \FS\Components\AbstractComponent
     public function voidPickup(\FS\Components\Shop\OrderInterface $order)
     {
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
         $client = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Http\\Client');
+            ->_('\\FS\\Components\\Http\\Client');
         $notifier = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Notifier');
+            ->_('\\FS\\Components\\Notifier');
 
         $shipment = $order->getShipment();
 

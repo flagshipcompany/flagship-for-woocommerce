@@ -21,7 +21,7 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
         $order = $event->getInput('order');
 
         $controller = $context
-            ->_('\\FS\\Configurations\\WordPress\\Shipping\\Shipment\\MetaboxController');
+            ->_('\\FS\\Components\\Shipping\\Shipment\\MetaboxController');
         $notifier = $context
             ->_('\\FS\\Components\\Notifier')
             ->scope('shop_order', array('id' => $order->getId()));

@@ -1,51 +1,31 @@
 <?php
 
-namespace FS\Configurations\WordPress\Shipping\Method;
-
-class FlagShipWcShippingMethod extends \WC_Shipping_Method
+class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
 {
     protected $ctx;
-    protected $isLegacy = false;
 
     /**
      * Constructor for your shipping class.
      */
-    public function __construct($instance_id = 0)
+    public function __construct()
     {
-        parent::__construct($instance_id);
-
-        // FlagShip application context
+        // flagship app
         $this->ctx = \FS\Context\ApplicationContext::getInstance();
 
-        $this->id = $this->ctx->getComponent('\\FS\\Components\\Settings')['FLAGSHIP_SHIPPING_PLUGIN_ID'];
-        $this->method_title = __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
-        $this->method_description = __('Obtains real time shipping rates via FlagShip Shipping API', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
-        $this->supports = array(
-            'shipping-zones',
-            'instance-settings',
-            'instance-settings-modal',
-            'settings',
-        );
+        $this->id = $this->ctx->_('\\FS\\Components\\Settings')['FLAGSHIP_SHIPPING_PLUGIN_ID']; // Id for your shipping method. Should be uunique.
+        $this->method_title = __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN);  // Title shown in admin
+        $this->method_description = __('Obtains real time shipping rates via FlagShip Shipping API', FLAGSHIP_SHIPPING_TEXT_DOMAIN); // Description shown in admin
 
-        $this->title = __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+        $this->title = __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN); // This can be added as an setting but for this example its forced.
 
         // flagship options
-        $this->enabled = $this->get_instance_option('enabled');
+        $this->enabled = $this->get_option('enabled');
+        $this->token = $this->get_option('token');
+        $this->required_address = $this->get_option('shipping_cost_requires_address', 'no');
 
-        $this->ctx
-            ->getComponent('\\FS\\Components\\Shipping\\Command');
-
-        $this->ctx
-            ->getComponent('\\FS\\Components\\Url');
-
-        $options = $this->ctx
-            ->getComponent('\\FS\\Components\\Options');
-
-        $options->sync($instance_id);
-
-        $this->isLegacy = \version_compare(WC()->version, '2.6', '<');
-
-        $this->init_instance_settings();
+        // providers
+        $this->ctx->_('\\FS\\Components\\Shipping\\Command');
+        $this->ctx->_('\\FS\\Components\\Url');
 
         $this->init();
     }
@@ -55,7 +35,49 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
      */
     public function init()
     {
-        $formFields = array(
+        // Load the settings API
+        $this->init_form_fields(); // This is part of the settings API. Override the method to add your own settings
+        $this->init_settings(); // This is part of the settings API. Loads settings you previously init.
+
+        // Save settings in admin if you have any defined
+        add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));
+
+        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-for-woocommerce/languages');
+    }
+
+    /**
+     * add notifications section on top of settings.
+     */
+    public function admin_options()
+    {
+        global $current_section;
+
+        if ($current_section == 'flagship_wc_shipping_method') {
+            $this->ctx->_('\\FS\\Components\\Notifier')->view();
+        }
+
+        parent::admin_options();
+    }
+
+    /**
+     * calculate_shipping function.
+     *
+     * @param array $package
+     */
+    public function calculate_shipping($package = array())
+    {
+        $event = new \FS\Configurations\WordPress\Event\CalculateShippingEvent();
+        $event->setInputs(array(
+            'package' => $package,
+            'method' => $this,
+        ));
+
+        $this->ctx->publishEvent($event);
+    }
+
+    public function init_form_fields()
+    {
+        $this->form_fields = array(
             'basics' => array(
                 'title' => __('Essentials', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
@@ -349,66 +371,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'description' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
         );
-
-        $this->instance_form_fields = $formFields;
-        $this->form_fields = $formFields;
-
-        // Save settings in admin if you have any defined
-        add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));
-
-        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-for-woocommerce/languages');
     }
-
-    /**
-     * add notifications section on top of settings.
-     */
-    public function admin_options()
-    {
-        // request param
-        $rp = $this->ctx->getComponent('\\FS\\Components\\Web\\RequestParam');
-
-        if (!$this->isLegacy && $rp->query->get('instance_id') == $this->instance_id) {
-            $this->ctx->getComponent('\\FS\\Components\\Notifier')->view();
-        }
-
-        parent::admin_options();
-    }
-
-    /**
-     * we need to reinitialize the settings field data.
-     * 
-     * @return bool
-     */
-    public function process_admin_options()
-    {
-        $success = parent::process_admin_options();
-
-        $this->init_instance_settings();
-
-        return $success;
-    }
-
-    /**
-     * calculate_shipping function.
-     *
-     * @param array $package
-     */
-    public function calculate_shipping($package = array())
-    {
-        // use instance method's options
-        $options = $this->ctx
-            ->getComponent('\\FS\\Components\\Options')
-            ->sync($this->instance_id);
-
-        $event = new \FS\Configurations\WordPress\Event\CalculateShippingEvent();
-        $event->setInputs(array(
-            'package' => $package,
-            'method' => $this,
-        ));
-
-        $this->ctx->publishEvent($event);
-    }
-
     /**
      * render log type.
      */
@@ -430,13 +393,13 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         ob_start();
 
         $view = $this->ctx
-            ->getComponent('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->getView(\FS\Configurations\WordPress\View\Factory\Driver::RESOURCE_OPTION_LOG);
+            ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
+            ->getView(\FS\Components\View\Factory\ViewFactory::RESOURCE_OPTION_LOG);
 
         $view->render(array(
             'field_key' => $this->get_field_key($key),
             'data' => \wp_parse_args($data, $defaults),
-            'logs' => $this->get_instance_option($key, array()),
+            'logs' => $this->get_option($key, array()),
             'description' => $this->get_description_html($data),
         ));
 
@@ -452,11 +415,11 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
     {
         ob_start();
 
-        $packageBoxes = $this->instance_id ? $this->get_instance_option($key, array()) : $this->get_option($key, array());
+        $packageBoxes = $this->get_option($key, array());
 
         $view = $this->ctx
-            ->getComponent('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->getView(\FS\Configurations\WordPress\View\Factory\Driver::RESOURCE_OPTION_PACKAGE_BOX);
+            ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
+            ->getView(\FS\Components\View\Factory\ViewFactory::RESOURCE_OPTION_PACKAGE_BOX);
 
         $view->render(array(
             'packageBoxes' => $packageBoxes,

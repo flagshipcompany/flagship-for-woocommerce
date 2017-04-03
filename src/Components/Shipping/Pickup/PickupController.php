@@ -1,22 +1,24 @@
 <?php
 
-namespace FS\Configurations\WordPress\Shipping\Pickup;
+namespace FS\Components\Shipping\Pickup;
 
-class PickupController extends \FS\Components\AbstractComponent
+use FS\Components\AbstractComponent;
+
+class PickupController extends AbstractComponent
 {
     public function schedulePickup($orders, $pickupPostIds = array())
     {
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
         $requestFactory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
         $orderShippingsFactory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
+            ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
         $client = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Http\\Client');
+            ->_('\\FS\\Components\\Http\\Client');
         $client->setToken($options->get('token'));
         $command = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Command');
+            ->_('\\FS\\Components\\Shipping\\Command');
 
         // group shipping orders by courier and service type
         $flattenOrderShippings = $orderShippingsFactory->getFlattenOrderShippings($orders);
@@ -56,10 +58,10 @@ class PickupController extends \FS\Components\AbstractComponent
     public function voidPickup($pickupPostIds)
     {
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
 
         $client = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Http\\Client');
+            ->_('\\FS\\Components\\Http\\Client');
         $client->setToken($options->get('token'));
 
         foreach ($pickupPostIds as $pickupPostId) {
@@ -86,18 +88,18 @@ class PickupController extends \FS\Components\AbstractComponent
     public function reschedulePickup($pickupPostIds)
     {
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
         $requestFactory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
         $shopFactory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory');
+            ->_('\\FS\\Components\\Shop\\Factory\\ShopFactory');
         $orderShippingsFactory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
+            ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
         $client = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Http\\Client');
+            ->_('\\FS\\Components\\Http\\Client');
         $client->setToken($options->get('token'));
         $command = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Command');
+            ->_('\\FS\\Components\\Shipping\\Command');
 
         foreach ($pickupPostIds as $pickupPostId) {
             $pickupId = get_post_meta($pickupPostId, 'id', true);
