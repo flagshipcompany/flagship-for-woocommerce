@@ -2,13 +2,18 @@
 
 namespace FS\Components\View\Factory;
 
-class ViewFactory extends \FS\Components\AbstractComponent implements FactoryInterface, \FS\Components\Factory\DriverAwareInterface
+use FS\Components\AbstractComponent;
+use FS\Components\View\BasicView;
+
+class ViewFactory extends AbstractComponent implements FactoryInterface
 {
-    protected $driver;
+    const RESOURCE_METABOX = 'metabox';
+    const RESOURCE_OPTION_PACKAGE_BOX = 'option-package-box';
+    const RESOURCE_OPTION_LOG = 'option-log';
 
     public function getView($resource, $context = array())
     {
-        $view = $this->getFactoryDriver()->getView($resource, $context);
+        $view = $this->resolveView($resource, $context);
 
         if ($view) {
             return $view->setApplicationContext($this->getApplicationContext());
@@ -17,15 +22,26 @@ class ViewFactory extends \FS\Components\AbstractComponent implements FactoryInt
         throw new \Exception('Unable to resolve view: '.$resource, 500);
     }
 
-    public function setFactoryDriver(\FS\Components\Factory\DriverInterface $driver)
+    protected function resolveView($resource, $context = array())
     {
-        $this->driver = $driver;
+        switch ($resource) {
+            case self::RESOURCE_METABOX:
+                $view = new BasicView();
 
-        return $this;
-    }
+                return $view->setPath('meta-boxes/order-flagship-shipping-actions');
+                // no break
+            case self::RESOURCE_OPTION_PACKAGE_BOX:
+                $view = new BasicView();
 
-    public function getFactoryDriver()
-    {
-        return $this->driver;
+                return $view->setPath('option/package-box');
+                // no break
+            case self::RESOURCE_OPTION_LOG:
+                $view = new BasicView();
+
+                return $view->setPath('option/log');
+                // no break
+        }
+
+        throw new \Exception('Unable to retieve View '.$resource);
     }
 }

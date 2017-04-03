@@ -6,7 +6,6 @@ use FS\Injection\I;
 use FS\Injection\Http\Client as HttpClient;
 use FS\Components\Factory\ConfigurationInterface;
 use FS\Components\Event\Listener;
-use FS\Configurations\WordPress;
 use FS\Context\ConfigurableApplicationContextInterface as Context;
 
 class Configurator implements ConfigurationInterface
@@ -142,18 +141,5 @@ class Configurator implements ConfigurationInterface
         ]);
 
         return $client;
-    }
-
-    public function getViewFactory()
-    {
-        $factory = new \FS\Components\View\Factory\ViewFactory();
-        $factory->setFactoryDriver(new WordPress\View\Factory\Driver());
-
-        return $factory;
-    }
-
-    public function getRateProcessor()
-    {
-        return new \FS\Components\Shipping\RateProcessor();
     }
 }

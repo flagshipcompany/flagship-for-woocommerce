@@ -10,7 +10,7 @@ class MetaboxController extends \FS\Components\AbstractComponent
             ->getComponent('\\FS\\Components\\Notifier');
         $view = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->getView(\FS\Configurations\WordPress\View\Factory\Driver::RESOURCE_METABOX);
+            ->getView(\FS\Components\View\Factory\ViewFactory::RESOURCE_METABOX);
         $settings = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Settings');
 

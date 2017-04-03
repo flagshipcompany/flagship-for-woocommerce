@@ -1,10 +1,11 @@
 <?php
 
-namespace FS\Configurations\WordPress\View;
+namespace FS\Components\View;
 
 use FS\Injection\I;
+use FS\Components\AbstractComponent;
 
-class Vue extends \FS\Components\AbstractComponent
+class Vue extends AbstractComponent
 {
     public function notice(array $payloads = array())
     {
@@ -24,7 +25,7 @@ class Vue extends \FS\Components\AbstractComponent
 
         $ctx = $this->ctx;
 
-        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+        load_plugin_textdomain(I::textDomain());
 
         include I::directory('PLUGIN').'templates/'.$template.'.php';
     }
