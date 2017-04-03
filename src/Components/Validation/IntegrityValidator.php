@@ -1,12 +1,14 @@
 <?php
 
-namespace FS\Configurations\WordPress\Validation;
+namespace FS\Components\Validation;
 
-class IntegrityValidator extends \FS\Components\Validation\AbstractValidator implements \FS\Components\Validation\ValidatorInterface
+use FS\Components\Notifier;
+
+class IntegrityValidator extends AbstractValidator implements ValidatorInterface
 {
-    public function validate($target, \FS\Components\Notifier $notifier)
+    public function validate($target, Notifier $notifier)
     {
-        $client = $this->getApplicationContext()->getComponent('\\FS\\Components\\Http\\Client');
+        $client = $this->getApplicationContext()->_('\\FS\\Components\\Http\\Client');
 
         $request = array(
             'from' => array(

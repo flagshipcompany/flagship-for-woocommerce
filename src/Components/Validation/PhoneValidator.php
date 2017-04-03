@@ -1,10 +1,12 @@
 <?php
 
-namespace FS\Configurations\WordPress\Validation;
+namespace FS\Components\Validation;
 
-class PhoneValidator extends \FS\Components\Validation\AbstractValidator implements \FS\Components\Validation\ValidatorInterface
+use FS\Components\Notifier;
+
+class PhoneValidator extends AbstractValidator implements ValidatorInterface
 {
-    public function validate($target, \FS\Components\Notifier $notifier)
+    public function validate($target, Notifier $notifier)
     {
         preg_match('/^\+?[1]?[-. ]?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/', $target, $matches);
 

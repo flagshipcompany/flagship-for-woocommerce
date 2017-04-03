@@ -1,17 +1,19 @@
 <?php
 
-namespace FS\Configurations\WordPress\Validation;
+namespace FS\Components\Validation;
 
-class SettingsValidator extends \FS\Components\Validation\AbstractValidator implements \FS\Components\Validation\ValidatorInterface
+use FS\Components\Notifier;
+
+class SettingsValidator extends AbstractValidator implements ValidatorInterface
 {
-    public function validate($target, \FS\Components\Notifier $notifier)
+    public function validate($target, Notifier $notifier)
     {
         $context = $this->getApplicationContext();
-        $factory = $context->getComponent('\\FS\\Components\\Validation\\Factory\\ValidatorFactory');
+        $factory = $context->_('\\FS\\Components\\Validation\\Factory\\ValidatorFactory');
 
         // if user set/update token, we need to use the latest entered one
         if (isset($target['token'])) {
-            $context->getComponent('\\FS\\Components\\Http\\Client')->setToken($target['token']);
+            $context->_('\\FS\\Components\\Http\\Client')->setToken($target['token']);
         }
 
         // enabled?

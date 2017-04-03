@@ -2,6 +2,8 @@
 
 namespace FS\Components\Validation;
 
-abstract class AbstractValidator extends \FS\Components\AbstractComponent implements ValidatorInterface
+use FS\Components\AbstractComponent;
+
+abstract class AbstractValidator extends AbstractComponent implements ValidatorInterface
 {
 }

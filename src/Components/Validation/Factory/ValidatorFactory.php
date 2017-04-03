@@ -2,30 +2,30 @@
 
 namespace FS\Components\Validation\Factory;
 
-class ValidatorFactory extends \FS\Components\AbstractComponent implements FactoryInterface, \FS\Components\Factory\DriverAwareInterface
-{
-    protected $driver;
+use FS\Components\AbstractComponent;
 
+class ValidatorFactory extends AbstractComponent implements FactoryInterface
+{
     public function getValidator($resource, $context = array())
     {
-        $validator = $this->getFactoryDriver()->getValidator($resource, $context);
+        return $this->resolveValidator($resource, $context)->setApplicationContext($this->getApplicationContext());
+    }
 
-        if ($validator) {
-            return $validator->setApplicationContext($this->getApplicationContext());
+    protected function resolveValidator($resource, $context = array())
+    {
+        switch ($resource) {
+            case 'AddressEssential':
+                return new \FS\Components\Validation\AddressEssentialValidator();
+                // no break
+            case 'Phone':
+                return new \FS\Components\Validation\PhoneValidator();
+                // no break
+            case 'Settings':
+                return new \FS\Components\Validation\SettingsValidator();
+                // no break
+            case 'Integrity':
+                return new \FS\Components\Validation\IntegrityValidator();
+                // no break
         }
-
-        throw new \Exception('Unable to resolve validator: '.$resource, 500);
-    }
-
-    public function setFactoryDriver(\FS\Components\Factory\DriverInterface $driver)
-    {
-        $this->driver = $driver;
-
-        return $this;
-    }
-
-    public function getFactoryDriver()
-    {
-        return $this->driver;
     }
 }
