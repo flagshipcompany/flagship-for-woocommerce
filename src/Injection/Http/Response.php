@@ -79,4 +79,9 @@ class Response
 
         return $this->body['notices'];
     }
+
+    public function isSuccessful()
+    {
+        return $this->getStatusCode() < 400;
+    }
 }

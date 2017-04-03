@@ -16,10 +16,47 @@ class Client
             $request->withHeaders($options['headers']);
         }
 
-        return $this->send($request);
+        return $this->send($request, $options);
     }
 
-    public function send(Request $request)
+    public function put(string $uri, $body, array $options = [])
+    {
+        $request = new Request('PUT', $uri, $body);
+
+        if (isset($options['headers'])) {
+            $request->withHeaders($options['headers']);
+        }
+
+        return $this->send($request, $options);
+    }
+
+    public function delete(string $uri, array $options = [])
+    {
+        $request = new Request('DELETE', $uri);
+
+        if (isset($options['headers'])) {
+            $request->withHeaders($options['headers']);
+        }
+
+        return $this->send($request, $options);
+    }
+
+    public function get(string $uri, array $options = [])
+    {
+        if (isset($options['query'])) {
+            $uri = add_query_arg($options['query'], $uri);
+        }
+
+        $request = new Request('GET', $uri);
+
+        if (isset($options['headers'])) {
+            $request->withHeaders($options['headers']);
+        }
+
+        return $this->send($request, $options);
+    }
+
+    public function send(Request $request, array $options = [])
     {
         $args = [
             'method' => $request->getMethod(),
@@ -27,7 +64,11 @@ class Client
         ];
 
         if ($headers = $request->getHeaders()) {
-            $args['headers'] = $header;
+            $args['headers'] = $headers;
+        }
+
+        if (isset($options['timeout'])) {
+            $args['timeout'] = $options['timeout'];
         }
 
         $response = \wp_remote_request(esc_url_raw($request->getUri()), $args);

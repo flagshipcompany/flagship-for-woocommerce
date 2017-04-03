@@ -34,7 +34,7 @@ class PickupController extends \FS\Components\AbstractComponent
             );
 
             if ($response->isSuccessful()) {
-                $pickup = $response->getBody();
+                $pickup = $response->getContent();
 
                 $pickup['order_ids'] = $orderShippings['ids'];
                 $pickup['pickup_date'] = $pickup['date'];

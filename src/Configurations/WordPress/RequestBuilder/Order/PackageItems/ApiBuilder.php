@@ -36,7 +36,7 @@ class ApiBuilder extends FallbackBuilder implements RequestBuilderInterface
             return parent::makePackageItems($productItems, $payload);
         }
 
-        $body = $response->getBody();
+        $body = $response->getContent();
         $items = array();
 
         foreach ($body['packages'] as $package) {

@@ -86,7 +86,7 @@ class MetaboxController extends \FS\Components\AbstractComponent
             return;
         }
 
-        $confirmed = $response->getBody();
+        $confirmed = $response->getContent();
 
         unset($order['flagship_shipping_requote_rates']);
 
@@ -168,7 +168,7 @@ class MetaboxController extends \FS\Components\AbstractComponent
 
         $service = $order->getShippingService();
 
-        $rates = $response->getBody();
+        $rates = $response->getContent();
 
         $rates = $rateProcessorFactory
             ->getRateProcessor('ProcessRate')
@@ -227,7 +227,7 @@ class MetaboxController extends \FS\Components\AbstractComponent
             return;
         }
 
-        $shipment['pickup'] = $response->getBody();
+        $shipment['pickup'] = $response->getContent();
 
         $order['flagship_shipping_raw'] = $shipment->jsonSerialize();
     }

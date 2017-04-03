@@ -3,6 +3,7 @@
 namespace FS;
 
 use FS\Injection\I;
+use FS\Injection\Http\Client as HttpClient;
 use FS\Components\Factory\ConfigurationInterface;
 use FS\Components\Event\Listener;
 use FS\Configurations\WordPress;
@@ -134,19 +135,13 @@ class Configurator implements ConfigurationInterface
 
         $settings = $this->getSettings();
 
-        $client->setTimeout($settings['FLAGSHIP_SHIPPING_API_TIMEOUT']);
-        $client->setEntryPoint($settings['FLAGSHIP_SHIPPING_API_ENTRY_POINT']);
-        $client->setRequestRunner($this->getRequestRunner());
+        $client->withOptions([
+            'timeout' => $settings['FLAGSHIP_SHIPPING_API_TIMEOUT'],
+            'base' => $settings['FLAGSHIP_SHIPPING_API_ENTRY_POINT'],
+            'runner' => new HttpClient(),
+        ]);
 
         return $client;
-    }
-
-    public function getRequestRunner()
-    {
-        $requestRunner = new \FS\Components\Http\RequestRunner\RequestRunner();
-        $requestRunner->setRequestRunnerDriver(new \FS\Configurations\WordPress\Http\RequestRunner\Driver());
-
-        return $requestRunner;
     }
 
     public function getRequestBuilderFactory()

@@ -65,7 +65,7 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
             return;
         }
 
-        $rates = $response->getBody();
+        $rates = $response->getContent();
 
         $rates = $rateProcessorFactory
             ->getRateProcessor('ProcessRate')

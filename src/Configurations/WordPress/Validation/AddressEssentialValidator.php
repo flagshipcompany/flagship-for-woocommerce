@@ -13,7 +13,7 @@ class AddressEssentialValidator extends \FS\Components\Validation\AbstractValida
             $target
         );
 
-        $body = $response->getBody();
+        $body = $response->getContent();
 
         if ($response->isSuccessful() && is_array($body) && $body['is_valid']) {
             return $target;
@@ -30,7 +30,7 @@ class AddressEssentialValidator extends \FS\Components\Validation\AbstractValida
             return $target;
         }
 
-        foreach ($response->getError() as $error) {
+        foreach ($response->getErrors() as $error) {
             $notifier->warning($error);
         }
 

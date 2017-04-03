@@ -5,6 +5,7 @@ namespace FS\Components\Shipping;
 use FS\Components\AbstractComponent;
 use FS\Components\Http\Client;
 use FS\Components\Shipping\Factory\FormattedRequestInterface as FormattedRequest;
+use FS\Injection\Http\Response;
 
 class Command extends AbstractComponent
 {
@@ -48,12 +49,12 @@ class Command extends AbstractComponent
         return $this->validate($response);
     }
 
-    protected function validate(\FS\Components\Http\Response $response)
+    protected function validate(Response $response)
     {
         if (!$response->isSuccessful()) {
             $this->getApplicationContext()
                 ->_('\\FS\\Components\\Notifier')
-                ->error('FlagShip API Error: '.$this->getApplicationContext()->_('\\FS\\Components\\Html')->ul($response->getError()));
+                ->error('FlagShip API Error: '.$this->getApplicationContext()->_('\\FS\\Components\\Html')->ul($response->getErrors()));
         }
 
         return $response;
