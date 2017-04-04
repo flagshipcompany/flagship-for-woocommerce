@@ -6,7 +6,7 @@ use FS\Components\AbstractComponent;
 
 class ProcessRateProcessor extends AbstractComponent implements RateProcessorInterface
 {
-    public function getProcessedRates($rates, $payload = array())
+    public function getProcessedRates($rates, $payload = [])
     {
         $options = $payload['options'];
         $instanceId = $payload['instanceId'];
@@ -15,32 +15,32 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
 
         $rates = $factory
             ->getRateProcessor('EnabledRate')
-            ->getProcessedRates($rates, array(
-                'enabled' => array(
+            ->getProcessedRates($rates, [
+                'enabled' => [
                     'standard' => ($options->get('allow_standard_rates') == 'yes'),
                     'express' => ($options->get('allow_express_rates') == 'yes'),
                     'overnight' => ($options->get('allow_overnight_rates') == 'yes'),
-                ),
-            ));
+                ],
+            ]);
 
         $rates = $factory
             ->getRateProcessor('CourierExcludedRate')
-            ->getProcessedRates($rates, array(
-                'excluded' => array_filter(array('fedex', 'ups', 'purolator'), function ($courier) use ($options) {
+            ->getProcessedRates($rates, [
+                'excluded' => array_filter(['fedex', 'ups', 'purolator'], function ($courier) use ($options) {
                     return $options->neq('disable_courier_'.$courier, 'no');
                 }),
-            ));
+            ]);
 
         $rates = $factory
             ->getRateProcessor('XNumberOfBestRate')
-            ->getProcessedRates($rates, array(
+            ->getProcessedRates($rates, [
                 'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
                 'offered' => $options->get('offer_rates', 'all'),
-            ));
+            ]);
 
         $rates = $factory
             ->getRateProcessor('NativeRate')
-            ->getProcessedRates($rates, array(
+            ->getProcessedRates($rates, [
                 'methodId' => $methodId,
                 'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
                 'markup' => array(
@@ -48,7 +48,7 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
                     'rate' => $options->get('default_shipping_markup'),
                 ),
                 'instanceId' => $instanceId,
-            ));
+            ]);
 
         return $rates;
     }

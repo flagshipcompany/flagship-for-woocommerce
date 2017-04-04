@@ -18,43 +18,43 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
 
     public function onApplicationEvent(Event $event, Context $context)
     {
-        $order = $event->getInput('order');
+        $mapping = [
+            'shipment-create' => 'createShipment',
+            'shipment-void' => 'voidShipment',
+            'shipment-requote' => 'requoteShipment',
+            'pickup-schedule' => 'schedulePickup',
+            'pickup-void' => 'voidPickup',
+        ];
 
-        $metaBox = $context
-            ->_('\\FS\\Components\\Shipping\\Shipment\\MetaboxController');
         $rp = $context
             ->_('\\FS\\Components\\Web\\RequestParam');
-        $notifier = $context
-            ->_('\\FS\\Components\\Notifier')
-            ->scope('shop_order', array('id' => $order->getId()));
 
-        // load instance shipping method used by this shopping order
-        $service = $order->getShippingService();
-
-        $options = $context
-            ->_('\\FS\\Components\\Options')
-            ->sync($service['instance_id'] ? $service['instance_id'] : false);
-        $context
-            ->_('\\FS\\Components\\Http\\Client')
-            ->setToken($options->get('token'));
-
-        switch ($rp->request->get('flagship_shipping_shipment_action')) {
-            case 'shipment-create':
-                $metaBox->createShipment($order);
-                break;
-            case 'shipment-void':
-                $metaBox->voidShipment($order);
-                break;
-            case 'shipment-requote':
-                $metaBox->requoteShipment($order);
-                break;
-            case 'pickup-schedule':
-                $metaBox->schedulePickup($order);
-                break;
-            case 'pickup-void':
-                $metaBox->voidPickup($order);
-                break;
+        if (!isset($mapping[$rp->request->get('flagship_shipping_shipment_action')])) {
+            return;
         }
+
+        $order = $event->getInput('order');
+
+        $context
+            ->controller('\\FS\\Components\\Shipping\\Controller\\MetaboxController')
+            ->before(function ($context) use ($order) {
+                // apply middlware function before invoke controller method
+                $context
+                    ->_('\\FS\\Components\\Notifier')
+                    ->scope('shop_order', ['id' => $order->getId()]);
+
+                // load instance shipping method used by this shopping order
+                $service = $order->getShippingService();
+
+                $options = $context
+                    ->_('\\FS\\Components\\Options')
+                    ->sync($service['instance_id'] ? $service['instance_id'] : false);
+
+                $context
+                    ->_('\\FS\\Components\\Http\\Client')
+                    ->setToken($options->get('token'));
+            })
+            ->dispatch($mapping[$rp->request->get('flagship_shipping_shipment_action')], [$order]);
     }
 
     public function publishNativeHook(Context $context)

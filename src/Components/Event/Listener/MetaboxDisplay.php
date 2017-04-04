@@ -20,13 +20,24 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
     {
         $order = $event->getInput('order');
 
-        $controller = $context
-            ->_('\\FS\\Components\\Shipping\\Controller\\MetaboxController');
-        $notifier = $context
-            ->_('\\FS\\Components\\Notifier')
-            ->scope('shop_order', array('id' => $order->getId()));
-
-        $controller->display($order);
+        $context
+            ->controller('\\FS\\Components\\Shipping\\Controller\\MetaboxController')
+            ->before(function ($context) use ($order) {
+                // apply middlware function before invoke controller method
+                $context
+                    ->_('\\FS\\Components\\Notifier')
+                    ->scope('shop_order', ['id' => $order->getId()]);
+            })
+            ->after(function ($context) {
+                // as we are in metabox,
+                // we have to explicit "show" notification
+                // why? wordpress will render shop order after it dealt with any POST request to shop order
+                // any alerts added previously (treating POST data) will be shown here
+                $context
+                    ->_('\\FS\\Components\\Notifier')
+                    ->view();
+            })
+            ->dispatch('display', [$order]);
     }
 
     public function publishNativeHook(Context $context)
@@ -42,9 +53,9 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
                         'id' => $postId,
                     ));
 
-                    $event->setInputs(array(
+                    $event->setInputs([
                         'order' => $order,
-                    ));
+                    ]);
 
                     $context->publishEvent($event);
                 },

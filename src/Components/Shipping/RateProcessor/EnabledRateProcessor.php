@@ -23,7 +23,7 @@ class EnabledRateProcessor extends AbstractComponent implements RateProcessorInt
         'intlExpressEarlyAm' => 'overnight',
     );
 
-    public function getProcessedRates($rates, $payload = array())
+    public function getProcessedRates($rates, $payload = [])
     {
         $enabled = $payload['enabled'];
 

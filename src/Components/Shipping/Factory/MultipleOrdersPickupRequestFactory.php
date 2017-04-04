@@ -11,9 +11,9 @@ class MultipleOrdersPickupRequestFactory extends AbstractRequestFactory implemen
         $request->add(
             'address',
             $this->makeRequestPart(
-                $factory->getShipperAddressBuilder(array(
+                $factory->getShipperAddressBuilder([
                     'type' => 'order',
-                )),
+                ]),
                 $this->payload
             )
         );

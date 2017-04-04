@@ -2,29 +2,28 @@
 
 namespace FS\Components\Shipping\RateProcessor\Factory;
 
+use FS\Components\Shipping\RateProcessor;
 use FS\Components\AbstractComponent;
 
 class RateProcessorFactory extends AbstractComponent implements FactoryInterface
 {
-    protected $driver;
-
     public function getRateProcessor($resource, $context = array())
     {
         switch ($resource) {
             case 'NativeRate':
-                return new \FS\Components\Shipping\RateProcessor\NativeRateProcessor();
+                return new RateProcessor\NativeRateProcessor();
                 // no break
             case 'EnabledRate':
-                return new \FS\Components\Shipping\RateProcessor\EnabledRateProcessor();
+                return new RateProcessor\EnabledRateProcessor();
                 // no break
             case 'CourierExcludedRate':
-                return new \FS\Components\Shipping\RateProcessor\CourierExcludedRateProcessor();
+                return new RateProcessor\CourierExcludedRateProcessor();
                 // no break
             case 'XNumberOfBestRate':
-                return new \FS\Components\Shipping\RateProcessor\XNumberOfBestRateProcessor();
+                return new RateProcessor\XNumberOfBestRateProcessor();
                 // no break
             case 'ProcessRate':
-                return new \FS\Components\Shipping\RateProcessor\ProcessRateProcessor();
+                return new RateProcessor\ProcessRateProcessor();
                 // no break
         }
     }

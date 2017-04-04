@@ -34,4 +34,13 @@ class ApplicationContext extends AbstractApplicationContext
 
         return self::$instance;
     }
+
+    public function alert($message, $type = 'notice')
+    {
+        $notifier = $this->getComponent('\\FS\\Components\\Notifier');
+
+        $notifier->add($type, $message);
+
+        return $this;
+    }
 }

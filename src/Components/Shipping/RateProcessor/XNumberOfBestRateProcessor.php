@@ -6,7 +6,7 @@ use FS\Components\AbstractComponent;
 
 class XNumberOfBestRateProcessor extends AbstractComponent implements RateProcessorInterface
 {
-    public function getProcessedRates($rates, $payload = array())
+    public function getProcessedRates($rates, $payload = [])
     {
         $offered = $payload['offered'];
         $taxEnabled = $payload['taxEnabled'];
@@ -26,7 +26,7 @@ class XNumberOfBestRateProcessor extends AbstractComponent implements RateProces
         }
 
         if ($offered == 'cheapest') {
-            return array(array_shift($rates));
+            return [array_shift($rates)];
         }
 
         $length = min(intval($offered), count($rates));

@@ -4,6 +4,7 @@ namespace FS\Context;
 
 use FS\Components\Factory\ComponentFactoryInterface;
 use FS\Components\Factory\ConfigurationInterface;
+use FS\Context\Support\ControllerResolver;
 
 abstract class AbstractApplicationContext implements
     ConfigurableApplicationContextInterface,
@@ -64,6 +65,15 @@ abstract class AbstractApplicationContext implements
         $factory->setApplicationContext($this);
 
         return $factory->getComponent($class);
+    }
+
+    public function controller($class)
+    {
+        $controller = $this->getComponent($class);
+
+        $resolver = new ControllerResolver($controller, $this);
+
+        return $resolver;
     }
 
     /**

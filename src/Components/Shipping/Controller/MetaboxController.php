@@ -3,42 +3,40 @@
 namespace FS\Components\Shipping\Controller;
 
 use FS\Components\AbstractComponent;
-use FS\Components\Shop\OrderInterface;
+use FS\Components\Shop\OrderInterface as Ord;
+use FS\Components\Web\RequestParam as Req;
+use FS\Context\ApplicationContext as App;
 
 class MetaboxController extends AbstractComponent
 {
-    public function display(OrderInterface $order)
+    public function display(Req $request, App $context, Ord $order)
     {
-        $notifier = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Notifier');
-        $view = $this->getApplicationContext()
+        $view = $context
             ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
             ->getView(\FS\Components\View\Factory\ViewFactory::RESOURCE_METABOX);
-        $settings = $this->getApplicationContext()
+        $settings = $context
             ->_('\\FS\\Components\\Settings');
 
         $shipment = $order->getShipment();
         $service = $order->getShippingService();
 
-        $notifier->view();
-
         // shipment created
         if ($shipment) {
-            return $view->render(array(
+            return $view->render([
                 'type' => 'created',
                 'shipment' => $shipment,
-            ));
+            ]);
         }
 
-        $payload = array();
+        $payload = [];
 
         // quoted but no shipment created
         if (!$shipment && $order->hasQuote()) {
             $payload['type'] = 'create';
             $payload['service'] = $service;
-            $payload['cod'] = array(
+            $payload['cod'] = [
                 'currency' => strtoupper(\get_woocommerce_currency()),
-            );
+            ];
         }
 
         // possibly not quoted with FS
@@ -54,35 +52,33 @@ class MetaboxController extends AbstractComponent
         $view->render($payload);
     }
 
-    public function createShipment(OrderInterface $order)
+    public function createShipment(Req $request, App $context, Ord $order)
     {
-        $options = $this->getApplicationContext()
+        $options = $context
             ->_('\\FS\\Components\\Options');
-        $notifier = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Notifier');
 
         $shipment = $order->getShipment();
 
         if ($shipment) {
-            $notifier->warning(sprintf('You have flagship shipment for this order. FlagShip ID (%s)', $this->shipment['shipment_id']));
+            $context->alert(sprintf('You have flagship shipment for this order. FlagShip ID (%s)', $shipment['shipment_id']), 'warning');
 
             return $this;
         }
 
-        $client = $this->getApplicationContext()
+        $client = $context
             ->_('\\FS\\Components\\Http\\Client');
-        $command = $this->getApplicationContext()
+        $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
-        $factory = $this->getApplicationContext()
+        $factory = $context
             ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderConfirmationRequestFactory');
 
         $response = $command->confirm(
             $client,
-            $factory->setPayload(array(
+            $factory->setPayload([
                 'order' => $order,
-                'request' => $this->getApplicationContext()->_('\\FS\\Components\\Web\\RequestParam'),
+                'request' => $request,
                 'options' => $options,
-            ))->getRequest()
+            ])->getRequest()
         );
 
         if (!$response->isSuccessful()) {
@@ -101,28 +97,26 @@ class MetaboxController extends AbstractComponent
         $order['flagship_shipping_raw'] = $confirmed;
     }
 
-    public function voidShipment(OrderInterface $order)
+    public function voidShipment(Req $request, App $context, Ord $order)
     {
-        $options = $this->getApplicationContext()
+        $options = $context
             ->_('\\FS\\Components\\Options');
-        $notifier = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Notifier');
 
         $shipment = $order->getShipment();
 
         if (!$shipment) {
-            $notifier->warning(sprintf('Unable to access shipment with FlagShip ID (%s)', $shipment->getId()));
+            $context->alert(sprintf('Unable to access shipment with FlagShip ID (%s)', $shipment->getId()), 'warning');
 
             return;
         }
 
-        $client = $this->getApplicationContext()
+        $client = $context
             ->_('\\FS\\Components\\Http\\Client');
 
         $response = $client->delete('/ship/shipments/'.$shipment->getId());
 
         if (!$response->isSuccessful()) {
-            $notifier->warning(sprintf('Unable to void shipment with FlagShip ID (%s)', $shipment->getId()));
+            $context->alert(sprintf('Unable to void shipment with FlagShip ID (%s)', $shipment->getId()), 'warning');
 
             return;
         }
@@ -138,33 +132,31 @@ class MetaboxController extends AbstractComponent
         unset($order['flagship_shipping_raw']);
     }
 
-    public function requoteShipment(OrderInterface $order)
+    public function requoteShipment(Req $request, App $context, Ord $order)
     {
-        $options = $this->getApplicationContext()
+        $options = $context
             ->_('\\FS\\Components\\Options');
-        $settings = $this->getApplicationContext()
+        $settings = $context
             ->_('\\FS\\Components\\Settings');
-        $client = $this->getApplicationContext()
+        $client = $context
             ->_('\\FS\\Components\\Http\\Client');
-        $command = $this->getApplicationContext()
+        $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
-        $factory = $this->getApplicationContext()
+        $factory = $context
             ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderRateRequestFactory');
-        $notifier = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Notifier');
-        $rateProcessorFactory = $this->getApplicationContext()
+        $rateProcessorFactory = $context
             ->_('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
 
         $response = $command->quote(
             $client,
-            $factory->setPayload(array(
+            $factory->setPayload([
                 'order' => $order,
                 'options' => $options,
-            ))->getRequest()
+            ])->getRequest()
         );
 
         if (!$response->isSuccessful()) {
-            $notifier->error('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>');
+            $context->alert('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>', 'error');
 
             return;
         }
@@ -175,14 +167,14 @@ class MetaboxController extends AbstractComponent
 
         $rates = $rateProcessorFactory
             ->getRateProcessor('ProcessRate')
-            ->getProcessedRates($rates, array(
+            ->getProcessedRates($rates, [
                 'factory' => $rateProcessorFactory,
                 'options' => $options,
                 'instanceId' => $service['instance_id'] ? $service['instance_id'] : false,
                 'methodId' => $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'],
-            ));
+            ]);
 
-        $wcShippingRates = array();
+        $wcShippingRates = [];
 
         foreach ($rates as $rate) {
             $wcShippingRates[$rate['id']] = $rate['label'].' $'.$rate['cost'];
@@ -193,19 +185,15 @@ class MetaboxController extends AbstractComponent
         }
     }
 
-    public function schedulePickup(OrderInterface $order)
+    public function schedulePickup(Req $request, App $context, Ord $order)
     {
-        $options = $this->getApplicationContext()
+        $options = $context
             ->_('\\FS\\Components\\Options');
-        $notifier = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Notifier');
-        $client = $this->getApplicationContext()
+        $client = $context
             ->_('\\FS\\Components\\Http\\Client');
-        $command = $this->getApplicationContext()
+        $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
-        $request = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Web\\RequestParam');
-        $factory = $this->getApplicationContext()
+        $factory = $context
             ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPickupRequestFactory');
 
         $shipment = $order->getShipment();
@@ -216,16 +204,16 @@ class MetaboxController extends AbstractComponent
 
         $response = $command->pickup(
             $client,
-            $factory->setPayload(array(
+            $factory->setPayload([
                 'order' => $order,
                 'options' => $options,
                 'shipment' => $shipment,
                 'date' => $request->request->get('flagship_shipping_pickup_schedule_date', date('Y-m-d')),
-            ))->getRequest()
+            ])->getRequest()
         );
 
         if (!$response->isSuccessful()) {
-            $notifier->warning(sprintf('Unable to schedule pick-up with FlagShip ID (%s)', $shipment['shipment_id']));
+            $context->alert(sprintf('Unable to schedule pick-up with FlagShip ID (%s)', $shipment['shipment_id']), 'warning');
 
             return;
         }
@@ -235,21 +223,19 @@ class MetaboxController extends AbstractComponent
         $order['flagship_shipping_raw'] = $shipment->jsonSerialize();
     }
 
-    public function voidPickup(OrderInterface $order)
+    public function voidPickup(Req $request, App $context, Ord $order)
     {
-        $options = $this->getApplicationContext()
+        $options = $context
             ->_('\\FS\\Components\\Options');
-        $client = $this->getApplicationContext()
+        $client = $context
             ->_('\\FS\\Components\\Http\\Client');
-        $notifier = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Notifier');
 
         $shipment = $order->getShipment();
 
         $response = $client->delete('/pickups/'.$shipment['pickup']['id']);
 
         if (!$response->isSuccessful()) {
-            $notifier->warning(sprintf('Unable to void pick-up with FlagShip Pickup ID (%s)', $shipment['pickup']['id']));
+            $context->alert(sprintf('Unable to void pick-up with FlagShip Pickup ID (%s)', $shipment['pickup']['id']), 'warning');
 
             return;
         }
