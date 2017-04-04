@@ -62,9 +62,9 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
 
     public function publishNativeHook(Context $context)
     {
-        $settings = $context->_('\\FS\\Components\\Settings');
+        $id = $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID');
 
-        \add_filter('woocommerce_shipping_'.$settings['FLAGSHIP_SHIPPING_PLUGIN_ID'].'_instance_settings_values', function ($fields, $method) use ($context) {
+        \add_filter('woocommerce_shipping_'.$id.'_instance_settings_values', function ($fields, $method) use ($context) {
             $event = new ApplicationEvent(ApplicationEvent::SHIPPING_ZONE_METHOD_OPTIONS);
             $event->setInputs(array(
                 'fields' => $fields,
@@ -74,7 +74,7 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
             return $context->publishEvent($event);
         }, 10, 2);
 
-        \add_filter('woocommerce_settings_api_sanitized_fields_'.$settings['FLAGSHIP_SHIPPING_PLUGIN_ID'], function ($fields) use ($context) {
+        \add_filter('woocommerce_settings_api_sanitized_fields_'.$id, function ($fields) use ($context) {
             $event = new ApplicationEvent(ApplicationEvent::SHIPPING_ZONE_METHOD_OPTIONS);
             $event->setInputs(array(
                 'fields' => $fields,

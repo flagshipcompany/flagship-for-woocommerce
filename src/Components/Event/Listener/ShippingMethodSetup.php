@@ -21,8 +21,7 @@ class ShippingMethodSetup extends AbstractComponent implements ApplicationListen
     {
         $methods = $event->getInputs();
 
-        $settings = $context->_('\\FS\\Components\\Settings');
-        $id = $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'];
+        $id = $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID');
 
         if (\version_compare(WC()->version, '2.6', '>=')) {
             $methods[$id] = '\\FS\\Components\Shipping\\Method\\FlagShipWcShippingMethod';

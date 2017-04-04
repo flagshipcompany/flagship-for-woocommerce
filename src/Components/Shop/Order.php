@@ -75,11 +75,10 @@ class Order extends AbstractModel implements \ArrayAccess, OrderInterface
 
     public function hasQuote()
     {
-        $settings = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Settings');
         $service = $this->getShippingService();
 
-        return $service['provider'] == $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'];
+        return $service['provider'] == $this->getApplicationContext()
+            ->setting('FLAGSHIP_SHIPPING_PLUGIN_ID');
     }
 
     // order interface

@@ -10,8 +10,6 @@ class ApiBuilder extends FallbackBuilder implements RequestBuilderInterface
     {
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
-        $settings = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Settings');
         $client = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Http\\Client');
         $command = $this->getApplicationContext()

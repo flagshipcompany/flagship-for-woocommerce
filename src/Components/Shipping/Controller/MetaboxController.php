@@ -14,8 +14,6 @@ class MetaboxController extends AbstractComponent
         $view = $context
             ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
             ->getView(\FS\Components\View\Factory\ViewFactory::RESOURCE_METABOX);
-        $settings = $context
-            ->_('\\FS\\Components\\Settings');
 
         $shipment = $order->getShipment();
         $service = $order->getShippingService();
@@ -136,8 +134,6 @@ class MetaboxController extends AbstractComponent
     {
         $options = $context
             ->_('\\FS\\Components\\Options');
-        $settings = $context
-            ->_('\\FS\\Components\\Settings');
         $client = $context
             ->_('\\FS\\Components\\Http\\Client');
         $command = $context
@@ -171,7 +167,7 @@ class MetaboxController extends AbstractComponent
                 'factory' => $rateProcessorFactory,
                 'options' => $options,
                 'instanceId' => $service['instance_id'] ? $service['instance_id'] : false,
-                'methodId' => $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'],
+                'methodId' => $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID'),
             ]);
 
         $wcShippingRates = [];

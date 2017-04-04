@@ -14,6 +14,22 @@ class ApplicationContext extends AbstractApplicationContext
         $this->_('\\FS\\Components\\Debugger')->log($data);
     }
 
+    public function alert($message, $type = 'notice')
+    {
+        $notifier = $this->getComponent('\\FS\\Components\\Notifier');
+
+        $notifier->add($type, $message);
+
+        return $this;
+    }
+
+    public function setting($key)
+    {
+        $settings = $this->getComponent('\\FS\\Components\\Settings');
+
+        return $settings[$key];
+    }
+
     public static function initialize(Container $container, ConfigurationInterface $configurator)
     {
         $ctx = self::getInstance();
@@ -33,14 +49,5 @@ class ApplicationContext extends AbstractApplicationContext
         }
 
         return self::$instance;
-    }
-
-    public function alert($message, $type = 'notice')
-    {
-        $notifier = $this->getComponent('\\FS\\Components\\Notifier');
-
-        $notifier->add($type, $message);
-
-        return $this;
     }
 }

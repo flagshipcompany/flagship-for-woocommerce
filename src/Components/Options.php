@@ -68,9 +68,7 @@ class Options extends AbstractComponent implements Factory\ComponentPostConstruc
     public function sync($instanceId = false)
     {
         if ($instanceId !== false) {
-            $settings = $this->getApplicationContext()->getComponent('\\FS\\Components\\Settings');
-
-            $this->setWpOptionName('woocommerce_'.$settings['FLAGSHIP_SHIPPING_PLUGIN_ID'].'_'.$instanceId.'_settings');
+            $this->setWpOptionName('woocommerce_'.$this->getApplicationContext()->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_'.$instanceId.'_settings');
         }
 
         $this->options = I::option($this->wpOptionName);

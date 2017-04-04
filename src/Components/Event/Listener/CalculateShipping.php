@@ -20,7 +20,6 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
         $package = $event->getInput('package');
         $method = $event->getInput('method');
 
-        $settings = $context->_('\\FS\\Components\\Settings');
         $options = $context
             ->_('\\FS\\Components\\Options');
         $command = $context
@@ -73,7 +72,7 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
                 'factory' => $rateProcessorFactory,
                 'options' => $options,
                 'instanceId' => property_exists($method, 'instance_id') ? $method->instance_id : false,
-                'methodId' => $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'],
+                'methodId' => $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID'),
             ));
 
         foreach ($rates as $rate) {

@@ -85,10 +85,9 @@ class Client extends AbstractComponent implements ComponentInitializingInterface
     protected function getHeaders($json = false)
     {
         $headers = [];
-        $settings = $this->getApplicationContext()->_('\\FS\\Components\\Settings');
 
         $headers['X-Smartship-Token'] = $this->options['token'];
-        $headers['X-F4WC-Version'] = $settings['FLAGSHIP_FOR_WOOCOMMERCE_VERSION'];
+        $headers['X-F4WC-Version'] = $this->getApplicationContext()->setting('FLAGSHIP_FOR_WOOCOMMERCE_VERSION');
 
         if ($json) {
             $headers['Content-Type'] = 'application/json; charset=utf-8';
