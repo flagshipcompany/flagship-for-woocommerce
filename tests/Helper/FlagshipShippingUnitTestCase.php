@@ -2,6 +2,10 @@
 
 namespace FS\Test\Helper;
 
+use FS\Context\ApplicationContext as App;
+use FS\Container;
+use FS\Configurator;
+
 /**
  * Base test case.
  *
@@ -20,9 +24,9 @@ class FlagshipShippingUnitTestCase extends \WP_UnitTestCase
 
         $settings = include __DIR__.'/../Fixture/FlagshipApplicationSettings.php';
 
-        $this->ctx = \FS\Context\ApplicationContext::initialize(
-            new \FS\Container(),
-            new \FS\Configurations\WordPress\Configuration()
+        $this->ctx = App::initialize(
+            new Container(),
+            new Configurator()
         );
     }
 

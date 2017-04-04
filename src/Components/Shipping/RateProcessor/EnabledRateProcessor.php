@@ -32,7 +32,7 @@ class EnabledRateProcessor extends AbstractComponent implements RateProcessorInt
         }
 
         return array_filter($rates, function ($rate) use ($enabled) {
-            return $enabled[\FS\Configurations\WordPress\RateProcessor\EnabledRateProcessor::$mapping[$rate['service']['flagship_code']]];
+            return $enabled[\FS\Components\Shipping\RateProcessor\EnabledRateProcessor::$mapping[$rate['service']['flagship_code']]];
         });
     }
 }

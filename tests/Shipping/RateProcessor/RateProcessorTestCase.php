@@ -23,7 +23,7 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
         $processor = new \FS\Components\Shipping\RateProcessor\CourierExcludedRateProcessor();
         $rates = $processor->getProcessedRates($this->flagshipQuoteRates, array(
             'excluded' => array_filter(array('fedex', 'ups', 'purolator'), function ($courier) use ($options) {
-                return $options->not_equal('disable_courier_'.$courier, 'no');
+                return $options->neq('disable_courier_'.$courier, 'no');
             }),
         ));
 
@@ -35,7 +35,7 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
 
         $rates = $processor->getProcessedRates($this->flagshipQuoteRates, array(
             'excluded' => array_filter(array('fedex', 'ups', 'purolator'), function ($courier) use ($options) {
-                return $options->not_equal('disable_courier_'.$courier, 'no');
+                return $options->neq('disable_courier_'.$courier, 'no');
             }),
         ));
 

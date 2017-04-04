@@ -2,6 +2,11 @@
 
 namespace FS\Test\Helper;
 
+use FS\Injection\I;
+use FS\Context\ApplicationContext as App;
+use FS\Container;
+use FS\Configurator;
+
 class Bootstrap
 {
     protected $wpTestsDir = null;
@@ -25,11 +30,18 @@ class Bootstrap
         \tests_add_filter('muplugins_loaded', array($this, 'loadPlugin'));
 
         // Start up the WP testing environment.
-        include_once $this->wpTestsDir.'/includes/bootstrap.php';    }
+        include_once $this->wpTestsDir.'/includes/bootstrap.php';
+    }
 
     public function loadPlugin()
     {
-        require $this->pluginDir.'/flagship-for-woocommerce.php';
+        I::boot($this->testsDir.'/..');
+
+        // convenient way to define text domain
+        define('FLAGSHIP_SHIPPING_TEXT_DOMAIN', I::textDomain());
+
+        // init app
+        App::initialize(new Container(), new Configurator());
     }
 
     public function loadWooCommerce()

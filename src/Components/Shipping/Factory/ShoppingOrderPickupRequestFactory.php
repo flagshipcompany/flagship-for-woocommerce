@@ -2,6 +2,8 @@
 
 namespace FS\Components\Shipping\Factory;
 
+use FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory;
+
 class ShoppingOrderPickupRequestFactory extends AbstractRequestFactory implements FormattedRequestInterface
 {
     public function makeRequest(FormattedRequestInterface $request, RequestBuilderFactory $factory)
