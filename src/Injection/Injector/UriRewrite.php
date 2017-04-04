@@ -55,14 +55,14 @@ class UriRewrite implements InjectorInterface
         return $this;
     }
 
-    public function withRedirectTo(string $url)
+    public function withRedirectTo($url)
     {
         $this->redirectTo = $url;
 
         return $this;
     }
 
-    public function withTemplate(string $template)
+    public function withTemplate($template)
     {
         $this->template = $template;
 
@@ -71,7 +71,7 @@ class UriRewrite implements InjectorInterface
 
     public function withQuery(array $query)
     {
-        $this->query = array_merge($this->query ?? [], $query);
+        $this->query = array_merge(isset($this->query) ? $this->query : [], $query);
 
         return $this;
     }

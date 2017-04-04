@@ -13,14 +13,14 @@ class Route
     protected $cb;
     protected $matched = false;
 
-    public function __construct(string $name = null)
+    public function __construct($name = null)
     {
         if ($name) {
             $this->withName($name);
         }
     }
 
-    public function withName(string $name)
+    public function withName($name)
     {
         $this->name = $name;
 
@@ -34,7 +34,7 @@ class Route
         return $this;
     }
 
-    public function withUri(string $uri)
+    public function withUri($uri)
     {
         $this->uri = ltrim($uri, '/');
 

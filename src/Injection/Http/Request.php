@@ -15,7 +15,7 @@ class Request
     protected $method = 'GET';
     protected $uri;
 
-    public function __construct(string $method, string $uri, $body = null)
+    public function __construct($method, $uri, $body = null)
     {
         $this->withMethod($method);
         $this->withUri($uri);
@@ -27,7 +27,7 @@ class Request
         return $this->method;
     }
 
-    public function withMethod(string $method)
+    public function withMethod($method)
     {
         $this->method = $method;
 
@@ -39,7 +39,7 @@ class Request
         return $this->uri;
     }
 
-    public function withUri(string $uri)
+    public function withUri($uri)
     {
         $this->uri = $uri;
 

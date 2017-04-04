@@ -74,7 +74,7 @@ abstract class AbstractApplicationContext implements
      *
      * @return Component
      */
-    public function _(string $class)
+    public function _($class)
     {
         return $this->getComponent($class);
     }

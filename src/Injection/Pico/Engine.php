@@ -24,7 +24,7 @@ class Engine
         return $this;
     }
 
-    public function render(string $content, array $payload = [])
+    public function render($content, array $payload = [])
     {
         $engine = $this;
 
@@ -54,12 +54,12 @@ class Engine
         }, $content);
     }
 
-    public function renderFile(string $filePath, array $payload = [])
+    public function renderFile($filePath, array $payload = [])
     {
         return $this->render($this->getFileContent($filePath));
     }
 
-    protected function getFileContent(string $filePath)
+    protected function getFileContent($filePath)
     {
         return file_get_contents($filePath);
     }

@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 
 class Client
 {
-    public function post(string $uri, $body, array $options = [])
+    public function post($uri, $body, array $options = [])
     {
         $request = new Request('POST', $uri, $body);
 
@@ -19,7 +19,7 @@ class Client
         return $this->send($request, $options);
     }
 
-    public function put(string $uri, $body, array $options = [])
+    public function put($uri, $body, array $options = [])
     {
         $request = new Request('PUT', $uri, $body);
 
@@ -30,7 +30,7 @@ class Client
         return $this->send($request, $options);
     }
 
-    public function delete(string $uri, array $options = [])
+    public function delete($uri, array $options = [])
     {
         $request = new Request('DELETE', $uri);
 
@@ -41,7 +41,7 @@ class Client
         return $this->send($request, $options);
     }
 
-    public function get(string $uri, array $options = [])
+    public function get($uri, array $options = [])
     {
         if (isset($options['query'])) {
             $uri = add_query_arg($options['query'], $uri);

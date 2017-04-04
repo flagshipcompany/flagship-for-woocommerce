@@ -22,7 +22,7 @@ class I
 
     protected static $instance;
 
-    public static function action(string $hook, callable $cb = null, array $options = [])
+    public static function action($hook, callable $cb = null, array $options = [])
     {
         $i = new Hook();
         $i
@@ -63,7 +63,7 @@ class I
         return $group->resolve();
     }
 
-    public static function route(string $uri, callable $cb, array $options = [])
+    public static function route($uri, callable $cb, array $options = [])
     {
         $route = new Route();
 
@@ -81,7 +81,7 @@ class I
         return $i->resolve();
     }
 
-    public function redirect(string $uri, string $redirectTo, callable $cb, array $options = [])
+    public function redirect($uri, $redirectTo, callable $cb, array $options = [])
     {
         $options['redirectTo'] = $redirectTo;
 
@@ -101,14 +101,14 @@ class I
         return $i->resolve();
     }
 
-    public static function translation(string $path)
+    public static function translation($path)
     {
         self::action('init', function () use ($path) {
             load_plugin_textdomain(self::get('TEXT_DOMAIN'), false, $path);
         });
     }
 
-    public static function script(string $path, array $options = [])
+    public static function script($path, array $options = [])
     {
         $i = new Asset();
         $i
@@ -119,7 +119,7 @@ class I
         return $i->resolve();
     }
 
-    public static function stylesheet(string $path, array $options = [])
+    public static function stylesheet($path, array $options = [])
     {
         $i = new Asset();
         $i
@@ -130,7 +130,7 @@ class I
         return $i->resolve();
     }
 
-    public static function unaction(string $hook, string $name = null)
+    public static function unaction($hook, $name = null)
     {
         self::action('init', function () use ($hook, $name) {
             if (!$name) {
@@ -141,14 +141,14 @@ class I
         });
     }
 
-    public static function render(string $view, array $payload = [])
+    public static function render($view, array $payload = [])
     {
         $engine = new Engine();
 
         return $engine->render($view, $payload);
     }
 
-    public static function view(string $path, array $payload = [])
+    public static function view($path, array $payload = [])
     {
         return self::render(file_get_contents(self::get('PLUGIN_DIR').ltrim(self::get('VIEWS_DIR'), '/').$path), $payload);
     }
@@ -220,7 +220,7 @@ class I
         return self::get('BASENAME');
     }
 
-    public static function directory(string $type)
+    public static function directory($type)
     {
         return self::get('DIRECTORY.'.$type);
     }

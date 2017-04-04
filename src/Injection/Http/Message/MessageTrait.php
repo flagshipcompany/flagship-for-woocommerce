@@ -28,7 +28,7 @@ trait MessageTrait
         return $this->headers;
     }
 
-    public function getHeader(string $header)
+    public function getHeader($header)
     {
         if (!$this->hasHeader($header)) {
             return null;
@@ -46,7 +46,7 @@ trait MessageTrait
         return $this;
     }
 
-    public function withHeader(string $header, $value)
+    public function withHeader($header, $value)
     {
         $normalized = strtoupper($header);
         $this->headers[$normalized] = trim($value);
@@ -54,7 +54,7 @@ trait MessageTrait
         return $this;
     }
 
-    public function hasHeader(string $header)
+    public function hasHeader($header)
     {
         $normalized = strtoupper($header);
 

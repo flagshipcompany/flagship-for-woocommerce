@@ -55,7 +55,7 @@ class Asset implements InjectorInterface
         return $this;
     }
 
-    public function withPath(string $path)
+    public function withPath($path)
     {
         $this->path = $path;
 
