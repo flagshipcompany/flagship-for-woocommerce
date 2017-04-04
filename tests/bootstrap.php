@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/../src/Injection/I.php';
+// require __DIR__.'/../src/Injection/I.php';
 
 require __DIR__.'/../vendor/autoload.php';
 
