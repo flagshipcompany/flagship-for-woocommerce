@@ -239,7 +239,7 @@ class I
         );
     }
 
-    public static function boot(string $baseDir)
+    public static function boot($baseDir)
     {
         $config = require_once $baseDir.'/injection.php';
 
