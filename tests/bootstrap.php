@@ -2,7 +2,7 @@
 
 // require __DIR__.'/../src/Injection/I.php';
 
-require __DIR__.'/../vendor/autoload.php';
+require_once dirname(__DIR__).'/vendor/autoload.php';
 
 \FS\Test\Helper\Bootstrap::initialize(
     dirname(__FILE__),
