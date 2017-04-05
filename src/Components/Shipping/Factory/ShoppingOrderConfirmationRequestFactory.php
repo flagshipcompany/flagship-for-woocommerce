@@ -51,7 +51,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->add(
             'service',
             $this->makeRequestPart(
-                $factory->resolve('ShippingServiceBuilder', [
+                $factory->resolve('ShippingService', [
                     'type' => 'order',
                 ]),
                 $this->payload

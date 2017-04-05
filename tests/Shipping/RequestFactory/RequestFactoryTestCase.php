@@ -11,7 +11,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
         $this->package = require __DIR__.'/../../Fixture/Package.php';
         $this->order = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory')
-            ->getModel('order', array(
+            ->resolve('order', array(
                 'nativeOrder' => \FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleOrder(),
             ));
 
