@@ -2,6 +2,8 @@
 
 namespace FS\Components\Shipping\Method;
 
+use FS\Components\Event\ApplicationEvent;
+
 class FlagShipWcShippingMethod extends \WC_Shipping_Method
 {
     protected $ctx;
@@ -400,7 +402,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             ->_('\\FS\\Components\\Options')
             ->sync($this->instance_id);
 
-        $event = new \FS\Configurations\WordPress\Event\CalculateShippingEvent();
+        $event = new ApplicationEvent(ApplicationEvent::CALCULATE_SHIPPING);
         $event->setInputs(array(
             'package' => $package,
             'method' => $this,

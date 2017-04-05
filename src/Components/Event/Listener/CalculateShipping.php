@@ -20,65 +20,32 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
         $package = $event->getInput('package');
         $method = $event->getInput('method');
 
-        $options = $context
-            ->_('\\FS\\Components\\Options');
-        $command = $context
-            ->_('\\FS\\Components\\Shipping\\Command');
-        $factory = $context
-            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingCartRateRequestFactory');
-        $client = $context
-            ->_('\\FS\\Components\\Http\\Client')
-            ->setToken($options->get('token'));
-        $notifier = $context
-            ->_('\\FS\\Components\\Notifier')
-            ->scope('cart');
-        $rateProcessorFactory = $context
-            ->_('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
+        $context
+            ->controller('\\FS\\Components\\Shipping\\Controller\\ShippingController')
+            ->before(function ($context) {
+                // apply middlware function before invoke controller method
+                $options = $context
+                    ->_('\\FS\\Components\\Options');
 
-        // when store owner disable front end warning for their customer
-        if ($options->eq('disable_api_warning', 'yes')) {
-            $notifier->enableSilentLogging();
-        }
+                $context
+                    ->_('\\FS\\Components\\Http\\Client')
+                    ->setToken($options->get('token'));
 
-        // no shipping address, alert customer
-        if (empty($package['destination']['postcode'])) {
-            $notifier->notice('Add shipping address to get shipping rates! (click "Calculate Shipping")');
-            $notifier->view();
+                $notifier = $context
+                    ->_('\\FS\\Components\\Notifier')
+                    ->scope('cart');
 
-            return;
-        }
-
-        $response = $command->quote(
-            $client,
-            $factory->setPayload(array(
-                'package' => $package,
-                'options' => $options,
-                'notifier' => $notifier,
-            ))->getRequest()
-        );
-
-        if (!$response->isSuccessful()) {
-            $notifier->error('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>');
-            $notifier->view();
-
-            return;
-        }
-
-        $rates = $response->getContent();
-
-        $rates = $rateProcessorFactory
-            ->getRateProcessor('ProcessRate')
-            ->getProcessedRates($rates, array(
-                'factory' => $rateProcessorFactory,
-                'options' => $options,
-                'instanceId' => property_exists($method, 'instance_id') ? $method->instance_id : false,
-                'methodId' => $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID'),
-            ));
-
-        foreach ($rates as $rate) {
-            $method->add_rate($rate);
-        }
-
-        $notifier->view();
+                // when store owner disable front end warning for their customer
+                if ($options->eq('disable_api_warning', 'yes')) {
+                    $notifier->enableSilentLogging();
+                }
+            })
+            ->after(function ($context) {
+                // we have to explicit "show" notification
+                $context
+                    ->_('\\FS\\Components\\Notifier')
+                    ->view();
+            })
+            ->dispatch('calculate', [$package, $method]);
     }
 }

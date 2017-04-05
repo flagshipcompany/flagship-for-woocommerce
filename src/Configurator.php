@@ -15,7 +15,7 @@ class Configurator implements ConfigurationInterface
      *
      * @param Context $ctx
      */
-    public function configure(Context $ctx)
+    public function configure(Context $context)
     {
         // initialize singletons
         foreach ([
@@ -31,26 +31,11 @@ class Configurator implements ConfigurationInterface
             '\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory',
             '\\FS\\Components\\Http\\Client',
         ] as $class) {
-            $ctx->_($class);
+            $context->_($class);
         }
 
-        // below 3 statements are equivalent
-
-        // 1.
-        // foreach ([
-        //     '\\FS\\Components\\Web\\RequestParam',
-        // ] as $class) {
-        //     $ctx->_($class);
-        // }
-
-        // 2.
-        // $ctx->_('\\FS\\Components\\Web\\RequestParam');
-
-        // 3.
-        // $ctx['\\FS\\Components\\Web\\RequestParam'] = (new \FS\Components\Web\RequestParam())->setApplicationContext($ctx);
-
-        // register events
-        $ctx->_('\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory')
+        // register events (WordPress hooks)
+        $context->_('\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory')
             ->addApplicationListeners([
                 // normal
                 new Listener\PluginInitialization(),
