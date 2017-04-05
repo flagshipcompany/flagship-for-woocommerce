@@ -49,7 +49,7 @@ class ShippingController extends AbstractComponent
         $rates = $response->getContent();
 
         $rates = $rateProcessorFactory
-            ->getRateProcessor('ProcessRate')
+            ->resolve('ProcessRate')
             ->getProcessedRates($rates, array(
                 'factory' => $rateProcessorFactory,
                 'options' => $options,

@@ -44,7 +44,7 @@ class Order extends AbstractModel implements \ArrayAccess, OrderInterface
 
         $factory = $this->getApplicationContext()->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory');
 
-        return $factory->getModel(
+        return $factory->resolve(
             \FS\Components\Shop\Factory\FactoryInterface::RESOURCE_SHIPMENT,
             array('raw' => $raw)
         )->setReceiverAddress($this->getReceiverAddress());

@@ -4,6 +4,7 @@ namespace FS\Components\View\Factory;
 
 use FS\Components\AbstractComponent;
 use FS\Components\View\BasicView;
+use FS\Context\Factory\FactoryInterface;
 
 class ViewFactory extends AbstractComponent implements FactoryInterface
 {
@@ -11,7 +12,7 @@ class ViewFactory extends AbstractComponent implements FactoryInterface
     const RESOURCE_OPTION_PACKAGE_BOX = 'option-package-box';
     const RESOURCE_OPTION_LOG = 'option-log';
 
-    public function getView($resource, $context = array())
+    public function resolve($resource, $context = array())
     {
         $view = $this->resolveView($resource, $context);
 

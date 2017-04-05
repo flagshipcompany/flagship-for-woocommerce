@@ -11,9 +11,9 @@ class ShoppingOrderPickupRequestFactory extends AbstractRequestFactory implement
         $request->add(
             'address',
             $this->makeRequestPart(
-                $factory->getShipperAddressBuilder(array(
+                $factory->resolve('ShipperAddress', [
                     'type' => 'order',
-                )),
+                ]),
                 $this->payload
             )
         );

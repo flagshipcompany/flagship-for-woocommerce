@@ -14,7 +14,7 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
         $methodId = $payload['methodId'];
 
         $rates = $factory
-            ->getRateProcessor('EnabledRate')
+            ->resolve('EnabledRate')
             ->getProcessedRates($rates, [
                 'enabled' => [
                     'standard' => ($options->get('allow_standard_rates') == 'yes'),
@@ -24,7 +24,7 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
             ]);
 
         $rates = $factory
-            ->getRateProcessor('CourierExcludedRate')
+            ->resolve('CourierExcludedRate')
             ->getProcessedRates($rates, [
                 'excluded' => array_filter(['fedex', 'ups', 'purolator'], function ($courier) use ($options) {
                     return $options->neq('disable_courier_'.$courier, 'no');
@@ -32,14 +32,14 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
             ]);
 
         $rates = $factory
-            ->getRateProcessor('XNumberOfBestRate')
+            ->resolve('XNumberOfBestRate')
             ->getProcessedRates($rates, [
                 'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
                 'offered' => $options->get('offer_rates', 'all'),
             ]);
 
         $rates = $factory
-            ->getRateProcessor('NativeRate')
+            ->resolve('NativeRate')
             ->getProcessedRates($rates, [
                 'methodId' => $methodId,
                 'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),

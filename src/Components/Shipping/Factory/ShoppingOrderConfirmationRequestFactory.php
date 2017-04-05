@@ -11,15 +11,15 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->add(
             'from',
             $this->makeRequestPart(
-                $factory->getShipperAddressBuilder(array(
+                $factory->resolve('ShipperAddress', [
                     'type' => 'order',
-                )),
+                ]),
                 $this->payload
             )
         );
 
         $toAddress = $this->makeRequestPart(
-            $factory->getBuilder('ReceiverAddress', array(
+            $factory->resolve('ReceiverAddress', array(
                 'type' => 'order',
             )),
             $this->payload
@@ -33,7 +33,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->add(
             'packages',
             $this->makeRequestPart(
-                $factory->getBuilder('PackageItems', array(
+                $factory->resolve('PackageItems', array(
                     'type' => 'order',
                     'usePackingApi' => $this->payload['options']->eq('enable_packing_api', 'yes'),
                 )),
@@ -51,9 +51,9 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->add(
             'service',
             $this->makeRequestPart(
-                $factory->getShippingServiceBuilder(array(
+                $factory->resolve('ShippingServiceBuilder', [
                     'type' => 'order',
-                )),
+                ]),
                 $this->payload
             )
         );
@@ -61,7 +61,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
         $request->add(
             'options',
             $this->makeRequestPart(
-                $factory->getBuilder('ShippingOptions', array(
+                $factory->resolve('ShippingOptions', array(
                     'type' => 'order',
                 )),
                 $this->payload + $request->getRequest()
@@ -74,7 +74,7 @@ class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory imp
 
         // build commercial invoice
         $ci = $this->makeRequestPart(
-            $factory->getBuilder('CommercialInvoice', array(
+            $factory->resolve('CommercialInvoice', array(
                 'type' => 'order',
             )),
             $this->payload + $request->getRequest()

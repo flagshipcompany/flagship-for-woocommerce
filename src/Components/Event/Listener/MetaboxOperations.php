@@ -61,7 +61,7 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
     {
         \add_action('woocommerce_process_shop_order_meta', function ($postId, $post) use ($context) {
             $event = new ApplicationEvent(ApplicationEvent::METABOX_OPERATIONS);
-            $order = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory')->getModel('order', array(
+            $order = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory')->resolve('order', array(
                 'id' => $postId,
             ));
 

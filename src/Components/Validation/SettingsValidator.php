@@ -22,11 +22,11 @@ class SettingsValidator extends AbstractValidator implements ValidatorInterface
         }
 
         // phone
-        $phoneValidator = $factory->getValidator('Phone');
+        $phoneValidator = $factory->resolve('Phone');
         $phoneValidator->validate($target['shipper_phone_number'], $notifier);
 
         // address
-        $addressValidator = $factory->getValidator('AddressEssential');
+        $addressValidator = $factory->resolve('AddressEssential');
         $address = $addressValidator->validate(array(
             'postal_code' => $target['origin'],
             'state' => $target['freight_shipper_state'],
@@ -56,7 +56,7 @@ class SettingsValidator extends AbstractValidator implements ValidatorInterface
         }
 
         // overall integrity, send mock quote request
-        $integrityValidator = $factory->getValidator('Integrity');
+        $integrityValidator = $factory->resolve('Integrity');
         $integrityValidator->validate($target, $notifier);
 
         return $target;

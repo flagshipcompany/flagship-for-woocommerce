@@ -4,14 +4,15 @@ namespace FS\Components\Shipping\RequestBuilder\Factory;
 
 use FS\Components\AbstractComponent;
 use FS\Components\Shipping\RequestBuilder;
+use FS\Context\Factory\FactoryInterface;
 
 class RequestBuilderFactory extends AbstractComponent implements FactoryInterface
 {
-    public function getBuilder($resource, $context = array())
+    public function resolve($resource, $option = [])
     {
         switch ($resource) {
             case 'ReceiverAddress':
-                if (isset($context['type']) && $context['type'] == 'cart') {
+                if (isset($option['type']) && $option['type'] == 'cart') {
                     return new RequestBuilder\Cart\ReceiverAddressBuilder();
                 } else {
                     return new RequestBuilder\Order\ReceiverAddressBuilder();
@@ -24,8 +25,8 @@ class RequestBuilderFactory extends AbstractComponent implements FactoryInterfac
                 return new RequestBuilder\ProductItemBuilder();
                 // no break
             case 'PackageItems':
-                $isCart = isset($context['type']) && $context['type'] == 'cart';
-                $usePackingApi = isset($context['usePackingApi']) && $context['usePackingApi'];
+                $isCart = isset($option['type']) && $option['type'] == 'cart';
+                $usePackingApi = isset($option['usePackingApi']) && $option['usePackingApi'];
 
                 if ($isCart && $usePackingApi) {
                     return new RequestBuilder\Cart\PackageItems\ApiBuilder();
@@ -47,16 +48,10 @@ class RequestBuilderFactory extends AbstractComponent implements FactoryInterfac
                 // no break
             case 'CommercialInvoice':
                 return new RequestBuilder\Order\CommercialInvoiceBuilder();
+            case 'ShipperAddress':
+                return new RequestBuilder\ShipperAddressBuilder();
+            case 'ShippingService':
+                return new RequestBuilder\Order\ShippingServiceBuilder();
         }
-    }
-
-    public function getShipperAddressBuilder($context = array())
-    {
-        return new RequestBuilder\ShipperAddressBuilder();
-    }
-
-    public function getShippingServiceBuilder($context = array())
-    {
-        return new RequestBuilder\Order\ShippingServiceBuilder();
     }
 }

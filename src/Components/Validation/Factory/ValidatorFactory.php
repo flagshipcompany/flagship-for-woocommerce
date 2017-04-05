@@ -3,12 +3,13 @@
 namespace FS\Components\Validation\Factory;
 
 use FS\Components\AbstractComponent;
+use FS\Context\Factory\FactoryInterface;
 
 class ValidatorFactory extends AbstractComponent implements FactoryInterface
 {
-    public function getValidator($resource, $context = array())
+    public function resolve($resource, $option = [])
     {
-        return $this->resolveValidator($resource, $context)->setApplicationContext($this->getApplicationContext());
+        return $this->resolveValidator($resource, $option)->setApplicationContext($this->getApplicationContext());
     }
 
     protected function resolveValidator($resource, $context = array())

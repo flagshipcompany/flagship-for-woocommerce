@@ -394,7 +394,7 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
 
         $view = $this->ctx
             ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->getView(\FS\Components\View\Factory\ViewFactory::RESOURCE_OPTION_LOG);
+            ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_OPTION_LOG);
 
         $view->render(array(
             'field_key' => $this->get_field_key($key),
@@ -419,7 +419,7 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
 
         $view = $this->ctx
             ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->getView(\FS\Components\View\Factory\ViewFactory::RESOURCE_OPTION_PACKAGE_BOX);
+            ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_OPTION_PACKAGE_BOX);
 
         $view->render(array(
             'packageBoxes' => $packageBoxes,

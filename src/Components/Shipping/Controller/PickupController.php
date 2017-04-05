@@ -111,9 +111,9 @@ class PickupController extends AbstractComponent
 
             $orderIds = get_post_meta($pickupPostId, 'order_ids', true);
 
-            $this->schedulePickup($shopFactory->getModel(
-                \FS\Components\Shop\Factory\FactoryInterface::RESOURCE_ORDER_COLLECTION,
-                array('ids' => $orderIds)
+            $this->schedulePickup($shopFactory->resolve(
+                \FS\Components\Shop\Factory\ShopFactory::RESOURCE_ORDER_COLLECTION,
+                ['ids' => $orderIds]
             ), $pickupPostIds);
         }
 

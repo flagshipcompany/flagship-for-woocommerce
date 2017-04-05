@@ -25,9 +25,9 @@ class PickupPostType extends AbstractComponent implements ApplicationListenerInt
 
         switch ($type) {
             case 'schedule':
-                $pickup->schedulePickup($factory->getModel(
-                    \FS\Components\Shop\Factory\FactoryInterface::RESOURCE_ORDER_COLLECTION,
-                    array('ids' => $postIds)
+                $pickup->schedulePickup($factory->resolve(
+                    \FS\Components\Shop\Factory\ShopFactory::RESOURCE_ORDER_COLLECTION,
+                    ['ids' => $postIds]
                 ));
                 break;
             case 'void':
@@ -145,7 +145,7 @@ class PickupPostType extends AbstractComponent implements ApplicationListenerInt
                     $options = $context
                         ->_('\\FS\\Components\\Options');
 
-                    $builder = $factory->getShipperAddressBuilder();
+                    $builder = $factory->resolve('ShipperAddress');
 
                     $address = $builder->build(array(
                         'options' => $options,

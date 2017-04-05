@@ -11,7 +11,7 @@ class ShoppingOrderPackingRequestFactory extends AbstractRequestFactory implemen
         $request->add(
             'items',
             $this->makeRequestPart(
-                $factory->getBuilder('ProductItem', array(
+                $factory->resolve('ProductItem', array(
                     'type' => 'order',
                 )),
                 $this->payload
@@ -21,7 +21,7 @@ class ShoppingOrderPackingRequestFactory extends AbstractRequestFactory implemen
         $request->add(
             'boxes',
             $this->makeRequestPart(
-                $factory->getBuilder('PackageBox', array(
+                $factory->resolve('PackageBox', array(
                     'type' => 'order',
                 )),
                 $this->payload

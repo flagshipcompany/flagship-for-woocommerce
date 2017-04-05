@@ -11,15 +11,15 @@ class ShoppingCartRateRequestFactory extends AbstractRequestFactory implements F
         $request->add(
             'from',
             $this->makeRequestPart(
-                $factory->getShipperAddressBuilder(array(
+                $factory->resolve('ShipperAddress', [
                     'type' => 'cart',
-                )),
+                ]),
                 $this->payload
             )
         );
 
         $toAddress = $this->makeRequestPart(
-            $factory->getBuilder('ReceiverAddress', array(
+            $factory->resolve('ReceiverAddress', array(
                 'type' => 'cart',
             )),
             $this->payload
@@ -33,7 +33,7 @@ class ShoppingCartRateRequestFactory extends AbstractRequestFactory implements F
         $request->add(
             'packages',
             $this->makeRequestPart(
-                $factory->getBuilder('PackageItems', array(
+                $factory->resolve('PackageItems', array(
                     'type' => 'cart',
                     'usePackingApi' => $this->payload['options']->eq('enable_packing_api', 'yes'),
                 )),

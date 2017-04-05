@@ -49,7 +49,7 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
                 function ($postId, $post) use ($context) {
                     $event = new ApplicationEvent(ApplicationEvent::METABOX_DISPLAY);
 
-                    $order = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory')->getModel('order', array(
+                    $order = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory')->resolve('order', array(
                         'id' => $postId,
                     ));
 

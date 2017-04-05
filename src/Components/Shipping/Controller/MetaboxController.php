@@ -13,7 +13,7 @@ class MetaboxController extends AbstractComponent
     {
         $view = $context
             ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->getView(\FS\Components\View\Factory\ViewFactory::RESOURCE_METABOX);
+            ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_METABOX);
 
         $shipment = $order->getShipment();
         $service = $order->getShippingService();
@@ -162,7 +162,7 @@ class MetaboxController extends AbstractComponent
         $rates = $response->getContent();
 
         $rates = $rateProcessorFactory
-            ->getRateProcessor('ProcessRate')
+            ->resolve('ProcessRate')
             ->getProcessedRates($rates, [
                 'factory' => $rateProcessorFactory,
                 'options' => $options,
