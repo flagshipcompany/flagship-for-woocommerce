@@ -2,17 +2,11 @@
 
 namespace FS\Components\Validation\Factory;
 
-use FS\Components\AbstractComponent;
-use FS\Context\Factory\FactoryInterface;
+use FS\Context\Factory\AbstractFactory;
 
-class ValidatorFactory extends AbstractComponent implements FactoryInterface
+class ValidatorFactory extends AbstractFactory
 {
-    public function resolve($resource, $option = [])
-    {
-        return $this->resolveValidator($resource, $option)->setApplicationContext($this->getApplicationContext());
-    }
-
-    protected function resolveValidator($resource, $context = array())
+    public function resolveWithoutContext($resource, array $option = [])
     {
         switch ($resource) {
             case 'AddressEssential':

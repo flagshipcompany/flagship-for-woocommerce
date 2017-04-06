@@ -3,12 +3,11 @@
 namespace FS\Components\Shipping\RateProcessor\Factory;
 
 use FS\Components\Shipping\RateProcessor;
-use FS\Components\AbstractComponent;
-use FS\Context\Factory\FactoryInterface;
+use FS\Context\Factory\AbstractFactory;
 
-class RateProcessorFactory extends AbstractComponent implements FactoryInterface
+class RateProcessorFactory extends AbstractFactory
 {
-    public function resolve($resource, $option = [])
+    public function resolveWithoutContext($resource, array $option = [])
     {
         switch ($resource) {
             case 'NativeRate':

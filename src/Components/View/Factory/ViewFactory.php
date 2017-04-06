@@ -2,28 +2,16 @@
 
 namespace FS\Components\View\Factory;
 
-use FS\Components\AbstractComponent;
+use FS\Context\Factory\AbstractFactory;
 use FS\Components\View\BasicView;
-use FS\Context\Factory\FactoryInterface;
 
-class ViewFactory extends AbstractComponent implements FactoryInterface
+class ViewFactory extends AbstractFactory
 {
     const RESOURCE_METABOX = 'metabox';
     const RESOURCE_OPTION_PACKAGE_BOX = 'option-package-box';
     const RESOURCE_OPTION_LOG = 'option-log';
 
-    public function resolve($resource, $context = array())
-    {
-        $view = $this->resolveView($resource, $context);
-
-        if ($view) {
-            return $view->setApplicationContext($this->getApplicationContext());
-        }
-
-        throw new \Exception('Unable to resolve view: '.$resource, 500);
-    }
-
-    protected function resolveView($resource, $context = array())
+    public function resolveWithoutContext($resource, array $option = [])
     {
         switch ($resource) {
             case self::RESOURCE_METABOX:

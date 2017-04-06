@@ -2,7 +2,9 @@
 
 namespace FS\Components;
 
-class Notifier extends AbstractComponent
+use FS\Components\Factory\ComponentInitializingInterface;
+
+class Notifier extends AbstractComponent implements ComponentInitializingInterface
 {
     public $notifications = array();
 
@@ -12,6 +14,14 @@ class Notifier extends AbstractComponent
     protected $extras = array();
     protected $prev = array();
     protected $silent = false;
+
+    /**
+     * load viewer after notifier is instantiated.
+     */
+    public function afterPropertiesSet()
+    {
+        $this->setViewer($this->getApplicationContext()->_('\\FS\\Components\\Viewer'));
+    }
 
     public function add($type, $message)
     {
@@ -66,7 +76,7 @@ class Notifier extends AbstractComponent
         return $this->cleanup();
     }
 
-    public function scope($scope = 'native', $extras = array())
+    public function scope($scope = 'native', $extras = [])
     {
         if (!empty($this->notifications)) {
             $this->prev = array(

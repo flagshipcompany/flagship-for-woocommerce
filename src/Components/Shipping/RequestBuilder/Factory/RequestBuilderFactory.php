@@ -2,13 +2,12 @@
 
 namespace FS\Components\Shipping\RequestBuilder\Factory;
 
-use FS\Components\AbstractComponent;
+use FS\Context\Factory\AbstractFactory;
 use FS\Components\Shipping\RequestBuilder;
-use FS\Context\Factory\FactoryInterface;
 
-class RequestBuilderFactory extends AbstractComponent implements FactoryInterface
+class RequestBuilderFactory extends AbstractFactory
 {
-    public function resolve($resource, $option = [])
+    public function resolveWithoutContext($resource, array $option = [])
     {
         switch ($resource) {
             case 'ReceiverAddress':

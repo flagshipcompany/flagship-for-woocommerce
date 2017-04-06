@@ -4,18 +4,17 @@ namespace FS\Components\Shop\Factory;
 
 use FS\Components\Shop\Order;
 use FS\Components\Shop\Shipment;
-use FS\Components\AbstractComponent;
-use FS\Context\Factory\FactoryInterface;
+use FS\Context\Factory\AbstractFactory;
 
-class ShopFactory extends AbstractComponent implements FactoryInterface
+class ShopFactory extends AbstractFactory
 {
     const RESOURCE_ORDER = 'order';
     const RESOURCE_SHIPMENT = 'shipment';
     const RESOURCE_ORDER_COLLECTION = 'collection';
 
-    public function resolve($resource, $option = [])
+    public function resolve($resource, array $option = [])
     {
-        $model = $this->resolveModel($resource, $option);
+        $model = $this->resolveWithoutContext($resource, $option);
 
         if ($model && is_array($model)) {
             foreach ($model as $m) {
@@ -32,7 +31,7 @@ class ShopFactory extends AbstractComponent implements FactoryInterface
         throw new \Exception('Unable to resolve shop order: '.$resource, 500);
     }
 
-    protected function resolveModel($resource, $option = [])
+    public function resolveWithoutContext($resource, array $option = [])
     {
         switch ($resource) {
             case self::RESOURCE_ORDER:
