@@ -277,8 +277,8 @@ class I
             });
         }
 
-        if (isset($config['debug']) && $config['debug']) {
-            self::$data['__DEBUG__'] = true;
+        if (isset($config['debug'])) {
+            self::$data['__DEBUG__'] = $config['debug'];
         }
 
         if (isset($config['extra']) && $config['extra']) {
