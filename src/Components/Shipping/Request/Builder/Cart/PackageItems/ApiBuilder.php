@@ -1,23 +1,23 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\Order\PackageItems;
+namespace FS\Components\Shipping\Request\Builder\Cart\PackageItems;
 
-use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
+use FS\Components\Shipping\Request\Builder\BuilderInterface;
 
-class ApiBuilder extends FallbackBuilder implements RequestBuilderInterface
+class ApiBuilder extends FallbackBuilder implements BuilderInterface
 {
     public function makePackageItems($productItems, $payload)
     {
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
         $client = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Http\\Client');
+            ->_('\\FS\\Components\\Http\\Client');
         $command = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Command');
+            ->_('\\FS\\Components\\Shipping\\Command');
         $notifier = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Notifier');
+            ->_('\\FS\\Components\\Notifier');
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPackingRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPackingRequestFactory');
 
         $response = $command->pack(
             $client,
@@ -29,8 +29,6 @@ class ApiBuilder extends FallbackBuilder implements RequestBuilderInterface
 
         // when failed, we need to use fallback
         if (!$response->isSuccessful()) {
-            $notifier->warning('Unable to use FlagShip Packing API. Use fallback weight driven packing.');
-
             return parent::makePackageItems($productItems, $payload);
         }
 

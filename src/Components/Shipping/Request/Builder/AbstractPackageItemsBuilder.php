@@ -1,10 +1,10 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder;
+namespace FS\Components\Shipping\Request\Builder;
 
 use FS\Components\AbstractComponent;
 
-abstract class AbstractPackageItemsBuilder extends AbstractComponent implements RequestBuilderInterface
+abstract class AbstractPackageItemsBuilder extends AbstractComponent implements BuilderInterface
 {
     public static $scope = 'prototype';
 

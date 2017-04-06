@@ -62,7 +62,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
     public function testShoppingCartRateRequestFactory()
     {
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingCartRateRequestFactory');
+            ->getComponent('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingCartRate');
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
 
@@ -72,7 +72,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
             'notifier' => $this->ctx->getComponent('\\FS\\Components\\Notifier'),
         ))->getRequest();
 
-        $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Factory\\FormattedRequestInterface');
+        $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Request\\FormattedRequestInterface');
 
         $this->assertTrue(true, $reflected->isInstance($request));
         $this->assertSame(array(
@@ -119,7 +119,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
     public function testShopOrderConfirmationRequestFactory()
     {
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderConfirmationRequestFactory');
+            ->getComponent('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderConfirmation');
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
 
@@ -129,7 +129,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
             'options' => $options,
         ))->getRequest();
 
-        $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Factory\\FormattedRequestInterface');
+        $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Request\\FormattedRequestInterface');
 
         $this->assertTrue(true, $reflected->isInstance($request));
         $this->assertSame(array(
@@ -216,7 +216,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
     public function testShopOrderPickupRequestFactory()
     {
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPickupRequestFactory');
+            ->getComponent('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPickup');
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
 
@@ -227,7 +227,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
             'date' => $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam')->request->get('flagship_shipping_pickup_schedule_date', '2016-09-28'),
         ))->getRequest();
 
-        $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Factory\\FormattedRequestInterface');
+        $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Request\\FormattedRequestInterface');
 
         $this->assertTrue(true, $reflected->isInstance($request));
         $this->assertSame(array(
@@ -258,7 +258,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
     public function testShopOrderRateRequestFactory()
     {
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderRateRequestFactory');
+            ->getComponent('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
 
@@ -267,7 +267,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
             'options' => $options,
         ))->getRequest();
 
-        $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Factory\\FormattedRequestInterface');
+        $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Request\\FormattedRequestInterface');
 
         $this->assertTrue(true, $reflected->isInstance($request));
         $this->assertSame(array(
@@ -317,7 +317,7 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
     public function testMultipleOrdersPickupRequestFactory()
     {
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
+            ->getComponent('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
 

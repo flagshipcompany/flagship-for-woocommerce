@@ -2,9 +2,9 @@
 
 namespace FS\Components\Validation;
 
-use FS\Components\Notifier;
+use FS\Context\ApplicationContext as Context;
 
 interface ValidatorInterface
 {
-    public function validate($target, Notifier $notifier);
+    public function validate($target, Context $context);
 }

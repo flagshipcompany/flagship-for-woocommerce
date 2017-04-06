@@ -1,10 +1,10 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder;
+namespace FS\Components\Shipping\Request\Builder;
 
 use FS\Components\AbstractComponent;
 
-class ProductItemBuilder extends AbstractComponent implements RequestBuilderInterface
+class ProductItemBuilder extends AbstractComponent implements BuilderInterface
 {
     public function build($payload = null)
     {

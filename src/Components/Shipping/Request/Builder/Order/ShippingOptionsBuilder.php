@@ -1,11 +1,11 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\Order;
+namespace FS\Components\Shipping\Request\Builder\Order;
 
 use FS\Components\AbstractComponent;
-use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
+use FS\Components\Shipping\Request\Builder\BuilderInterface;
 
-class ShippingOptionsBuilder extends AbstractComponent implements RequestBuilderInterface
+class ShippingOptionsBuilder extends AbstractComponent implements BuilderInterface
 {
     public function build($payload = null)
     {

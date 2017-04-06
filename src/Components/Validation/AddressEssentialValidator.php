@@ -2,13 +2,13 @@
 
 namespace FS\Components\Validation;
 
-use FS\Components\Notifier;
+use FS\Context\ApplicationContext as Context;
 
 class AddressEssentialValidator extends AbstractValidator
 {
-    public function validate($target, Notifier $notifier)
+    public function validate($target, Context $context)
     {
-        $client = $this->getApplicationContext()->_('\\FS\\Components\\Http\\Client');
+        $client = $context->_('\\FS\\Components\\Http\\Client');
 
         $response = $client->get(
             '/addresses/integrity',
@@ -23,7 +23,7 @@ class AddressEssentialValidator extends AbstractValidator
 
         // the address is not valid but the api provide a correction
         if ($response->isSuccessful() && !$body['is_valid']) {
-            $notifier->warning(__('Address corrected to match with shipper\'s postal code.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $context->alert(__('Address corrected to match with shipper\'s postal code.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
 
             $target['postal_code'] = $body['postal_code'];
             $target['state'] = $body['state'];
@@ -33,7 +33,7 @@ class AddressEssentialValidator extends AbstractValidator
         }
 
         foreach ($response->getErrors() as $error) {
-            $notifier->warning($error);
+            $context->alert($error, 'warning');
         }
 
         return $target;

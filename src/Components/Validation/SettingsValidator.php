@@ -2,14 +2,13 @@
 
 namespace FS\Components\Validation;
 
-use FS\Components\Notifier;
+use FS\Context\ApplicationContext as Context;
 
 class SettingsValidator extends AbstractValidator
 {
-    public function validate($target, Notifier $notifier)
+    public function validate($target, Context $context)
     {
-        $context = $this->getApplicationContext();
-        $factory = $context->_('\\FS\\Components\\Validation\\Factory\\ValidatorFactory');
+        $factory = $context->factory('\\FS\\Components\\Validation\\Factory\\ValidatorFactory');
 
         // if user set/update token, we need to use the latest entered one
         if (isset($target['token'])) {
@@ -18,21 +17,21 @@ class SettingsValidator extends AbstractValidator
 
         // enabled?
         if ($target['enabled'] != 'yes') {
-            $notifier->warning(__('FlagShip Shipping is disabled.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $context->alert(__('FlagShip Shipping is disabled.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
         }
 
         // phone
         $phoneValidator = $factory->resolve('Phone');
-        $phoneValidator->validate($target['shipper_phone_number'], $notifier);
+        $phoneValidator->validate($target['shipper_phone_number'], $context);
 
         // address
         $addressValidator = $factory->resolve('AddressEssential');
-        $address = $addressValidator->validate(array(
+        $address = $addressValidator->validate([
             'postal_code' => $target['origin'],
             'state' => $target['freight_shipper_state'],
             'city' => $target['freight_shipper_city'],
             'country' => 'CA',
-        ), $notifier);
+        ], $context);
 
         $target['origin'] = $address['postal_code'];
         $target['freight_shipper_state'] = $address['state'];
@@ -40,24 +39,24 @@ class SettingsValidator extends AbstractValidator
 
         // credentials
         if (!$target['shipper_person_name']) {
-            $notifier->warning(__('Shipper person name is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $context->alert(__('Shipper person name is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
         }
 
         if (!$target['shipper_company_name']) {
-            $notifier->warning(__('Shipper company name is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $context->alert(__('Shipper company name is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
         }
 
         if (!$target['shipper_phone_number']) {
-            $notifier->warning(__('Shipper phone number is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $context->alert(__('Shipper phone number is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
         }
 
         if (!$target['freight_shipper_street']) {
-            $notifier->warning(__('Shipper address\'s streetline is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $context->alert(__('Shipper address\'s streetline is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
         }
 
         // overall integrity, send mock quote request
         $integrityValidator = $factory->resolve('Integrity');
-        $integrityValidator->validate($target, $notifier);
+        $integrityValidator->validate($target, $context);
 
         return $target;
     }

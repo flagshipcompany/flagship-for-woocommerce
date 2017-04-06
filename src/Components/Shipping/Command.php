@@ -4,7 +4,7 @@ namespace FS\Components\Shipping;
 
 use FS\Components\AbstractComponent;
 use FS\Components\Http\Client;
-use FS\Components\Shipping\Factory\FormattedRequestInterface as FormattedRequest;
+use FS\Components\Shipping\Request\FormattedRequestInterface as FormattedRequest;
 use FS\Injection\Http\Response;
 
 class Command extends AbstractComponent

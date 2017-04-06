@@ -1,10 +1,11 @@
 <?php
 
-namespace FS\Components\Shipping\Factory;
+namespace FS\Components\Shipping\Request\Factory;
 
 use FS\Components\AbstractComponent;
-use FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory;
-use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
+use FS\Components\Shipping\Request\Builder\Factory\RequestBuilderFactory;
+use FS\Components\Shipping\Request\Builder\BuilderInterface;
+use FS\Components\Shipping\Request\FormattedRequestInterface;
 
 abstract class AbstractRequestFactory extends AbstractComponent implements FormattedRequestInterface, PayloadAwareInterface
 {
@@ -15,7 +16,7 @@ abstract class AbstractRequestFactory extends AbstractComponent implements Forma
     {
         $request = new \FS\Components\Shipping\FormattedRequest();
         $factory = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Shipping\\RequestBuilder\\Factory\\RequestBuilderFactory');
+            ->_('\\FS\\Components\\Shipping\\Request\\Builder\\Factory\\RequestBuilderFactory');
 
         $this->makeRequest($request, $factory);
 
@@ -31,7 +32,7 @@ abstract class AbstractRequestFactory extends AbstractComponent implements Forma
 
     abstract public function makeRequest(FormattedRequestInterface $request, RequestBuilderFactory $factory);
 
-    protected function makeRequestPart(RequestBuilderInterface $builder, $data)
+    protected function makeRequestPart(BuilderInterface $builder, $data)
     {
         return $builder->build($data);
     }

@@ -1,11 +1,11 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\Cart\PackageItems;
+namespace FS\Components\Shipping\Request\Builder\Cart\PackageItems;
 
-use FS\Components\Shipping\RequestBuilder\AbstractPackageItemsBuilder;
-use FS\Components\Shipping\RequestBuilder\RequestBuilderInterface;
+use FS\Components\Shipping\Request\Builder\AbstractPackageItemsBuilder;
+use FS\Components\Shipping\Request\Builder\BuilderInterface;
 
-class FallbackBuilder extends AbstractPackageItemsBuilder implements RequestBuilderInterface
+class FallbackBuilder extends AbstractPackageItemsBuilder implements BuilderInterface
 {
     protected function makeProductItems($payload)
     {

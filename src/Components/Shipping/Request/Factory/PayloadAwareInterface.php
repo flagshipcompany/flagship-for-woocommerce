@@ -1,6 +1,6 @@
 <?php
 
-namespace FS\Components\Shipping\Factory;
+namespace FS\Components\Shipping\Request\Factory;
 
 interface PayloadAwareInterface
 {

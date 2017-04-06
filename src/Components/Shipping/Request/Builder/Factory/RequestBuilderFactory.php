@@ -1,9 +1,9 @@
 <?php
 
-namespace FS\Components\Shipping\RequestBuilder\Factory;
+namespace FS\Components\Shipping\Request\Builder\Factory;
 
 use FS\Context\Factory\AbstractFactory;
-use FS\Components\Shipping\RequestBuilder;
+use FS\Components\Shipping\Request\Builder;
 
 class RequestBuilderFactory extends AbstractFactory
 {
@@ -12,45 +12,45 @@ class RequestBuilderFactory extends AbstractFactory
         switch ($resource) {
             case 'ReceiverAddress':
                 if (isset($option['type']) && $option['type'] == 'cart') {
-                    return new RequestBuilder\Cart\ReceiverAddressBuilder();
+                    return new Builder\Cart\ReceiverAddressBuilder();
                 } else {
-                    return new RequestBuilder\Order\ReceiverAddressBuilder();
+                    return new Builder\Order\ReceiverAddressBuilder();
                 }
                 // no break
             case 'PackageBox':
-                return new RequestBuilder\PackageBoxBuilder();
+                return new Builder\PackageBoxBuilder();
                 // no break
             case 'ProductItem':
-                return new RequestBuilder\ProductItemBuilder();
+                return new Builder\ProductItemBuilder();
                 // no break
             case 'PackageItems':
                 $isCart = isset($option['type']) && $option['type'] == 'cart';
                 $usePackingApi = isset($option['usePackingApi']) && $option['usePackingApi'];
 
                 if ($isCart && $usePackingApi) {
-                    return new RequestBuilder\Cart\PackageItems\ApiBuilder();
+                    return new Builder\Cart\PackageItems\ApiBuilder();
                 }
 
                 if ($isCart) {
-                    return new RequestBuilder\Cart\PackageItems\FallbackBuilder();
+                    return new Builder\Cart\PackageItems\FallbackBuilder();
                 }
 
                 if (!$isCart && $usePackingApi) {
-                    return new RequestBuilder\Order\PackageItems\ApiBuilder();
+                    return new Builder\Order\PackageItems\ApiBuilder();
                 }
 
-                return new RequestBuilder\Order\PackageItems\FallbackBuilder();
+                return new Builder\Order\PackageItems\FallbackBuilder();
 
                 // no break
             case 'ShippingOptions':
-                return new RequestBuilder\Order\ShippingOptionsBuilder();
+                return new Builder\Order\ShippingOptionsBuilder();
                 // no break
             case 'CommercialInvoice':
-                return new RequestBuilder\Order\CommercialInvoiceBuilder();
+                return new Builder\Order\CommercialInvoiceBuilder();
             case 'ShipperAddress':
-                return new RequestBuilder\ShipperAddressBuilder();
+                return new Builder\ShipperAddressBuilder();
             case 'ShippingService':
-                return new RequestBuilder\Order\ShippingServiceBuilder();
+                return new Builder\Order\ShippingServiceBuilder();
         }
     }
 }

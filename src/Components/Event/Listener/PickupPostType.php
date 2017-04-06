@@ -141,7 +141,7 @@ class PickupPostType extends AbstractComponent implements ApplicationListenerInt
                     break;
                 case 'shipping_address':
                     $factory = $context
-                        ->_('\\FS\\Components\\Shipping\\RequestBuilder\\Factory\\RequestBuilderFactory');
+                        ->_('\\FS\\Components\\Shipping\\Request\\Builder\\Factory\\RequestBuilderFactory');
                     $options = $context
                         ->_('\\FS\\Components\\Options');
 

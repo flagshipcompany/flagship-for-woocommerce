@@ -1,10 +1,11 @@
 <?php
 
-namespace FS\Components\Shipping\Factory;
+namespace FS\Components\Shipping\Request\Factory;
 
-use FS\Components\Shipping\RequestBuilder\Factory\RequestBuilderFactory;
+use FS\Components\Shipping\Request\Builder\Factory\RequestBuilderFactory;
+use FS\Components\Shipping\Request\FormattedRequestInterface;
 
-class ShoppingOrderConfirmationRequestFactory extends AbstractRequestFactory implements FormattedRequestInterface
+class ShoppingOrderConfirmation extends AbstractRequestFactory
 {
     public function makeRequest(FormattedRequestInterface $request, RequestBuilderFactory $factory)
     {

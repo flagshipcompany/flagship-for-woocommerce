@@ -2,7 +2,9 @@
 
 namespace FS\Components\Shipping;
 
-class FormattedRequest implements Factory\FormattedRequestInterface
+use FS\Components\Shipping\Request\FormattedRequestInterface;
+
+class FormattedRequest implements FormattedRequestInterface
 {
     protected $request;
 

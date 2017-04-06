@@ -30,6 +30,13 @@ class ApplicationContext extends AbstractApplicationContext
         return $settings[$key];
     }
 
+    public function factory($factory)
+    {
+        $factory = $this->getComponent($factory);
+
+        return $factory;
+    }
+
     public static function initialize(Container $container, ConfigurationInterface $configurator)
     {
         $ctx = self::getInstance();

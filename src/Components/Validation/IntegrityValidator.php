@@ -2,13 +2,13 @@
 
 namespace FS\Components\Validation;
 
-use FS\Components\Notifier;
+use FS\Context\ApplicationContext as Context;
 
 class IntegrityValidator extends AbstractValidator
 {
-    public function validate($target, Notifier $notifier)
+    public function validate($target, Context $context)
     {
-        $client = $this->getApplicationContext()->_('\\FS\\Components\\Http\\Client');
+        $client = $context->_('\\FS\\Components\\Http\\Client');
 
         $request = array(
             'from' => array(
@@ -53,9 +53,10 @@ class IntegrityValidator extends AbstractValidator
         $response = $client->post('/ship/rates', $request);
 
         if (!$response->isSuccessful()) {
-            $notifier->error(__('<strong>Shipping Integrity Failure:</strong> <br/>', FLAGSHIP_SHIPPING_TEXT_DOMAIN));
+            $context->alert(__('<strong>Shipping Integrity Failure:</strong> <br/>', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'error');
 
-            $notifier->reverse_order('error');
+            // show 'FlagShip API Error: ' first
+            $context->_('\\FS\\Components\\Notifier')->reverse_order('error');
         }
 
         return $target;

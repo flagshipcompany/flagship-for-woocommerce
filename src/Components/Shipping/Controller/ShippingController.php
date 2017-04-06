@@ -15,7 +15,7 @@ class ShippingController extends AbstractComponent
         $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
-            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingCartRateRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingCartRate');
         $client = $context
             ->_('\\FS\\Components\\Http\\Client');
         $notifier = $context
