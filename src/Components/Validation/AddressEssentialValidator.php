@@ -4,7 +4,7 @@ namespace FS\Components\Validation;
 
 use FS\Components\Notifier;
 
-class AddressEssentialValidator extends AbstractValidator implements ValidatorInterface
+class AddressEssentialValidator extends AbstractValidator
 {
     public function validate($target, Notifier $notifier)
     {

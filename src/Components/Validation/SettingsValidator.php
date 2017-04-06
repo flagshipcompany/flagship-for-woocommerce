@@ -4,7 +4,7 @@ namespace FS\Components\Validation;
 
 use FS\Components\Notifier;
 
-class SettingsValidator extends AbstractValidator implements ValidatorInterface
+class SettingsValidator extends AbstractValidator
 {
     public function validate($target, Notifier $notifier)
     {

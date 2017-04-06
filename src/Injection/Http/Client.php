@@ -74,7 +74,11 @@ class Client
         $response = \wp_remote_request(esc_url_raw($request->getUri()), $args);
 
         if (\is_wp_error($response)) {
-            throw new \Exception($response->get_error_message(), 500 | \wp_remote_retrieve_response_code($response));
+            return new Response(500 | \wp_remote_retrieve_response_code($response), [], [
+                'content' => [],
+                'errors' => [$response->get_error_message()],
+                'notices' => [],
+            ]);
         }
 
         return new Response(

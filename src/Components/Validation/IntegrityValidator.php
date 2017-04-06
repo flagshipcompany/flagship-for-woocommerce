@@ -4,7 +4,7 @@ namespace FS\Components\Validation;
 
 use FS\Components\Notifier;
 
-class IntegrityValidator extends AbstractValidator implements ValidatorInterface
+class IntegrityValidator extends AbstractValidator
 {
     public function validate($target, Notifier $notifier)
     {
