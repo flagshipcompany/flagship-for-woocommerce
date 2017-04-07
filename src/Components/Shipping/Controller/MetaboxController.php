@@ -11,9 +11,6 @@ class MetaboxController extends AbstractComponent
 {
     public function display(Req $request, App $context, Ord $order)
     {
-        $context->debug('metabox display');
-        $context->debug(get_post_meta($order->getId(), 'flagship_shipping_raw', true));
-
         $view = $context
             ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
             ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_METABOX);

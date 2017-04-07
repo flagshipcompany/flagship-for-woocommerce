@@ -18,25 +18,18 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
 
     public function onApplicationEvent(Event $event, Context $context)
     {
-        $mapping = [
-            'shipment-create' => 'createShipment',
-            'shipment-void' => 'voidShipment',
-            'shipment-requote' => 'requoteShipment',
-            'pickup-schedule' => 'schedulePickup',
-            'pickup-void' => 'voidPickup',
-        ];
-
         $rp = $context
             ->_('\\FS\\Components\\Web\\RequestParam');
-
-        if (!isset($mapping[$rp->request->get('flagship_shipping_shipment_action')])) {
-            return;
-        }
-
         $order = $event->getInput('order');
 
         $context
-            ->controller('\\FS\\Components\\Shipping\\Controller\\MetaboxController')
+            ->controller('\\FS\\Components\\Shipping\\Controller\\MetaboxController', [
+                'shipment-create' => 'createShipment',
+                'shipment-void' => 'voidShipment',
+                'shipment-requote' => 'requoteShipment',
+                'pickup-schedule' => 'schedulePickup',
+                'pickup-void' => 'voidPickup',
+            ])
             ->before(function ($context) use ($order) {
                 // apply middlware function before invoke controller method
                 $context
@@ -54,10 +47,7 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
                     ->api()
                     ->setToken($options->get('token'));
             })
-            ->dispatch($mapping[$rp->request->get('flagship_shipping_shipment_action')], [$order]);
-
-        $context->debug('metabox operations');
-        $context->debug(get_post_meta($order->getId(), 'flagship_shipping_raw', true));
+            ->dispatch($rp->request->get('flagship_shipping_shipment_action'), [$order]);
     }
 
     public function publishNativeHook(Context $context)

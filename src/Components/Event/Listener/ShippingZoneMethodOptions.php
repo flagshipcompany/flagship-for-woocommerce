@@ -20,13 +20,12 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
     {
         $fields = $event->getInput('fields');
 
-        $notifier = $context->_('\\FS\\Components\\Notifier');
         $validator = $context->factory('\\FS\\Components\\Validation\\Factory\\ValidatorFactory')->resolve('Settings');
         $request = $context->_('\\FS\\Components\\Web\\RequestParam');
 
         $fields = $validator->validate(
             $fields,
-            $notifier
+            $context
         );
 
         $fields['package_box'] = array();

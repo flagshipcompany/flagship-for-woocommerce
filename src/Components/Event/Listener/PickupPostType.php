@@ -20,23 +20,14 @@ class PickupPostType extends AbstractComponent implements ApplicationListenerInt
     {
         $type = $event->getInput('type');
         $postIds = $event->getInput('postIds');
-        $pickup = $context->_('\\FS\\Components\\Shipping\\Controller\\PickupController');
-        $factory = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory');
 
-        switch ($type) {
-            case 'schedule':
-                $pickup->schedulePickup($factory->resolve(
-                    \FS\Components\Shop\Factory\ShopFactory::RESOURCE_ORDER_COLLECTION,
-                    ['ids' => $postIds]
-                ));
-                break;
-            case 'void':
-                $pickup->voidPickup($postIds);
-                break;
-            case 'reschedule':
-                $pickup->reschedulePickup($postIds);
-                break;
-        }
+        $context
+            ->controller('\\FS\\Components\\Shipping\\Controller\\PickupController', [
+                'schedule' => 'schedulePickup',
+                'void' => 'voidPickup',
+                'reschedule' => 'reschedulePickup',
+            ])
+            ->dispatch($type, [$postIds]);
     }
 
     public function publishNativeHook(Context $context)

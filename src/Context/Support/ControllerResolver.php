@@ -6,12 +6,14 @@ class ControllerResolver
 {
     protected $controller;
     protected $context;
+    protected $mapping;
     protected $afterCb = null;
 
-    public function __construct($controller, $context)
+    public function __construct($controller, $context, $mapping)
     {
         $this->controller = $controller;
         $this->context = $context;
+        $this->mapping = $mapping;
     }
 
     public function before(callable $cb)
@@ -23,7 +25,11 @@ class ControllerResolver
 
     public function dispatch($action, array $payload = [])
     {
-        $ret = call_user_func_array([$this->controller, $action], array_merge([$this->context->_('\\FS\\Components\\Web\\RequestParam'), $this->context], $payload));
+        if (!isset($this->mapping[$action])) {
+            return;
+        }
+
+        $ret = call_user_func_array([$this->controller, $this->mapping[$action]], array_merge([$this->context->_('\\FS\\Components\\Web\\RequestParam'), $this->context], $payload));
 
         if ($this->afterCb) {
             $cb = $this->afterCb;

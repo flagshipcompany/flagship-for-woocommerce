@@ -21,7 +21,9 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
         $order = $event->getInput('order');
 
         $context
-            ->controller('\\FS\\Components\\Shipping\\Controller\\MetaboxController')
+            ->controller('\\FS\\Components\\Shipping\\Controller\\MetaboxController', [
+                'metabox-build' => 'display',
+            ])
             ->before(function ($context) use ($order) {
                 // apply middlware function before invoke controller method
                 $context
@@ -37,7 +39,7 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
                     ->_('\\FS\\Components\\Notifier')
                     ->view();
             })
-            ->dispatch('display', [$order]);
+            ->dispatch('metabox-build', [$order]);
     }
 
     public function publishNativeHook(Context $context)

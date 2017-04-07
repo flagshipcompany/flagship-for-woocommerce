@@ -3,21 +3,28 @@
 namespace FS\Components\Shipping\Controller;
 
 use FS\Components\AbstractComponent;
+use FS\Components\Web\RequestParam as Req;
+use FS\Context\ApplicationContext as App;
 
 class PickupController extends AbstractComponent
 {
-    public function schedulePickup($orders, $pickupPostIds = array())
+    public function schedulePickup(Req $request, App $context, $orderIds, $pickupPostIds = array())
     {
-        $options = $this->getApplicationContext()
+        $options = $context
             ->_('\\FS\\Components\\Options');
-        $requestFactory = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
-        $orderShippingsFactory = $this->getApplicationContext()
+        $requestFactory = $context
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
+        $orderShippingsFactory = $context
             ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
-        $client = $this->getApplicationContext()->api();
+        $client = $context->api();
         $client->setToken($options->get('token'));
-        $command = $this->getApplicationContext()
+        $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
+
+        $orders = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory')->resolve(
+            \FS\Components\Shop\Factory\ShopFactory::RESOURCE_ORDER_COLLECTION,
+            ['ids' => $orderIds]
+        );
 
         // group shipping orders by courier and service type
         $flattenOrderShippings = $orderShippingsFactory->getFlattenOrderShippings($orders);
@@ -54,12 +61,12 @@ class PickupController extends AbstractComponent
         exit();
     }
 
-    public function voidPickup($pickupPostIds)
+    public function voidPickup(Req $request, App $context, $pickupPostIds)
     {
-        $options = $this->getApplicationContext()
+        $options = $context
             ->_('\\FS\\Components\\Options');
 
-        $client = $this->getApplicationContext()->api();
+        $client = $context->api();
         $client->setToken($options->get('token'));
 
         foreach ($pickupPostIds as $pickupPostId) {
@@ -71,7 +78,7 @@ class PickupController extends AbstractComponent
 
             $response = $client->delete('/pickups/'.$pickupId);
 
-            if (!$response->isSuccessful() && $response->getCode() != 409) {
+            if (!$response->isSuccessful() && $response->getStatusCode() != 409) {
                 continue;
             }
 
@@ -83,19 +90,19 @@ class PickupController extends AbstractComponent
         exit();
     }
 
-    public function reschedulePickup($pickupPostIds)
+    public function reschedulePickup(Req $request, App $context, $pickupPostIds)
     {
-        $options = $this->getApplicationContext()
+        $options = $context
             ->_('\\FS\\Components\\Options');
-        $requestFactory = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
-        $shopFactory = $this->getApplicationContext()
+        $requestFactory = $context
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
+        $shopFactory = $context
             ->_('\\FS\\Components\\Shop\\Factory\\ShopFactory');
-        $orderShippingsFactory = $this->getApplicationContext()
+        $orderShippingsFactory = $context
             ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
-        $client = $this->getApplicationContext()->api();
+        $client = $context->api();
         $client->setToken($options->get('token'));
-        $command = $this->getApplicationContext()
+        $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
 
         foreach ($pickupPostIds as $pickupPostId) {
@@ -108,7 +115,7 @@ class PickupController extends AbstractComponent
 
             $orderIds = get_post_meta($pickupPostId, 'order_ids', true);
 
-            $this->schedulePickup($shopFactory->resolve(
+            $this->schedulePickup($request, $context, $shopFactory->resolve(
                 \FS\Components\Shop\Factory\ShopFactory::RESOURCE_ORDER_COLLECTION,
                 ['ids' => $orderIds]
             ), $pickupPostIds);

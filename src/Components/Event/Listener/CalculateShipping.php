@@ -21,7 +21,9 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
         $method = $event->getInput('method');
 
         $context
-            ->controller('\\FS\\Components\\Shipping\\Controller\\ShippingController')
+            ->controller('\\FS\\Components\\Shipping\\Controller\\ShippingController', [
+                'compute' => 'calculate',
+            ])
             ->before(function ($context) {
                 // apply middlware function before invoke controller method
                 $options = $context
@@ -46,6 +48,6 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
                     ->_('\\FS\\Components\\Notifier')
                     ->view();
             })
-            ->dispatch('calculate', [$package, $method]);
+            ->dispatch('compute', [$package, $method]);
     }
 }

@@ -67,11 +67,11 @@ abstract class AbstractApplicationContext implements
         return $factory->getComponent($class);
     }
 
-    public function controller($class)
+    public function controller($class, array $mapping)
     {
         $controller = $this->getComponent($class);
 
-        $resolver = new ControllerResolver($controller, $this);
+        $resolver = new ControllerResolver($controller, $this, $mapping);
 
         return $resolver;
     }
