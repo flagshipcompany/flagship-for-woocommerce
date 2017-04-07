@@ -14,8 +14,7 @@ class PickupController extends AbstractComponent
             ->_('\\FS\\Components\\Shipping\\Factory\\MultipleOrdersPickupRequestFactory');
         $orderShippingsFactory = $this->getApplicationContext()
             ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
-        $client = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Http\\Client');
+        $client = $this->getApplicationContext()->api();
         $client->setToken($options->get('token'));
         $command = $this->getApplicationContext()
             ->_('\\FS\\Components\\Shipping\\Command');
@@ -60,8 +59,7 @@ class PickupController extends AbstractComponent
         $options = $this->getApplicationContext()
             ->_('\\FS\\Components\\Options');
 
-        $client = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Http\\Client');
+        $client = $this->getApplicationContext()->api();
         $client->setToken($options->get('token'));
 
         foreach ($pickupPostIds as $pickupPostId) {
@@ -95,8 +93,7 @@ class PickupController extends AbstractComponent
             ->_('\\FS\\Components\\Shop\\Factory\\ShopFactory');
         $orderShippingsFactory = $this->getApplicationContext()
             ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
-        $client = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Http\\Client');
+        $client = $this->getApplicationContext()->api();
         $client->setToken($options->get('token'));
         $command = $this->getApplicationContext()
             ->_('\\FS\\Components\\Shipping\\Command');

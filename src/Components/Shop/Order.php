@@ -7,7 +7,7 @@ use FS\Components\Model\AbstractModel;
 class Order extends AbstractModel implements \ArrayAccess, OrderInterface
 {
     protected $nativeOrder;
-    protected $cache = array();
+    protected $cache = [];
 
     public function getId()
     {
@@ -114,6 +114,8 @@ class Order extends AbstractModel implements \ArrayAccess, OrderInterface
 
     public function offsetUnset($offset)
     {
+        $this->debug('delete '.$offset);
+
         delete_post_meta($this->getId(), $offset);
     }
 

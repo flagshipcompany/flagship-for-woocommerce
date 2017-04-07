@@ -37,6 +37,13 @@ class ApplicationContext extends AbstractApplicationContext
         return $factory;
     }
 
+    public function api()
+    {
+        $client = $this->getComponent('\\FS\\Components\\Http\\Client');
+
+        return $client;
+    }
+
     public static function initialize(Container $container, ConfigurationInterface $configurator)
     {
         $ctx = self::getInstance();

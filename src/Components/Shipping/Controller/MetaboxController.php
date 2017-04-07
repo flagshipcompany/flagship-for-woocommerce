@@ -11,6 +11,9 @@ class MetaboxController extends AbstractComponent
 {
     public function display(Req $request, App $context, Ord $order)
     {
+        $context->debug('metabox display');
+        $context->debug(get_post_meta($order->getId(), 'flagship_shipping_raw', true));
+
         $view = $context
             ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
             ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_METABOX);
@@ -63,15 +66,13 @@ class MetaboxController extends AbstractComponent
             return $this;
         }
 
-        $client = $context
-            ->_('\\FS\\Components\\Http\\Client');
         $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
-            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderConfirmationRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderConfirmation');
 
         $response = $command->confirm(
-            $client,
+            $context->api(),
             $factory->setPayload([
                 'order' => $order,
                 'request' => $request,
@@ -108,10 +109,7 @@ class MetaboxController extends AbstractComponent
             return;
         }
 
-        $client = $context
-            ->_('\\FS\\Components\\Http\\Client');
-
-        $response = $client->delete('/ship/shipments/'.$shipment->getId());
+        $response = $context->api()->delete('/ship/shipments/'.$shipment->getId());
 
         if (!$response->isSuccessful()) {
             $context->alert(sprintf('Unable to void shipment with FlagShip ID (%s)', $shipment->getId()), 'warning');
@@ -134,17 +132,15 @@ class MetaboxController extends AbstractComponent
     {
         $options = $context
             ->_('\\FS\\Components\\Options');
-        $client = $context
-            ->_('\\FS\\Components\\Http\\Client');
         $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
-            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderRateRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
         $rateProcessorFactory = $context
             ->_('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
 
         $response = $command->quote(
-            $client,
+            $context->api(),
             $factory->setPayload([
                 'order' => $order,
                 'options' => $options,
@@ -185,12 +181,10 @@ class MetaboxController extends AbstractComponent
     {
         $options = $context
             ->_('\\FS\\Components\\Options');
-        $client = $context
-            ->_('\\FS\\Components\\Http\\Client');
         $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
-            ->_('\\FS\\Components\\Shipping\\Factory\\ShoppingOrderPickupRequestFactory');
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPickup');
 
         $shipment = $order->getShipment();
 
@@ -199,7 +193,7 @@ class MetaboxController extends AbstractComponent
         }
 
         $response = $command->pickup(
-            $client,
+            $context->api(),
             $factory->setPayload([
                 'order' => $order,
                 'options' => $options,
@@ -216,19 +210,18 @@ class MetaboxController extends AbstractComponent
 
         $shipment['pickup'] = $response->getContent();
 
-        $order['flagship_shipping_raw'] = $shipment->jsonSerialize();
+        $order['flagship_shipping_pickup'] = $shipment['pickup'];
+        $order['flagship_shipping_raw'] = (array) $shipment;
     }
 
     public function voidPickup(Req $request, App $context, Ord $order)
     {
         $options = $context
             ->_('\\FS\\Components\\Options');
-        $client = $context
-            ->_('\\FS\\Components\\Http\\Client');
 
         $shipment = $order->getShipment();
 
-        $response = $client->delete('/pickups/'.$shipment['pickup']['id']);
+        $response = $context->api()->delete('/pickups/'.$shipment['pickup']['id']);
 
         if (!$response->isSuccessful()) {
             $context->alert(sprintf('Unable to void pick-up with FlagShip Pickup ID (%s)', $shipment['pickup']['id']), 'warning');

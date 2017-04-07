@@ -28,7 +28,7 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
                     ->_('\\FS\\Components\\Options');
 
                 $context
-                    ->_('\\FS\\Components\\Http\\Client')
+                    ->api()
                     ->setToken($options->get('token'));
 
                 $notifier = $context

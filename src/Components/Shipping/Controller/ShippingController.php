@@ -16,8 +16,6 @@ class ShippingController extends AbstractComponent
             ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingCartRate');
-        $client = $context
-            ->_('\\FS\\Components\\Http\\Client');
         $notifier = $context
             ->_('\\FS\\Components\\Notifier');
 
@@ -32,7 +30,7 @@ class ShippingController extends AbstractComponent
         }
 
         $response = $command->quote(
-            $client,
+            $context->api(),
             $factory->setPayload(array(
                 'package' => $package,
                 'options' => $options,

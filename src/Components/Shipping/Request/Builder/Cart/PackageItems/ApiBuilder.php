@@ -10,8 +10,7 @@ class ApiBuilder extends FallbackBuilder implements BuilderInterface
     {
         $options = $this->getApplicationContext()
             ->_('\\FS\\Components\\Options');
-        $client = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Http\\Client');
+        $client = $this->getApplicationContext()->api();
         $command = $this->getApplicationContext()
             ->_('\\FS\\Components\\Shipping\\Command');
         $notifier = $this->getApplicationContext()

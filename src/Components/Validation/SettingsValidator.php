@@ -12,7 +12,7 @@ class SettingsValidator extends AbstractValidator
 
         // if user set/update token, we need to use the latest entered one
         if (isset($target['token'])) {
-            $context->_('\\FS\\Components\\Http\\Client')->setToken($target['token']);
+            $context->api()->setToken($target['token']);
         }
 
         // enabled?

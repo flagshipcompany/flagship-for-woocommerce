@@ -51,10 +51,13 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
                     ->sync($service['instance_id'] ? $service['instance_id'] : false);
 
                 $context
-                    ->_('\\FS\\Components\\Http\\Client')
+                    ->api()
                     ->setToken($options->get('token'));
             })
             ->dispatch($mapping[$rp->request->get('flagship_shipping_shipment_action')], [$order]);
+
+        $context->debug('metabox operations');
+        $context->debug(get_post_meta($order->getId(), 'flagship_shipping_raw', true));
     }
 
     public function publishNativeHook(Context $context)

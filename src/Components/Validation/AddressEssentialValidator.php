@@ -8,9 +8,7 @@ class AddressEssentialValidator extends AbstractValidator
 {
     public function validate($target, Context $context)
     {
-        $client = $context->_('\\FS\\Components\\Http\\Client');
-
-        $response = $client->get(
+        $response = $context->api()->get(
             '/addresses/integrity',
             $target
         );

@@ -8,8 +8,6 @@ class IntegrityValidator extends AbstractValidator
 {
     public function validate($target, Context $context)
     {
-        $client = $context->_('\\FS\\Components\\Http\\Client');
-
         $request = array(
             'from' => array(
                 'country' => 'CA',
@@ -50,7 +48,7 @@ class IntegrityValidator extends AbstractValidator
             ),
         );
 
-        $response = $client->post('/ship/rates', $request);
+        $response = $context->api()->post('/ship/rates', $request);
 
         if (!$response->isSuccessful()) {
             $context->alert(__('<strong>Shipping Integrity Failure:</strong> <br/>', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'error');
