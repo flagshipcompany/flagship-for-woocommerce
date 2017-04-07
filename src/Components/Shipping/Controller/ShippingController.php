@@ -10,8 +10,6 @@ class ShippingController extends AbstractComponent
 {
     public function calculate(Req $request, App $context, $package, $method)
     {
-        $options = $context
-            ->_('\\FS\\Components\\Options');
         $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
@@ -33,7 +31,7 @@ class ShippingController extends AbstractComponent
             $context->api(),
             $factory->setPayload(array(
                 'package' => $package,
-                'options' => $options,
+                'options' => $context->option(),
                 'notifier' => $notifier,
             ))->getRequest()
         );
@@ -50,7 +48,7 @@ class ShippingController extends AbstractComponent
             ->resolve('ProcessRate')
             ->getProcessedRates($rates, array(
                 'factory' => $rateProcessorFactory,
-                'options' => $options,
+                'options' => $context->option(),
                 'instanceId' => property_exists($method, 'instance_id') ? $method->instance_id : false,
                 'methodId' => $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID'),
             ));

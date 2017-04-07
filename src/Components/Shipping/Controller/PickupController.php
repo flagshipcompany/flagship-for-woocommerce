@@ -10,9 +10,6 @@ class PickupController extends AbstractComponent
 {
     public function schedulePickup(Req $request, App $context, $orderIds, $pickupPostIds = array())
     {
-        $options = $context
-            ->_('\\FS\\Components\\Options');
-
         $requestFactory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
         $orderShippingsFactory = $context
@@ -36,7 +33,7 @@ class PickupController extends AbstractComponent
                     'orders' => $orderShippings['orders'],
                     'courier' => $orderShippings['courier'],
                     'type' => $orderShippings['type'],
-                    'options' => $options,
+                    'options' => $context->option(),
                     'date' => date('Y-m-d'),
                 ))->getRequest()
             );

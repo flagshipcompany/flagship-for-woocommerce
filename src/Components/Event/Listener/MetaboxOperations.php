@@ -39,13 +39,13 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
                 // load instance shipping method used by this shopping order
                 $service = $order->getShippingService();
 
-                $options = $context
-                    ->_('\\FS\\Components\\Options')
+                $option = $context
+                    ->option()
                     ->sync($service['instance_id'] ? $service['instance_id'] : false);
 
                 $context
                     ->api()
-                    ->setToken($options->get('token'));
+                    ->setToken($option->get('token'));
             })
             ->dispatch($rp->request->get('flagship_shipping_shipment_action'), [$order]);
     }

@@ -20,17 +20,13 @@ class ShippingZoneMethodAdd extends AbstractComponent implements ApplicationList
     {
         $instanceId = $event->getInput('instanceId');
 
-        $options = $context->_('\\FS\\Components\\Options');
-
-        \update_option('woocommerce_'.$context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_'.$instanceId.'_settings', $options->all());
+        \update_option('woocommerce_'.$context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_'.$instanceId.'_settings', $context->option()->all());
     }
 
     public function publishNativeHook(Context $context)
     {
         \add_action('woocommerce_shipping_zone_method_added', function ($instanceId, $type, $zoneId) use ($context) {
-            $options = $context->_('\\FS\\Components\\Options');
-
-            if ($type == $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID') && $options->all()) {
+            if ($type == $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID') && $context->option()->all()) {
                 $event = new ApplicationEvent(ApplicationEvent::SHIPPING_ZONE_METHOD_ADD);
 
                 $event->setInputs(array(

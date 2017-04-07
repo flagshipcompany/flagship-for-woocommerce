@@ -44,6 +44,17 @@ class ApplicationContext extends AbstractApplicationContext
         return $client;
     }
 
+    public function option($key = null)
+    {
+        $options = $this->getComponent('\\FS\\Components\\Options');
+
+        if (!$key) {
+            return $options;
+        }
+
+        return $options->get($key);
+    }
+
     public static function initialize(Container $container, ConfigurationInterface $configurator)
     {
         $ctx = self::getInstance();

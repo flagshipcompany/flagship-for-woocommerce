@@ -52,9 +52,6 @@ class MetaboxController extends AbstractComponent
 
     public function createShipment(Req $request, App $context, Ord $order)
     {
-        $options = $context
-            ->_('\\FS\\Components\\Options');
-
         $shipment = $order->getShipment();
 
         if ($shipment) {
@@ -73,7 +70,7 @@ class MetaboxController extends AbstractComponent
             $factory->setPayload([
                 'order' => $order,
                 'request' => $request,
-                'options' => $options,
+                'options' => $context->option(),
             ])->getRequest()
         );
 
@@ -95,9 +92,6 @@ class MetaboxController extends AbstractComponent
 
     public function voidShipment(Req $request, App $context, Ord $order)
     {
-        $options = $context
-            ->_('\\FS\\Components\\Options');
-
         $shipment = $order->getShipment();
 
         if (!$shipment) {
@@ -127,8 +121,6 @@ class MetaboxController extends AbstractComponent
 
     public function requoteShipment(Req $request, App $context, Ord $order)
     {
-        $options = $context
-            ->_('\\FS\\Components\\Options');
         $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
@@ -140,7 +132,7 @@ class MetaboxController extends AbstractComponent
             $context->api(),
             $factory->setPayload([
                 'order' => $order,
-                'options' => $options,
+                'options' => $context->option(),
             ])->getRequest()
         );
 
@@ -158,7 +150,7 @@ class MetaboxController extends AbstractComponent
             ->resolve('ProcessRate')
             ->getProcessedRates($rates, [
                 'factory' => $rateProcessorFactory,
-                'options' => $options,
+                'options' => $context->option(),
                 'instanceId' => $service['instance_id'] ? $service['instance_id'] : false,
                 'methodId' => $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID'),
             ]);
@@ -176,8 +168,6 @@ class MetaboxController extends AbstractComponent
 
     public function schedulePickup(Req $request, App $context, Ord $order)
     {
-        $options = $context
-            ->_('\\FS\\Components\\Options');
         $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
@@ -193,7 +183,7 @@ class MetaboxController extends AbstractComponent
             $context->api(),
             $factory->setPayload([
                 'order' => $order,
-                'options' => $options,
+                'options' => $context->option(),
                 'shipment' => $shipment,
                 'date' => $request->request->get('flagship_shipping_pickup_schedule_date', date('Y-m-d')),
             ])->getRequest()
@@ -213,9 +203,6 @@ class MetaboxController extends AbstractComponent
 
     public function voidPickup(Req $request, App $context, Ord $order)
     {
-        $options = $context
-            ->_('\\FS\\Components\\Options');
-
         $shipment = $order->getShipment();
 
         $response = $context->api()->delete('/pickups/'.$shipment['pickup']['id']);

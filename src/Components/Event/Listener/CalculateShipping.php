@@ -26,19 +26,18 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
             ])
             ->before(function ($context) {
                 // apply middlware function before invoke controller method
-                $options = $context
-                    ->_('\\FS\\Components\\Options');
+                $option = $context->option();
 
                 $context
                     ->api()
-                    ->setToken($options->get('token'));
+                    ->setToken($option->get('token'));
 
                 $notifier = $context
                     ->_('\\FS\\Components\\Notifier')
                     ->scope('cart');
 
                 // when store owner disable front end warning for their customer
-                if ($options->eq('disable_api_warning', 'yes')) {
+                if ($option->eq('disable_api_warning', 'yes')) {
                     $notifier->enableSilentLogging();
                 }
             })

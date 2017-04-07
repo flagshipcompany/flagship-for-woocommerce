@@ -9,7 +9,7 @@ class ApiBuilder extends FallbackBuilder implements BuilderInterface
     public function makePackageItems($productItems, $payload)
     {
         $options = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Options');
+            ->option();
         $client = $this->getApplicationContext()->api();
         $command = $this->getApplicationContext()
             ->_('\\FS\\Components\\Shipping\\Command');

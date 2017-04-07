@@ -28,11 +28,11 @@ class PickupPostType extends AbstractComponent implements ApplicationListenerInt
                 'reschedule' => 'reschedulePickup',
             ])
             ->before(function ($context) {
-                $options = $context
-                    ->_('\\FS\\Components\\Options');
+                $option = $context
+                    ->option();
 
                 $client = $context->api();
-                $client->setToken($options->get('token'));
+                $client->setToken($option->get('token'));
             })
             ->dispatch($type, [$postIds]);
     }
@@ -140,13 +140,13 @@ class PickupPostType extends AbstractComponent implements ApplicationListenerInt
                 case 'shipping_address':
                     $factory = $context
                         ->_('\\FS\\Components\\Shipping\\Request\\Builder\\Factory\\RequestBuilderFactory');
-                    $options = $context
-                        ->_('\\FS\\Components\\Options');
+                    $option = $context
+                        ->option();
 
                     $builder = $factory->resolve('ShipperAddress');
 
                     $address = $builder->build(array(
-                        'options' => $options,
+                        'options' => $option,
                     ));
 
                     echo $address['postal_code'].'<br/><small class="meta">'.$address['city'].', '.$address['state'].'</small>';

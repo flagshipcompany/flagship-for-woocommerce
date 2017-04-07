@@ -40,8 +40,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         $this->ctx
             ->_('\\FS\\Components\\Url');
 
-        $options = $this->ctx
-            ->_('\\FS\\Components\\Options');
+        $options = $this->ctx->option();
 
         $options->sync($instance_id);
 
@@ -399,7 +398,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
     {
         // use instance method's options
         $options = $this->ctx
-            ->_('\\FS\\Components\\Options')
+            ->option()
             ->sync($this->instance_id);
 
         $event = new ApplicationEvent(ApplicationEvent::CALCULATE_SHIPPING);

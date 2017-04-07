@@ -201,7 +201,7 @@ class Notifier extends AbstractComponent implements ComponentInitializingInterfa
     public function cart_view()
     {
         if ($this->isSilenced()) {
-            $this->getApplicationContext()->getComponent('\\FS\\Components\\Options')->log($this->notifications);
+            $this->getApplicationContext()->option()->log($this->notifications);
         } else {
             \wc_clear_notices();
 
