@@ -27,6 +27,13 @@ class PickupPostType extends AbstractComponent implements ApplicationListenerInt
                 'void' => 'voidPickup',
                 'reschedule' => 'reschedulePickup',
             ])
+            ->before(function ($context) {
+                $options = $context
+                    ->_('\\FS\\Components\\Options');
+
+                $client = $context->api();
+                $client->setToken($options->get('token'));
+            })
             ->dispatch($type, [$postIds]);
     }
 

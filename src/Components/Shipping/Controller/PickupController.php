@@ -12,12 +12,12 @@ class PickupController extends AbstractComponent
     {
         $options = $context
             ->_('\\FS\\Components\\Options');
+
         $requestFactory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
         $orderShippingsFactory = $context
             ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
-        $client = $context->api();
-        $client->setToken($options->get('token'));
+
         $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
 
@@ -31,7 +31,7 @@ class PickupController extends AbstractComponent
 
         foreach ($flattenOrderShippings as $orderShippings) {
             $response = $command->pickup(
-                $client,
+                $context->api(),
                 $requestFactory->setPayload(array(
                     'orders' => $orderShippings['orders'],
                     'courier' => $orderShippings['courier'],
@@ -63,12 +63,6 @@ class PickupController extends AbstractComponent
 
     public function voidPickup(Req $request, App $context, $pickupPostIds)
     {
-        $options = $context
-            ->_('\\FS\\Components\\Options');
-
-        $client = $context->api();
-        $client->setToken($options->get('token'));
-
         foreach ($pickupPostIds as $pickupPostId) {
             $pickupId = get_post_meta($pickupPostId, 'id', true);
 
@@ -76,7 +70,7 @@ class PickupController extends AbstractComponent
                 continue;
             }
 
-            $response = $client->delete('/pickups/'.$pickupId);
+            $response = $context->api()->delete('/pickups/'.$pickupId);
 
             if (!$response->isSuccessful() && $response->getStatusCode() != 409) {
                 continue;
@@ -92,16 +86,11 @@ class PickupController extends AbstractComponent
 
     public function reschedulePickup(Req $request, App $context, $pickupPostIds)
     {
-        $options = $context
-            ->_('\\FS\\Components\\Options');
         $requestFactory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
-        $shopFactory = $context
-            ->_('\\FS\\Components\\Shop\\Factory\\ShopFactory');
         $orderShippingsFactory = $context
             ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
-        $client = $context->api();
-        $client->setToken($options->get('token'));
+
         $command = $context
             ->_('\\FS\\Components\\Shipping\\Command');
 
@@ -115,10 +104,9 @@ class PickupController extends AbstractComponent
 
             $orderIds = get_post_meta($pickupPostId, 'order_ids', true);
 
-            $this->schedulePickup($request, $context, $shopFactory->resolve(
-                \FS\Components\Shop\Factory\ShopFactory::RESOURCE_ORDER_COLLECTION,
-                ['ids' => $orderIds]
-            ), $pickupPostIds);
+            $context->debug($orderIds);
+
+            $this->schedulePickup($request, $context, $orderIds, $pickupPostIds);
         }
 
         $sendback = add_query_arg(array('post_type' => 'flagship_pickup', 'ids' => implode(',', $pickupPostIds)), '');
