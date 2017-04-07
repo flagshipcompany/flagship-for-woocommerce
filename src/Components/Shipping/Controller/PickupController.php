@@ -15,9 +15,6 @@ class PickupController extends AbstractComponent
         $orderShippingsFactory = $context
             ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
 
-        $command = $context
-            ->_('\\FS\\Components\\Shipping\\Command');
-
         $orders = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory')->resolve(
             \FS\Components\Shop\Factory\ShopFactory::RESOURCE_ORDER_COLLECTION,
             ['ids' => $orderIds]
@@ -27,7 +24,7 @@ class PickupController extends AbstractComponent
         $flattenOrderShippings = $orderShippingsFactory->getFlattenOrderShippings($orders);
 
         foreach ($flattenOrderShippings as $orderShippings) {
-            $response = $command->pickup(
+            $response = $context->command()->pickup(
                 $context->api(),
                 $requestFactory->setPayload(array(
                     'orders' => $orderShippings['orders'],
@@ -88,9 +85,6 @@ class PickupController extends AbstractComponent
         $orderShippingsFactory = $context
             ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
 
-        $command = $context
-            ->_('\\FS\\Components\\Shipping\\Command');
-
         foreach ($pickupPostIds as $pickupPostId) {
             $pickupId = get_post_meta($pickupPostId, 'id', true);
             $cancelled = get_post_meta($pickupPostId, 'cancelled', true);
@@ -100,8 +94,6 @@ class PickupController extends AbstractComponent
             }
 
             $orderIds = get_post_meta($pickupPostId, 'order_ids', true);
-
-            $context->debug($orderIds);
 
             $this->schedulePickup($request, $context, $orderIds, $pickupPostIds);
         }

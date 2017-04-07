@@ -55,6 +55,11 @@ class ApplicationContext extends AbstractApplicationContext
         return $options->get($key);
     }
 
+    public function command()
+    {
+        return $this->getComponent('\\FS\\Components\\Shipping\\Command');
+    }
+
     public static function initialize(Container $container, ConfigurationInterface $configurator)
     {
         $ctx = self::getInstance();

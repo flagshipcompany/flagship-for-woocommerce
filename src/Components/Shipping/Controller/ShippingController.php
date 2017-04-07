@@ -10,8 +10,6 @@ class ShippingController extends AbstractComponent
 {
     public function calculate(Req $request, App $context, $package, $method)
     {
-        $command = $context
-            ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingCartRate');
         $notifier = $context
@@ -27,7 +25,7 @@ class ShippingController extends AbstractComponent
             return;
         }
 
-        $response = $command->quote(
+        $response = $context->command()->quote(
             $context->api(),
             $factory->setPayload(array(
                 'package' => $package,

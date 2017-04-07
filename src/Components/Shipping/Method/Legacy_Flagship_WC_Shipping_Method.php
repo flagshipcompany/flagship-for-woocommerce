@@ -24,7 +24,6 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
         $this->required_address = $this->get_option('shipping_cost_requires_address', 'no');
 
         // providers
-        $this->ctx->_('\\FS\\Components\\Shipping\\Command');
         $this->ctx->_('\\FS\\Components\\Url');
 
         $this->init();

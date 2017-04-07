@@ -35,9 +35,6 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         $this->enabled = $this->get_instance_option('enabled');
 
         $this->ctx
-            ->_('\\FS\\Components\\Shipping\\Command');
-
-        $this->ctx
             ->_('\\FS\\Components\\Url');
 
         $options = $this->ctx->option();

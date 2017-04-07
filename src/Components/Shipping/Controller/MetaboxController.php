@@ -60,12 +60,10 @@ class MetaboxController extends AbstractComponent
             return $this;
         }
 
-        $command = $context
-            ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderConfirmation');
 
-        $response = $command->confirm(
+        $response = $conext->command()->confirm(
             $context->api(),
             $factory->setPayload([
                 'order' => $order,
@@ -121,14 +119,12 @@ class MetaboxController extends AbstractComponent
 
     public function requoteShipment(Req $request, App $context, Ord $order)
     {
-        $command = $context
-            ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
         $rateProcessorFactory = $context
             ->_('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
 
-        $response = $command->quote(
+        $response = $context->command()->quote(
             $context->api(),
             $factory->setPayload([
                 'order' => $order,
@@ -168,8 +164,6 @@ class MetaboxController extends AbstractComponent
 
     public function schedulePickup(Req $request, App $context, Ord $order)
     {
-        $command = $context
-            ->_('\\FS\\Components\\Shipping\\Command');
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPickup');
 
@@ -179,7 +173,7 @@ class MetaboxController extends AbstractComponent
             return;
         }
 
-        $response = $command->pickup(
+        $response = $context->command()->pickup(
             $context->api(),
             $factory->setPayload([
                 'order' => $order,
