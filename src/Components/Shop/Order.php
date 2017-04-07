@@ -2,9 +2,9 @@
 
 namespace FS\Components\Shop;
 
-use FS\Components\Model\AbstractModel;
+use FS\Components\AbstractComponent;
 
-class Order extends AbstractModel implements \ArrayAccess, OrderInterface
+class Order extends AbstractComponent implements \ArrayAccess, OrderInterface
 {
     protected $nativeOrder;
     protected $cache = [];
@@ -114,8 +114,6 @@ class Order extends AbstractModel implements \ArrayAccess, OrderInterface
 
     public function offsetUnset($offset)
     {
-        $this->debug('delete '.$offset);
-
         delete_post_meta($this->getId(), $offset);
     }
 

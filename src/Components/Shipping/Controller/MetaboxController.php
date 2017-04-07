@@ -192,7 +192,9 @@ class MetaboxController extends AbstractComponent
         $shipment['pickup'] = $response->getContent();
 
         $order['flagship_shipping_pickup'] = $shipment['pickup'];
-        $order['flagship_shipping_raw'] = (array) $shipment;
+
+        $shipmentRaw = $shipment->jsonSerialize();
+        $order['flagship_shipping_raw'] = $shipmentRaw;
     }
 
     public function voidPickup(Req $request, App $context, Ord $order)
