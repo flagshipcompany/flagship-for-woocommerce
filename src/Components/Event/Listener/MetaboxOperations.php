@@ -20,7 +20,7 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
     {
         $rp = $context
             ->_('\\FS\\Components\\Web\\RequestParam');
-        $order = $event->getInput('order');
+        $shipping = $event->getInput('shipping');
 
         $context
             ->controller('\\FS\\Components\\Shipping\\Controller\\MetaboxController', [
@@ -30,14 +30,14 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
                 'pickup-schedule' => 'schedulePickup',
                 'pickup-void' => 'voidPickup',
             ])
-            ->before(function ($context) use ($order) {
+            ->before(function ($context) use ($shipping) {
                 // apply middlware function before invoke controller method
                 $context
                     ->_('\\FS\\Components\\Notifier')
-                    ->scope('shop_order', ['id' => $order->getId()]);
+                    ->scope('shop_order', ['id' => $shipping->getOrder()->getId()]);
 
                 // load instance shipping method used by this shopping order
-                $service = $order->getShippingService();
+                $service = $shipping->getService();
 
                 $option = $context
                     ->option()
@@ -47,18 +47,20 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
                     ->api()
                     ->setToken($option->get('token'));
             })
-            ->dispatch($rp->request->get('flagship_shipping_shipment_action'), [$order]);
+            ->dispatch($rp->request->get('flagship_shipping_shipment_action'), [$shipping]);
     }
 
     public function publishNativeHook(Context $context)
     {
         \add_action('woocommerce_process_shop_order_meta', function ($postId, $post) use ($context) {
             $event = new ApplicationEvent(ApplicationEvent::METABOX_OPERATIONS);
-            $order = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory')->resolve('order', array(
-                'id' => $postId,
-            ));
+            $factory = $context->_('\\FS\\Components\\Shipping\\Factory\\ShippingFactory');
 
-            $event->setInputs(array('order' => $order));
+            $shipping = $factory->resolve('shipping', [
+                'id' => $postId,
+            ]);
+
+            $event->setInputs(['shipping' => $shipping]);
 
             $context->publishEvent($event);
         }, 10, 2);

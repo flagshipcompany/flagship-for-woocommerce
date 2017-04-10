@@ -9,11 +9,13 @@ class FallbackBuilder extends AbstractPackageItemsBuilder implements BuilderInte
 {
     protected function makeProductItems($payload = null)
     {
-        $orderItems = $payload['order']->getNativeOrder()->get_items();
+        $order = $payload['shipping']->getOrder();
+
+        $orderItems = $order->native()->get_items();
         $productItems = array();
 
         foreach ($orderItems as $orderItem) {
-            $product = $payload['order']->getNativeOrder()->get_product_from_item($orderItem);
+            $product = $order->native()->get_product_from_item($orderItem);
 
             $count = 0;
 

@@ -9,7 +9,7 @@ class ReceiverAddressBuilder extends AbstractComponent implements BuilderInterfa
 {
     public function build($payload = null)
     {
-        $address = $payload['order']->getReceiverAddress();
+        $address = $payload['shipping']->getShipment()->getToAddress();
 
         if (empty($address['name'])) {
             $address['name'] = $address['attn'] ? $address['attn'] : 'Receiver';

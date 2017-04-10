@@ -10,17 +10,17 @@ class PackageBoxBuilder extends AbstractComponent implements BuilderInterface
     {
         $boxes = $payload['options']->get('package_box');
 
-        $packageBoxes = array();
+        $packageBoxes = [];
 
         foreach ($boxes as $box) {
-            $packageBoxes[] = array(
+            $packageBoxes[] = [
                 'box_model' => $box['model_name'],
                 'length' => $box['length'],
                 'width' => $box['width'],
                 'height' => $box['height'],
                 'weight' => $box['weight'],
                 'max_weight' => $box['max_weight'],
-            );
+            ];
         }
 
         return $packageBoxes;

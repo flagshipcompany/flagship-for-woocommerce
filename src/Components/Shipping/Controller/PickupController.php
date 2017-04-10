@@ -47,9 +47,9 @@ class PickupController extends AbstractComponent
             }
         }
 
-        $sendback = add_query_arg(array(
+        $sendback = add_query_arg([
             'post_type' => 'flagship_pickup',
-        ), '');
+        ], '');
 
         \wp_redirect(esc_url_raw($sendback));
         exit();
@@ -73,7 +73,7 @@ class PickupController extends AbstractComponent
             update_post_meta($pickupPostId, 'cancelled', true);
         }
 
-        $sendback = add_query_arg(array('post_type' => 'flagship_pickup'), '');
+        $sendback = add_query_arg(['post_type' => 'flagship_pickup'], '');
         wp_redirect(esc_url_raw($sendback));
         exit();
     }

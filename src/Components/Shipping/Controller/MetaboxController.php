@@ -3,33 +3,33 @@
 namespace FS\Components\Shipping\Controller;
 
 use FS\Components\AbstractComponent;
-use FS\Components\Shop\OrderInterface as Ord;
+use FS\Components\Shipping\Object\Shipping;
 use FS\Components\Web\RequestParam as Req;
 use FS\Context\ApplicationContext as App;
 
 class MetaboxController extends AbstractComponent
 {
-    public function display(Req $request, App $context, Ord $order)
+    public function display(Req $request, App $context, Shipping $shipping)
     {
         $view = $context
             ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
             ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_METABOX);
 
-        $shipment = $order->getShipment();
-        $service = $order->getShippingService();
+        $shipment = $shipping->getShipment();
+        $service = $shipping->getService();
 
         // shipment created
-        if ($shipment) {
+        if ($shipment->isCreated()) {
             return $view->render([
                 'type' => 'created',
-                'shipment' => $shipment,
+                'shipment' => $shipment->toArray(),
             ]);
         }
 
         $payload = [];
 
         // quoted but no shipment created
-        if (!$shipment && $order->hasQuote()) {
+        if (!$shipment->isCreated() && $shipping->isFlagShipRateChoosen()) {
             $payload['type'] = 'create';
             $payload['service'] = $service;
             $payload['cod'] = [
@@ -43,16 +43,16 @@ class MetaboxController extends AbstractComponent
         }
 
         // requotes
-        if ($requoteRates = $order['flagship_shipping_requote_rates']) {
-            $payload['requote_rates'] = $requoteRates;
+        if ($requotes = $shipping->getOrder()->getAttribute('flagship_shipping_requote_rates')) {
+            $payload['requote_rates'] = $requotes;
         }
 
         $view->render($payload);
     }
 
-    public function createShipment(Req $request, App $context, Ord $order)
+    public function createShipment(Req $request, App $context, Shipping $shipping)
     {
-        $shipment = $order->getShipment();
+        $shipment = $order->shipment();
 
         if ($shipment) {
             $context->alert(sprintf('You have flagship shipment for this order. FlagShip ID (%s)', $shipment['shipment_id']), 'warning');
@@ -63,7 +63,7 @@ class MetaboxController extends AbstractComponent
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderConfirmation');
 
-        $response = $conext->command()->confirm(
+        $response = $context->command()->confirm(
             $context->api(),
             $factory->setPayload([
                 'order' => $order,
@@ -88,9 +88,11 @@ class MetaboxController extends AbstractComponent
         $order['flagship_shipping_raw'] = $confirmed;
     }
 
-    public function voidShipment(Req $request, App $context, Ord $order)
+    public function voidShipment(Req $request, App $context, Shipping $shipping)
     {
-        $shipment = $order->getShipment();
+        $shipment = $order->shipment();
+
+        $this->debug($shipment);
 
         if (!$shipment) {
             $context->alert(sprintf('Unable to access shipment with FlagShip ID (%s)', $shipment->getId()), 'warning');
@@ -112,12 +114,12 @@ class MetaboxController extends AbstractComponent
             return;
         }
 
-        $this->voidPickup($order);
+        $this->voidPickup($request, $context, $order);
 
         unset($order['flagship_shipping_raw']);
     }
 
-    public function requoteShipment(Req $request, App $context, Ord $order)
+    public function requoteShipment(Req $request, App $context, Shipping $shipping)
     {
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
@@ -127,7 +129,7 @@ class MetaboxController extends AbstractComponent
         $response = $context->command()->quote(
             $context->api(),
             $factory->setPayload([
-                'order' => $order,
+                'shipping' => $shipping,
                 'options' => $context->option(),
             ])->getRequest()
         );
@@ -138,7 +140,7 @@ class MetaboxController extends AbstractComponent
             return;
         }
 
-        $service = $order->getShippingService();
+        $service = $shipping->getService();
 
         $rates = $response->getContent();
 
@@ -162,12 +164,12 @@ class MetaboxController extends AbstractComponent
         }
     }
 
-    public function schedulePickup(Req $request, App $context, Ord $order)
+    public function schedulePickup(Req $request, App $context, Shipping $shipping)
     {
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPickup');
 
-        $shipment = $order->getShipment();
+        $shipment = $order->shipment();
 
         if (!$shipment) {
             return;
@@ -197,9 +199,9 @@ class MetaboxController extends AbstractComponent
         $order['flagship_shipping_raw'] = $shipmentRaw;
     }
 
-    public function voidPickup(Req $request, App $context, Ord $order)
+    public function voidPickup(Req $request, App $context, Shipping $shipping)
     {
-        $shipment = $order->getShipment();
+        $shipment = $order->shipment();
 
         $response = $context->api()->delete('/pickups/'.$shipment['pickup']['id']);
 

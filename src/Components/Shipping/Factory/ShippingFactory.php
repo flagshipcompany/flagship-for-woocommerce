@@ -1,16 +1,17 @@
 <?php
 
-namespace FS\Components\Shop\Factory;
+namespace FS\Components\Shipping\Factory;
 
-use FS\Components\Shop\Order;
-use FS\Components\Shop\Shipment;
+use FS\Components\Shipping\Object\Order;
+use FS\Components\Shipping\Object\Shipment;
+use FS\Components\Shipping\Object\Shipping;
 use FS\Context\Factory\AbstractFactory;
 
-class ShopFactory extends AbstractFactory
+class ShippingFactory extends AbstractFactory
 {
     const RESOURCE_ORDER = 'order';
-    const RESOURCE_SHIPMENT = 'shipment';
     const RESOURCE_ORDER_COLLECTION = 'collection';
+    const RESOURCE_SHIPPING = 'shipping';
 
     public function resolve($resource, array $option = [])
     {
@@ -35,19 +36,19 @@ class ShopFactory extends AbstractFactory
     {
         switch ($resource) {
             case self::RESOURCE_ORDER:
-                $this->debug('in');
-                $this->debug(get_post_meta($option['id'], 'flagship_shipping_raw', true));
                 $order = new Order();
 
-                if (isset($option['nativeOrder']) && $option['nativeOrder'] instanceof \WC_Order) {
-                    return $order->setNativeOrder($option['nativeOrder']);
+                if (!isset($option['id'])) {
+                    throw new \Exception('Unable to retrieve WooCommerce Order');
                 }
 
-                if (isset($option['id']) && $wcOrder = \wc_get_order($option['id'])) {
-                    return $order->setNativeOrder($wcOrder);
+                $nativeOrder = \wc_get_order($option['id']);
+
+                if (!$nativeOrder) {
+                    throw new \Exception('Unable to retrieve WooCommerce Order');
                 }
 
-                throw new \Exception('Unable to retieve WooCommerce Order');
+                return $order->setNativeOrder($nativeOrder);
                 // no break
             case self::RESOURCE_ORDER_COLLECTION:
                 $orders = array();
@@ -64,18 +65,18 @@ class ShopFactory extends AbstractFactory
 
                 throw new \Exception('Unable to retieve WooCommerce Orders');
                 // no break
-            case self::RESOURCE_SHIPMENT:
-                if ($option['raw']) {
-                    $shipment = new Shipment();
+            case self::RESOURCE_SHIPPING:
+                $order = self::resolveWithoutContext(self::RESOURCE_ORDER, $option);
+                $shipment = new Shipment();
 
-                    foreach ($option['raw'] as $key => $value) {
-                        $shipment[$key] = $value;
-                    }
+                $shipment->syncWithOrder($order);
 
-                    return $shipment;
-                }
+                $shipping = new Shipping();
 
-                throw new \Exception('Unable to retieve FlagShip shipment data');
+                $shipping->setOrder($order);
+                $shipping->setShipment($shipment);
+
+                return $shipping;
                 // no break
         }
     }

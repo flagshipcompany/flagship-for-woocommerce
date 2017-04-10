@@ -65,7 +65,7 @@ class ShoppingOrderPickup extends AbstractRequestFactory
 
         $request->add(
             'to_country',
-            $this->payload['order']->getNativeOrder()->shipping_country
+            $this->payload['order']->native('shipping_country')
         );
 
         $request->add(

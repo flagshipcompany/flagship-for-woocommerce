@@ -18,17 +18,17 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
 
     public function onApplicationEvent(Event $event, Context $context)
     {
-        $order = $event->getInput('order');
+        $shipping = $event->getInput('shipping');
 
         $context
             ->controller('\\FS\\Components\\Shipping\\Controller\\MetaboxController', [
                 'metabox-build' => 'display',
             ])
-            ->before(function ($context) use ($order) {
+            ->before(function ($context) use ($shipping) {
                 // apply middlware function before invoke controller method
                 $context
                     ->_('\\FS\\Components\\Notifier')
-                    ->scope('shop_order', ['id' => $order->getId()]);
+                    ->scope('shop_order', ['id' => $shipping->getOrder()->getId()]);
             })
             ->after(function ($context) {
                 // as we are in metabox,
@@ -39,7 +39,7 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
                     ->_('\\FS\\Components\\Notifier')
                     ->view();
             })
-            ->dispatch('metabox-build', [$order]);
+            ->dispatch('metabox-build', [$shipping]);
     }
 
     public function publishNativeHook(Context $context)
@@ -50,13 +50,14 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
                 __('FlagShip', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 function ($postId, $post) use ($context) {
                     $event = new ApplicationEvent(ApplicationEvent::METABOX_DISPLAY);
+                    $factory = $context->_('\\FS\\Components\\Shipping\\Factory\\ShippingFactory');
 
-                    $order = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory')->resolve('order', array(
+                    $shipping = $factory->resolve('shipping', [
                         'id' => $postId,
-                    ));
+                    ]);
 
                     $event->setInputs([
-                        'order' => $order,
+                        'shipping' => $shipping,
                     ]);
 
                     $context->publishEvent($event);

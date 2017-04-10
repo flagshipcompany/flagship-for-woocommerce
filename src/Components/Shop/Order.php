@@ -34,7 +34,7 @@ class Order extends AbstractComponent implements \ArrayAccess, OrderInterface
         return $this->cache['shippingService'];
     }
 
-    public function getShipment()
+    public function shipment()
     {
         $raw = $this['flagship_shipping_raw'];
 
@@ -42,7 +42,7 @@ class Order extends AbstractComponent implements \ArrayAccess, OrderInterface
             return;
         }
 
-        $factory = $this->getApplicationContext()->getComponent('\\FS\\Components\\Shop\\Factory\\ShopFactory');
+        $factory = $this->getApplicationContext()->_('\\FS\\Components\\Shop\\Factory\\ShopFactory');
 
         return $factory->resolve(
             \FS\Components\Shop\Factory\ShopFactory::RESOURCE_SHIPMENT,

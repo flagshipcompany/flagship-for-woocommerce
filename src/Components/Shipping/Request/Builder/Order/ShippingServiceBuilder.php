@@ -9,11 +9,11 @@ class ShippingServiceBuilder extends AbstractComponent implements BuilderInterfa
 {
     public function build($payload = null)
     {
-        $overloadShippingMethod = $payload['request']->request->get('flagship_shipping_service');
+        $servicePhrase = $payload['request']->request->get('flagship_shipping_service');
 
-        $service = $payload['order']->getShippingService($overloadShippingMethod);
+        $service = $payload['shipping']->getService($servicePhrase);
 
-        $retService = array();
+        $retService = [];
 
         foreach ($service as $key => $value) {
             if ($key == 'courier_name' || $key == 'courier_code') {

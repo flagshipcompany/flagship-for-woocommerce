@@ -27,7 +27,7 @@ class MultipleOrdersPickup extends AbstractRequestFactory
         $request->add(
             'boxes',
             array_reduce($this->payload['orders'], function ($carry, $order) {
-                $shipment = $order->getShipment();
+                $shipment = $order->shipment();
 
                 if (!$shipment) {
                     return $carry;
@@ -42,7 +42,7 @@ class MultipleOrdersPickup extends AbstractRequestFactory
         $request->add(
             'weight',
             array_reduce($this->payload['orders'], function ($carry, $order) {
-                $shipment = $order->getShipment();
+                $shipment = $order->shipment();
 
                 if (!$shipment) {
                     return $carry;
@@ -85,7 +85,7 @@ class MultipleOrdersPickup extends AbstractRequestFactory
 
         $request->add(
             'to_country',
-            $this->payload['orders'][0]->getNativeOrder()->shipping_country
+            $this->payload['orders'][0]->native('shipping_country')
         );
 
         $request->add(

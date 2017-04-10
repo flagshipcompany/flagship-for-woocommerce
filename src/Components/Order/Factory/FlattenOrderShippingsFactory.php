@@ -60,7 +60,7 @@ class FlattenOrderShippingsFactory extends AbstractComponent
         );
 
         foreach ($orders as $order) {
-            $shipment = $order->getShipment();
+            $shipment = $order->shipment();
 
             if (!$shipment) {
                 continue;

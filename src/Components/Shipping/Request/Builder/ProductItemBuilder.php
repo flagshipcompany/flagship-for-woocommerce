@@ -8,7 +8,7 @@ class ProductItemBuilder extends AbstractComponent implements BuilderInterface
 {
     public function build($payload = null)
     {
-        $items = array();
+        $items = [];
 
         foreach ($payload['productItems'] as $productItem) {
             $items[] = array(
