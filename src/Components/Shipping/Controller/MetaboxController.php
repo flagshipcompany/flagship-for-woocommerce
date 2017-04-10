@@ -52,13 +52,15 @@ class MetaboxController extends AbstractComponent
 
     public function createShipment(Req $request, App $context, Shipping $shipping)
     {
-        $shipment = $order->shipment();
+        $shipment = $shipping->getShipment();
 
-        if ($shipment) {
-            $context->alert(sprintf('You have flagship shipment for this order. FlagShip ID (%s)', $shipment['shipment_id']), 'warning');
+        if ($shipment->isCreated()) {
+            $context->alert(sprintf('You have flagship shipment for this order. FlagShip ID (%s)', $shipment->getId()), 'warning');
 
             return $this;
         }
+
+        $order = $shipping->getOrder();
 
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderConfirmation');
@@ -66,7 +68,7 @@ class MetaboxController extends AbstractComponent
         $response = $context->command()->confirm(
             $context->api(),
             $factory->setPayload([
-                'order' => $order,
+                'shipping' => $shipping,
                 'request' => $request,
                 'options' => $context->option(),
             ])->getRequest()
@@ -78,27 +80,27 @@ class MetaboxController extends AbstractComponent
 
         $confirmed = $response->getContent();
 
-        unset($order['flagship_shipping_requote_rates']);
+        $order->removeAttribute('flagship_shipping_requote_rates');
 
-        $order['flagship_shipping_shipment_id'] = $confirmed['shipment_id'];
-        $order['flagship_shipping_shipment_tracking_number'] = $confirmed['tracking_number'];
-        $order['flagship_shipping_courier_name'] = $confirmed['service']['courier_name'];
-        $order['flagship_shipping_courier_service_code'] = $confirmed['service']['courier_code'];
+        $order->setAttribute('flagship_shipping_shipment_id', $confirmed['shipment_id']);
+        $order->setAttribute('flagship_shipping_shipment_tracking_number', $confirmed['tracking_number']);
+        $order->setAttribute('flagship_shipping_courier_name', $confirmed['service']['courier_name']);
+        $order->setAttribute('flagship_shipping_courier_service_code', $confirmed['service']['courier_code']);
 
-        $order['flagship_shipping_raw'] = $confirmed;
+        $order->setAttribute('flagship_shipping_raw', $confirmed);
     }
 
     public function voidShipment(Req $request, App $context, Shipping $shipping)
     {
-        $shipment = $order->shipment();
+        $shipment = $shipping->getShipment();
 
-        $this->debug($shipment);
-
-        if (!$shipment) {
+        if (!$shipment->isCreated()) {
             $context->alert(sprintf('Unable to access shipment with FlagShip ID (%s)', $shipment->getId()), 'warning');
 
             return;
         }
+
+        $order = $shipping->getOrder();
 
         $response = $context->api()->delete('/ship/shipments/'.$shipment->getId());
 
@@ -108,15 +110,15 @@ class MetaboxController extends AbstractComponent
             return;
         }
 
-        if (empty($shipment['pickup'])) {
-            unset($order['flagship_shipping_raw']);
+        if (!$shipment->hasPickup()) {
+            $order->removeAttribute('flagship_shipping_raw');
 
             return;
         }
 
-        $this->voidPickup($request, $context, $order);
+        $this->voidPickup($request, $context, $shipping);
 
-        unset($order['flagship_shipping_raw']);
+        $order->removeAttribute('flagship_shipping_raw');
     }
 
     public function requoteShipment(Req $request, App $context, Shipping $shipping)
@@ -160,7 +162,7 @@ class MetaboxController extends AbstractComponent
         }
 
         if ($wcShippingRates) {
-            $order['flagship_shipping_requote_rates'] = $wcShippingRates;
+            $shipping->getOrder()->setAttribute('flagship_shipping_requote_rates', $wcShippingRates);
         }
     }
 

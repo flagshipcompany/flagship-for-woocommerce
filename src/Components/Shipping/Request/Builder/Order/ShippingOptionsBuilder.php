@@ -9,9 +9,9 @@ class ShippingOptionsBuilder extends AbstractComponent implements BuilderInterfa
 {
     public function build($payload = null)
     {
-        $shippingOptions = array();
+        $shippingOptions = [];
 
-        if (in_array($payload['to']['country'], array('CA', 'US'))) {
+        if (in_array($payload['to']['country'], ['CA', 'US'])) {
             $shippingOptions['address_correction'] = true;
         }
 

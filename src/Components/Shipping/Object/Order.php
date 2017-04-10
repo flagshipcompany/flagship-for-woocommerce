@@ -18,6 +18,16 @@ class Order
 
     public function setAttribute($attribute, $value)
     {
+        \update_post_meta($this->getId(), $attribute, $value);
+
+        return $this;
+    }
+
+    public function removeAttribute($attribute)
+    {
+        \delete_post_meta($this->getId(), $attribute);
+
+        return $this;
     }
 
     public function setNativeOrder($nativeOrder)

@@ -52,6 +52,11 @@ class Shipment
         return $this->addresses['to']['country'] != 'CA';
     }
 
+    public function hasPickup()
+    {
+        return isset($this->raw['pickup']) && $this->raw['pickup'];
+    }
+
     public function setStatus($status)
     {
         $this->status = $status;
