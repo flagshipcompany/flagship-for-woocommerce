@@ -9,6 +9,9 @@ class ShoppingOrderPickup extends AbstractRequestFactory
 {
     public function makeRequest(FormattedRequestInterface $request, RequestBuilderFactory $factory)
     {
+        $shipment = $this->payload['shipping']->getShipment()->toArray();
+        $order = $this->payload['shipping']->getOrder();
+
         $request->add(
             'address',
             $this->makeRequestPart(
@@ -21,17 +24,17 @@ class ShoppingOrderPickup extends AbstractRequestFactory
 
         $request->add(
             'courier',
-            strtolower($this->payload['shipment']['service']['courier_name'])
+            strtolower($shipment['service']['courier_name'])
         );
 
         $request->add(
             'boxes',
-            count($this->payload['shipment']['packages'])
+            count($shipment['packages'])
         );
 
         $request->add(
             'weight',
-            array_reduce($this->payload['shipment']['packages'], function ($carry, $package) {
+            array_reduce($shipment['packages'], function ($carry, $package) {
                 $carry += $package['weight'];
 
                 return $carry;
@@ -65,12 +68,12 @@ class ShoppingOrderPickup extends AbstractRequestFactory
 
         $request->add(
             'to_country',
-            $this->payload['order']->native('shipping_country')
+            $order->native('shipping_country')
         );
 
         $request->add(
             'is_ground',
-            (strtolower($this->payload['shipment']['service']['courier_name']) == 'fedex' && strpos($this->payload['shipment']['service']['courier_code'], 'FedexGround') !== false)
+            (strtolower($shipment['service']['courier_name']) == 'fedex' && strpos($shipment['service']['courier_code'], 'FedexGround') !== false)
         );
 
         return $request;

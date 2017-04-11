@@ -78,16 +78,13 @@ class MetaboxController extends AbstractComponent
             return;
         }
 
-        $confirmed = $response->getContent();
-
         $order->removeAttribute('flagship_shipping_requote_rates');
 
-        $order->setAttribute('flagship_shipping_shipment_id', $confirmed['shipment_id']);
-        $order->setAttribute('flagship_shipping_shipment_tracking_number', $confirmed['tracking_number']);
-        $order->setAttribute('flagship_shipping_courier_name', $confirmed['service']['courier_name']);
-        $order->setAttribute('flagship_shipping_courier_service_code', $confirmed['service']['courier_code']);
+        $shipment->set($response->getContent());
 
-        $order->setAttribute('flagship_shipping_raw', $confirmed);
+        $shipping->save([
+            'save_meta_keys' => true,
+        ]);
     }
 
     public function voidShipment(Req $request, App $context, Shipping $shipping)
@@ -171,50 +168,50 @@ class MetaboxController extends AbstractComponent
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPickup');
 
-        $shipment = $order->shipment();
+        $shipment = $shipping->getShipment();
 
-        if (!$shipment) {
+        if (!$shipment->isCreated()) {
             return;
         }
 
         $response = $context->command()->pickup(
             $context->api(),
             $factory->setPayload([
-                'order' => $order,
                 'options' => $context->option(),
-                'shipment' => $shipment,
+                'shipping' => $shipping,
                 'date' => $request->request->get('flagship_shipping_pickup_schedule_date', date('Y-m-d')),
             ])->getRequest()
         );
 
         if (!$response->isSuccessful()) {
-            $context->alert(sprintf('Unable to schedule pick-up with FlagShip ID (%s)', $shipment['shipment_id']), 'warning');
+            $context->alert(sprintf('Unable to schedule pick-up with FlagShip ID (%s)', $shipment->getId()), 'warning');
 
             return;
         }
 
-        $shipment['pickup'] = $response->getContent();
+        $shipment->set('pickup', $response->getContent());
 
-        $order['flagship_shipping_pickup'] = $shipment['pickup'];
-
-        $shipmentRaw = $shipment->jsonSerialize();
-        $order['flagship_shipping_raw'] = $shipmentRaw;
+        $shipping->save();
     }
 
     public function voidPickup(Req $request, App $context, Shipping $shipping)
     {
-        $shipment = $order->shipment();
+        $pickup = $shipping->getPickup();
 
-        $response = $context->api()->delete('/pickups/'.$shipment['pickup']['id']);
+        if (!$pickup->isCreated()) {
+            return;
+        }
+
+        $response = $context->api()->delete('/pickups/'.$pickup->getId());
 
         if (!$response->isSuccessful()) {
-            $context->alert(sprintf('Unable to void pick-up with FlagShip Pickup ID (%s)', $shipment['pickup']['id']), 'warning');
+            $context->alert(sprintf('Unable to void pick-up with FlagShip Pickup ID (%s)', $pickup->getId()), 'warning');
 
             return;
         }
 
-        unset($shipment['pickup']);
+        $shipping->getShipment()->remove('pickup');
 
-        $order['flagship_shipping_raw'] = $shipment->jsonSerialize();
+        $shipping->save();
     }
 }

@@ -8,13 +8,14 @@ class Shipping extends AbstractComponent
 {
     protected $shipment;
     protected $order;
+    protected $pickup;
 
     public function getOrder()
     {
         return $this->order;
     }
 
-    public function setOrder($order)
+    public function setOrder(Order $order)
     {
         $this->order = $order;
 
@@ -26,9 +27,23 @@ class Shipping extends AbstractComponent
         return $this->shipment;
     }
 
-    public function setShipment($shipment)
+    public function setShipment(Shipment $shipment)
     {
         $this->shipment = $shipment;
+
+        return $this;
+    }
+
+    public function getPickup()
+    {
+        return $this->pickup;
+    }
+
+    public function setPickup(Pickup $pickup)
+    {
+        $this->pickup = $pickup;
+
+        return $this;
     }
 
     public function getService($phrase = null)
@@ -39,6 +54,22 @@ class Shipping extends AbstractComponent
         }
 
         return self::parseServicePhrase($phrase);
+    }
+
+    public function save($option = [])
+    {
+        $data = $this->shipment->toArray();
+
+        $this->order->setAttribute('flagship_shipping_raw', $data);
+
+        if (isset($option['save_meta_keys']) && $option['save_meta_keys']) {
+            $this->order->setAttribute('flagship_shipping_shipment_id', $data['shipment_id']);
+            $this->order->setAttribute('flagship_shipping_shipment_tracking_number', $data['tracking_number']);
+            $this->order->setAttribute('flagship_shipping_courier_name', $data['service']['courier_name']);
+            $this->order->setAttribute('flagship_shipping_courier_service_code', $data['service']['courier_code']);
+        }
+
+        return $this;
     }
 
     public function isFlagShipRateChoosen()

@@ -5,6 +5,7 @@ namespace FS\Components\Shipping\Factory;
 use FS\Components\Shipping\Object\Order;
 use FS\Components\Shipping\Object\Shipment;
 use FS\Components\Shipping\Object\Shipping;
+use FS\Components\Shipping\Object\Pickup;
 use FS\Context\Factory\AbstractFactory;
 
 class ShippingFactory extends AbstractFactory
@@ -12,6 +13,7 @@ class ShippingFactory extends AbstractFactory
     const RESOURCE_ORDER = 'order';
     const RESOURCE_ORDER_COLLECTION = 'collection';
     const RESOURCE_SHIPPING = 'shipping';
+    const RESOURCE_PICKUP = 'pickup';
 
     public function resolve($resource, array $option = [])
     {
@@ -71,10 +73,15 @@ class ShippingFactory extends AbstractFactory
 
                 $shipment->syncWithOrder($order);
 
+                $pickup = new Pickup();
+
+                $pickup->syncWithOrder($order);
+
                 $shipping = new Shipping();
 
                 $shipping->setOrder($order);
                 $shipping->setShipment($shipment);
+                $shipping->setPickup($pickup);
 
                 return $shipping;
                 // no break

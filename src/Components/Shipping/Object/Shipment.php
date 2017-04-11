@@ -4,11 +4,12 @@ namespace FS\Components\Shipping\Object;
 
 class Shipment
 {
+    use RawDataAccessTrait;
+
     const STATUS_PREQUOTED = 1;
     const STATUS_CREATED = 2;
 
     protected $status = self::STATUS_PREQUOTED;
-    protected $raw = [];
     protected $addresses = [];
 
     public function getId()
