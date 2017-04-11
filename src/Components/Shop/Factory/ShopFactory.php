@@ -35,8 +35,6 @@ class ShopFactory extends AbstractFactory
     {
         switch ($resource) {
             case self::RESOURCE_ORDER:
-                $this->debug('in');
-                $this->debug(get_post_meta($option['id'], 'flagship_shipping_raw', true));
                 $order = new Order();
 
                 if (isset($option['nativeOrder']) && $option['nativeOrder'] instanceof \WC_Order) {
