@@ -9,7 +9,7 @@ trait RawDataAccessTrait
     public function set($key, $value = null)
     {
         if (is_array($key)) {
-            $this->raw = array_merge($this->raw, $$key);
+            $this->raw = array_merge($this->raw, $key);
 
             return $this;
         }

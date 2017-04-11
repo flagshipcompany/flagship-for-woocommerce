@@ -5,31 +5,31 @@ namespace FS\Components\Shipping\Controller;
 use FS\Components\AbstractComponent;
 use FS\Components\Web\RequestParam as Req;
 use FS\Context\ApplicationContext as App;
+use FS\Components\Shipping\Factory\ShippingFactory;
 
 class PickupController extends AbstractComponent
 {
-    public function schedulePickup(Req $request, App $context, $orderIds, $pickupPostIds = array())
+    public function schedulePickup(Req $request, App $context, $orderIds, $pickupPostIds = [])
     {
         $requestFactory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
-        $orderShippingsFactory = $context
-            ->_('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
-
-        $orders = $context->_('\\FS\\Components\\Shop\\Factory\\ShopFactory')->resolve(
-            \FS\Components\Shop\Factory\ShopFactory::RESOURCE_ORDER_COLLECTION,
+        $regroupShippingsFactory = $context
+            ->_('\\FS\\Components\\Shipping\\Factory\\RegroupShippingsFactory');
+        $shippings = $context->_('\\FS\\Components\\Shipping\\Factory\\ShippingFactory')->resolve(
+            ShippingFactory::RESOURCE_SHIPPING_COLLECTION,
             ['ids' => $orderIds]
         );
 
         // group shipping orders by courier and service type
-        $flattenOrderShippings = $orderShippingsFactory->getFlattenOrderShippings($orders);
+        $regroupedShippings = $regroupShippingsFactory->getRegroupedShippings($shippings);
 
-        foreach ($flattenOrderShippings as $orderShippings) {
+        foreach ($regroupedShippings as $data) {
             $response = $context->command()->pickup(
                 $context->api(),
                 $requestFactory->setPayload(array(
-                    'orders' => $orderShippings['orders'],
-                    'courier' => $orderShippings['courier'],
-                    'type' => $orderShippings['type'],
+                    'shippings' => $data['shippings'],
+                    'courier' => $data['courier'],
+                    'type' => $data['type'],
                     'options' => $context->option(),
                     'date' => date('Y-m-d'),
                 ))->getRequest()
@@ -38,7 +38,7 @@ class PickupController extends AbstractComponent
             if ($response->isSuccessful()) {
                 $pickup = $response->getContent();
 
-                $pickup['order_ids'] = $orderShippings['ids'];
+                $pickup['order_ids'] = $data['ids'];
                 $pickup['pickup_date'] = $pickup['date'];
 
                 // replace existing pickup post if and only if there is one cancelled pickup to reschdule
@@ -49,6 +49,7 @@ class PickupController extends AbstractComponent
 
         $sendback = add_query_arg([
             'post_type' => 'flagship_pickup',
+            'sig' => md5('pickup'.time()),
         ], '');
 
         \wp_redirect(esc_url_raw($sendback));
@@ -73,7 +74,10 @@ class PickupController extends AbstractComponent
             update_post_meta($pickupPostId, 'cancelled', true);
         }
 
-        $sendback = add_query_arg(['post_type' => 'flagship_pickup'], '');
+        $sendback = add_query_arg([
+            'post_type' => 'flagship_pickup',
+            'sig' => md5('pickup'.time()),
+        ], '');
         wp_redirect(esc_url_raw($sendback));
         exit();
     }

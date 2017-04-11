@@ -11,7 +11,7 @@ use FS\Context\Factory\AbstractFactory;
 class ShippingFactory extends AbstractFactory
 {
     const RESOURCE_ORDER = 'order';
-    const RESOURCE_ORDER_COLLECTION = 'collection';
+    const RESOURCE_SHIPPING_COLLECTION = 'collection';
     const RESOURCE_SHIPPING = 'shipping';
     const RESOURCE_PICKUP = 'pickup';
 
@@ -52,20 +52,20 @@ class ShippingFactory extends AbstractFactory
 
                 return $order->setNativeOrder($nativeOrder);
                 // no break
-            case self::RESOURCE_ORDER_COLLECTION:
-                $orders = array();
+            case self::RESOURCE_SHIPPING_COLLECTION:
+                $shippings = [];
 
                 if (isset($option['ids'])) {
                     foreach ($option['ids'] as $id) {
-                        $orders[] = $this->resolve(self::RESOURCE_ORDER, array(
+                        $shippings[] = $this->resolve(self::RESOURCE_SHIPPING, [
                             'id' => $id,
-                        ));
+                        ]);
                     }
 
-                    return $orders;
+                    return $shippings;
                 }
 
-                throw new \Exception('Unable to retieve WooCommerce Orders');
+                throw new \Exception('Unable to retrieve WooCommerce Orders');
                 // no break
             case self::RESOURCE_SHIPPING:
                 $order = self::resolveWithoutContext(self::RESOURCE_ORDER, $option);
