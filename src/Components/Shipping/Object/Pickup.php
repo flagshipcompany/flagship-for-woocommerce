@@ -9,7 +9,6 @@ class Pickup extends AbstractComponent
     use RawDataAccessTrait;
 
     protected $created = false;
-    protected $raw = [];
 
     public function getId()
     {
