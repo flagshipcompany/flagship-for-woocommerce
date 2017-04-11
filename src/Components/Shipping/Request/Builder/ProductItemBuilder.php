@@ -11,13 +11,13 @@ class ProductItemBuilder extends AbstractComponent implements BuilderInterface
         $items = [];
 
         foreach ($payload['productItems'] as $productItem) {
-            $items[] = array(
+            $items[] = [
                 'length' => $productItem['length'],
                 'width' => $productItem['width'],
                 'height' => $productItem['height'],
                 'weight' => $productItem['weight'],
                 'description' => $productItem['id'],
-            );
+            ];
         }
 
         return $items;

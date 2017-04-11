@@ -2,20 +2,24 @@
 
 namespace FS\Shipping\RequestFactory;
 
-class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
+use FS\Test\Helper\FlagshipShippingUnitTestCase;
+use FS\Test\Helper\FlagshipShippingWooCommerceFactory;
+use FS\Components\Shipping\Factory\ShippingFactory;
+
+class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
         $this->package = require __DIR__.'/../../Fixture/Package.php';
-        $this->order = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShippingFactory')
-            ->resolve('order', array(
-                'nativeOrder' => \FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleOrder(),
-            ));
+        $this->shipping = $this->getApplicationContext()
+            ->_('\\FS\\Components\\Shipping\\Factory\\ShippingFactory')
+            ->resolve(ShippingFactory::RESOURCE_SHIPPING, [
+                'native_order' => FlagshipShippingWooCommerceFactory::createSimpleOrder(),
+            ]);
 
-        $this->order['flagship_shipping_raw'] = array(
+        $this->shipping->getShipment()->set([
             'shipment_id' => 1517028,
             'tracking_number' => '794631711299',
             'price' => array(
@@ -52,24 +56,24 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
                     'pin' => '794631711299',
                 ),
             ),
-        );
+        ]);
 
         foreach ($this->package['contents'] as $key => $package) {
-            $this->package['contents'][$key]['data'] = \FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleProduct();
+            $this->package['contents'][$key]['data'] = FlagshipShippingWooCommerceFactory::createSimpleProduct();
         }
     }
 
     public function testShoppingCartRateRequestFactory()
     {
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingCartRate');
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingCartRate');
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
 
         $request = $factory->setPayload(array(
             'package' => $this->package,
             'options' => $options,
-            'notifier' => $this->ctx->getComponent('\\FS\\Components\\Notifier'),
+            'notifier' => $this->ctx->_('\\FS\\Components\\Notifier'),
         ))->getRequest();
 
         $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Request\\FormattedRequestInterface');
@@ -119,13 +123,13 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
     public function testShopOrderConfirmationRequestFactory()
     {
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderConfirmation');
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderConfirmation');
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
 
         $request = $factory->setPayload(array(
-            'order' => $this->order,
-            'request' => $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam'),
+            'shipping' => $this->shipping,
+            'request' => $this->getApplicationContext()->_('\\FS\\Components\\Web\\RequestParam'),
             'options' => $options,
         ))->getRequest();
 
@@ -216,15 +220,14 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
     public function testShopOrderPickupRequestFactory()
     {
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPickup');
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPickup');
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
 
         $request = $factory->setPayload(array(
-            'order' => $this->order,
+            'shipping' => $this->shipping,
             'options' => $options,
-            'shipment' => $this->order->getShipment(),
-            'date' => $this->getApplicationContext()->getComponent('\\FS\\Components\\Web\\RequestParam')->request->get('flagship_shipping_pickup_schedule_date', '2016-09-28'),
+            'date' => $this->getApplicationContext()->_('\\FS\\Components\\Web\\RequestParam')->request->get('flagship_shipping_pickup_schedule_date', '2016-09-28'),
         ))->getRequest();
 
         $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Request\\FormattedRequestInterface');
@@ -258,12 +261,12 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
     public function testShopOrderRateRequestFactory()
     {
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
 
         $request = $factory->setPayload(array(
-            'order' => $this->order,
+            'shipping' => $this->shipping,
             'options' => $options,
         ))->getRequest();
 
@@ -317,23 +320,23 @@ class RequestFactoryTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
     public function testMultipleOrdersPickupRequestFactory()
     {
         $factory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
         $options = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Options');
+            ->_('\\FS\\Components\\Options');
 
-        $orderShippingsFactory = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Order\\Factory\\FlattenOrderShippingsFactory');
+        $regroupShippingsFactory = $this->getApplicationContext()
+            ->_('\\FS\\Components\\Shipping\\Factory\\RegroupShippingsFactory');
 
-        $orders = array($this->order, clone $this->order);
-        $flattenOrderShippings = $orderShippingsFactory->getFlattenOrderShippings($orders);
+        $shippings = array($this->shipping, clone $this->shipping);
+        $regroupedShippings = $regroupShippingsFactory->getRegroupedShippings($shippings);
 
-        $this->assertEquals(1, count($flattenOrderShippings));
+        $this->assertEquals(1, count($regroupedShippings));
 
-        $flattenOrderShipping = $flattenOrderShippings[0];
+        $regroupedShipping = $regroupedShippings[0];
 
-        $this->assertEquals('fedex', $flattenOrderShipping['courier']);
-        $this->assertEquals('international', $flattenOrderShipping['type']);
-        $this->assertEquals(2, count($flattenOrderShipping['orders']));
-        $this->assertEquals(2, count($flattenOrderShipping['ids']));
+        $this->assertEquals('fedex', $regroupedShipping['courier']);
+        $this->assertEquals('international', $regroupedShipping['type']);
+        $this->assertEquals(2, count($regroupedShipping['shippings']));
+        $this->assertEquals(2, count($regroupedShipping['ids']));
     }
 }

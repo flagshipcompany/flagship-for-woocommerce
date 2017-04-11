@@ -22,7 +22,7 @@ class CommercialInvoiceBuilder extends AbstractComponent implements BuilderInter
             'inquiry_phone' => preg_replace('(\D)', '', $payload['from']['phone']),
         );
 
-        $ci['declared_items'] = $this->getDeclaredItems($payload['order']);
+        $ci['declared_items'] = $this->getDeclaredItems($payload['shipping']->getOrder());
 
         return $ci;
     }

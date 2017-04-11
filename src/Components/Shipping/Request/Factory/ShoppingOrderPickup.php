@@ -9,7 +9,7 @@ class ShoppingOrderPickup extends AbstractRequestFactory
 {
     public function makeRequest(FormattedRequestInterface $request, RequestBuilderFactory $factory)
     {
-        $shipment = $this->payload['shipping']->getShipment()->toArray();
+        $shipment = $this->payload['shipping']->getShipment();
         $order = $this->payload['shipping']->getOrder();
 
         $request->add(
@@ -24,17 +24,17 @@ class ShoppingOrderPickup extends AbstractRequestFactory
 
         $request->add(
             'courier',
-            strtolower($shipment['service']['courier_name'])
+            $shipment->getCourier()
         );
 
         $request->add(
             'boxes',
-            count($shipment['packages'])
+            count($shipment->get('packages'))
         );
 
         $request->add(
             'weight',
-            array_reduce($shipment['packages'], function ($carry, $package) {
+            array_reduce($shipment->get('packages'), function ($carry, $package) {
                 $carry += $package['weight'];
 
                 return $carry;
@@ -73,7 +73,7 @@ class ShoppingOrderPickup extends AbstractRequestFactory
 
         $request->add(
             'is_ground',
-            (strtolower($shipment['service']['courier_name']) == 'fedex' && strpos($shipment['service']['courier_code'], 'FedexGround') !== false)
+            $shipment->isFedexGround()
         );
 
         return $request;

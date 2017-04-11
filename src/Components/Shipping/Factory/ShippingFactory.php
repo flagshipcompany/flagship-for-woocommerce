@@ -40,11 +40,11 @@ class ShippingFactory extends AbstractFactory
             case self::RESOURCE_ORDER:
                 $order = new Order();
 
-                if (!isset($option['id'])) {
+                if (!isset($option['id']) && !isset($option['native_order'])) {
                     throw new \Exception('Unable to retrieve WooCommerce Order');
                 }
 
-                $nativeOrder = \wc_get_order($option['id']);
+                $nativeOrder = isset($option['native_order']) ? $option['native_order'] : \wc_get_order($option['id']);
 
                 if (!$nativeOrder) {
                     throw new \Exception('Unable to retrieve WooCommerce Order');

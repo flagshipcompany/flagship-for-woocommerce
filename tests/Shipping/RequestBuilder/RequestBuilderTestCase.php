@@ -2,24 +2,28 @@
 
 namespace FS\Test\Shipping\RequestBuilder;
 
-class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
+use FS\Test\Helper\FlagshipShippingUnitTestCase;
+use FS\Test\Helper\FlagshipShippingWooCommerceFactory;
+use FS\Components\Shipping\Factory\ShippingFactory;
+
+class RequestBuilderTestCase extends FlagshipShippingUnitTestCase
 {
     protected $package;
-    protected $order;
+    protected $shipping;
 
     public function setUp()
     {
         parent::setUp();
 
         $this->package = require __DIR__.'/../../Fixture/Package.php';
-        $this->order = $this->getApplicationContext()
-            ->getComponent('\\FS\\Components\\Shipping\\Factory\\ShippingFactory')
-            ->resolve('order', array(
-                'nativeOrder' => \FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleOrder(),
-            ));
+        $this->shipping = $this->getApplicationContext()
+            ->_('\\FS\\Components\\Shipping\\Factory\\ShippingFactory')
+            ->resolve(ShippingFactory::RESOURCE_SHIPPING, [
+                'native_order' => FlagshipShippingWooCommerceFactory::createSimpleOrder(),
+            ]);
 
         foreach ($this->package['contents'] as $key => $package) {
-            $this->package['contents'][$key]['data'] = \FS\Test\Helper\FlagshipShippingWooCommerceFactory::createSimpleProduct();
+            $this->package['contents'][$key]['data'] = FlagshipShippingWooCommerceFactory::createSimpleProduct();
         }
     }
 
@@ -96,7 +100,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
             'units' => 'imperial',
             'type' => 'package',
         ), $builder->build(array(
-            'order' => $this->order,
+            'shipping' => $this->shipping,
             'options' => $this->ctx->getComponent('\\FS\\Components\\Options'),
         )));
     }
@@ -115,7 +119,7 @@ class RequestBuilderTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCas
             'postal_code' => '123456',
             'phone' => '',
         ), $builder->build(array(
-            'order' => $this->order,
+            'shipping' => $this->shipping,
         )));
     }
 }

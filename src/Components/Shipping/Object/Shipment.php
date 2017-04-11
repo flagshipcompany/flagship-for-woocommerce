@@ -25,7 +25,7 @@ class Shipment
             return;
         }
 
-        return $this->raw['service']['courier_name'];
+        return strtolower($this->raw['service']['courier_name']);
     }
 
     public function getToAddress()
