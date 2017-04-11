@@ -21,7 +21,7 @@ return [
             'VIEWS' => '/templates',
         ],
     ],
-    'debug' => true,
+    'debug' => false,
     'auto-updater' => true,
     'text-domain' => 'flagship-for-woocommerce',
     'bootstrap' => 'flagship-for-woocommerce.php',
