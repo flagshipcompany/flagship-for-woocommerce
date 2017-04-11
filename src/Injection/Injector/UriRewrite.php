@@ -78,7 +78,9 @@ class UriRewrite implements InjectorInterface
 
     public function resolve()
     {
-        $this->resolveCommon();
+        if (!$this->resolveCommon()) {
+            return;
+        }
 
         $cb = $this->callback;
 

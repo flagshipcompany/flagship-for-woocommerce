@@ -64,7 +64,9 @@ class Asset implements InjectorInterface
 
     public function resolve()
     {
-        $this->resolveCommon();
+        if (!$this->resolveCommon()) {
+            return;
+        }
 
         if ($this->type == self::TYPE_SCRIPT) {
             return wp_enqueue_script(md5($this->path), $this->path, $this->requires, $this->version);

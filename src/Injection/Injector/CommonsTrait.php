@@ -42,8 +42,10 @@ trait CommonsTrait
     public function resolve()
     {
         if (!$this->shouldResolve) {
-            throw new \Exception('Flagship Secure: missing dependencies or does not match the minimum condition to run the plugin');
+            return false;
         }
+
+        return true;
     }
 
     /**
