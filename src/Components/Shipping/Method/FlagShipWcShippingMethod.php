@@ -118,6 +118,18 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                     '5' => __('5 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 ),
             ),
+            'allow_fake_cart_rate_discount' => array(
+                'title' => __('Show fake rate discount in cart/checkout', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
+                'checkboxgroup' => 'end',
+            ),
+            'fake_cart_rate_discount' => array(
+                'title' => __('Fake rate discount (%)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'text',
+                'description' => __('For instance, 35 stands for 35%', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'default' => '35',
+            ),
             'shipper_criteria' => array(
                 'title' => __('Shipper Information', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
@@ -237,7 +249,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             'shipping_taxation' => array(
                 'title' => __('Tax', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
-                'id' => 'flagship_shipping_markup',
+                'id' => 'flagship_shipping_taxation',
             ),
             'apply_tax_by_flagship' => array(
                 'title' => __('Calculate tax', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
