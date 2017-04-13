@@ -6,6 +6,7 @@ CHANGELOG.md        export-ignore
 CONTRIBUTING.md     export-ignore
 docs                export-ignore
 phpunit.xml.dist    export-ignore
+phpcs.ruleset.xml	export-ignore
 README.md           export-ignore
 tests				export-ignore
 bin					export-ignore
