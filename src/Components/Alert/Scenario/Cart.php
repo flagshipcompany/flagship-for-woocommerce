@@ -31,8 +31,6 @@ class Cart extends Native
             return $this;
         }
 
-        return parent::view($viewer);
-
         \wc_clear_notices();
 
         foreach ($this->store as $type => $notifications) {
