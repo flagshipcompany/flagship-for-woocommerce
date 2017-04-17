@@ -88,24 +88,29 @@ class FlagshipShippingWooCommerceFactory
             '10',
             \WC_Tax::get_shipping_tax_rates()
         );
-        $order->add_shipping(
-            new \WC_Shipping_Rate(
-                'flagship_shipping_method|Purolator|PurolatorExpress|Purolator Express|1473811200',
-                'Purolator - Purolator Express',
-                '10',
-                $shipping_taxes,
-                'flagship_shipping_method'
-            )
-        );
+
+        $item = new \WC_Order_Item_Shipping();
+        $item->set_props([
+            'method_title' => 'Purolator - Purolator Express',
+            'method_id' => 'flagship_shipping_method|Purolator|PurolatorExpress|Purolator Express|1473811200',
+            'total' => wc_format_decimal(10),
+            'taxes' => $shipping_taxes,
+            'order_id' => $order->get_id(),
+        ]);
+        $item->save();
+
+        $order->add_item($item);
 
         // Set totals
-        $order->set_total(10, 'shipping');
-        $order->set_total(0, 'cart_discount');
-        $order->set_total(0, 'cart_discount_tax');
-        $order->set_total(0, 'tax');
-        $order->set_total(0, 'shipping_tax');
-        $order->set_total($total, 'total'); // 4 x $10 simple helper product
+        $order->set_total($total);
+        $order->set_discount_total(0);
+        $order->set_discount_tax(0);
+        $order->set_shipping_total(10);
+        $order->set_shipping_tax(0);
+        $order->set_cart_tax(0);
 
-        return wc_get_order($order->id);
+        $order->save();
+
+        return wc_get_order($order->get_id());
     }
 }

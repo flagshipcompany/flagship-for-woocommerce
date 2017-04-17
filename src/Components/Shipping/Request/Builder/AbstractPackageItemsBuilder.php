@@ -10,11 +10,11 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
 
     public function build($payload = null)
     {
-        $packages = array(
+        $packages = [
             'items' => $this->makePackageItems($this->makeProductItems($payload), $payload),
             'units' => 'imperial',
             'type' => 'package',
-        );
+        ];
 
         // verify if each package item's weight is at least 1 lb
         foreach ($packages['items'] as $key => $item) {
@@ -33,17 +33,17 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
         $package_box_max_weight = (int) $options->get('default_package_box_split_weight', 20);
         $package_item_in_same_box = $options->get('default_package_box_split', 'no') == 'yes';
 
-        $items = array();
+        $items = [];
 
         // add first product item(box) into package items
         $product_item = array_shift($product_items);
-        $items[] = array(
+        $items[] = [
             'width' => 1,
             'height' => 1,
             'length' => 1,
             'weight' => $product_item['weight'],
             'description' => 'Flagship shipping package',
-        );
+        ];
 
         // if all product items must be packed into one box
         // sum up total weight
@@ -72,13 +72,13 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
 
             // make new box if we cannot fit current product item into any of the existing box
             if (!$fit_into_existing) {
-                $items[] = array(
+                $items[] = [
                     'width' => 1,
                     'height' => 1,
                     'length' => 1,
                     'weight' => $product_item['weight'],
                     'description' => 'Flagship shipping package',
-                );
+                ];
             }
         }
 
@@ -88,15 +88,15 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
     protected function getProductDimensions($product)
     {
         if (!$product) {
-            return array(1, 1, 1, 1);
+            return [1, 1, 1, 1];
         }
 
         return array(
-            $product->width ? max(1, ceil(woocommerce_get_dimension($product->width, 'in'))) : 1,
-            $product->length ? max(1, ceil(woocommerce_get_dimension($product->length, 'in'))) : 1,
-            $product->height ? max(1, ceil(woocommerce_get_dimension($product->height, 'in'))) : 1,
+            $product->get_width() ? max(1, ceil(wc_get_dimension($product->get_width(), 'in'))) : 1,
+            $product->get_length() ? max(1, ceil(wc_get_dimension($product->get_length(), 'in'))) : 1,
+            $product->get_height() ? max(1, ceil(wc_get_dimension($product->get_height(), 'in'))) : 1,
             // when product weight is not defined, default to 0.001 lb (in accordance with shopify client "1 gram")
-            $product->weight ? (float) woocommerce_get_weight($product->weight, 'lbs') : 0.001,
+            $product->has_weight() ? (float) wc_get_weight($product->get_weight(), 'lbs') : 0.001,
             $product->get_id(),
         );
     }

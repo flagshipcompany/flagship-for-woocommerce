@@ -125,13 +125,13 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
         $factory = $this->getApplicationContext()
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderConfirmation');
         $options = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Options');
+            ->option();
 
-        $request = $factory->setPayload(array(
+        $request = $factory->setPayload([
             'shipping' => $this->shipping,
             'request' => $this->getApplicationContext()->_('\\FS\\Components\\Web\\RequestParam'),
             'options' => $options,
-        ))->getRequest();
+        ])->getRequest();
 
         $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Request\\FormattedRequestInterface');
 
@@ -207,7 +207,7 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
                         'product_name' => 'Dummy Product',
                         'description' => '',
                         'country_of_origin' => 'CA',
-                        'quantity' => '4',
+                        'quantity' => 4,
                         'unit_price' => '10',
                         'unit_weight' => 1,
                         'unit_of_measurement' => 'kilogram',

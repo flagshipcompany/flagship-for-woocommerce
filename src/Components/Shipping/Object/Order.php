@@ -54,6 +54,6 @@ class Order
             return $this->nativeOrder;
         }
 
-        return $this->nativeOrder->{$key};
+        return $this->nativeOrder->{'get_'.$key}();
     }
 }
