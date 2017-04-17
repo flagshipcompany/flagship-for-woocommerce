@@ -8,6 +8,7 @@ use FS\Components\Event\NativeHookInterface;
 use FS\Context\ConfigurableApplicationContextInterface as Context;
 use FS\Context\ApplicationEventInterface as Event;
 use FS\Components\Event\ApplicationEvent;
+use FS\Components\Alert\Notifier;
 
 class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInterface, NativeHookInterface
 {
@@ -27,8 +28,8 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
             ->before(function ($context) use ($shipping) {
                 // apply middlware function before invoke controller method
                 $context
-                    ->_('\\FS\\Components\\Notifier')
-                    ->scope('shop_order', ['id' => $shipping->getOrder()->getId()]);
+                    ->_('\\FS\\Components\\Alert\\Notifier')
+                    ->scenario(Notifier::SCOPE_SHOP_ORDER, ['order' => $shipping->getOrder()]);
             })
             ->after(function ($context) {
                 // as we are in metabox,
@@ -36,7 +37,7 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
                 // why? wordpress will render shop order after it dealt with any POST request to shop order
                 // any alerts added previously (treating POST data) will be shown here
                 $context
-                    ->_('\\FS\\Components\\Notifier')
+                    ->_('\\FS\\Components\\Alert\\Notifier')
                     ->view();
             })
             ->dispatch('metabox-build', [$shipping]);

@@ -14,7 +14,7 @@ class ApiBuilder extends FallbackBuilder implements BuilderInterface
         $command = $this->getApplicationContext()
             ->command();
         $notifier = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Notifier');
+            ->_('\\FS\\Components\\Alert\\Notifier');
         $factory = $this->getApplicationContext()
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPacking');
 

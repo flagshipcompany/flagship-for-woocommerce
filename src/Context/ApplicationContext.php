@@ -16,7 +16,7 @@ class ApplicationContext extends AbstractApplicationContext
 
     public function alert($message, $type = 'notice')
     {
-        $notifier = $this->getComponent('\\FS\\Components\\Notifier');
+        $notifier = $this->getComponent('\\FS\\Components\\Alert\\Notifier');
 
         $notifier->add($type, $message);
 

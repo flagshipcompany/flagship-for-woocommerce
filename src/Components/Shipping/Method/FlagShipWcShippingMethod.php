@@ -378,7 +378,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         $rp = $this->ctx->_('\\FS\\Components\\Web\\RequestParam');
 
         if (!$this->isLegacy && $rp->query->get('instance_id') == $this->instance_id) {
-            $this->ctx->_('\\FS\\Components\\Notifier')->view();
+            $this->ctx->_('\\FS\\Components\\Alert\\Notifier')->view();
         }
 
         parent::admin_options();

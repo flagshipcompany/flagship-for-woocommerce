@@ -73,7 +73,7 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
         $request = $factory->setPayload(array(
             'package' => $this->package,
             'options' => $options,
-            'notifier' => $this->ctx->_('\\FS\\Components\\Notifier'),
+            'notifier' => $this->ctx->_('\\FS\\Components\\Alert\\Notifier'),
         ))->getRequest();
 
         $reflected = new \ReflectionClass('\\FS\\Components\\Shipping\\Request\\FormattedRequestInterface');

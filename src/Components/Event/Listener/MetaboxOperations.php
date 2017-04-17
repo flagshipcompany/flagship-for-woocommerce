@@ -8,6 +8,7 @@ use FS\Components\Event\NativeHookInterface;
 use FS\Context\ConfigurableApplicationContextInterface as Context;
 use FS\Context\ApplicationEventInterface as Event;
 use FS\Components\Event\ApplicationEvent;
+use FS\Components\Alert\Notifier;
 
 class MetaboxOperations extends AbstractComponent implements ApplicationListenerInterface, NativeHookInterface
 {
@@ -33,8 +34,8 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
             ->before(function ($context) use ($shipping) {
                 // apply middlware function before invoke controller method
                 $context
-                    ->_('\\FS\\Components\\Notifier')
-                    ->scope('shop_order', ['id' => $shipping->getOrder()->getId()]);
+                    ->_('\\FS\\Components\\Alert\\Notifier')
+                    ->scenario(Notifier::SCOPE_SHOP_ORDER, ['order' => $shipping->getOrder()]);
 
                 // load instance shipping method used by this shopping order
                 $service = $shipping->getService();

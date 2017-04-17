@@ -64,7 +64,7 @@ class RequestBuilderTestCase extends FlagshipShippingUnitTestCase
         ), $builder->build(array(
             'package' => $this->package,
             'options' => $this->ctx->getComponent('\\FS\\Components\\Options'),
-            'notifier' => $this->ctx->getComponent('\\FS\\Components\\Notifier'),
+            'notifier' => $this->ctx->getComponent('\\FS\\Components\\Alert\\Notifier'),
         )));
     }
 

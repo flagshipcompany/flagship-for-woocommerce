@@ -26,7 +26,7 @@ class Configurator implements ConfigurationInterface
             '\\FS\\Components\\Html',
             '\\FS\\Components\\Viewer',
             '\\FS\\Components\\Url',
-            '\\FS\\Components\\Notifier',
+            '\\FS\\Components\\Alert\\Notifier',
             '\\FS\\Components\\Event\\ApplicationEventCaster',
             '\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory',
             '\\FS\\Components\\Http\\Client',

@@ -4,6 +4,7 @@ namespace FS\Components\Shipping\Request\Builder\Cart\PackageItems;
 
 use FS\Components\Shipping\Request\Builder\AbstractPackageItemsBuilder;
 use FS\Components\Shipping\Request\Builder\BuilderInterface;
+use FS\Components\Alert\Notifier;
 
 class FallbackBuilder extends AbstractPackageItemsBuilder implements BuilderInterface
 {
@@ -12,10 +13,10 @@ class FallbackBuilder extends AbstractPackageItemsBuilder implements BuilderInte
         $product_items = array();
 
         $notifier = $payload['notifier'];
-        $notifier->scope('cart');
+        $notifier->scenario(Notifier::SCOPE_CART);
 
-        if ($payload['options']->get('disable_api_warning') == 'yes') {
-            $notifier->enableSilentLogging();
+        if ($payload['options']->eq('disable_api_warning', 'yes')) {
+            $notifier->getScenario()->enableSilentLogging();
         }
 
         foreach ($payload['package']['contents'] as $id => $item) {

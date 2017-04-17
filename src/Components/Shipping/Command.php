@@ -53,7 +53,7 @@ class Command extends AbstractComponent
     {
         if (!$response->isSuccessful()) {
             $this->getApplicationContext()
-                ->_('\\FS\\Components\\Notifier')
+                ->_('\\FS\\Components\\Alert\\Notifier')
                 ->error('FlagShip API Error: '.$this->getApplicationContext()->_('\\FS\\Components\\Html')->ul($response->getErrors()));
         }
 

@@ -7,6 +7,7 @@ use FS\Context\ApplicationListenerInterface;
 use FS\Context\ConfigurableApplicationContextInterface as Context;
 use FS\Context\ApplicationEventInterface as Event;
 use FS\Components\Event\ApplicationEvent;
+use FS\Components\Alert\Notifier;
 
 class CalculateShipping extends AbstractComponent implements ApplicationListenerInterface
 {
@@ -33,18 +34,18 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
                     ->setToken($option->get('token'));
 
                 $notifier = $context
-                    ->_('\\FS\\Components\\Notifier')
-                    ->scope('cart');
+                    ->_('\\FS\\Components\\Alert\\Notifier')
+                    ->scenario(Notifier::SCOPE_CART);
 
                 // when store owner disable front end warning for their customer
                 if ($option->eq('disable_api_warning', 'yes')) {
-                    $notifier->enableSilentLogging();
+                    $notifier->getScenario()->enableSilentLogging();
                 }
             })
             ->after(function ($context) {
                 // we have to explicit "show" notification
                 $context
-                    ->_('\\FS\\Components\\Notifier')
+                    ->_('\\FS\\Components\\Alert\\Notifier')
                     ->view();
             })
             ->dispatch('compute', [$package, $method]);

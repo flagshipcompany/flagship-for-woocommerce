@@ -11,21 +11,32 @@ class Order
         return $this->native('id');
     }
 
-    public function getAttribute($attribute)
+    public function hasAttribute($attribute)
     {
-        return \get_post_meta($this->getId(), $attribute, true);
+        return $this->nativeOrder->meta_exists($attribute);
+    }
+
+    public function getAttribute($attribute, $single = true)
+    {
+        return $this->nativeOrder->get_meta($attribute, $single);
     }
 
     public function setAttribute($attribute, $value)
     {
-        \update_post_meta($this->getId(), $attribute, $value);
+        $this->nativeOrder->update_meta_data($attribute, $value);
+
+        // this is important, the CRUD update method will only change object's value
+        $this->nativeOrder->save();
 
         return $this;
     }
 
     public function removeAttribute($attribute)
     {
-        \delete_post_meta($this->getId(), $attribute);
+        $this->nativeOrder->delete_meta_data($attribute);
+
+        // this is important, the CRUD delete method will only change object's value
+        $this->nativeOrder->save();
 
         return $this;
     }
