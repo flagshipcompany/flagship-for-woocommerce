@@ -2,6 +2,9 @@
 
 namespace FS\Injection\Updater;
 
+use FS\Injection\I;
+use FS\Injection\Http\Client;
+
 class Autoupdate
 {
     private $slug; // plugin slug
@@ -9,19 +12,22 @@ class Autoupdate
     private $username; // GitHub username
     private $repo; // GitHub repo name
     private $pluginFile; // __FILE__ of our plugin
-    private $githubAPIResult; // holds data from GitHub
     private $accessToken; // GitHub private repo token
+    protected $release = [];
+    protected $github;
 
-    public function __construct($pluginFile, $gitHubUsername, $gitHubProjectName, $accessToken = '')
+    public function __construct($pluginFile, $username, $repo, $accessToken = null)
     {
-        add_filter('pre_set_site_transient_update_plugins', array($this, 'setTransitent'));
-        add_filter('plugins_api', array($this, 'setPluginInfo'), 10, 3);
-        add_filter('upgrader_post_install', array($this, 'postInstall'), 10, 3);
+        add_filter('pre_set_site_transient_update_plugins', [$this, 'presetTransient']);
+        add_filter('plugins_api', [$this, 'setPluginInfo'], 10, 3);
+        add_filter('upgrader_post_install', [$this, 'postInstall'], 10, 3);
 
         $this->pluginFile = $pluginFile;
-        $this->username = $gitHubUsername;
-        $this->repo = $gitHubProjectName;
+        $this->username = $username;
+        $this->repo = $repo;
+
         $this->accessToken = $accessToken;
+        $this->github = new Client();
     }
 
     // Get information regarding our plugin from WordPress
@@ -31,37 +37,8 @@ class Autoupdate
         $this->pluginData = \get_plugin_data($this->pluginFile);
     }
 
-    // Get information regarding our plugin from GitHub
-    private function getRepoReleaseInfo()
-    {
-        // Only do this once
-        if (!empty($this->githubAPIResult)) {
-            return;
-        }
-
-        // Query the GitHub API
-        $url = "https://api.github.com/repos/{$this->username}/{$this->repo}/releases";
-
-        // We need the access token for private repos
-        if (!empty($this->accessToken)) {
-            $url = \add_query_arg(array('access_token' => $this->accessToken), $url);
-        }
-
-        // Get the results
-        $this->githubAPIResult = \wp_remote_retrieve_body(wp_remote_get($url));
-
-        if (!empty($this->githubAPIResult)) {
-            $this->githubAPIResult = @json_decode($this->githubAPIResult);
-        }
-
-        // Use only the latest release
-        if (is_array($this->githubAPIResult)) {
-            $this->githubAPIResult = $this->githubAPIResult[0];
-        }
-    }
-
     // Push in plugin version information to get the update notification
-    public function setTransitent($transient)
+    public function presetTransient($transient)
     {
         // If we have checked the plugin data before, don't re-check
         if (empty($transient->checked)) {
@@ -70,25 +47,24 @@ class Autoupdate
 
         // Get plugin & GitHub release information
         $this->initPluginData();
-        $this->getRepoReleaseInfo();
+        $this->resolveRelease();
+
+        if (!$this->release) {
+            return $transient;
+        }
 
         // Check the versions if we need to do an update
-        $doUpdate = \version_compare($this->githubAPIResult->tag_name, $transient->checked[$this->slug]);
+        $doUpdate = version_compare($this->release['tag_name'], $transient->checked[$this->slug], '>');
 
         // Update the transient to include our updated plugin data
-        if ($doUpdate == 1) {
-            $package = $this->githubAPIResult->zipball_url;
-
-            // Include the access token for private GitHub repos
-            if (!empty($this->accessToken)) {
-                $package = \add_query_arg(array('access_token' => $this->accessToken), $package);
-            }
-
+        if ($doUpdate) {
             $obj = new \stdClass();
+
             $obj->slug = $this->slug;
-            $obj->new_version = $this->githubAPIResult->tag_name;
+            $obj->new_version = $this->release['tag_name'];
             $obj->url = $this->pluginData['PluginURI'];
-            $obj->package = $package;
+            $obj->package = $this->release->zipball_url;
+
             $transient->response[$this->slug] = $obj;
         }
 
@@ -100,7 +76,7 @@ class Autoupdate
     {
         // Get plugin & GitHub release information
         $this->initPluginData();
-        $this->getRepoReleaseInfo();
+        $this->resolveRelease();
 
         // If nothing is found, do nothing
         if (empty($response->slug) || $response->slug != $this->slug) {
@@ -108,36 +84,23 @@ class Autoupdate
         }
 
         // Add our plugin information
-        $response->last_updated = $this->githubAPIResult->published_at;
+        $response->last_updated = $this->release['published_at'];
         $response->slug = $this->slug;
         $response->plugin_name = $this->pluginData['Name'];
-        $response->version = $this->githubAPIResult->tag_name;
+        $response->version = $this->release['tag_name'];
         $response->author = $this->pluginData['AuthorName'];
         $response->homepage = $this->pluginData['PluginURI'];
-
-        // This is our release download zip file
-        $downloadLink = $this->githubAPIResult->zipball_url;
-
-        // Include the access token for private GitHub repos
-        if (!empty($this->accessToken)) {
-            $downloadLink = \add_query_arg(
-                array('access_token' => $this->accessToken),
-                $downloadLink
-            );
-        }
-        $response->download_link = $downloadLink;
+        $response->download_link = $this->release['zipball_url'];
 
         // Create tabs in the lightbox
-        $response->sections = array(
+        $response->sections = [
             'description' => $this->pluginData['Description'],
-            'changelog' => class_exists('Parsedown')
-                                ? Parsedown::instance()->parse($this->githubAPIResult->body)
-                                : $this->githubAPIResult->body,
-        );
+            'changelog' => Parsedown::instance()->parse($this->release->body),
+        ];
 
         // Gets the required version of WP if available
         $matches = null;
-        preg_match("/requires:\s([\d\.]+)/i", $this->githubAPIResult->body, $matches);
+        preg_match("/requires:\s([\d\.]+)/i", $this->release->body, $matches);
         if (!empty($matches)) {
             if (is_array($matches)) {
                 if (count($matches) > 1) {
@@ -148,7 +111,7 @@ class Autoupdate
 
         // Gets the tested version of WP if available
         $matches = null;
-        preg_match("/tested:\s([\d\.]+)/i", $this->githubAPIResult->body, $matches);
+        preg_match("/tested:\s([\d\.]+)/i", $this->release->body, $matches);
         if (!empty($matches)) {
             if (is_array($matches)) {
                 if (count($matches) > 1) {
@@ -172,7 +135,9 @@ class Autoupdate
         // Since we are hosted in GitHub, our plugin folder would have a dirname of
         // reponame-tagname change it to our original one:
         global $wp_filesystem;
+
         $pluginFolder = WP_PLUGIN_DIR.DIRECTORY_SEPARATOR.dirname($this->slug);
+
         $wp_filesystem->move($result['destination'], $pluginFolder);
         $result['destination'] = $pluginFolder;
 
@@ -182,5 +147,55 @@ class Autoupdate
         }
 
         return $result;
+    }
+
+    /**
+     * Get all releases from github.
+     *
+     * @param string $domain
+     * @param string $repo
+     *
+     * @return array
+     */
+    protected function resolveRelease()
+    {
+        // Only do this once
+        if (!empty($this->release)) {
+            return;
+        }
+
+        $response = $this->github->get("https://api.github.com/repos/{$this->username}/{$this->repo}/releases");
+
+        if (!$response->isSuccessful()) {
+            return;
+        }
+
+        $releases = $response->getBody();
+
+        $this->release = $this->getLatestRelease($releases ?: []);
+
+        return $this;
+    }
+
+    /**
+     * filter out relevant release for wc v2.6 & v3.0.
+     *
+     * @param array $releases
+     *
+     * @return array
+     */
+    protected function getLatestRelease($releases)
+    {
+        $v3 = version_compare(WC()->version, '3.0', '>=');
+
+        foreach ($releases as $release) {
+            if ($v3 && version_compare($release['tag_name'], '2.0', '>=')) {
+                return $release;
+            }
+
+            if (!$v3 && version_compare($release['tag_name'], '2.0', '<')) {
+                return $release;
+            }
+        }
     }
 }
