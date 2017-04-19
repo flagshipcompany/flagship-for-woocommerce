@@ -49,6 +49,8 @@ class Autoupdate
         $this->initPluginData();
         $this->resolveRelease();
 
+        I::__($this->release);
+
         if (!$this->release) {
             return $transient;
         }
@@ -63,7 +65,7 @@ class Autoupdate
             $obj->slug = $this->slug;
             $obj->new_version = $this->release['tag_name'];
             $obj->url = $this->pluginData['PluginURI'];
-            $obj->package = $this->release->zipball_url;
+            $obj->package = $this->release['zipball_url'];
 
             $transient->response[$this->slug] = $obj;
         }
@@ -95,12 +97,12 @@ class Autoupdate
         // Create tabs in the lightbox
         $response->sections = [
             'description' => $this->pluginData['Description'],
-            'changelog' => Parsedown::instance()->parse($this->release->body),
+            'changelog' => Parsedown::instance()->parse($this->release['body']),
         ];
 
         // Gets the required version of WP if available
         $matches = null;
-        preg_match("/requires:\s([\d\.]+)/i", $this->release->body, $matches);
+        preg_match("/requires:\s([\d\.]+)/i", $this->release['body'], $matches);
         if (!empty($matches)) {
             if (is_array($matches)) {
                 if (count($matches) > 1) {
@@ -111,7 +113,7 @@ class Autoupdate
 
         // Gets the tested version of WP if available
         $matches = null;
-        preg_match("/tested:\s([\d\.]+)/i", $this->release->body, $matches);
+        preg_match("/tested:\s([\d\.]+)/i", $this->release['body'], $matches);
         if (!empty($matches)) {
             if (is_array($matches)) {
                 if (count($matches) > 1) {
@@ -174,6 +176,8 @@ class Autoupdate
 
         $this->release = $this->getLatestRelease($releases ?: []);
 
+        I::__($this->release);
+
         return $this;
     }
 
@@ -186,7 +190,7 @@ class Autoupdate
      */
     protected function getLatestRelease($releases)
     {
-        $v3 = version_compare(WC()->version, '3.0', '>=');
+        $v3 = (bool) version_compare('2.6.14', '3.0', '>=');
 
         foreach ($releases as $release) {
             if ($v3 && version_compare($release['tag_name'], '2.0', '>=')) {
