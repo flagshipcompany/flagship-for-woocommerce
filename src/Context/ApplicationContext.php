@@ -4,6 +4,7 @@ namespace FS\Context;
 
 use FS\Container;
 use FS\Components\Factory\ConfigurationInterface;
+use FS\Components\Options;
 
 class ApplicationContext extends AbstractApplicationContext
 {
@@ -37,9 +38,13 @@ class ApplicationContext extends AbstractApplicationContext
         return $factory;
     }
 
-    public function api()
+    public function api(Options $option = null)
     {
         $client = $this->getComponent('\\FS\\Components\\Http\\Client');
+
+        if ($option) {
+            $client->setToken($option->get('token'));
+        }
 
         return $client;
     }

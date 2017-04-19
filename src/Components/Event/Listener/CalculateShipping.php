@@ -29,9 +29,7 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
                 // apply middlware function before invoke controller method
                 $option = $context->option();
 
-                $context
-                    ->api()
-                    ->setToken($option->get('token'));
+                $context->api($option);
 
                 $notifier = $context
                     ->_('\\FS\\Components\\Alert\\Notifier')

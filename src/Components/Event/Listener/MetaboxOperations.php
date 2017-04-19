@@ -44,9 +44,7 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
                     ->option()
                     ->sync($service['instance_id'] ? $service['instance_id'] : false);
 
-                $context
-                    ->api()
-                    ->setToken($option->get('token'));
+                $context->api($option);
             })
             ->dispatch($rp->request->get('flagship_shipping_shipment_action'), [$shipping]);
     }

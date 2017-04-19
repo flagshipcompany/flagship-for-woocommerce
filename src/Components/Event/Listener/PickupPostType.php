@@ -31,8 +31,7 @@ class PickupPostType extends AbstractComponent implements ApplicationListenerInt
                 $option = $context
                     ->option();
 
-                $client = $context->api();
-                $client->setToken($option->get('token'));
+                $context->api($option);
             })
             ->dispatch($type, [$postIds]);
     }
