@@ -55,7 +55,7 @@ class MetaboxController extends AbstractComponent
         $shipment = $shipping->getShipment();
 
         if ($shipment->isCreated()) {
-            $context->alert(sprintf('You have flagship shipment for this order. FlagShip ID (%s)', $shipment->getId()), 'warning');
+            $context->alert()->warning('You have flagship shipment for this order. FlagShip ID (%s)', [$shipment->getId()]);
 
             return $this;
         }
@@ -92,7 +92,7 @@ class MetaboxController extends AbstractComponent
         $shipment = $shipping->getShipment();
 
         if (!$shipment->isCreated()) {
-            $context->alert(sprintf('Unable to access shipment with FlagShip ID (%s)', $shipment->getId()), 'warning');
+            $context->alert()->warning('Unable to access shipment with FlagShip ID (%s)', [$shipment->getId()]);
 
             return;
         }
@@ -102,7 +102,7 @@ class MetaboxController extends AbstractComponent
         $response = $context->api()->delete('/ship/shipments/'.$shipment->getId());
 
         if (!$response->isSuccessful()) {
-            $context->alert(sprintf('Unable to void shipment with FlagShip ID (%s)', $shipment->getId()), 'warning');
+            $context->alert()->warning('Unable to void shipment with FlagShip ID (%s)', [$shipment->getId()]);
 
             return;
         }
@@ -134,7 +134,7 @@ class MetaboxController extends AbstractComponent
         );
 
         if (!$response->isSuccessful()) {
-            $context->alert('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>', 'error');
+            $context->alert()->error('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>');
 
             return;
         }
@@ -184,7 +184,7 @@ class MetaboxController extends AbstractComponent
         );
 
         if (!$response->isSuccessful()) {
-            $context->alert(sprintf('Unable to schedule pick-up with FlagShip ID (%s)', $shipment->getId()), 'warning');
+            $context->alert()->warning('Unable to schedule pick-up with FlagShip ID (%s)', [$shipment->getId()]);
 
             return;
         }
@@ -205,7 +205,7 @@ class MetaboxController extends AbstractComponent
         $response = $context->api()->delete('/pickups/'.$pickup->getId());
 
         if (!$response->isSuccessful()) {
-            $context->alert(sprintf('Unable to void pick-up with FlagShip Pickup ID (%s)', $pickup->getId()), 'warning');
+            $context->alert()->warning('Unable to void pick-up with FlagShip Pickup ID (%s)', [$pickup->getId()]);
 
             return;
         }

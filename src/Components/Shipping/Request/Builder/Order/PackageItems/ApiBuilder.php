@@ -13,7 +13,7 @@ class ApiBuilder extends FallbackBuilder implements BuilderInterface
         $options = $context->option();
         $client = $context->api();
         $command = $context->command();
-        $notifier = $context->_('\\FS\\Components\\Alert\\Notifier');
+        $notifier = $context->alert();
         $factory = $context->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPacking');
 
         $response = $command->pack(

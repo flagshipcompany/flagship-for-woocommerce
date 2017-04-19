@@ -22,26 +22,33 @@ class Notifier extends AbstractComponent implements ComponentInitializingInterfa
         $this->setViewer($this->getApplicationContext()->_('\\FS\\Components\\Viewer'));
     }
 
-    public function add($type, $message)
+    public function add($type, $message, array $data = [])
     {
+        $message = __($message, FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+
+        if ($data) {
+            array_unsfit($data, $message);
+            $message = call_user_func_array('sprintf', $data);
+        }
+
         $this->scenario->add($type, $message);
 
         return $this;
     }
 
-    public function error($message)
+    public function error($message, array $data = [])
     {
-        return $this->add('error', $message);
+        return $this->add('error', $message, $data);
     }
 
-    public function notice($message)
+    public function notice($message, array $data = [])
     {
-        return $this->add('notice', $message);
+        return $this->add('notice', $message, $data);
     }
 
-    public function warning($message)
+    public function warning($message, array $data = [])
     {
-        return $this->add('warning', $message);
+        return $this->add('warning', $message, $data);
     }
 
     public function view()

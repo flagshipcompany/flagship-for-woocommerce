@@ -13,14 +13,14 @@ class ShippingController extends AbstractComponent
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingCartRate');
         $notifier = $context
-            ->_('\\FS\\Components\\Alert\\Notifier');
+            ->alert();
 
         $rateProcessorFactory = $context
             ->_('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
 
         // no shipping address, alert customer
         if (empty($package['destination']['postcode'])) {
-            $context->alert('Add shipping address to get shipping rates! (click "Calculate Shipping")', 'notice');
+            $context->alert()->notice('Add shipping address to get shipping rates! (click "Calculate Shipping")');
 
             return;
         }
@@ -35,7 +35,7 @@ class ShippingController extends AbstractComponent
         );
 
         if (!$response->isSuccessful()) {
-            $context->alert('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>', 'error');
+            $context->alert()->error('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>');
 
             return;
         }

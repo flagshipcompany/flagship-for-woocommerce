@@ -27,18 +27,14 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
             ])
             ->before(function ($context) use ($shipping) {
                 // apply middlware function before invoke controller method
-                $context
-                    ->_('\\FS\\Components\\Alert\\Notifier')
-                    ->scenario(Notifier::SCOPE_SHOP_ORDER, ['order' => $shipping->getOrder()]);
+                $context->alert(Notifier::SCOPE_SHOP_ORDER, ['order' => $shipping->getOrder()]);
             })
             ->after(function ($context) {
                 // as we are in metabox,
                 // we have to explicit "show" notification
                 // why? wordpress will render shop order after it dealt with any POST request to shop order
                 // any alerts added previously (treating POST data) will be shown here
-                $context
-                    ->_('\\FS\\Components\\Alert\\Notifier')
-                    ->view();
+                $context->alert()->view();
             })
             ->dispatch('metabox-build', [$shipping]);
     }

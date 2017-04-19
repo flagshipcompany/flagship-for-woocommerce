@@ -17,7 +17,7 @@ class SettingsValidator extends AbstractValidator
 
         // enabled?
         if ($target['enabled'] != 'yes') {
-            $context->alert(__('FlagShip Shipping is disabled.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
+            $context->alert()->warning('FlagShip Shipping is disabled.');
         }
 
         // phone
@@ -39,19 +39,19 @@ class SettingsValidator extends AbstractValidator
 
         // credentials
         if (!$target['shipper_person_name']) {
-            $context->alert(__('Shipper person name is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
+            $context->alert()->warning('Shipper person name is missing.');
         }
 
         if (!$target['shipper_company_name']) {
-            $context->alert(__('Shipper company name is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
+            $context->alert()->warning('Shipper company name is missing.');
         }
 
         if (!$target['shipper_phone_number']) {
-            $context->alert(__('Shipper phone number is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
+            $context->alert()->warning('Shipper phone number is missing.');
         }
 
         if (!$target['freight_shipper_street']) {
-            $context->alert(__('Shipper address\'s streetline is missing.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
+            $context->alert()->warning('Shipper address\'s streetline is missing.');
         }
 
         // overall integrity, send mock quote request

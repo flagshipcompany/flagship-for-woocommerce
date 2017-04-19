@@ -21,7 +21,7 @@ class AddressEssentialValidator extends AbstractValidator
 
         // the address is not valid but the api provide a correction
         if ($response->isSuccessful() && !$body['is_valid']) {
-            $context->alert(__('Address corrected to match with shipper\'s postal code.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
+            $context->alert()->warning('Address corrected to match with shipper\'s postal code.');
 
             $target['postal_code'] = $body['postal_code'];
             $target['state'] = $body['state'];
@@ -31,7 +31,7 @@ class AddressEssentialValidator extends AbstractValidator
         }
 
         foreach ($response->getErrors() as $error) {
-            $context->alert($error, 'warning');
+            $context->alert()->warning($error);
         }
 
         return $target;

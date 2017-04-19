@@ -11,7 +11,7 @@ class PhoneValidator extends AbstractValidator
         preg_match('/^\+?[1]?[-. ]?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/', $target, $matches);
 
         if (!$matches) {
-            $context->alert('\''.$target.'\''.__(' is not a valid phone number.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'warning');
+            $context->alert()->warning('"%s" is not a valid phone number.', [$target]);
         }
     }
 }

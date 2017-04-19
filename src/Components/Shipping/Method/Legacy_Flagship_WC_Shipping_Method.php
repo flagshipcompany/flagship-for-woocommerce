@@ -52,7 +52,7 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
         global $current_section;
 
         if ($current_section == 'flagship_wc_shipping_method') {
-            $this->ctx->_('\\FS\\Components\\Alert\\Notifier')->view();
+            $this->ctx->alert()->view();
         }
 
         parent::admin_options();

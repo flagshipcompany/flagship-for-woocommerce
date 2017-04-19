@@ -15,13 +15,15 @@ class ApplicationContext extends AbstractApplicationContext
         $this->_('\\FS\\Components\\Debugger')->log($data);
     }
 
-    public function alert($message, $type = 'notice')
+    public function alert($scenario = null, array $option = [])
     {
         $notifier = $this->getComponent('\\FS\\Components\\Alert\\Notifier');
 
-        $notifier->add($type, $message);
+        if ($scenario) {
+            $notifier->scenario($scenario, $option);
+        }
 
-        return $this;
+        return $notifier;
     }
 
     public function setting($key)

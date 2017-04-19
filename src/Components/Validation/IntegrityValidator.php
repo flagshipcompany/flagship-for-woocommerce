@@ -51,10 +51,10 @@ class IntegrityValidator extends AbstractValidator
         $response = $context->api()->post('/ship/rates', $request);
 
         if (!$response->isSuccessful()) {
-            $context->alert(__('<strong>Shipping Integrity Failure:</strong> <br/>', FLAGSHIP_SHIPPING_TEXT_DOMAIN), 'error');
+            $context->alert()->error('<strong>Shipping Integrity Failure:</strong> <br/>');
 
             // show 'FlagShip API Error: ' first
-            $context->_('\\FS\\Components\\Alert\\Notifier')->getScenario()->reverseOrdering('error');
+            $context->alert()->getScenario()->reverseOrdering('error');
         }
 
         return $target;

@@ -31,9 +31,7 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
 
                 $context->api($option);
 
-                $notifier = $context
-                    ->_('\\FS\\Components\\Alert\\Notifier')
-                    ->scenario(Notifier::SCOPE_CART);
+                $notifier = $context->alert(Notifier::SCOPE_CART);
 
                 // when store owner disable front end warning for their customer
                 if ($option->eq('disable_api_warning', 'yes')) {
@@ -42,9 +40,7 @@ class CalculateShipping extends AbstractComponent implements ApplicationListener
             })
             ->after(function ($context) {
                 // we have to explicit "show" notification
-                $context
-                    ->_('\\FS\\Components\\Alert\\Notifier')
-                    ->view();
+                $context->alert()->view();
             })
             ->dispatch('compute', [$package, $method]);
     }

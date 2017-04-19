@@ -33,9 +33,7 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
             ])
             ->before(function ($context) use ($shipping) {
                 // apply middlware function before invoke controller method
-                $context
-                    ->_('\\FS\\Components\\Alert\\Notifier')
-                    ->scenario(Notifier::SCOPE_SHOP_ORDER, ['order' => $shipping->getOrder()]);
+                $context->alert(Notifier::SCOPE_SHOP_ORDER, ['order' => $shipping->getOrder()]);
 
                 // load instance shipping method used by this shopping order
                 $service = $shipping->getService();
