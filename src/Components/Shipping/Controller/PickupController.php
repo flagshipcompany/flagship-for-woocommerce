@@ -4,12 +4,12 @@ namespace FS\Components\Shipping\Controller;
 
 use FS\Components\AbstractComponent;
 use FS\Components\Web\RequestParam as Req;
-use FS\Context\ApplicationContext as App;
+use FS\Context\ApplicationContext as Context;
 use FS\Components\Shipping\Factory\ShippingFactory;
 
 class PickupController extends AbstractComponent
 {
-    public function schedulePickup(Req $request, App $context, $orderIds, $pickupPostIds = [])
+    public function schedulePickup(Req $request, Context $context, $orderIds, $pickupPostIds = [])
     {
         $requestFactory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
@@ -56,7 +56,7 @@ class PickupController extends AbstractComponent
         exit();
     }
 
-    public function voidPickup(Req $request, App $context, $pickupPostIds)
+    public function voidPickup(Req $request, Context $context, $pickupPostIds)
     {
         foreach ($pickupPostIds as $pickupPostId) {
             $pickupId = get_post_meta($pickupPostId, 'id', true);
@@ -82,7 +82,7 @@ class PickupController extends AbstractComponent
         exit();
     }
 
-    public function reschedulePickup(Req $request, App $context, $pickupPostIds)
+    public function reschedulePickup(Req $request, Context $context, $pickupPostIds)
     {
         $requestFactory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');

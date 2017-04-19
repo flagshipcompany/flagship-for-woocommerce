@@ -5,22 +5,18 @@ namespace FS\Components\Shipping\Controller;
 use FS\Components\AbstractComponent;
 use FS\Components\Shipping\Object\Shipping;
 use FS\Components\Web\RequestParam as Req;
-use FS\Context\ApplicationContext as App;
+use FS\Context\ApplicationContext as Context;
 
 class MetaboxController extends AbstractComponent
 {
-    public function display(Req $request, App $context, Shipping $shipping)
+    public function display(Req $request, Context $context, Shipping $shipping)
     {
-        $view = $context
-            ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_METABOX);
-
         $shipment = $shipping->getShipment();
         $service = $shipping->getService();
 
         // shipment created
         if ($shipment->isCreated()) {
-            return $view->render([
+            return $context->render('meta-boxes/order-flagship-shipping-actions', [
                 'type' => 'created',
                 'shipment' => $shipment->toArray(),
             ]);
@@ -47,10 +43,10 @@ class MetaboxController extends AbstractComponent
             $payload['requote_rates'] = $requotes;
         }
 
-        $view->render($payload);
+        $context->render('meta-boxes/order-flagship-shipping-actions', $payload);
     }
 
-    public function createShipment(Req $request, App $context, Shipping $shipping)
+    public function createShipment(Req $request, Context $context, Shipping $shipping)
     {
         $shipment = $shipping->getShipment();
 
@@ -87,7 +83,7 @@ class MetaboxController extends AbstractComponent
         ]);
     }
 
-    public function voidShipment(Req $request, App $context, Shipping $shipping)
+    public function voidShipment(Req $request, Context $context, Shipping $shipping)
     {
         $shipment = $shipping->getShipment();
 
@@ -118,7 +114,7 @@ class MetaboxController extends AbstractComponent
         $order->removeAttribute('flagship_shipping_raw');
     }
 
-    public function requoteShipment(Req $request, App $context, Shipping $shipping)
+    public function requoteShipment(Req $request, Context $context, Shipping $shipping)
     {
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
@@ -163,7 +159,7 @@ class MetaboxController extends AbstractComponent
         }
     }
 
-    public function schedulePickup(Req $request, App $context, Shipping $shipping)
+    public function schedulePickup(Req $request, Context $context, Shipping $shipping)
     {
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPickup');
@@ -194,7 +190,7 @@ class MetaboxController extends AbstractComponent
         $shipping->save();
     }
 
-    public function voidPickup(Req $request, App $context, Shipping $shipping)
+    public function voidPickup(Req $request, Context $context, Shipping $shipping)
     {
         $pickup = $shipping->getPickup();
 

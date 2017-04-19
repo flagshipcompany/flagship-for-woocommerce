@@ -4,11 +4,11 @@ namespace FS\Components\Shipping\Controller;
 
 use FS\Components\AbstractComponent;
 use FS\Components\Web\RequestParam as Req;
-use FS\Context\ApplicationContext as App;
+use FS\Context\ApplicationContext as Context;
 
 class ShippingController extends AbstractComponent
 {
-    public function calculate(Req $request, App $context, $package, $method)
+    public function calculate(Req $request, Context $context, $package, $method)
     {
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingCartRate');

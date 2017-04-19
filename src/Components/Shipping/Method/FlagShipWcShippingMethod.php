@@ -435,22 +435,18 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             'type' => 'log',
             'desc_tip' => false,
             'description' => '',
-            'default' => array(),
-            'custom_attributes' => array(),
+            'default' => [],
+            'custom_attributes' => [],
         );
 
         ob_start();
 
-        $view = $this->ctx
-            ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_OPTION_LOG);
-
-        $view->render(array(
+        $this->ctx->render('option/log', [
             'field_key' => $this->get_field_key($key),
             'data' => \wp_parse_args($data, $defaults),
-            'logs' => $this->get_instance_option($key, array()),
+            'logs' => $this->get_instance_option($key, []),
             'description' => $this->get_description_html($data),
-        ));
+        ]);
 
         return ob_get_clean();
     }
@@ -464,15 +460,11 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
     {
         ob_start();
 
-        $packageBoxes = $this->instance_id ? $this->get_instance_option($key, array()) : $this->get_option($key, array());
+        $packageBoxes = $this->instance_id ? $this->get_instance_option($key, []) : $this->get_option($key, []);
 
-        $view = $this->ctx
-            ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_OPTION_PACKAGE_BOX);
-
-        $view->render(array(
+        $this->ctx->render('option/package-box', [
             'packageBoxes' => $packageBoxes,
-        ));
+        ]);
 
         return ob_get_clean();
     }

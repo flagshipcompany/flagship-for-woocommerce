@@ -67,6 +67,14 @@ class ApplicationContext extends AbstractApplicationContext
         return $this->getComponent('\\FS\\Components\\Shipping\\Command');
     }
 
+    public function render($path, array $data = [])
+    {
+        $view = $this->getComponent('\\FS\\Components\\View\\BasicView');
+
+        $view->setPath($path);
+        $view->render($data);
+    }
+
     public static function initialize(Container $container, ConfigurationInterface $configurator)
     {
         $ctx = self::getInstance();

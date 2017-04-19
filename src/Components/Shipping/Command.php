@@ -52,8 +52,9 @@ class Command extends AbstractComponent
     protected function validate(Response $response)
     {
         if (!$response->isSuccessful()) {
-            $this->getApplicationContext()->alert()
-                ->error('FlagShip API Error: '.$this->getApplicationContext()->_('\\FS\\Components\\Html')->ul($response->getErrors()));
+            $context = $this->getApplicationContext();
+
+            $context->alert()->error('FlagShip API Error: '.$context->_('\\FS\\Components\\Html')->ul($response->getErrors()));
         }
 
         return $response;

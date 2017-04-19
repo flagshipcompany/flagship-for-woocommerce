@@ -403,16 +403,12 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
 
         ob_start();
 
-        $view = $this->ctx
-            ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_OPTION_LOG);
-
-        $view->render(array(
+        $this->ctx->render('option/log', [
             'field_key' => $this->get_field_key($key),
             'data' => \wp_parse_args($data, $defaults),
-            'logs' => $this->get_option($key, array()),
+            'logs' => $this->get_instance_option($key, array()),
             'description' => $this->get_description_html($data),
-        ));
+        ]);
 
         return ob_get_clean();
     }
@@ -428,13 +424,9 @@ class FlagShip_WC_Shipping_Method extends \WC_Shipping_Method
 
         $packageBoxes = $this->get_option($key, array());
 
-        $view = $this->ctx
-            ->_('\\FS\\Components\\View\\Factory\\ViewFactory')
-            ->resolve(\FS\Components\View\Factory\ViewFactory::RESOURCE_OPTION_PACKAGE_BOX);
-
-        $view->render(array(
+        $this->ctx->render('option/package-box', [
             'packageBoxes' => $packageBoxes,
-        ));
+        ]);
 
         return ob_get_clean();
     }
