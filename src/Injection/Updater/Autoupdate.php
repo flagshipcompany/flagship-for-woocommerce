@@ -49,8 +49,6 @@ class Autoupdate
         $this->initPluginData();
         $this->resolveRelease();
 
-        I::__($this->release);
-
         if (!$this->release) {
             return $transient;
         }
@@ -175,8 +173,6 @@ class Autoupdate
         $releases = $response->getBody();
 
         $this->release = $this->getLatestRelease($releases ?: []);
-
-        I::__($this->release);
 
         return $this;
     }
