@@ -25,7 +25,7 @@ class FallbackBuilder extends AbstractPackageItemsBuilder implements BuilderInte
             }
 
             if (!$item['data']->get_weight()) {
-                $notifier->notice(sprintf(__('Product %s is missing weight, weight default to 1 lbs.', FLAGSHIP_SHIPPING_TEXT_DOMAIN), $item['data']->get_title()));
+                $notifier->notice('Product %s is missing weight, weight default to 1 lbs.', [$item['data']->get_title()]);
             }
 
             $count = 0;
