@@ -186,7 +186,7 @@ class Autoupdate
      */
     protected function getLatestRelease($releases)
     {
-        $v3 = (bool) version_compare('2.6.14', '3.0', '>=');
+        $v3 = (bool) version_compare(wc()->version, '3.0', '>=');
 
         foreach ($releases as $release) {
             if ($v3 && version_compare($release['tag_name'], '2.0', '>=')) {
