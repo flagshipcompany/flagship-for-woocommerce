@@ -5,7 +5,11 @@ if (!defined('ABSPATH')) {
 }
 
 return [
+<<<<<<< Updated upstream
     'version' => '1.2.1',
+=======
+    'version' => '1.2.3',
+>>>>>>> Stashed changes
     'autoload' => [
         'psr-4' => [
             'FS\\' => 'src/',
