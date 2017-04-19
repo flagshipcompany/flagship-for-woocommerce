@@ -27,7 +27,7 @@ class Notifier extends AbstractComponent implements ComponentInitializingInterfa
         $message = __($message, FLAGSHIP_SHIPPING_TEXT_DOMAIN);
 
         if ($data) {
-            array_unsfit($data, $message);
+            array_unshift($data, $message);
             $message = call_user_func_array('sprintf', $data);
         }
 

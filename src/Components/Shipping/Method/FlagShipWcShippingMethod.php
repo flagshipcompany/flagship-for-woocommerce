@@ -37,6 +37,8 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         $this->ctx
             ->_('\\FS\\Components\\Url');
 
+        $this->ctx->alert('native');
+
         $options = $this->ctx->option();
 
         $options->sync($instance_id);
