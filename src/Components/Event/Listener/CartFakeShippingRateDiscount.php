@@ -21,7 +21,7 @@ class CartFakeShippingRateDiscount extends AbstractComponent implements Applicat
         $label = $event->getInput('label');
         $cost = $event->getInput('cost');
 
-        if ($context->option()->eq('allow_fake_cart_rate_discount', 'yes')) {
+        if ($context->option()->eq('allow_fake_cart_rate_discount', 'yes') && floatval($cost) != 0) {
             $label .= '&nbsp;<del style="color:red;">'.wc_price($cost * (1 + $context->option('fake_cart_rate_discount') / 100)).'</del>';
         }
 
