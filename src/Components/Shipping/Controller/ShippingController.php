@@ -27,11 +27,11 @@ class ShippingController extends AbstractComponent
 
         $response = $context->command()->quote(
             $context->api(),
-            $factory->setPayload(array(
+            $factory->setPayload([
                 'package' => $package,
                 'options' => $context->option(),
                 'notifier' => $notifier,
-            ))->getRequest()
+            ])->getRequest()
         );
 
         if (!$response->isSuccessful()) {
@@ -44,12 +44,12 @@ class ShippingController extends AbstractComponent
 
         $rates = $rateProcessorFactory
             ->resolve('ProcessRate')
-            ->getProcessedRates($rates, array(
+            ->getProcessedRates($rates, [
                 'factory' => $rateProcessorFactory,
                 'options' => $context->option(),
                 'instanceId' => property_exists($method, 'instance_id') ? $method->instance_id : false,
                 'methodId' => $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID'),
-            ));
+            ]);
 
         foreach ($rates as $rate) {
             $method->add_rate($rate);

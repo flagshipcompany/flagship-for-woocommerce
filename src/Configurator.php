@@ -28,28 +28,26 @@ class Configurator implements ConfigurationInterface
             '\\FS\\Components\\Url',
             '\\FS\\Components\\Alert\\Notifier',
             '\\FS\\Components\\Event\\ApplicationEventCaster',
-            '\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory',
             '\\FS\\Components\\Http\\Client',
         ] as $class) {
             $context->_($class);
         }
 
         // register events (WordPress hooks)
-        $context->_('\\FS\\Components\\Event\\Factory\\ApplicationListenerFactory')
-            ->addApplicationListeners([
-                // normal
-                new Listener\PluginInitialization(),
-                new Listener\MetaboxOperations(),
-                new Listener\MetaboxDisplay(),
-                new Listener\ShippingMethodSetup(),
-                new Listener\ShippingZoneMethodOptions(),
-                new Listener\CalculateShipping(),
-                // admin
-                new Listener\PluginPageSettingLink(),
-                new Listener\PickupPostType(),
-                new Listener\ShippingZoneMethodAdd(),
-                new Listener\CartFakeShippingRateDiscount(),
-            ]);
+        $context->listen([
+            // normal
+            new Listener\PluginInitialization(),
+            new Listener\MetaboxOperations(),
+            new Listener\MetaboxDisplay(),
+            new Listener\ShippingMethodSetup(),
+            new Listener\ShippingZoneMethodOptions(),
+            new Listener\CalculateShipping(),
+            new Listener\CartFakeShippingRateDiscount(),
+            // admin
+            new Listener\PluginPageSettingLink(),
+            new Listener\PickupPostType(),
+            new Listener\ShippingZoneMethodAdd(),
+        ]);
     }
 
     public function getOptions()

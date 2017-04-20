@@ -75,6 +75,19 @@ class ApplicationContext extends AbstractApplicationContext
         $view->render($data);
     }
 
+    public function listen(array $listeners = [])
+    {
+        foreach ($listeners as $listener) {
+            $reflected = new \ReflectionObject($listener);
+
+            if ($reflected->implementsInterface('\\FS\\Components\\Event\\NativeHookInterface')) {
+                $listener->publishNativeHook($this);
+            }
+
+            $this->addApplicationListener($listener);
+        }
+    }
+
     public static function initialize(Container $container, ConfigurationInterface $configurator)
     {
         $ctx = self::getInstance();
