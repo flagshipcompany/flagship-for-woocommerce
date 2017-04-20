@@ -19,9 +19,12 @@ class CartFakeShippingRateDiscount extends AbstractComponent implements Applicat
     public function onApplicationEvent(Event $event, Context $context)
     {
         $label = $event->getInput('label');
-        $cost = $event->getInput('cost');
+        $method = $event->getInput('method');
+        $cost = $method->cost;
 
-        if ($context->option()->eq('allow_fake_cart_rate_discount', 'yes') && floatval($cost) != 0) {
+        if ($context->option()->eq('allow_fake_cart_rate_discount', 'yes')
+            && (floatval($cost) != 0)
+            && ($context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID') == $method->method_id)) {
             $label .= '&nbsp;<del style="color:red;">'.wc_price($cost * (1 + $context->option('fake_cart_rate_discount') / 100)).'</del>';
         }
 
@@ -34,7 +37,7 @@ class CartFakeShippingRateDiscount extends AbstractComponent implements Applicat
             $event = new ApplicationEvent(ApplicationEvent::CART_FAKE_SHIPPING_RATE_DISCOUNT);
             $event->setInputs(array(
                 'label' => $label,
-                'cost' => $method->cost,
+                'method' => $method,
             ));
 
             return $context->publishEvent($event);
