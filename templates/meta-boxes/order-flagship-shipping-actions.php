@@ -70,6 +70,7 @@
         'options' => array(
             $service['provider'].'|'.$service['courier_name'].'|'.$service['courier_code'].'|'.$service['courier_desc'].'|'.$service['date'].'|'.$service['instance_id'] => ucfirst($service['courier_name']).' - '.$service['courier_desc'],
         ),
+        'label' => '',
     ));
     ?>
     <hr/>
@@ -100,6 +101,7 @@
         'name' => 'flagship_shipping_enable_insurance',
         'wrapper_class' => 'show_if_simple show_if_variable',
         'description' => __('Enable Insurance', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+        'label' => '',
     ));
 
     woocommerce_wp_text_input(array(
@@ -123,6 +125,7 @@
         'name' => 'flagship_shipping_enable_insurance',
         'wrapper_class' => 'show_if_simple show_if_variable',
         'description' => __('<abbr title="cash on delivery">Enable COD</abbr>', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+        'label' => '',
     ));
 
     woocommerce_wp_select(array(
@@ -174,7 +177,8 @@
         'id' => 'flagship_shipping_signature_required',
         'name' => 'flagship_shipping_signature_required',
         'wrapper_class' => 'show_if_simple show_if_variable',
-        'description' => __('Signatured Required', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+        'description' => __('Signature Required', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+        'label' => '',
     ));
 
     woocommerce_wp_text_input(array(

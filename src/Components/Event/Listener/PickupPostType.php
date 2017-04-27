@@ -255,7 +255,7 @@ class PickupPostType extends AbstractComponent implements ApplicationListenerInt
         \add_action('load-edit.php', function () use ($context) {
             $wp_list_table = _get_list_table('WP_Posts_List_Table');
             $action = $wp_list_table->current_action();
-            $postIds = array_map('absint', (array) $_REQUEST['post']);
+            $postIds = array_map('absint', (array) get_the_ID());
 
             $event = new ApplicationEvent(ApplicationEvent::PICKUP_POST_TYPE);
 
