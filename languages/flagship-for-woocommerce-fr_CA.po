@@ -803,7 +803,7 @@ msgid "Amount (Required):"
 msgstr "Montant (Requis):"
 
 #: templates/meta-boxes/order-flagship-shipping-actions.php:177
-msgid "Signatured Required"
+msgid "Signature Required"
 msgstr "Signature requise"
 
 #: templates/meta-boxes/order-flagship-shipping-actions.php:183

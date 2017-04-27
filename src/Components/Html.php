@@ -2,11 +2,13 @@
 
 namespace FS\Components;
 
+use FS\Injection\I;
+
 class Html extends \FS\Components\AbstractComponent
 {
     public function a($name_or_href, $text = null, array $extras = array())
     {
-        $extras = array_merge(array('text_domain' => $this->getApplicationContext()->text_domain, 'escape' => true, 'target' => false), $extras);
+        $extras = array_merge(array('text_domain' => I::textDomain(), 'escape' => true, 'target' => false), $extras);
 
         if (!$text) {
             $text = $href;

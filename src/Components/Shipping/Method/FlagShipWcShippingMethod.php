@@ -31,9 +31,6 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
 
         $this->title = __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
 
-        // flagship options
-        $this->enabled = $this->get_instance_option('enabled');
-
         $this->ctx
             ->_('\\FS\\Components\\Url');
 
@@ -45,9 +42,9 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
 
         $this->isLegacy = \version_compare(WC()->version, '2.6', '<');
 
-        $this->init_instance_settings();
-
         $this->init();
+
+        $this->init_instance_settings();
     }
 
     /**
@@ -359,11 +356,15 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'title' => '',
                 'type' => 'log',
                 'description' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'desc_tip' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
         );
 
         $this->instance_form_fields = $formFields;
         $this->form_fields = $formFields;
+
+        //flagship options
+        $this->enabled = $this->get_instance_option('enabled');
 
         // Save settings in admin if you have any defined
         add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));

@@ -10,7 +10,7 @@ class Native extends AbstractComponent
 
     public function isEmpty()
     {
-        return (bool) $store;
+        return (bool) $this->store;
     }
 
     public function add($type, $message)
