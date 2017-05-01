@@ -41,14 +41,14 @@ class Hook implements InjectorInterface
         return $this;
     }
 
-    public function withPriority(int $priority)
+    public function withPriority($priority)
     {
         $this->priority = $priority;
 
         return $this;
     }
 
-    public function withAcceptedArgs(int $acceptedArgs)
+    public function withAcceptedArgs($acceptedArgs)
     {
         $this->acceptedArgs = $acceptedArgs;
 

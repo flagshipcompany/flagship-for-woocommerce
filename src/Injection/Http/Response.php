@@ -14,7 +14,7 @@ class Response
 
     protected $statusCode;
 
-    public function __construct(int $statusCode, array $headers, $body = null)
+    public function __construct($statusCode, array $headers, $body = null)
     {
         $this->withBody($body);
         $this->withHeaders($headers);
@@ -26,7 +26,7 @@ class Response
         return $this->statusCode;
     }
 
-    public function withStatusCode(int $statusCode)
+    public function withStatusCode($statusCode)
     {
         $this->statusCode = $statusCode;
 
