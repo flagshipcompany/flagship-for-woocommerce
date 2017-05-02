@@ -9,7 +9,7 @@ class Cart extends Native
      *
      * @var bool
      */
-    protected $slient = false;
+    protected $silent = false;
 
     /**
      * Silent Logging Mode enable affect customer side.
