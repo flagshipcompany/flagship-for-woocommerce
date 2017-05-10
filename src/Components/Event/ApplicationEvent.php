@@ -16,6 +16,7 @@ class ApplicationEvent extends AbstractApplicationEvent
     const SHIPPING_ZONE_METHOD_OPTIONS = 8;
     const PLUGIN_INITIALIZATION = 9;
     const CART_FAKE_SHIPPING_RATE_DISCOUNT = 10;
+    const GET_SECTIONS_SHIPPING = 11;
 
     protected $type;
 

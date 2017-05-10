@@ -47,6 +47,7 @@ class Configurator implements ConfigurationInterface
             new Listener\PluginPageSettingLink(),
             new Listener\PickupPostType(),
             new Listener\ShippingZoneMethodAdd(),
+            new Listener\GetSectionsShipping(),
         ]);
     }
 
