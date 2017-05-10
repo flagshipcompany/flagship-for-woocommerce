@@ -30,6 +30,10 @@ class AddressEssentialValidator extends AbstractValidator
             return $target;
         }
 
+        if (!is_array($response->getErrors())) {
+            return $target;
+        }
+
         foreach ($response->getErrors() as $error) {
             $context->alert()->warning($error);
         }
