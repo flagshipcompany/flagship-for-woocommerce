@@ -23,7 +23,9 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-require __DIR__.'/src/Injection/I.php';
+if (!class_exists('\\FS\\Injection\\I')) {
+    require __DIR__.'/src/Injection/I.php';
+}
 
 use FS\Injection\I;
 use FS\Context\ApplicationContext as App;
