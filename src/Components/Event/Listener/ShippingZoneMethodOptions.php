@@ -43,7 +43,7 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
             $maxWeight = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_max_weight/'));
 
             foreach ($modelName as $i => $name) {
-                if (!isset($modelName[$i]) || !is_numeric($length[$i]) || !is_numeric($width[$i]) || !is_numeric($height[$i]) || !is_numeric($weight[$i]) || !is_numeric($maxWeight[$i])) {
+                if (!isset($modelName[$i]) || !$this->checkPositiveNumber($length[$i]) || !$this->checkPositiveNumber($width[$i]) || !$this->checkPositiveNumber($height[$i]) || !$this->checkPositiveNumber($weight[$i]) || !$this->checkPositiveNumber($maxWeight[$i])) {
                     continue;
                 }
 
@@ -98,5 +98,14 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
         $keyMatches = preg_grep($pattern, array_keys($requestFields));
 
         return array_values(array_intersect_key($requestFields, array_flip($keyMatches)));
+    }
+
+    protected function checkPositiveNumber($input)
+    {
+        if (!is_numeric($input) || $input <= 0) {
+            return false;
+        }
+
+        return true;
     }
 }
