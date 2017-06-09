@@ -12,6 +12,7 @@
                     <th><?php _e('Height (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
                     <th><?php _e('Weight (LB)', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
                     <th><?php _e('Max. Supported (LB)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
+                    <th><?php _e('Selected', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
                 </tr>
             </thead>
             <tbody class="accounts">
@@ -21,14 +22,15 @@
                 foreach ($packageBoxes as $box) {
                     ++$i;
 
-                    echo '<tr class="account">
+                    echo '<tr class="package_box">
                                         <td class="sort"></td>
                                         <td><input type="text" value="'.esc_attr(wp_unslash($box['model_name'])).'" name="package_box_model_name['.$i.']" /></td>
-                                        <td><input type="text" value="'.esc_attr($box['length']).'" name="package_box_length['.$i.']" /></td>
-                                        <td><input type="text" value="'.esc_attr(wp_unslash($box['width'])).'" name="package_box_width['.$i.']" /></td>
-                                        <td><input type="text" value="'.esc_attr($box['height']).'" name="package_box_height['.$i.']" /></td>
-                                        <td><input type="text" value="'.esc_attr($box['weight']).'" name="package_box_weight['.$i.']" /></td>
-                                        <td><input type="text" value="'.esc_attr($box['max_weight']).'" name="package_box_max_weight['.$i.']" /></td>
+                                        <td><input type="number" value="'.esc_attr($box['length']).'" name="package_box_length['.$i.']" style="min-width: 80px" /></td>
+                                        <td><input type="number" value="'.esc_attr($box['width']).'" name="package_box_width['.$i.']" style="min-width: 80px" /></td>
+                                        <td><input type="number" value="'.esc_attr($box['height']).'" name="package_box_height['.$i.']" style="min-width: 80px" /></td>
+                                        <td><input type="number" value="'.esc_attr($box['weight']).'" name="package_box_weight['.$i.']" style="min-width: 80px" /></td>
+                                        <td><input type="number" value="'.esc_attr($box['max_weight']).'" name="package_box_max_weight['.$i.']" style="min-width: 80px" /></td>
+                                        <td><input type="checkbox" name="package_box_selected['.$i.']" class="package_box_selected" /></td>
                                     </tr>';
                 }
             }
@@ -51,17 +53,26 @@
             (function($, window){
                 $(function(){
                     $('#package_box_collection').on('click', 'a.add', function(){
-                        var size = $('#package_box_collection').find('tbody .account').length;
+                        var size = $('#package_box_collection').find('tbody .package_box').length;
 
                         $('<tr class="package_box">\
                                 <td class="sort"></td>\
                                 <td><input type="text" name="package_box_model_name[' + size + ']" /></td>\
-                                <td><input type="text" name="package_box_length[' + size + ']" /></td>\
-                                <td><input type="text" name="package_box_width[' + size + ']" /></td>\
-                                <td><input type="text" name="package_box_height[' + size + ']" /></td>\
-                                <td><input type="text" name="package_box_weight[' + size + ']" /></td>\
-                                <td><input type="text" name="package_box_max_weight[' + size + ']" /></td>\
+                                <td><input type="number" name="package_box_length[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" name="package_box_width[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" name="package_box_height[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" name="package_box_weight[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" name="package_box_max_weight[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="checkbox" name="package_box_selected[' + size + ']" class="package_box_selected" /></td>\
                             </tr>').appendTo('#package_box_collection table tbody');
+
+                        return false;
+                    });
+
+                    $('#package_box_collection').on('click', 'a.remove_rows', function(e){
+                        $('#package_box_collection').find('.package_box_selected:checked').each(function() {
+                            $(this).closest('tr.package_box').remove();
+                        });
 
                         return false;
                     });

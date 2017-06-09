@@ -30,17 +30,20 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
 
         $fields['package_box'] = array();
 
+        $requestFields = $request->request->all();
+        $modelNames = $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_model_name/');
+
         // add package box
-        if ($request->request->get('package_box_model_name')) {
-            $modelName = array_map('wc_clean', $request->request->get('package_box_model_name'));
-            $length = array_map('wc_clean', $request->request->get('package_box_length'));
-            $width = array_map('wc_clean', $request->request->get('package_box_width'));
-            $height = array_map('wc_clean', $request->request->get('package_box_height'));
-            $weight = array_map('wc_clean', $request->request->get('package_box_weight'));
-            $maxWeight = array_map('wc_clean', $request->request->get('package_box_max_weight'));
+        if ($modelNames) {
+            $modelName = array_map('wc_clean', $modelNames);
+            $length = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_length/'));
+            $width = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_width/'));
+            $height = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_height/'));
+            $weight = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_weight/'));
+            $maxWeight = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_max_weight/'));
 
             foreach ($modelName as $i => $name) {
-                if (!isset($modelName[$i])) {
+                if (!isset($modelName[$i]) || !is_numeric($length[$i]) || !is_numeric($width[$i]) || !is_numeric($height[$i]) || !is_numeric($weight[$i]) || !is_numeric($maxWeight[$i])) {
                     continue;
                 }
 
@@ -88,5 +91,12 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
     public function getNativeHookType()
     {
         return self::TYPE_FILTER;
+    }
+
+    protected function findPackageFieldsFromRequest(array $requestFields, $pattern)
+    {
+        $keyMatches = preg_grep($pattern, array_keys($requestFields));
+
+        return array_values(array_intersect_key($requestFields, array_flip($keyMatches)));
     }
 }
