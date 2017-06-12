@@ -97,6 +97,7 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
                 'city' => 'Verdun',
                 'postal_code' => 'H3E 1H2',
                 'address' => '1460 N. MAIN STREET, # 9 ',
+                'is_commercial' => false,
             ),
             'packages' => array(
                 'items' => array(
@@ -157,6 +158,7 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
                 'country' => 'US',
                 'postal_code' => '123456',
                 'phone' => '',
+                'is_commercial' => false,
             ),
             'packages' => array(
                 'items' => array(
@@ -191,6 +193,7 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
                     'country' => 'US',
                     'postal_code' => '123456',
                     'phone' => '',
+                    'is_commercial' => false,
                 ),
                 'duties_payer' => 'C',
                 'reason_for_export' => 'P',
@@ -294,6 +297,7 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
                 'country' => 'US',
                 'postal_code' => '123456',
                 'phone' => '',
+                'is_commercial' => false,
             ),
             'packages' => array(
                 'items' => array(
