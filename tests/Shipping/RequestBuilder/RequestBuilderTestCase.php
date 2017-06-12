@@ -78,6 +78,7 @@ class RequestBuilderTestCase extends FlagshipShippingUnitTestCase
             'city' => 'Verdun',
             'postal_code' => 'H3E 1H2',
             'address' => '1460 N. MAIN STREET, # 9 ',
+            'is_commercial' => false,
         ), $builder->build(array(
             'package' => $this->package,
         )));
@@ -118,6 +119,7 @@ class RequestBuilderTestCase extends FlagshipShippingUnitTestCase
             'country' => 'US',
             'postal_code' => '123456',
             'phone' => '',
+            'is_commercial' => false,
         ), $builder->build(array(
             'shipping' => $this->shipping,
         )));

@@ -23,6 +23,8 @@ class ReceiverAddressBuilder extends AbstractComponent implements BuilderInterfa
             $address['state'] = $address['country'] == 'CA' ? 'QC' : 'NY';
         }
 
+        $address['is_commercial'] = false;
+
         return $address;
     }
 }
