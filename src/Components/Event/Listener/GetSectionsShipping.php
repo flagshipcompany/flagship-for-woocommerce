@@ -2,6 +2,7 @@
 
 namespace FS\Components\Event\Listener;
 
+use FS\Injection\I;
 use FS\Components\AbstractComponent;
 use FS\Context\ApplicationListenerInterface;
 use FS\Components\Event\NativeHookInterface;
@@ -18,9 +19,8 @@ class GetSectionsShipping extends AbstractComponent implements ApplicationListen
 
     public function onApplicationEvent(Event $event, Context $context)
     {
-        //Since on woocommerce3.0.x, settings are for each shipping zone, the global settings for FlagShip method will not be displayed.
         $sections = $event->getInput('sections');
-        unset($sections[$context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID')]);
+        unset($sections['flagship_shipping_method']);
 
         return $sections;
     }
