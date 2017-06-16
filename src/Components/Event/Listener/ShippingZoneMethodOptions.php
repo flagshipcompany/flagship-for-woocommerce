@@ -31,24 +31,31 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
         $fields['package_box'] = array();
 
         $requestFields = $request->request->all();
-        $modelNames = $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_model_name/');
+
+        //if the request comes from shipping zone (with instance id, the fields are wrapped in 'data')
+        $modelNames = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_model_name/') : $request->request->get('package_box_model_name');
 
         // add package box
         if ($modelNames) {
-            $modelName = array_map('wc_clean', $modelNames);
-            $length = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_length/'));
-            $width = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_width/'));
-            $height = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_height/'));
-            $weight = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_weight/'));
-            $maxWeight = array_map('wc_clean', $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_max_weight/'));
+            $modelNames = array_map('wc_clean', $modelNames);
+            $rawLength = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_length/') : $request->request->get('package_box_length');
+            $length = array_map('wc_clean', $rawLength);
+            $rawWidth = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_width/') : $request->request->get('package_box_width');
+            $width = array_map('wc_clean', $rawWidth);
+            $rawHeight = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_height/') : $request->request->get('package_box_height');
+            $height = array_map('wc_clean', $rawHeight);
+            $rawWeight = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_weight/') : $request->request->get('package_box_weight');
+            $weight = array_map('wc_clean', $rawWeight);
+            $rawMaxWeight = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_max_weight/') : $request->request->get('package_box_max_weight');
+            $maxWeight = array_map('wc_clean', $rawMaxWeight);
 
-            foreach ($modelName as $i => $name) {
-                if (!isset($modelName[$i]) || !$this->checkPositiveNumber($length[$i]) || !$this->checkPositiveNumber($width[$i]) || !$this->checkPositiveNumber($height[$i]) || !$this->checkPositiveNumber($weight[$i]) || !$this->checkPositiveNumber($maxWeight[$i])) {
+            foreach ($modelNames as $i => $name) {
+                if (!isset($modelNames[$i]) || !$this->checkPositiveNumber($length[$i]) || !$this->checkPositiveNumber($width[$i]) || !$this->checkPositiveNumber($height[$i]) || !$this->checkPositiveNumber($weight[$i]) || !$this->checkPositiveNumber($maxWeight[$i])) {
                     continue;
                 }
 
                 $fields['package_box'][] = array(
-                    'model_name' => $modelName[ $i ],
+                    'model_name' => $modelNames[ $i ],
                     'length' => $length[ $i ],
                     'width' => $width[ $i ],
                     'height' => $height[ $i ],
