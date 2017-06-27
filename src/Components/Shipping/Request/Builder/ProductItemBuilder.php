@@ -16,7 +16,7 @@ class ProductItemBuilder extends AbstractComponent implements BuilderInterface
                 'width' => $productItem['width'],
                 'height' => $productItem['height'],
                 'weight' => $productItem['weight'],
-                'description' => $productItem['id'],
+                'description' => isset($productItem['id']) ? $productItem['id'] : '',
             ];
         }
 

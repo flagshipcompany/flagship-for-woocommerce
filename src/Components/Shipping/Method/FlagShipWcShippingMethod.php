@@ -52,7 +52,173 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
      */
     public function init()
     {
-        $formFields = array(
+        $formFields = array_merge($this->get_general_settings(), $this->get_instance_settings());
+        $this->instance_form_fields = $formFields;
+        $this->form_fields = $formFields;
+
+        //flagship options
+        $this->enabled = $this->get_instance_option('enabled');
+
+        // Save settings in admin if you have any defined
+        add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));
+
+        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-for-woocommerce/languages');
+    }
+
+    /**
+     * Split the settings to geenral settings and shipping-zone-specific settings and display them respectively in those two settings pages.
+     */
+    public function get_admin_options_html()
+    {
+        if ($this->instance_id) {
+            $settings_html = $this->generate_settings_html($this->get_instance_settings(), false);
+        } else {
+            $settings_html = $this->generate_settings_html($this->get_general_settings(), false);
+        }
+
+        return '<table class="form-table">'.$settings_html.'</table>';
+    }
+
+    /**
+     * Override the WooCommerce process_admin_options() so that the saved settings from the global settings page will change the the general settings of each shipping zone.
+     *
+     * @return bool was anything saved?
+     */
+    public function process_admin_options()
+    {
+        if ($this->instance_id) {
+            $this->init_instance_settings();
+            $post_data = $this->get_post_data();
+
+            foreach ($this->get_instance_settings() as $key => $field) {
+                if ('title' !== $this->get_field_type($field)) {
+                    try {
+                        $this->instance_settings[ $key ] = $this->get_field_value($key, $field, $post_data);
+                    } catch (Exception $e) {
+                        $this->add_error($e->getMessage());
+                    }
+                }
+            }
+
+            return \update_option($this->get_instance_option_key(), apply_filters('woocommerce_shipping_'.$this->id.'_instance_settings_values', $this->instance_settings, $this));
+        } else {
+            $this->init_settings();
+            $post_data = $this->get_post_data();
+            $generalSettings = array();
+
+            foreach ($this->get_general_settings() as $key => $field) {
+                if ('title' !== $this->get_field_type($field)) {
+                    try {
+                        $this->settings[ $key ] = $this->get_field_value($key, $field, $post_data);
+                        $generalSettings[ $key ] = $this->settings[ $key ];
+                    } catch (Exception $e) {
+                        $this->add_error($e->getMessage());
+                    }
+                }
+            }
+
+            $generalSettingsUpdated = \update_option($this->get_option_key(), apply_filters('woocommerce_settings_api_sanitized_fields_'.$this->id, $this->settings));
+
+            $instanceSettingsOptions = $this->getAllInstanceOptions();
+            $instanceSettingsUpdated = array();
+
+            foreach ($instanceSettingsOptions as $key => $option) {
+                $optionValue = \get_option($option);
+                $updatedOptionValue = array_merge($optionValue, $generalSettings);
+                $instanceSettingsUpdated[] = \update_option($option, apply_filters('woocommerce_shipping_'.$this->id.'_instance_settings_values', $updatedOptionValue, $this));
+            }
+
+            return $generalSettingsUpdated && !in_array(false, $instanceSettingsUpdated);
+        }
+    }
+
+    /**
+     * add notifications section on top of settings.
+     */
+    public function admin_options()
+    {
+        // request param
+        $rp = $this->ctx->_('\\FS\\Components\\Web\\RequestParam');
+
+        if (!$this->isLegacy && $rp->query->get('instance_id') == $this->instance_id) {
+            $this->ctx->alert()->view();
+        }
+
+        parent::admin_options();
+    }
+
+    /**
+     * calculate_shipping function.
+     *
+     * @param array $package
+     */
+    public function calculate_shipping($package = array())
+    {
+        // use instance method's options
+        $options = $this->ctx
+            ->option()
+            ->sync($this->instance_id);
+
+        $event = new ApplicationEvent(ApplicationEvent::CALCULATE_SHIPPING);
+        $event->setInputs(array(
+            'package' => $package,
+            'method' => $this,
+        ));
+
+        $this->ctx->publishEvent($event);
+    }
+
+    /**
+     * render log type.
+     */
+    public function generate_log_html($key, $data)
+    {
+        $defaults = array(
+            'title' => '',
+            'disabled' => false,
+            'class' => '',
+            'css' => '',
+            'placeholder' => '',
+            'type' => 'log',
+            'desc_tip' => false,
+            'description' => '',
+            'default' => [],
+            'custom_attributes' => [],
+        );
+
+        ob_start();
+
+        $this->ctx->render('option/log', [
+            'field_key' => $this->get_field_key($key),
+            'data' => \wp_parse_args($data, $defaults),
+            'logs' => $this->get_instance_option($key, []),
+            'description' => $this->get_description_html($data),
+        ]);
+
+        return ob_get_clean();
+    }
+
+    /**
+     * Generate account details html.
+     *
+     * @return string
+     */
+    public function generate_package_box_html($key, $data)
+    {
+        ob_start();
+
+        $packageBoxes = $this->instance_id ? $this->get_instance_option($key, []) : $this->get_option($key, []);
+
+        $this->ctx->render('option/package-box', [
+            'packageBoxes' => $packageBoxes,
+        ]);
+
+        return ob_get_clean();
+    }
+
+    protected function get_general_settings()
+    {
+        return array(
             'basics' => array(
                 'title' => __('Essentials', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
@@ -79,55 +245,6 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'custom_attributes' => array(
                     'maxlength' => 255,
                 ),
-            ),
-            'shipping_rates_configs' => array(
-                'title' => 'Options',
-                'type' => 'title',
-                'id' => 'flagship_shipping_configs',
-            ),
-            'allow_standard_rates' => array(
-                'title' => __('Offer Standard Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'yes',
-                'checkboxgroup' => 'start',
-            ),
-            'allow_express_rates' => array(
-                'title' => __('Offer Express Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'yes',
-            ),
-            'allow_overnight_rates' => array(
-                'title' => __('Offer Overnight Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'yes',
-                'checkboxgroup' => 'end',
-            ),
-            'offer_rates' => array(
-                'title' => __('Offer Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'select',
-                'class' => 'wc-enhanced-select',
-                'description' => '',
-                'default' => 'all',
-                'options' => array(
-                    'all' => __('Offer the customer all returned rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                    'cheapest' => __('Offer the customer the cheapest rate only', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                    '2' => __('2 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                    '3' => __('3 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                    '4' => __('4 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                    '5' => __('5 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                ),
-            ),
-            'allow_fake_cart_rate_discount' => array(
-                'title' => __('Show fake rate discount in cart/checkout', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'no',
-                'checkboxgroup' => 'end',
-            ),
-            'fake_cart_rate_discount' => array(
-                'title' => __('Fake rate discount (%)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'text',
-                'description' => __('For instance, 35 stands for 35%', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'default' => '35',
             ),
             'shipper_criteria' => array(
                 'title' => __('Shipper Information', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -211,74 +328,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'type' => 'checkbox',
                 'default' => 'no',
             ),
-            'shipping_packaging' => array(
-                'title' => __('Parcel / Packaging', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'title',
-                'description' => __('How to split your items into boxes', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'id' => 'flagship_shipping_packaging',
-            ),
-            'default_package_box_split' => array(
-                'title' => __('Box Split', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'label' => __('Everything in one package box?', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'no',
-            ),
-            'default_package_box_split_weight' => array(
-                'title' => __('Box Split Weight', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'description' => __('Maximun weight per each package box (lbs)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'css' => 'width:70px;',
-                'desc_tip' => true,
-                'default' => 20,
-                'type' => 'number',
-                'custom_attributes' => array(
-                    'min' => 0,
-                    'step' => 1,
-                ),
-            ),
-            'enable_packing_api' => array(
-                'title' => __('FlagShip Packing', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'label' => __('Allow FlagShip to pack the order\'s products, given sets of package box dimension', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'description' => __('By enabling this packing method, you will have to provide at least one Package Box dimensions. It will also ignore all settings from the normal weight driven packing method.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'default' => 'no',
-            ),
-            'package_box' => array(
-                'type' => 'package_box',
-            ),
-            'shipping_taxation' => array(
-                'title' => __('Tax', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'title',
-                'id' => 'flagship_shipping_taxation',
-            ),
-            'apply_tax_by_flagship' => array(
-                'title' => __('Calculate tax', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'label' => __('Click here to include taxes in the price. Only use this if WooCommerce is not applying taxes to your cart', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'description' => __('If you have taxes enabled, make sure you don’t click this box or you will double tax the shipping fees.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'default' => 'no',
-            ),
-            'shipping_markup' => array(
-                'title' => __('Markup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'title',
-                'description' => __('Store owner may apply additional fee for shipping.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'id' => 'flagship_shipping_markup',
-            ),
-            'default_shipping_markup_type' => array(
-                'title' => __('Shipping Cost Markup Type', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'description' => __('Shipping Cost Markup Type can be either flat rate (i.e. dollar valued) or percentage rate (i.e. rate based on certain percentage)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'select',
-                'class' => 'wc-enhanced-select',
-                'options' => array(
-                    'flat_rate' => __('Flat rate', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                    'percentage' => __('Percentage', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                ),
-                'default' => 'percentage',
-            ),
-            'default_shipping_markup' => array(
-                'title' => __('Shipping Cost Markup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'decimal',
-                'default' => 0,
-            ),
+
             'shipping_pickup' => array(
                 'title' => __('Pickup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
@@ -324,10 +374,99 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'type' => 'email',
                 'default' => get_option('admin_email'),
             ),
+            'shipping_packaging' => array(
+                'title' => __('Parcel / Packaging', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'description' => __('How to split your items into boxes', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'id' => 'flagship_shipping_packaging',
+            ),
+            'default_package_box_split' => array(
+                'title' => __('Box Split', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'label' => __('Everything in one package box?', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
+            ),
+            'default_package_box_split_weight' => array(
+                'title' => __('Box Split Weight', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'description' => __('Maximun weight per each package box (lbs)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'css' => 'width:70px;',
+                'desc_tip' => true,
+                'default' => 20,
+                'type' => 'number',
+                'custom_attributes' => array(
+                    'min' => 0,
+                    'step' => 1,
+                ),
+            ),
+            'enable_packing_api' => array(
+                'title' => __('FlagShip Packing', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'label' => __('Allow FlagShip to pack the order\'s products, given sets of package box dimension', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'description' => __('By enabling this packing method, you will have to provide at least one Package Box dimensions. It will also ignore all settings from the normal weight driven packing method.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'default' => 'no',
+            ),
+            'package_box' => array(
+                'type' => 'package_box',
+            ),
             'shipping_configs' => array(
                 'title' => 'Configuration',
                 'type' => 'title',
                 'id' => 'flagship_shipping_configs',
+            ),
+            'disable_api_warning' => array(
+                'title' => __('Disable Cart/Checkout API warning', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
+                'description' => __('Once disabled, FlagShip will store warnings under following option "Cart/Checkout API warning logs"', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            ),
+            'api_warning_log' => array(
+                'title' => '',
+                'type' => 'log',
+                'description' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'desc_tip' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            ),
+        );
+    }
+
+    protected function get_instance_settings()
+    {
+        return array(
+            'shipping_rates_configs' => array(
+                'title' => 'Options',
+                'type' => 'title',
+                'id' => 'flagship_shipping_configs',
+            ),
+            'allow_standard_rates' => array(
+                'title' => __('Offer Standard Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'yes',
+                'checkboxgroup' => 'start',
+            ),
+            'allow_express_rates' => array(
+                'title' => __('Offer Express Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'yes',
+            ),
+            'allow_overnight_rates' => array(
+                'title' => __('Offer Overnight Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'yes',
+                'checkboxgroup' => 'end',
+            ),
+            'offer_rates' => array(
+                'title' => __('Offer Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'select',
+                'class' => 'wc-enhanced-select',
+                'description' => '',
+                'default' => 'all',
+                'options' => array(
+                    'all' => __('Offer the customer all returned rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                    'cheapest' => __('Offer the customer the cheapest rate only', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                    '2' => __('2 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                    '3' => __('3 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                    '4' => __('4 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                    '5' => __('5 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                ),
             ),
             'disable_courier_fedex' => array(
                 'title' => __('Disable FedEx Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -346,127 +485,63 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'default' => 'no',
                 'checkboxgroup' => 'end',
             ),
-            'disable_api_warning' => array(
-                'title' => __('Disable Cart/Checkout API warning', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            'allow_fake_cart_rate_discount' => array(
+                'title' => __('Show fake rate discount in cart/checkout', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'checkbox',
                 'default' => 'no',
-                'description' => __('Once disabled, FlagShip will store warnings under following option "Cart/Checkout API warning logs"', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'checkboxgroup' => 'end',
             ),
-            'api_warning_log' => array(
-                'title' => '',
-                'type' => 'log',
-                'description' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'desc_tip' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            'fake_cart_rate_discount' => array(
+                'title' => __('Fake rate discount (%)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'text',
+                'description' => __('For instance, 35 stands for 35%', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'default' => '35',
+            ),
+            'shipping_taxation' => array(
+                'title' => __('Tax', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'id' => 'flagship_shipping_taxation',
+            ),
+            'apply_tax_by_flagship' => array(
+                'title' => __('Calculate tax', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'label' => __('Click here to include taxes in the price. Only use this if WooCommerce is not applying taxes to your cart', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'description' => __('If you have taxes enabled, make sure you don’t click this box or you will double tax the shipping fees.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'default' => 'no',
+            ),
+            'shipping_markup' => array(
+                'title' => __('Markup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'description' => __('Store owner may apply additional fee for shipping.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'id' => 'flagship_shipping_markup',
+            ),
+            'default_shipping_markup_type' => array(
+                'title' => __('Shipping Cost Markup Type', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'description' => __('Shipping Cost Markup Type can be either flat rate (i.e. dollar valued) or percentage rate (i.e. rate based on certain percentage)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'select',
+                'class' => 'wc-enhanced-select',
+                'options' => array(
+                    'flat_rate' => __('Flat rate', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                    'percentage' => __('Percentage', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                ),
+                'default' => 'percentage',
+            ),
+            'default_shipping_markup' => array(
+                'title' => __('Shipping Cost Markup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'decimal',
+                'default' => 0,
             ),
         );
-
-        $this->instance_form_fields = $formFields;
-        $this->form_fields = $formFields;
-
-        //flagship options
-        $this->enabled = $this->get_instance_option('enabled');
-
-        // Save settings in admin if you have any defined
-        add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));
-
-        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-for-woocommerce/languages');
     }
 
-    /**
-     * add notifications section on top of settings.
-     */
-    public function admin_options()
+    protected function getAllInstanceOptions()
     {
-        // request param
-        $rp = $this->ctx->_('\\FS\\Components\\Web\\RequestParam');
+        $wpOptionKeys = array_keys(\wp_load_alloptions());
+        $flagShipMethodId = $this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID');
+        $pattern = '/^woocommerce_'.$flagShipMethodId.'_(\d+)_settings$/';
 
-        if (!$this->isLegacy && $rp->query->get('instance_id') == $this->instance_id) {
-            $this->ctx->alert()->view();
-        }
-
-        parent::admin_options();
-    }
-
-    /**
-     * we need to reinitialize the settings field data.
-     *
-     * @return bool
-     */
-    public function process_admin_options()
-    {
-        $success = parent::process_admin_options();
-
-        $this->init_instance_settings();
-
-        return $success;
-    }
-
-    /**
-     * calculate_shipping function.
-     *
-     * @param array $package
-     */
-    public function calculate_shipping($package = array())
-    {
-        // use instance method's options
-        $options = $this->ctx
-            ->option()
-            ->sync($this->instance_id);
-
-        $event = new ApplicationEvent(ApplicationEvent::CALCULATE_SHIPPING);
-        $event->setInputs(array(
-            'package' => $package,
-            'method' => $this,
-        ));
-
-        $this->ctx->publishEvent($event);
-    }
-
-    /**
-     * render log type.
-     */
-    public function generate_log_html($key, $data)
-    {
-        $defaults = array(
-            'title' => '',
-            'disabled' => false,
-            'class' => '',
-            'css' => '',
-            'placeholder' => '',
-            'type' => 'log',
-            'desc_tip' => false,
-            'description' => '',
-            'default' => [],
-            'custom_attributes' => [],
-        );
-
-        ob_start();
-
-        $this->ctx->render('option/log', [
-            'field_key' => $this->get_field_key($key),
-            'data' => \wp_parse_args($data, $defaults),
-            'logs' => $this->get_instance_option($key, []),
-            'description' => $this->get_description_html($data),
-        ]);
-
-        return ob_get_clean();
-    }
-
-    /**
-     * Generate account details html.
-     *
-     * @return string
-     */
-    public function generate_package_box_html($key, $data)
-    {
-        ob_start();
-
-        $packageBoxes = $this->instance_id ? $this->get_instance_option($key, []) : $this->get_option($key, []);
-
-        $this->ctx->render('option/package-box', [
-            'packageBoxes' => $packageBoxes,
-        ]);
-
-        return ob_get_clean();
+        return array_filter($wpOptionKeys, function ($value) use ($pattern) {
+            return preg_match($pattern, $value);
+        });
     }
 }
