@@ -22,31 +22,34 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
 
         $validator = $context->factory('\\FS\\Components\\Validation\\Factory\\ValidatorFactory')->resolve('Settings');
         $request = $context->_('\\FS\\Components\\Web\\RequestParam');
+        $requestFields = $request->request->all();
 
         $fields = $validator->validate(
             $fields,
             $context
         );
 
+        // Since package_box is not a zone-specific setting, if the request comes from an instance no need to update package_box
+        if (isset($requestFields['instance_id'])) {
+            return $fields;
+        }
+
         $fields['package_box'] = array();
 
-        $requestFields = $request->request->all();
-
-        //if the request comes from shipping zone (with instance id, the fields are wrapped in 'data')
-        $modelNames = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_model_name/') : $request->request->get('package_box_model_name');
+        $modelNames = $request->request->get('package_box_model_name');
 
         // add package box
         if ($modelNames) {
             $modelNames = array_map('wc_clean', $modelNames);
-            $rawLength = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_length/') : $request->request->get('package_box_length');
+            $rawLength = $request->request->get('package_box_length');
             $length = array_map('wc_clean', $rawLength);
-            $rawWidth = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_width/') : $request->request->get('package_box_width');
+            $rawWidth = $request->request->get('package_box_width');
             $width = array_map('wc_clean', $rawWidth);
-            $rawHeight = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_height/') : $request->request->get('package_box_height');
+            $rawHeight = $request->request->get('package_box_height');
             $height = array_map('wc_clean', $rawHeight);
-            $rawWeight = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_weight/') : $request->request->get('package_box_weight');
+            $rawWeight = $request->request->get('package_box_weight');
             $weight = array_map('wc_clean', $rawWeight);
-            $rawMaxWeight = isset($requestFields['data']) ? $this->findPackageFieldsFromRequest($requestFields['data'], '/^package_box_max_weight/') : $request->request->get('package_box_max_weight');
+            $rawMaxWeight = $request->request->get('package_box_max_weight');
             $maxWeight = array_map('wc_clean', $rawMaxWeight);
 
             foreach ($modelNames as $i => $name) {
