@@ -216,6 +216,22 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         return ob_get_clean();
     }
 
+    public function generate_box_split_html($key, $data)
+    {
+        ob_start();
+
+        $sameBox = $this->get_option($key, []);
+
+        $this->ctx->render('option/box-split', [
+            'sameBox' => $sameBox,
+            'fieldName' => 'woocommerce_'.$this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_default_package_box_split',
+            'splitWeightFieldName' => 'woocommerce_'.$this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_default_package_box_split_weight',
+            'packingFieldName' => 'woocommerce_'.$this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_enable_packing_api',
+        ]);
+
+        return ob_get_clean();
+    }
+
     protected function get_general_settings()
     {
         return array(
@@ -382,8 +398,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             ),
             'default_package_box_split' => array(
                 'title' => __('Box Split', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'label' => __('Everything in one package box?', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
+                'type' => 'box_split',
                 'default' => 'no',
             ),
             'default_package_box_split_weight' => array(

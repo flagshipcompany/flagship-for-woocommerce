@@ -470,10 +470,13 @@ msgstr "Comment répartir les produits dans les boites"
 msgid "Box Split"
 msgstr "Répartir vos envois dans les boîtes "
 
-#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:223
-#: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:246
-msgid "Everything in one package box?"
-msgstr "Tous les envois dans la même boîte?"
+#: templates/option/box-split.php:9
+msgid "Everything in one package box"
+msgstr "Tous les envois dans la même boîte"
+
+#: templates/option/box-split.php:12
+msgid "Split by weight"
+msgstr "Divisé en poids"
 
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:228
 #: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:251
