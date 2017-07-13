@@ -470,13 +470,25 @@ msgstr "Comment répartir les produits dans les boites"
 msgid "Box Split"
 msgstr "Répartir vos envois dans les boîtes "
 
-#: templates/option/box-split.php:9
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:229
 msgid "Everything in one package box"
 msgstr "Tous les envois dans la même boîte"
 
-#: templates/option/box-split.php:12
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:228
 msgid "Split by weight"
 msgstr "Divisé en poids"
+
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:230
+msgid "One box per item"
+msgstr "Une boîte par article"
+
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:231
+msgid "Use FlagShip Packing API to pack items into boxes"
+msgstr "Utiliser l'API FlagShip pour empaqueter les objets dans les boîtes"
+
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:413
+msgid "If the option FlagShip packing API is chosen, you will have to provide at least one package box with dimensions. It will also ignore all settings from the normal weight driven packing method."
+msgstr "Si l'option API FlagShip pour empaqueter est choisie, vous allez devoir fournir les dimensions d'au moins une boite. Cela va également ignorer toutes les options reliées à l'estimation par poids."
 
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:228
 #: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:251
@@ -493,14 +505,12 @@ msgstr "Poids maximal par boîte (livre)"
 msgid "FlagShip Packing"
 msgstr "Méthode d'emballage FlagShip"
 
-#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:241
 #: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:264
 msgid ""
 "Allow FlagShip to pack the order's products, given sets of package box "
 "dimension"
 msgstr "Fournir une solution d'emballage"
 
-#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:243
 #: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:266
 msgid ""
 "By enabling this packing method, you will have to provide at least one "

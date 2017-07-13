@@ -32,8 +32,24 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
 
         $package_box_max_weight = (int) $options->get('default_package_box_split_weight', 20);
         $package_item_in_same_box = $options->get('default_package_box_split', 'no') == 'yes';
+        $package_one_box_per_item = $options->get('default_package_box_split', 'no') == 'each';
 
         $items = [];
+
+        //If one box per item
+        if ($package_one_box_per_item) {
+            foreach ($product_items as $key => $product_item) {
+                $items[$key] = [
+                    'width' => 1,
+                    'height' => 1,
+                    'length' => 1,
+                    'weight' => $product_item['weight'],
+                    'description' => 'Flagship shipping package',
+                ];
+            }
+
+            return $items;
+        }
 
         // add first product item(box) into package items
         $product_item = array_shift($product_items);
