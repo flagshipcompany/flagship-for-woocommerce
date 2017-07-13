@@ -43,3 +43,5 @@ I::group(function () {
 }, [
     'dependencies' => ['woocommerce/woocommerce.php'],
 ]);
+
+\register_activation_hook(__FILE__, array('\\FS\\Injection\\I', 'fls_plugin_activate'));

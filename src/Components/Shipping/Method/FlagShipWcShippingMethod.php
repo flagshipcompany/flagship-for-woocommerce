@@ -220,13 +220,24 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
     {
         ob_start();
 
-        $sameBox = $this->get_option($key, []);
+        $box_split_option = $this->get_option($key);
+        $tooltip_html = \wc_help_tip($data['description']);
+
+        //Options: value => label
+        $options = array(
+            'no' => __('Split by weight', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            'yes' => __('Everything in one package box', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            'each' => __('One box per item', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            'packing' => __('Use FlagShip Packing API to pack items into boxes', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+        );
 
         $this->ctx->render('option/box-split', [
-            'sameBox' => $sameBox,
-            'fieldName' => 'woocommerce_'.$this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_default_package_box_split',
-            'splitWeightFieldName' => 'woocommerce_'.$this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_default_package_box_split_weight',
-            'packingFieldName' => 'woocommerce_'.$this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_enable_packing_api',
+            'box_split_option' => $box_split_option,
+            'options' => $options,
+            'tooltip_html' => $tooltip_html,
+            'field_name' => 'woocommerce_'.$this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_'.$key,
+            'split_weight_field_name' => 'woocommerce_'.$this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_default_package_box_split_weight',
+            'packing_box_field_name' => 'woocommerce_'.$this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_package_box',
         ]);
 
         return ob_get_clean();
@@ -399,7 +410,9 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             'default_package_box_split' => array(
                 'title' => __('Box Split', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'box_split',
+                'description' => __('If the option FlagShip packing API is chosen, you will have to provide at least one package box with dimensions. It will also ignore all settings from the normal weight driven packing method.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'default' => 'no',
+                'desc_tip' => true,
             ),
             'default_package_box_split_weight' => array(
                 'title' => __('Box Split Weight', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -412,13 +425,6 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                     'min' => 0,
                     'step' => 1,
                 ),
-            ),
-            'enable_packing_api' => array(
-                'title' => __('FlagShip Packing', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'label' => __('Allow FlagShip to pack the order\'s products, given sets of package box dimension', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'description' => __('By enabling this packing method, you will have to provide at least one Package Box dimensions. It will also ignore all settings from the normal weight driven packing method.', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'default' => 'no',
             ),
             'package_box' => array(
                 'type' => 'package_box',
