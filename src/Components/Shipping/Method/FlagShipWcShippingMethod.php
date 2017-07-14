@@ -3,6 +3,7 @@
 namespace FS\Components\Shipping\Method;
 
 use FS\Components\Event\ApplicationEvent;
+use FS\Injection\I;
 
 class FlagShipWcShippingMethod extends \WC_Shipping_Method
 {
@@ -118,8 +119,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             }
 
             $generalSettingsUpdated = \update_option($this->get_option_key(), apply_filters('woocommerce_settings_api_sanitized_fields_'.$this->id, $this->settings));
-
-            $instanceSettingsOptions = $this->getAllInstanceOptions();
+            $instanceSettingsOptions = I::get_all_instance_option_keys();
             $instanceSettingsUpdated = array();
 
             foreach ($instanceSettingsOptions as $key => $option) {
