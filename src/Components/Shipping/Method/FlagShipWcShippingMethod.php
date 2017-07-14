@@ -349,13 +349,6 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'default' => '',
                 'description' => __('Required', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
-            'shipper_residential' => array(
-                'title' => __('Residential', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'label' => __('Shipper Address is Residential?', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'no',
-            ),
-
             'shipping_pickup' => array(
                 'title' => __('Pickup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',

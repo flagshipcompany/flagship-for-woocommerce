@@ -16,7 +16,6 @@ return array(
     'shipper_phone_number' => '+1 866 320 8383',
     'shipper_phone_ext' => '',
     'freight_shipper_street' => '148 Brunswick',
-    'shipper_residential' => 'no',
     'default_package_box_split' => 'no',
     'default_package_box_split_weight' => '20',
     'apply_tax_by_flagship' => 'no',
