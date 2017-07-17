@@ -8,6 +8,8 @@ use FS\Components\Shipping\Factory\ShippingFactory;
 
 class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
 {
+    protected $testShipmentId = 1517028;
+
     public function setUp()
     {
         parent::setUp();
@@ -20,7 +22,7 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
             ]);
 
         $this->shipping->getShipment()->set([
-            'shipment_id' => 1517028,
+            'shipment_id' => $this->testShipmentId,
             'tracking_number' => '794631711299',
             'price' => array(
                 'charges' => array(
@@ -237,27 +239,11 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
 
         $this->assertTrue(true, $reflected->isInstance($request));
         $this->assertSame(array(
-            'address' => array(
-                'country' => 'CA',
-                'state' => 'QC',
-                'city' => 'POINTE-CLAIRE',
-                'postal_code' => 'H9R5P9',
-                'address' => '148 Brunswick',
-                'name' => 'FlagShip WooCommerce Test App',
-                'attn' => 'FlagShip Tester',
-                'phone' => '+1 866 320 8383',
-                'ext' => '',
-            ),
-            'courier' => 'fedex',
-            'boxes' => 1,
-            'weight' => 2,
+            'shipments' => array($this->testShipmentId),
             'date' => '2016-09-28',
             'from' => '09:00',
             'until' => '17:00',
-            'units' => 'imperial',
             'location' => 'Reception',
-            'to_country' => 'US',
-            'is_ground' => false,
         ), $request->getRequest());
     }
 
