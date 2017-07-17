@@ -13,32 +13,8 @@ class ShoppingOrderPickup extends AbstractRequestFactory
         $order = $this->payload['shipping']->getOrder();
 
         $request->add(
-            'address',
-            $this->makeRequestPart(
-                $factory->resolve('ShipperAddress', [
-                    'type' => 'order',
-                ]),
-                $this->payload
-            )
-        );
-
-        $request->add(
-            'courier',
-            $shipment->getCourier()
-        );
-
-        $request->add(
-            'boxes',
-            count($shipment->get('packages'))
-        );
-
-        $request->add(
-            'weight',
-            array_reduce($shipment->get('packages'), function ($carry, $package) {
-                $carry += $package['weight'];
-
-                return $carry;
-            }, 0)
+            'shipments',
+            [$shipment->getId()]
         );
 
         $request->add(
@@ -57,23 +33,8 @@ class ShoppingOrderPickup extends AbstractRequestFactory
         );
 
         $request->add(
-            'units',
-            'imperial'
-        );
-
-        $request->add(
             'location',
             'Reception'
-        );
-
-        $request->add(
-            'to_country',
-            $order->native('shipping_country')
-        );
-
-        $request->add(
-            'is_ground',
-            $shipment->isFedexGround()
         );
 
         return $request;

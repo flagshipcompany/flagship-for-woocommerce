@@ -185,7 +185,7 @@ class MetaboxController extends AbstractComponent
             return;
         }
 
-        $shipment->set('pickup', $response->getContent());
+        $shipment->set('pickup', $response->getContent()[0]);
 
         $shipping->save();
     }
