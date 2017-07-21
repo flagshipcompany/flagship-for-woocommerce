@@ -4,6 +4,9 @@
 - License: MIT
 - License URI: https://opensource.org/licenses/MIT
 
+## Download
+[Get the latest version](https://github.com/flagshipcompany/flagship-for-woocommerce/releases/latest)
+
 ## Installation Guide
 Go to [installation guide](https://github.com/flagshipcompany/flagship-for-woocommerce/wiki/Installation-&-Setup)
 
