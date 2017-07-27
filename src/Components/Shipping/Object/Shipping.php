@@ -75,6 +75,11 @@ class Shipping extends AbstractComponent
     public function isFlagShipRateChoosen()
     {
         $service = $this->getService();
+
+        if (!$service) {
+            return false;
+        }
+
         $context = $this->getApplicationContext();
 
         return $service['provider'] == $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID');
@@ -84,12 +89,13 @@ class Shipping extends AbstractComponent
     public static function parseServicePhrase($phrase)
     {
         $methodsArray = explode('|', $phrase);
-        $instanceId;
 
         if (count($methodsArray) == 6) {
             list($provider, $courier_name, $courier_code, $courier_desc, $date, $instanceId) = $methodsArray;
-        } else {
+        } elseif (count($methodsArray) == 5) {
             list($provider, $courier_name, $courier_code, $courier_desc, $date) = $methodsArray;
+        } else {
+            return;
         }
 
         $service = [

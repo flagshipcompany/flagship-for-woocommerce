@@ -232,7 +232,9 @@
     <p><?php _e('Latest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>:</p>
     <?php
     woocommerce_wp_radio(array(
+        'id' => 'flagship_shipping_service',
         'name' => 'flagship_shipping_service',
+        'label' => 'flagship_shipping_service',
         'options' => $requote_rates,
     ));
     ?>
