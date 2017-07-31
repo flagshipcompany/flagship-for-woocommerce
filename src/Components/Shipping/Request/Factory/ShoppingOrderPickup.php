@@ -4,6 +4,7 @@ namespace FS\Components\Shipping\Request\Factory;
 
 use FS\Components\Shipping\Request\Builder\Factory\RequestBuilderFactory;
 use FS\Components\Shipping\Request\FormattedRequestInterface;
+use FS\Components\Shipping\Services\CanadianHolidaysService;
 
 class ShoppingOrderPickup extends AbstractRequestFactory
 {
@@ -19,7 +20,7 @@ class ShoppingOrderPickup extends AbstractRequestFactory
 
         $request->add(
             'date',
-            $this->payload['date']
+            $this->determinePickupDate($this->payload['date'], $shipment->getCourier(), $this->payload['options']->get('freight_shipper_state'))
         );
 
         $request->add(
@@ -38,5 +39,14 @@ class ShoppingOrderPickup extends AbstractRequestFactory
         );
 
         return $request;
+    }
+
+    public function determinePickupDate($date, $courier, $province)
+    {
+        if (\DateTime::createFromFormat('Y-m-d', $date) > \DateTime::createFromFormat('Y-m-d', date('Y-m-d')) || 'canpar' !== $courier) {
+            return $date;
+        }
+
+        return CanadianHolidaysService::getNextBusinessDayAfter($province, $date);
     }
 }
