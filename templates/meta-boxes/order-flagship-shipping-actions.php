@@ -51,7 +51,7 @@
         <hr/>
         <?php else: ?>
         <h4><?php _e('Request for pick-up', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>:</h4>
-        <input type="date" name="flagship_shipping_pickup_schedule_date" value="<?php echo date('Y-m-d'); ?>" min="<?php echo date('Y-m-d'); ?>" miax="<?php echo date('Y-m-d', strtotime('+3 days')); ?>"/>
+        <input type="date" name="flagship_shipping_pickup_schedule_date" value="<?php echo date('Y-m-d'); ?>" min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+3 days')); ?>"/>
         <button id="flagship-shipping-pickup-schedule" class="button button-primary flagship-shipping-action" data-shipment-action="pickup-schedule"><?php _e('Schedule'); ?></button>
         <?php endif; ?>
     </li>
@@ -82,6 +82,7 @@
         'name' => 'flagship_shipping_service',
         'value' => $service['provider'].'|'.$service['courier_name'].'|'.$service['courier_code'].'|'.$service['courier_desc'].'|'.$service['date'].'|'.$service['instance_id'],
         'options' => $requote_rates,
+        'label' => '',
     ));
     ?>
     <hr/>
