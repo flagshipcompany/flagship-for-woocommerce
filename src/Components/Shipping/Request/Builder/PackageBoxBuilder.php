@@ -18,7 +18,7 @@ class PackageBoxBuilder extends AbstractComponent implements BuilderInterface
                 'length' => $box['length'],
                 'width' => $box['width'],
                 'height' => $box['height'],
-                'weight' => $box['weight'],
+                'weight' => 0,
                 'max_weight' => $box['max_weight'],
             ];
         }

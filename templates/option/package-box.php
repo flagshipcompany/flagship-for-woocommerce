@@ -10,7 +10,6 @@
                     <th><?php _e('Length (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
                     <th><?php _e('Width (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
                     <th><?php _e('Height (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
-                    <th><?php _e('Weight (LB)', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
                     <th><?php _e('Max. Supported (LB)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
                 </tr>
             </thead>
@@ -27,7 +26,6 @@
                                         <td><input type="number" value="'.esc_attr($box['length']).'" name="package_box_length['.$i.']" style="min-width: 80px" /></td>
                                         <td><input type="number" value="'.esc_attr($box['width']).'" name="package_box_width['.$i.']" style="min-width: 80px" /></td>
                                         <td><input type="number" value="'.esc_attr($box['height']).'" name="package_box_height['.$i.']" style="min-width: 80px" /></td>
-                                        <td><input type="number" value="'.esc_attr($box['weight']).'" name="package_box_weight['.$i.']" style="min-width: 80px" /></td>
                                         <td><input type="number" value="'.esc_attr($box['max_weight']).'" name="package_box_max_weight['.$i.']" style="min-width: 80px" /></td>
                                     </tr>';
                 }
@@ -59,7 +57,6 @@
                                 <td><input type="number" name="package_box_length[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" name="package_box_width[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" name="package_box_height[' + size + ']" style="min-width: 80px" /></td>\
-                                <td><input type="number" name="package_box_weight[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" name="package_box_max_weight[' + size + ']" style="min-width: 80px" /></td>\
                             </tr>').appendTo('#package_box_collection table tbody');
 
