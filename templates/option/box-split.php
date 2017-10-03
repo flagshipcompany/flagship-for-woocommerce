@@ -1,20 +1,16 @@
-<tr valign="top" id="fcs-box-split-tr" data-field-name="<?php echo $field_name; ?>" data-weight-field-name="<?php echo $split_weight_field_name; ?>" data-package-box-field-name="<?php echo $package_box_field_name; ?>">
+<tr valign="top" id="fcs-box-split-tr" data-field-name="<?php echo $fieldName; ?>" data-weight-field-name="<?php echo $splitWeightFieldName; ?>" data-packing-field-name="<?php echo $packingFieldName; ?>">
 	<th scope="row" class="titledesc">
-		<?php echo $tooltip_html; ?>
-		<label for="<?php echo $field_name; ?>"><?php _e('Box Split', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></label>
+		<label for="<?php echo $fieldName; ?>"><?php _e('Box Split', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></label>
 	</th>
 	<td class="forminp">
 		<fieldset>
 			<legend class="screen-reader-text"><span><?php _e('Box Split', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></span></legend>
-			<?php
-				foreach ( $options as $key => $val ) {
-				   ?>
-				   <label for="<?php echo $field_name; ?>">
-					<input class="" type="radio" name="<?php echo $field_name; ?>" id="<?php echo $field_name; ?>" style="" value="<?php echo $key; ?>" <?php if ($key === $box_split_option) { echo 'checked'; } ?>><?php echo $val; ?>
-				</label>
-				   <?php 
-				}
-			?>
+			<label for="<?php echo $fieldName; ?>">
+				<input class="" type="radio" name="<?php echo $fieldName; ?>" id="<?php echo $fieldName; ?>" style="" value="yes" <?php if ('yes' === $sameBox) { echo 'checked'; } ?>><?php _e('Everything in one package box', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
+			</label>
+			<label for="<?php echo $fieldName; ?>">
+				<input class="" type="radio" name="<?php echo $fieldName; ?>" id="<?php echo $fieldName; ?>" style="" value="no" <?php if ('no' === $sameBox) { echo 'checked'; } ?>><?php _e('Split by weight', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
+			</label>
 			<br>
 		</fieldset>
 	</td>
@@ -23,30 +19,37 @@
             $(function(){
 	            var fieldName = $('#fcs-box-split-tr').data('field-name');
 	            var splitWeightFieldName = $('#fcs-box-split-tr').data('weight-field-name');
-
+	            var packingFieldName = $('#fcs-box-split-tr').data('packing-field-name');
 	            var toggleSplitWeight = function () {
-				    if ('no' == $('input[name="' + fieldName + '"]:checked').val()) {
-	                    $('input[name="' + splitWeightFieldName + '"]').closest('tr').show();
+				    if ('yes' == $('input[name="' + fieldName + '"]:checked').val()) {
+	                    $('input[name="' + splitWeightFieldName + '"]').closest('tr').hide();
 		            } else {
-		            	$('input[name="' + splitWeightFieldName + '"]').closest('tr').hide();
-		            }
-				};
-
-                var togglePackageBox = function () {
-				    if ('packing' == $('input[name="' + fieldName + '"]:checked').val()) {
-	                    $('#package_box_collection').closest('tr').show();
-		            } else {
-		            	$('#package_box_collection').closest('tr').hide();
+		            	$('input[name="' + splitWeightFieldName + '"]').closest('tr').show();
 		            }
 				};
 
 			    $('input[name="' + fieldName + '"]').change(function(){
 	                toggleSplitWeight();
-	                togglePackageBox();
 	            });
 
+	           $('input[name="' + packingFieldName + '"]').change(function(){
+	                if ($(this).prop('checked')) {
+	                	$('#fcs-box-split-tr').hide();
+                        $('input[name="' + splitWeightFieldName + '"]').closest('tr').hide();
+	                } else {
+	                	$('#fcs-box-split-tr').show();
+                        toggleSplitWeight();
+	                }
+	            });
+
+				if ($('input[name="' + packingFieldName + '"]').prop('checked')) {
+                   $('#fcs-box-split-tr').hide();
+                   $('input[name="' + splitWeightFieldName + '"]').closest('tr').hide();
+
+                   return;
+                }
+
 	            toggleSplitWeight();
-	            togglePackageBox();
             });
         })(jQuery, window);
     </script>

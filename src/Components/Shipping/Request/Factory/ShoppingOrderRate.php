@@ -36,7 +36,7 @@ class ShoppingOrderRate extends AbstractRequestFactory
             $this->makeRequestPart(
                 $factory->resolve('PackageItems', array(
                     'type' => 'order',
-                    'usePackingApi' =>  $this->payload['options']->eq('default_package_box_split', 'packing'),
+                    'usePackingApi' => $this->payload['options']->eq('enable_packing_api', 'yes'),
                 )),
                 $this->payload
             )

@@ -320,11 +320,6 @@ class I
         file_put_contents($home.'/Desktop/data', date('Y-m-d H:i:s')."\t".print_r($text, 1)."\n", FILE_APPEND | LOCK_EX);
     }
 
-    public static function fls_plugin_activate()
-    {
-        self::box_split_data_migration();
-    }
-
     protected static function getInstance()
     {
         if (self::$instance) {
@@ -334,40 +329,5 @@ class I
         self::$instance = new self();
 
         return self::$instance;
-    }
-
-    protected static function box_split_data_migration()
-    {
-        $flagship_shipping_method_id = 'flagship_shipping_method';
-        $general_settings_option_key = 'woocommerce_'.$flagship_shipping_method_id.'_settings';
-        $wp_option_keys = array_keys(\wp_load_alloptions());
-        $instance_key_pattern = '/^woocommerce_'.$flagship_shipping_method_id.'_(\d+)_settings$/';
-
-        //Find the option keys of all the plugin instances associated with different shipping zones
-        $option_keys = array_filter($wp_option_keys, function ($value) use ($instance_key_pattern) {
-            return preg_match($instance_key_pattern, $value);
-        });
-
-        $option_keys[] = $general_settings_option_key;
-
-        foreach ($option_keys as $key => $value) {
-            self::update_fls_plugin_options($value);
-        }
-    }
-
-    protected static function update_fls_plugin_options($option_key)
-    {
-        $settings = \get_option($option_key);
-
-        if (!$settings || !isset($settings['enable_packing_api'])) {
-            return;
-        }
-
-        if ('yes' == $settings['enable_packing_api'] && isset($settings['default_package_box_split'])) {
-            $settings['default_package_box_split'] = 'packing';
-        }
-
-        unset($settings['enable_packing_api']);
-        \update_option($option_key, $settings);
     }
 }
