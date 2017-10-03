@@ -61,20 +61,15 @@ trait CommonsTrait
             $dependencies = [$dependencies];
         }
 
-        $network_active = false;
+        $plugins = \get_option('active_plugins');
 
-        if (!is_multisite()) {
-            $plugins = \get_option('active_plugins');
-
-            return array_reduce($dependencies, function ($activated, $dependency) use ($plugins) {
-                return $activated && in_array($dependency, $plugins);
-            }, true);
+        if (is_multisite()) {
+            $networkActivatedPlugins = array_keys(\get_site_option('active_sitewide_plugins', array()));
+            $plugins = array_merge($plugins, $networkActivatedPlugins);
         }
 
-        $plugins = \get_site_option('active_sitewide_plugins');
-
         return array_reduce($dependencies, function ($activated, $dependency) use ($plugins) {
-            return $activated && iswith($plugins[$dependency]);
+            return $activated && in_array($dependency, $plugins);
         }, true);
     }
 }
