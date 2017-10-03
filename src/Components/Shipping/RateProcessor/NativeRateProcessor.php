@@ -22,7 +22,7 @@ class NativeRateProcessor extends AbstractComponent implements RateProcessorInte
             $nativeRate = [
                 'id' => $methodId.'|'.$rate['service']['courier_name'].'|'.$rate['service']['courier_code'].'|'.$rate['service']['courier_desc'].'|'.strtotime($rate['service']['estimated_delivery_date']).'|'.$instanceId,
                 'label' => $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'],
-                'cost' => number_format($cost + $markupCost, 2),
+                'cost' => number_format($cost + $markupCost, 2, '.', ''),
                 'calc_tax' => 'per_order',
             ];
 
