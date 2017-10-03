@@ -3,7 +3,6 @@
 namespace FS\Components\Shipping\Method;
 
 use FS\Components\Event\ApplicationEvent;
-use FS\Injection\I;
 
 class FlagShipWcShippingMethod extends \WC_Shipping_Method
 {
@@ -119,7 +118,8 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             }
 
             $generalSettingsUpdated = \update_option($this->get_option_key(), apply_filters('woocommerce_settings_api_sanitized_fields_'.$this->id, $this->settings));
-            $instanceSettingsOptions = I::get_all_instance_option_keys();
+
+            $instanceSettingsOptions = $this->getAllInstanceOptions();
             $instanceSettingsUpdated = array();
 
             foreach ($instanceSettingsOptions as $key => $option) {
@@ -546,5 +546,16 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'default' => 0,
             ),
         );
+    }
+
+    protected function getAllInstanceOptions()
+    {
+        $wpOptionKeys = array_keys(\wp_load_alloptions());
+        $flagShipMethodId = $this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID');
+        $pattern = '/^woocommerce_'.$flagShipMethodId.'_(\d+)_settings$/';
+
+        return array_filter($wpOptionKeys, function ($value) use ($pattern) {
+            return preg_match($pattern, $value);
+        });
     }
 }

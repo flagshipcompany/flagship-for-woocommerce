@@ -13,12 +13,9 @@ use FS\Injection\Injector\Asset;
 use FS\Injection\Pico\Engine;
 use FS\Security\TokenAccess;
 use FS\Injection\Updater\Autoupdate;
-use FS\Components\Migration\DataMigrationRunner;
 
 class I
 {
-    const FLAGSHIP_SHIPPING_PLUGIN_ID = 'flagship_shipping_method';
-
     protected static $data = [
         'debug' => false,
     ];
@@ -325,18 +322,7 @@ class I
 
     public static function fls_plugin_activate()
     {
-        (new DataMigrationRunner(self::FLAGSHIP_SHIPPING_PLUGIN_ID))->run();
-    }
-
-    public static function get_all_instance_option_keys()
-    {
-        $wp_option_keys = array_keys(\wp_load_alloptions());
-        $instance_key_pattern = '/^woocommerce_'.self::FLAGSHIP_SHIPPING_PLUGIN_ID.'_(\d+)_settings$/';
-
-        //Find the option keys of all the plugin instances associated with different shipping zones
-        return array_filter($wp_option_keys, function ($value) use ($instance_key_pattern) {
-            return preg_match($instance_key_pattern, $value);
-        });
+        self::box_split_data_migration();
     }
 
     protected static function getInstance()
@@ -348,5 +334,40 @@ class I
         self::$instance = new self();
 
         return self::$instance;
+    }
+
+    protected static function box_split_data_migration()
+    {
+        $flagship_shipping_method_id = 'flagship_shipping_method';
+        $general_settings_option_key = 'woocommerce_'.$flagship_shipping_method_id.'_settings';
+        $wp_option_keys = array_keys(\wp_load_alloptions());
+        $instance_key_pattern = '/^woocommerce_'.$flagship_shipping_method_id.'_(\d+)_settings$/';
+
+        //Find the option keys of all the plugin instances associated with different shipping zones
+        $option_keys = array_filter($wp_option_keys, function ($value) use ($instance_key_pattern) {
+            return preg_match($instance_key_pattern, $value);
+        });
+
+        $option_keys[] = $general_settings_option_key;
+
+        foreach ($option_keys as $key => $value) {
+            self::update_fls_plugin_options($value);
+        }
+    }
+
+    protected static function update_fls_plugin_options($option_key)
+    {
+        $settings = \get_option($option_key);
+
+        if (!$settings || !isset($settings['enable_packing_api'])) {
+            return;
+        }
+
+        if ('yes' == $settings['enable_packing_api'] && isset($settings['default_package_box_split'])) {
+            $settings['default_package_box_split'] = 'packing';
+        }
+
+        unset($settings['enable_packing_api']);
+        \update_option($option_key, $settings);
     }
 }
