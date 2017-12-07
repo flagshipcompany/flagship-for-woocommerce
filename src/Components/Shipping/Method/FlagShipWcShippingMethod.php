@@ -547,9 +547,27 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         $wpOptionKeys = array_keys(\wp_load_alloptions());
         $flagShipMethodId = $this->ctx->setting('FLAGSHIP_SHIPPING_PLUGIN_ID');
         $pattern = '/^woocommerce_'.$flagShipMethodId.'_(\d+)_settings$/';
+        $validInstanceIds = $this->getValidInstanceIds($flagShipMethodId);
 
-        return array_filter($wpOptionKeys, function ($value) use ($pattern) {
-            return preg_match($pattern, $value);
+        return array_filter($wpOptionKeys, function ($value) use ($pattern, $validInstanceIds) {
+            $matched = preg_match($pattern, $value, $matches);
+            
+            if ($matched && in_array($matches[1], $validInstanceIds)) {
+                return true;
+            }
+
+            return false;
         });
+    }
+
+    protected function getValidInstanceIds($methodId)
+    {
+        global $wpdb;
+
+        $results = $wpdb->get_results(
+            $wpdb->prepare("SELECT instance_id FROM {$wpdb->prefix}woocommerce_shipping_zone_methods WHERE method_id = %s", $methodId)
+        );
+
+        return array_column($results, 'instance_id');
     }
 }
