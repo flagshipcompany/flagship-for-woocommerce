@@ -16,7 +16,7 @@
         }
     },
     "description": "An e-shipping courier solution that helps you shipping anything from Canada.",
-    "license": "GPL-3.0",
+    "license": "GPL-3.0-or-later",
     "minimum-stability": "stable",
     "name": "flagshipcompany/flagship-for-woocommerce",
     "require": {
