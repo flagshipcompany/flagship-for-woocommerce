@@ -26,7 +26,7 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
         $rates = $factory
             ->resolve('CourierExcludedRate')
             ->getProcessedRates($rates, [
-                'excluded' => array_filter(['fedex', 'ups', 'purolator'], function ($courier) use ($options) {
+                'excluded' => array_filter(['fedex', 'ups', 'purolator', 'canpar'], function ($courier) use ($options) {
                     return $options->neq('disable_courier_'.$courier, 'no');
                 }),
             ]);

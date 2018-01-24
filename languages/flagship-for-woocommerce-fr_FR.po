@@ -617,6 +617,11 @@ msgstr "Désactiver UPS"
 msgid "Disable Purolator Rates"
 msgstr "Désactiver Purolator"
 
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:345
+#: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:368
+msgid "Disable Canpar Rates"
+msgstr "Désactiver Canpar"
+
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:351
 #: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:374
 msgid "Disable Cart/Checkout API warning"

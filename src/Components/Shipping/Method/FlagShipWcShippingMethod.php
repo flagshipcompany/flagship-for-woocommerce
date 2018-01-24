@@ -493,6 +493,12 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'default' => 'no',
                 'checkboxgroup' => 'end',
             ),
+            'disable_courier_canpar' => array(
+                'title' => __('Disable Canpar Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
+                'checkboxgroup' => 'end',
+            ),
             'allow_fake_cart_rate_discount' => array(
                 'title' => __('Show fake rate discount in cart/checkout', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'checkbox',
@@ -551,7 +557,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
 
         return array_filter($wpOptionKeys, function ($value) use ($pattern, $validInstanceIds) {
             $matched = preg_match($pattern, $value, $matches);
-            
+
             if ($matched && in_array($matches[1], $validInstanceIds)) {
                 return true;
             }
