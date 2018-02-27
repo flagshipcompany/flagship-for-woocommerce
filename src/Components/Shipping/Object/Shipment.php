@@ -11,6 +11,7 @@ class Shipment
 
     protected $status = self::STATUS_PREQUOTED;
     protected $addresses = [];
+    protected $shippingOptions = [];
 
     public function getId()
     {
@@ -31,6 +32,11 @@ class Shipment
     public function getToAddress()
     {
         return $this->addresses['to'];
+    }
+
+    public function getShippingOptions()
+    {
+        return $this->shippingOptions;
     }
 
     public function isPrequoted()
@@ -87,6 +93,8 @@ class Shipment
             'postal_code' => $order->native('shipping_postcode'),
             'phone' => $order->native('billing_phone'), // no such a field in the shipping!?
         ];
+
+        $this->shippingOptions['signature_required'] = $order->getAttribute('flagship_signature_required') === 'yes';
 
         return $this;
     }

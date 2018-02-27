@@ -43,6 +43,8 @@ class MetaboxController extends AbstractComponent
             $payload['requote_rates'] = $requotes;
         }
 
+        $payload['shipping_options'] = $shipment->getShippingOptions();
+
         $context->render('meta-boxes/order-flagship-shipping-actions', $payload);
     }
 

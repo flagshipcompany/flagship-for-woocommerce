@@ -66,7 +66,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
     }
 
     /**
-     * Split the settings to geenral settings and shipping-zone-specific settings and display them respectively in those two settings pages.
+     * Split the settings to general settings and shipping-zone-specific settings and display them respectively in those two settings pages.
      */
     public function get_admin_options_html()
     {
@@ -432,6 +432,12 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'type' => 'log',
                 'description' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'desc_tip' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            ),
+            'enable_signature_required' => array(
+                'title' => __('signature required in checkout page', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'description' => __('Show a checkbox for required signature on delivery in the checkout page', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
             ),
         );
     }

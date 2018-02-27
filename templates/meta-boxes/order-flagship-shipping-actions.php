@@ -89,6 +89,8 @@
     <?php endif; ?>
     <p><?php _e('Options', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>:</p>
     <?php
+    $signatureRequired = isset($shipping_options['signature_required']) && $shipping_options['signature_required'] === true ? 'yes' : 'no';
+
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_date',
         'name' => 'flagship_shipping_date',
@@ -180,6 +182,7 @@
         'wrapper_class' => 'show_if_simple show_if_variable',
         'description' => __('Signature Required', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
         'label' => '',
+        'value' => $signatureRequired,
     ));
 
     woocommerce_wp_text_input(array(

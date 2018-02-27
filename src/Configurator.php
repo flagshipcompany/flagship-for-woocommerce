@@ -43,6 +43,8 @@ class Configurator implements ConfigurationInterface
             new Listener\ShippingZoneMethodOptions(),
             new Listener\CalculateShipping(),
             new Listener\CartFakeShippingRateDiscount(),
+            new Listener\SignatureRequiredInCheckout(),
+            new Listener\UpdateSignatureRequiredInOrder(),
             // admin
             new Listener\PluginPageSettingLink(),
             new Listener\PickupPostType(),

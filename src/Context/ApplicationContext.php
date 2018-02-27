@@ -62,6 +62,13 @@ class ApplicationContext extends AbstractApplicationContext
         return $options->get($key);
     }
 
+    public function getGeneralSetting($key)
+    {
+        $generalSettings = \get_option('woocommerce_'.$this->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_settings');
+
+        return isset($generalSettings[$key]) ? $generalSettings[$key] : null;
+    }
+
     public function command()
     {
         return $this->getComponent('\\FS\\Components\\Shipping\\Command');
