@@ -38,9 +38,9 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
         // add first product item(box) into package items
         $product_item = array_shift($product_items);
         $items[] = [
-            'width' => 1,
-            'height' => 1,
-            'length' => 1,
+            'width' => $product_item['width'],
+            'height' => $product_item['height'],
+            'length' => $product_item['length'],
             'weight' => $product_item['weight'],
             'description' => 'Flagship shipping package',
         ];
@@ -73,9 +73,9 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
             // make new box if we cannot fit current product item into any of the existing box
             if (!$fit_into_existing) {
                 $items[] = [
-                    'width' => 1,
-                    'height' => 1,
-                    'length' => 1,
+                    'width' => $product_item['width'],
+                    'height' => $product_item['height'],
+                    'length' => $product_item['length'],
                     'weight' => $product_item['weight'],
                     'description' => 'Flagship shipping package',
                 ];
