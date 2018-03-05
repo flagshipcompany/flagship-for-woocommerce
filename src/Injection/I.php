@@ -330,23 +330,30 @@ class I
 
     public static function get_all_instance_option_keys()
     {
-        $wp_option_keys = array_keys(\wp_load_alloptions());
-        $instance_key_pattern = '/^woocommerce_'.self::FLAGSHIP_SHIPPING_PLUGIN_ID.'_(\d+)_settings$/';
+        $wpOptionKeys = array_keys(\wp_load_alloptions());
+        $flagShipMethodId = self::FLAGSHIP_SHIPPING_PLUGIN_ID;
+        $pattern = '/^woocommerce_'.$flagShipMethodId.'_(\d+)_settings$/';
+        $validInstanceIds = self::getValidInstanceIds($flagShipMethodId);
 
-        //Find the option keys of all the plugin instances associated with different shipping zones
-        return array_filter($wp_option_keys, function ($value) use ($instance_key_pattern) {
-            return preg_match($instance_key_pattern, $value);
+        return array_filter($wpOptionKeys, function ($value) use ($pattern, $validInstanceIds) {
+            $matched = preg_match($pattern, $value, $matches);
+
+            if ($matched && in_array($matches[1], $validInstanceIds)) {
+                return true;
+            }
+
+            return false;
         });
     }
 
-    protected static function getInstance()
+    protected static function getValidInstanceIds($methodId)
     {
-        if (self::$instance) {
-            return self::$instance;
-        }
+        global $wpdb;
 
-        self::$instance = new self();
+        $results = $wpdb->get_results(
+            $wpdb->prepare("SELECT instance_id FROM {$wpdb->prefix}woocommerce_shipping_zone_methods WHERE method_id = %s", $methodId)
+        );
 
-        return self::$instance;
+        return array_column($results, 'instance_id');
     }
 }

@@ -40,9 +40,9 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
         if ($package_one_box_per_item) {
             foreach ($product_items as $key => $product_item) {
                 $items[$key] = [
-                    'width' => 1,
-                    'height' => 1,
-                    'length' => 1,
+                    'width' => $product_item['width'],
+                    'height' => $product_item['height'],
+                    'length' => $product_item['length'],
                     'weight' => $product_item['weight'],
                     'description' => 'Flagship shipping package',
                 ];
@@ -62,10 +62,13 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
         ];
 
         // if all product items must be packed into one box
-        // sum up total weight
+        // sum up total weight and take the largest dimension of all items so the rate estimates can be as accurate as possible
         if ($package_item_in_same_box) {
             foreach ($product_items as $product_item) {
                 $items[0]['weight'] += $product_item['weight'];
+                $items[0]['width'] = (int) $product_item['width'] > (int) $items[0]['width'] ? $product_item['width'] : $items[0]['width'];
+                $items[0]['height'] = (int) $product_item['height'] > (int) $items[0]['height'] ? $product_item['height'] : $items[0]['height'];
+                $items[0]['length'] = (int) $product_item['length'] > (int) $items[0]['length'] ? $product_item['length'] : $items[0]['length'];
             }
 
             return $items;
