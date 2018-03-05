@@ -132,6 +132,10 @@ class Shipment
             $wpdb->prepare("SELECT instance_id FROM {$wpdb->prefix}woocommerce_shipping_zone_methods WHERE zone_id = %s", $shippingZoneId)
         );
 
+        if (empty($results)) {
+            return;
+        }
+
         $instanceId = array_column($results, 'instance_id')[0];
         $instanceOptionKey = 'woocommerce_'.(I::FLAGSHIP_SHIPPING_PLUGIN_ID).'_'.$instanceId.'_settings';
         $instanceOptionValue = \get_option($instanceOptionKey, null);
