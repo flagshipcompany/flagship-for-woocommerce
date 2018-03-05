@@ -439,12 +439,6 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'description' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'desc_tip' => __('Cart/Checkout API warning logs (10 latest)', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
             ),
-            'enable_signature_required' => array(
-                'title' => __('signature required in checkout page', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'description' => __('Show a checkbox for required signature on delivery in the checkout page', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'no',
-            ),
         );
     }
 
@@ -556,6 +550,12 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'title' => __('Shipping Cost Markup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'decimal',
                 'default' => 0,
+            ),
+            'signature_required' => array(
+                'title' => __('Signature required on delivery', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'description' => __('If checked, all the shipments to this shipping zone will be signature required on delivery', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
             ),
         );
     }

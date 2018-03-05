@@ -2,6 +2,8 @@
 
 namespace FS\Components\Shipping\Object;
 
+use FS\Injection\I;
+
 class Shipment
 {
     use RawDataAccessTrait;
@@ -94,7 +96,11 @@ class Shipment
             'phone' => $order->native('billing_phone'), // no such a field in the shipping!?
         ];
 
-        $this->shippingOptions['signature_required'] = $order->getAttribute('flagship_signature_required') === 'yes';
+        $instanceOptionValue = $this->getShippingInstanceValue($order);
+
+        if (!empty($instanceOptionValue) && isset($instanceOptionValue['signature_required']) && $instanceOptionValue['signature_required'] == 'yes') {
+            $this->shippingOptions['signature_required'] = true;
+        }
 
         return $this;
     }
@@ -109,5 +115,27 @@ class Shipment
         $shipment = new self();
 
         return $shipment->syncWithOrder($order);
+    }
+
+    protected function getShippingInstanceValue(Order $order)
+    {
+        $package = [];
+        $package['destination']['country'] = $order->native('shipping_country');
+        $package['destination']['state'] = $order->native('shipping_state');
+        $package['destination']['postcode'] = $order->native('shipping_postcode');
+
+        $shippingZoneId = \WC_Shipping_Zones::get_zone_matching_package($package)->get_id();
+
+        global $wpdb;
+
+        $results = $wpdb->get_results(
+            $wpdb->prepare("SELECT instance_id FROM {$wpdb->prefix}woocommerce_shipping_zone_methods WHERE zone_id = %s", $shippingZoneId)
+        );
+
+        $instanceId = array_column($results, 'instance_id')[0];
+        $instanceOptionKey = 'woocommerce_'.(I::FLAGSHIP_SHIPPING_PLUGIN_ID).'_'.$instanceId.'_settings';
+        $instanceOptionValue = \get_option($instanceOptionKey, null);
+
+        return $instanceOptionValue;
     }
 }

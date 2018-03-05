@@ -652,17 +652,13 @@ msgstr ""
 msgid "Cart/Checkout API warning logs (10 latest)"
 msgstr "Messages d’erreur (10 récents)"
 
-#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:437
-msgid "signature required in checkout page"
-msgstr "signature requise dans la page de paiement"
-
-#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:438
-msgid "Show a checkbox for required signature on delivery in the checkout page"
-msgstr "Afficher une case à cocher pour la signature requise à la livraison sur la page de paiement"
-
-#: src/Components/Event/Listener/SignatureRequiredInCheckout.php:37
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:555
 msgid "Signature required on delivery"
 msgstr "Signature requise à la livraison"
+
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:556
+msgid "If checked, all the shipments to this shipping zone will be signature required on delivery"
+msgstr "Si coché, tous les envois vers cette zone d'expédition seront signés à la livraison"
 
 #: src/Components/Shipping/Request/Builder/Cart/PackageItems/FallbackBuilder.php:28
 #, php-format

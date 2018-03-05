@@ -36,7 +36,7 @@ class ShoppingCartRate extends AbstractRequestFactory
             $this->makeRequestPart(
                 $factory->resolve('PackageItems', array(
                     'type' => 'cart',
-                    'usePackingApi' =>  $this->payload['options']->eq('default_package_box_split', 'packing'),
+                    'usePackingApi' => $this->payload['options']->eq('default_package_box_split', 'packing'),
                 )),
                 $this->payload
             )
@@ -49,16 +49,31 @@ class ShoppingCartRate extends AbstractRequestFactory
             )
         );
 
-        // validate north american address
-        if (in_array($toAddress['country'], array('CA', 'US'))) {
+        $options = $this->makeOptions($toAddress);
+
+        if (!empty($options)) {
             $request->add(
                 'options',
-                array(
-                    'address_correction' => true,
-                )
+                $options
             );
         }
 
         return $request;
+    }
+
+    protected function makeOptions(array $toAddress)
+    {
+        $options = array();
+
+        if ($this->payload['options']->eq('signature_required', 'yes')) {
+            $options['signature_required'] = true;
+        }
+
+        // validate north american address
+        if (in_array($toAddress['country'], array('CA', 'US'))) {
+            $options['address_correction'] = true;
+        }
+
+        return $options;
     }
 }
