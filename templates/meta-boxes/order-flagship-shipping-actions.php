@@ -7,7 +7,7 @@
         <table class="wp-list-table widefat striped posts">
             <tr>
                 <td><strong>FlagShip ID:</strong></td>
-                <td><a href="https://smartship.flagshipcompany.com/shipments/<?php echo $shipment['shipment_id']; ?>/overview"><?php echo $shipment['shipment_id']; ?></a></td>
+                <td><a href="https://smartship-ng.flagshipcompany.com/shipments/<?php echo $shipment['shipment_id']; ?>/overview"><?php echo $shipment['shipment_id']; ?></a></td>
             </tr>
             <tr>
                 <td><strong><?php _e('Service', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>:</strong></td>
