@@ -3,6 +3,7 @@
 namespace FS\Components\Shipping\RateProcessor;
 
 use FS\Components\AbstractComponent;
+use FS\Components\Shipping\Object\Courier;
 
 class ProcessRateProcessor extends AbstractComponent implements RateProcessorInterface
 {
@@ -26,7 +27,7 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
         $rates = $factory
             ->resolve('CourierExcludedRate')
             ->getProcessedRates($rates, [
-                'excluded' => array_filter(['fedex', 'ups', 'purolator', 'canpar'], function ($courier) use ($options) {
+                'excluded' => array_filter(Courier::$couriers, function ($courier) use ($options) {
                     return $options->neq('disable_courier_'.$courier, 'no');
                 }),
             ]);

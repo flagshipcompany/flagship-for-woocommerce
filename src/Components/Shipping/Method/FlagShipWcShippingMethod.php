@@ -4,6 +4,7 @@ namespace FS\Components\Shipping\Method;
 
 use FS\Components\Event\ApplicationEvent;
 use FS\Injection\I;
+use FS\Components\Shipping\Object\Courier;
 
 class FlagShipWcShippingMethod extends \WC_Shipping_Method
 {
@@ -444,7 +445,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
 
     protected function get_instance_settings()
     {
-        return array(
+        $instanceSettings = array(
             'shipping_rates_configs' => array(
                 'title' => 'Options',
                 'type' => 'title',
@@ -481,29 +482,6 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                     '4' => __('4 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                     '5' => __('5 cheapest rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 ),
-            ),
-            'disable_courier_fedex' => array(
-                'title' => __('Disable FedEx Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'no',
-                'checkboxgroup' => 'start',
-            ),
-            'disable_courier_ups' => array(
-                'title' => __('Disable UPS Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'no',
-            ),
-            'disable_courier_purolator' => array(
-                'title' => __('Disable Purolator Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'no',
-                'checkboxgroup' => 'end',
-            ),
-            'disable_courier_canpar' => array(
-                'title' => __('Disable Canpar Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'no',
-                'checkboxgroup' => 'end',
             ),
             'allow_fake_cart_rate_discount' => array(
                 'title' => __('Show fake rate discount in cart/checkout', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
@@ -558,5 +536,27 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'default' => 'no',
             ),
         );
+
+        $disableCourierOptions = $this->makeDisableCourierOptions();
+
+        return array_merge($instanceSettings, $disableCourierOptions);
+    }
+
+    protected function makeDisableCourierOptions()
+    {
+        $disableCourierOptions = array();
+
+        foreach (Courier::$couriers as $key => $value) {
+            $settingName = 'disable_courier_'.$value;
+            $settingLabel = sprintf('Disable %s Rates', $key);
+            $disableCourierOptions[$settingName] = array(
+                'title' => __($settingLabel, FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
+                'checkboxgroup' => 'start',
+            );
+        }
+
+        return $disableCourierOptions;
     }
 }

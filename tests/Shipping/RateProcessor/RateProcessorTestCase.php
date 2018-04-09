@@ -2,6 +2,9 @@
 
 namespace FS\Test\Shipping\RateProcessor;
 
+use FS\Injection\I\Options;
+use FS\Components\Shipping\Object\Courier;
+
 class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
 {
     public function setUp()
@@ -16,9 +19,7 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
         $options = $this->getApplicationContext()
             ->getComponent('\\FS\\Components\\Options');
 
-        $options->set('disable_courier_ups', 'yes');
-        $options->set('disable_courier_purolator', 'yes');
-        $options->set('disable_courier_fedex', 'yes');
+        $this->disableEnableCouriers($options, true);
 
         $processor = new \FS\Components\Shipping\RateProcessor\CourierExcludedRateProcessor();
         $rates = $processor->getProcessedRates($this->flagshipQuoteRates, array(
@@ -29,12 +30,11 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
 
         $this->assertEquals(0, count($rates));
 
-        $options->set('disable_courier_ups', 'yes');
-        $options->set('disable_courier_purolator', 'no');
-        $options->set('disable_courier_fedex', 'no');
+        $this->disableEnableCouriers($options, false);
+        $this->disableEnableCouriers($options, true, 'ups');
 
         $rates = $processor->getProcessedRates($this->flagshipQuoteRates, array(
-            'excluded' => array_filter(array('fedex', 'ups', 'purolator'), function ($courier) use ($options) {
+            'excluded' => array_filter(Courier::$couriers, function ($courier) use ($options) {
                 return $options->neq('disable_courier_'.$courier, 'no');
             }),
         ));
@@ -130,6 +130,21 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
             });
 
             $this->assertEquals(0, count($err));
+        }
+    }
+
+    protected function disableEnableCouriers(Options $options, $disable, $courier = null)
+    {
+        $optionValue = $disable == true ? 'yes' : 'no';
+
+        if ($courier) {
+            $options->set('disable_courier_'.$courier, $optionValue);
+
+            return;
+        }
+
+        foreach (Courier::$couriers as $key => $value) {
+            $options->set('disable_courier_'.$value, $optionValue);
         }
     }
 }
