@@ -2,7 +2,7 @@
 
 namespace FS\Test\Shipping\RateProcessor;
 
-use FS\Injection\I\Options;
+use FS\Components\Options;
 use FS\Components\Shipping\Object\Courier;
 
 class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
