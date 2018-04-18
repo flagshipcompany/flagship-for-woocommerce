@@ -27,24 +27,7 @@ class ShippingOptionsBuilder extends AbstractComponent implements BuilderInterfa
                 'description' => $request->get('flagship_shipping_insurance_description'),
             );
         }
-
-        if ($request->has('flagship_shipping_enable_cod')
-            && $request->get('flagship_shipping_enable_cod') == 'yes'
-            && $request->get('flagship_shipping_cod_method')
-            && $request->get('flagship_shipping_cod_payable_to')
-            && $request->get('flagship_shipping_cod_receiver_phone')
-            && $request->get('flagship_shipping_cod_amount')
-            && $request->get('flagship_shipping_cod_currency')
-        ) {
-            $shippingOptions['cod'] = array(
-                'method' => $request->get('flagship_shipping_cod_method'),
-                'payable_to' => $request->get('flagship_shipping_cod_payable_to'),
-                'receiver_phone' => $request->get('flagship_shipping_cod_receiver_phone'),
-                'amount' => $request->get('flagship_shipping_cod_amount'),
-                'currency' => $request->get('flagship_shipping_cod_currency'),
-            );
-        }
-
+        
         if ($request->has('flagship_shipping_signature_required')) {
             $shippingOptions['signature_required'] = $request->get('flagship_shipping_signature_required') == 'yes';
         }

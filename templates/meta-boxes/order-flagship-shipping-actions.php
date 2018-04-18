@@ -124,59 +124,6 @@
     ));
 
     woocommerce_wp_checkbox(array(
-        'id' => 'flagship_shipping_enable_cod',
-        'name' => 'flagship_shipping_enable_insurance',
-        'wrapper_class' => 'show_if_simple show_if_variable',
-        'description' => __('<abbr title="cash on delivery">Enable COD</abbr>', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-        'label' => '',
-    ));
-
-    woocommerce_wp_select(array(
-        'id' => 'flagship_shipping_cod_method',
-        'name' => 'flagship_shipping_cod_method',
-        'options' => array(
-            'check' => 'Check',
-            'cert_check' => 'Certified Check',
-            'money_order' => 'Money Order',
-        ),
-        'label' => 'Method (Required):',
-        'wrapper_class' => 'show_if_simple show_if_variable hidden',
-    ));
-
-    woocommerce_wp_text_input(array(
-        'id' => 'flagship_shipping_cod_payable_to',
-        'name' => 'flagship_shipping_cod_payable_to',
-        'label' => __('Payable to (Required):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-        'wrapper_class' => 'show_if_simple show_if_variable hidden',
-    ));
-
-    woocommerce_wp_text_input(array(
-        'id' => 'flagship_shipping_cod_receiver_phone',
-        'name' => 'flagship_shipping_cod_receiver_phone',
-        'label' => __('Receiver Phone (Required):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-        'wrapper_class' => 'show_if_simple show_if_variable hidden',
-    ));
-
-    woocommerce_wp_text_input(array(
-        'id' => 'flagship_shipping_cod_amount',
-        'name' => 'flagship_shipping_cod_amount',
-        'label' => __('Amount (Required):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-        'wrapper_class' => 'show_if_simple show_if_variable hidden',
-    ));
-
-    woocommerce_wp_radio(array(
-        'id' => 'flagship_shipping_cod_currency',
-        'name' => 'flagship_shipping_cod_currency',
-        'value' => $cod['currency'] == 'USD' ? 'USD' : 'CAD',
-        'options' => array(
-            'CAD' => 'Canadian Dollar',
-            'USD' => 'U.S. Dollar',
-        ),
-        'label' => 'Currency (Required):',
-        'wrapper_class' => 'show_if_simple show_if_variable hidden',
-    ));
-
-    woocommerce_wp_checkbox(array(
         'id' => 'flagship_shipping_signature_required',
         'name' => 'flagship_shipping_signature_required',
         'wrapper_class' => 'show_if_simple show_if_variable',
@@ -209,22 +156,6 @@
         } else {
             $('.flagship_shipping_insurance_value_field').addClass('hidden');
             $('.flagship_shipping_insurance_description_field').addClass('hidden');
-        }
-    });
-
-    $('#flagship_shipping_enable_cod').click(function(){
-        if($('#flagship_shipping_enable_cod').is(':checked')) {
-            $('.flagship_shipping_cod_method_field').removeClass('hidden');
-            $('.flagship_shipping_cod_payable_to_field').removeClass('hidden');
-            $('.flagship_shipping_cod_receiver_phone_field').removeClass('hidden');
-            $('.flagship_shipping_cod_amount_field').removeClass('hidden');
-            $('.flagship_shipping_cod_currency_field').removeClass('hidden');
-        } else {
-            $('.flagship_shipping_cod_method_field').addClass('hidden');
-            $('.flagship_shipping_cod_payable_to_field').addClass('hidden');
-            $('.flagship_shipping_cod_receiver_phone_field').addClass('hidden');
-            $('.flagship_shipping_cod_amount_field').addClass('hidden');
-            $('.flagship_shipping_cod_currency_field').addClass('hidden');
         }
     });
 })(jQuery);
