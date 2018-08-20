@@ -44,6 +44,7 @@ class MetaboxController extends AbstractComponent
         }
 
         $payload['shipping_options'] = $shipment->getShippingOptions();
+        $payload['signature_required'] = isset($payload['shipping_options']['signature_required']) && $payload['shipping_options']['signature_required'] === true ? 'yes' : 'no';
 
         $context->render('meta-boxes/order-flagship-shipping-actions', $payload);
     }

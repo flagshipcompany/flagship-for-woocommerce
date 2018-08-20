@@ -30,6 +30,10 @@ class Order extends AbstractComponent
     {
         $existing = $this->order->getAttribute('flagship_shipping_shop_order_meta_notification');
 
+        if (!is_array($existing)) {
+            $existing = [];
+        }
+
         if (!isset($existing[$type])) {
             $existing[$type] = [];
         }

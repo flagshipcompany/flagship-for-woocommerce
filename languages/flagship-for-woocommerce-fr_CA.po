@@ -840,6 +840,10 @@ msgstr "Référence (Optionnel):"
 msgid "Driver Instruction (Optional):"
 msgstr "Instructions pour le livreur (Optionnel):"
 
+#: templates/meta-boxes/order-flagship-shipping-actions.php:145
+msgid "Tracking emails (Optional):"
+msgstr "Suivi par couriel (Optionnel):"
+
 #: templates/meta-boxes/order-flagship-shipping-actions.php:193
 #: templates/meta-boxes/order-flagship-shipping-actions.php:236
 msgid "Create shipment"

@@ -52,6 +52,8 @@ class ShippingController extends AbstractComponent
             ]);
 
         foreach ($rates as $rate) {
+            //Set the method id to rate id so that the selected rate will show up in backend
+            $method->id = $rate['id'];
             $method->add_rate($rate);
         }
     }

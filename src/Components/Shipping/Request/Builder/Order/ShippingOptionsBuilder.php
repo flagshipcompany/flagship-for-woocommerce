@@ -42,6 +42,11 @@ class ShippingOptionsBuilder extends AbstractComponent implements BuilderInterfa
             $shippingOptions['driver_instructions'] = $request->get('flagship_shipping_driver_instructions');
         }
 
+        if ($request->has('flagship_shipping_tracking_emails')
+            && $request->get('flagship_shipping_tracking_emails')) {
+            $shippingOptions['shipment_tracking_emails'] = $request->get('flagship_shipping_tracking_emails');
+        }
+
         if ($request->has('flagship_shipping_date')
             && strtotime($request->get('flagship_shipping_date')) >= strtotime(date('Y-m-d'))
         ) {
