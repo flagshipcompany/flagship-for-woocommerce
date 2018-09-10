@@ -50,6 +50,11 @@ class Shipping extends AbstractComponent
     {
         if (!$phrase) {
             $methods = $this->order->native()->get_shipping_methods();
+
+            if (empty($methods)) {
+                return;
+            }
+
             $phrase = $methods[key($methods)]['method_id'];
         }
 

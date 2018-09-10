@@ -15,31 +15,6 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
         $methodId = $payload['methodId'];
 
         $rates = $factory
-            ->resolve('EnabledRate')
-            ->getProcessedRates($rates, [
-                'enabled' => [
-                    'standard' => ($options->get('allow_standard_rates') == 'yes'),
-                    'express' => ($options->get('allow_express_rates') == 'yes'),
-                    'overnight' => ($options->get('allow_overnight_rates') == 'yes'),
-                ],
-            ]);
-
-        $rates = $factory
-            ->resolve('CourierExcludedRate')
-            ->getProcessedRates($rates, [
-                'excluded' => array_filter(Courier::$couriers, function ($courier) use ($options) {
-                    return $options->neq('disable_courier_'.$courier, 'no');
-                }),
-            ]);
-
-        $rates = $factory
-            ->resolve('XNumberOfBestRate')
-            ->getProcessedRates($rates, [
-                'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
-                'offered' => $options->get('offer_rates', 'all'),
-            ]);
-
-        $rates = $factory
             ->resolve('NativeRate')
             ->getProcessedRates($rates, [
                 'methodId' => $methodId,
@@ -50,6 +25,32 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
                 ),
                 'instanceId' => $instanceId,
             ]);
+
+        $rates = $factory
+            ->resolve('EnabledRate')
+            ->getProcessedRates($rates, [
+                'enabled' => [
+                    'standard' => is_null($options->get('allow_standard_rates')) || ($options->get('allow_standard_rates') == 'yes'),
+                    'express' => is_null($options->get('allow_express_rates')) || ($options->get('allow_express_rates') == 'yes'),
+                    'overnight' => is_null($options->get('allow_overnight_rates')) || ($options->get('allow_overnight_rates') == 'yes'),
+                ],
+            ]);
+
+        $rates = $factory
+            ->resolve('CourierExcludedRate')
+            ->getProcessedRates($rates, [
+                'excluded' => array_filter(Courier::$couriers, function ($courier) use ($options) {
+                    return !is_null($options->get('disable_courier_'.$courier)) && $options->neq('disable_courier_'.$courier, 'no');
+                }),
+            ]);
+
+        $rates = $factory
+            ->resolve('XNumberOfBestRate')
+            ->getProcessedRates($rates, [
+                'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
+                'offered' => is_null($options->get('offer_rates')) || $options->get('offer_rates', 'all'),
+            ]);
+
 
         return $rates;
     }
