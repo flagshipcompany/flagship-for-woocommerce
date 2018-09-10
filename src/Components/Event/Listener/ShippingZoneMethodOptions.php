@@ -11,6 +11,8 @@ use FS\Components\Event\ApplicationEvent;
 
 class ShippingZoneMethodOptions extends AbstractComponent implements ApplicationListenerInterface, NativeHookInterface
 {
+    public static $shipperInfoValidated = false;
+
     public function getSupportedEvent()
     {
         return ApplicationEvent::SHIPPING_ZONE_METHOD_OPTIONS;
@@ -24,10 +26,14 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
         $request = $context->_('\\FS\\Components\\Web\\RequestParam');
         $requestFields = $request->request->all();
 
-        $fields = $validator->validate(
-            $fields,
-            $context
-        );
+        if (self::$shipperInfoValidated == false) {
+            $fields = $validator->validate(
+                $fields,
+                $context
+            );
+
+            self::$shipperInfoValidated = true;
+        }
 
         // Since package_box is not a zone-specific setting, if the request comes from an instance no need to update package_box
         if (isset($requestFields['instance_id'])) {
