@@ -92,6 +92,10 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             $this->init_instance_settings();
             $post_data = $this->get_post_data();
 
+            if (!isset($post_data['instance_id'])) {
+                return true;
+            }
+
             foreach ($this->get_instance_settings() as $key => $field) {
                 if ('title' !== $this->get_field_type($field)) {
                     try {
