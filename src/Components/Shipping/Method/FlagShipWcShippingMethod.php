@@ -535,6 +535,12 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'type' => 'checkbox',
                 'default' => 'no',
             ),
+            'show_transit_time' => array(
+                'title' => __('Show transit time in shopping cart', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'description' => __('If checked, the transit times of couriers will be shown', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
+            ),
         );
 
         $disableCourierOptions = $this->makeDisableCourierOptions();

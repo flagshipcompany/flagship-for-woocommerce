@@ -24,6 +24,7 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
                     'rate' => $options->get('default_shipping_markup'),
                 ),
                 'instanceId' => $instanceId,
+                'showTransitTime' => ($options->get('show_transit_time') == 'yes'),
             ]);
 
         $rates = $factory

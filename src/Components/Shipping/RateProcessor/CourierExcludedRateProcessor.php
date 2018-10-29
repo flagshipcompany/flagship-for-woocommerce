@@ -11,7 +11,7 @@ class CourierExcludedRateProcessor extends AbstractComponent implements RateProc
         $excluded = $payload['excluded'];
 
         return array_filter($rates, function ($rate) use ($excluded) {
-            return !in_array(strtolower($rate['service']['courier_name']), $excluded);
+            return !in_array(strtolower($rate['courier_name']), $excluded);
         });
     }
 }

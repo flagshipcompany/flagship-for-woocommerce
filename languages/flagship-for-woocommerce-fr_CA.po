@@ -656,6 +656,14 @@ msgstr "Messages d’erreur (10 récents)"
 msgid "Signature required on delivery"
 msgstr "Signature requise à la livraison"
 
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:539
+msgid "Show transit time in shopping cart"
+msgstr "Afficher le temps de transit dans le panier"
+
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:540
+msgid "If checked, the transit times of couriers will be shown"
+msgstr "Si coché, les temps de transit des coursiers seront affichés"
+
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:556
 msgid "If checked, all the shipments to this shipping zone will be signature required on delivery"
 msgstr "Si coché, tous les envois vers cette zone d'expédition seront signés à la livraison"
