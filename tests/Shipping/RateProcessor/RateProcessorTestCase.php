@@ -42,7 +42,7 @@ class RateProcessorTestCase extends \FS\Test\Helper\FlagshipShippingUnitTestCase
         $this->assertEquals(9, count($rates));
 
         foreach ($rates as $rate) {
-            $this->assertTrue(strtolower($rate['service']['courier_name']) != 'ups');
+            $this->assertTrue(strtolower($rate['courier_name']) != 'ups');
         }
     }
 
