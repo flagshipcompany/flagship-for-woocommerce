@@ -13,6 +13,7 @@ class NativeRateProcessor extends AbstractComponent implements RateProcessorInte
         $instanceId = $payload['instanceId'];
         $methodId = $payload['methodId'];
         $showTransitTime =  $payload['showTransitTime'];
+        $fakeDiscountRate = $payload['fakeDiscountRate'];
 
         $nativeRates = [];
 
@@ -27,9 +28,15 @@ class NativeRateProcessor extends AbstractComponent implements RateProcessorInte
                 $transitTimeText = $this->makeTransitTimeText($deliveryDate);
             }
 
+            $label = $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'].$transitTimeText;
+
+            if ($fakeDiscountRate > 0) {
+                $label .= 'discount_rate='.$fakeDiscountRate;
+            }
+
             $nativeRate = [
                 'id' => $methodId.'|'.$rate['service']['courier_name'].'|'.$rate['service']['courier_code'].'|'.$rate['service']['courier_desc'].'|'.strtotime($rate['service']['estimated_delivery_date']).'|'.$instanceId,
-                'label' => $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'].$transitTimeText,
+                'label' => $label,
                 'courier_name' => $rate['service']['courier_name'],
                 'cost' => number_format($cost + $markupCost, 2, '.', ''),
                 'calc_tax' => 'per_order',

@@ -15,19 +15,6 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
         $methodId = $payload['methodId'];
 
         $rates = $factory
-            ->resolve('NativeRate')
-            ->getProcessedRates($rates, [
-                'methodId' => $methodId,
-                'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
-                'markup' => array(
-                    'type' => $options->get('default_shipping_markup_type'),
-                    'rate' => $options->get('default_shipping_markup'),
-                ),
-                'instanceId' => $instanceId,
-                'showTransitTime' => ($options->get('show_transit_time') == 'yes'),
-            ]);
-
-        $rates = $factory
             ->resolve('EnabledRate')
             ->getProcessedRates($rates, [
                 'enabled' => [
@@ -49,7 +36,21 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
             ->resolve('XNumberOfBestRate')
             ->getProcessedRates($rates, [
                 'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
-                'offered' => is_null($options->get('offer_rates')) || $options->get('offer_rates', 'all'),
+                'offered' => $options->get('offer_rates', 'all'),
+            ]);
+
+        $rates = $factory
+            ->resolve('NativeRate')
+            ->getProcessedRates($rates, [
+                'methodId' => $methodId,
+                'taxEnabled' => ($options->get('apply_tax_by_flagship') == 'yes'),
+                'markup' => array(
+                    'type' => $options->get('default_shipping_markup_type'),
+                    'rate' => $options->get('default_shipping_markup'),
+                ),
+                'instanceId' => $instanceId,
+                'showTransitTime' => ($options->get('show_transit_time') == 'yes'),
+                'fakeDiscountRate' => $options->get('allow_fake_cart_rate_discount') == 'yes' ? $options->get('fake_cart_rate_discount') : 0,
             ]);
 
 

@@ -20,12 +20,18 @@ class CartFakeShippingRateDiscount extends AbstractComponent implements Applicat
     {
         $label = $event->getInput('label');
         $method = $event->getInput('method');
+        $methodId = explode('|', $method->id)[0];
         $cost = $method->cost;
+        preg_match('/discount_rate=(\d)+/', $label, $matches);
 
-        if ($context->option()->eq('allow_fake_cart_rate_discount', 'yes')
-            && (floatval($cost) != 0)
-            && ($context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID') == $method->method_id)) {
-            $label .= '&nbsp;<del style="color:red;">'.wc_price($cost * (1 + $context->option('fake_cart_rate_discount') / 100)).'</del>';
+        if ($matches) {
+            $label = preg_replace('/discount_rate=(\d)+/', '', $label);
+        }
+
+        if ((floatval($cost) != 0)
+            && ($context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID') == $methodId) && $matches) {
+            $discountRate = explode('=', $matches[0])[1];
+            $label .= '&nbsp;<del style="color:red;">'.wc_price($cost * (1 +  $discountRate/ 100)).'</del>';
         }
 
         return $label;
