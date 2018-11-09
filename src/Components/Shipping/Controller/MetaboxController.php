@@ -9,6 +9,10 @@ use FS\Context\ApplicationContext as Context;
 
 class MetaboxController extends AbstractComponent
 {
+    public static $tokenMissingMessage = 'FlagShip API token missing. Please create a FlagShip API token and save in the plugin settings.<br/>';
+
+    public static $noRatesMessage = 'Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>';
+
     public function display(Req $request, Context $context, Shipping $shipping)
     {
         $shipment = $shipping->getShipment();
@@ -59,6 +63,12 @@ class MetaboxController extends AbstractComponent
             return $this;
         }
 
+        if (!$context->option('token')) {
+            $context->alert()->error(self::$tokenMissingMessage);
+
+            return;
+        }
+
         $order = $shipping->getOrder();
 
         $factory = $context
@@ -96,6 +106,12 @@ class MetaboxController extends AbstractComponent
             return;
         }
 
+        if (!$context->option('token')) {
+            $context->alert()->error(self::$tokenMissingMessage);
+
+            return;
+        }
+
         $order = $shipping->getOrder();
 
         $response = $context->api()->delete('/ship/shipments/'.$shipment->getId());
@@ -119,6 +135,12 @@ class MetaboxController extends AbstractComponent
 
     public function requoteShipment(Req $request, Context $context, Shipping $shipping)
     {
+        if (!$context->option('token')) {
+            $context->alert()->error(self::$tokenMissingMessage);
+
+            return;
+        }
+
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
         $rateProcessorFactory = $context
@@ -133,7 +155,7 @@ class MetaboxController extends AbstractComponent
         );
 
         if (!$response->isSuccessful()) {
-            $context->alert()->error('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>');
+            $context->alert()->error(self::$noRatesMessage);
 
             return;
         }
@@ -164,14 +186,20 @@ class MetaboxController extends AbstractComponent
 
     public function schedulePickup(Req $request, Context $context, Shipping $shipping)
     {
-        $factory = $context
-            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPickup');
-
         $shipment = $shipping->getShipment();
 
         if (!$shipment->isCreated()) {
             return;
         }
+
+        if (!$context->option('token')) {
+            $context->alert()->error(self::$tokenMissingMessage);
+
+            return;
+        }
+
+        $factory = $context
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPickup');
 
         $response = $context->command()->pickup(
             $context->api(),
@@ -198,6 +226,12 @@ class MetaboxController extends AbstractComponent
         $pickup = $shipping->getPickup();
 
         if (!$pickup->isCreated()) {
+            return;
+        }
+
+        if (!$context->option('token')) {
+            $context->alert()->error(self::$tokenMissingMessage);
+
             return;
         }
 

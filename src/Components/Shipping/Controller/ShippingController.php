@@ -25,6 +25,12 @@ class ShippingController extends AbstractComponent
             return;
         }
 
+        if (!$context->option('token')) {
+            $context->alert()->error(MetaboxController::$tokenMissingMessage);
+
+            return;
+        }
+
         $response = $context->command()->quote(
             $context->api(),
             $factory->setPayload([
@@ -35,7 +41,7 @@ class ShippingController extends AbstractComponent
         );
 
         if (!$response->isSuccessful()) {
-            $context->alert()->error('Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>');
+            $context->alert()->error(MetaboxController::$noRatesMessage);
 
             return;
         }
