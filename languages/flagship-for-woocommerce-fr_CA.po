@@ -505,6 +505,18 @@ msgstr "Poids maximal par boîte (livre)"
 msgid "FlagShip Packing"
 msgstr "Méthode d'emballage FlagShip"
 
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:430
+msgid "Tracking"
+msgstr "Suivi par couriel"
+
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:435
+msgid "Tracking Emails"
+msgstr "Courriels pour les alertes de suivi"
+
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:438
+msgid "(optional) If provided, the email address(s) will always receive tracking notifications. Emails should be semicolon separated (;)."
+msgstr "(optionnel) Si elles sont fournies, les adresses électroniques recevront toujours des notifications de suivi. Les courriels doivent être séparés par des points-virgules (;)."
+
 #: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:264
 msgid ""
 "Allow FlagShip to pack the order's products, given sets of package box "

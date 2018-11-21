@@ -144,6 +144,9 @@
         'id' => 'flagship_shipping_tracking_emails',
         'name' => 'flagship_shipping_tracking_emails',
         'label' => __('Tracking emails (Optional):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+        'custom_attributes' => array(
+            'maxlength' => 100,
+        ),
     ));
 
     ?>

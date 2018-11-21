@@ -42,9 +42,16 @@ class ShippingOptionsBuilder extends AbstractComponent implements BuilderInterfa
             $shippingOptions['driver_instructions'] = $request->get('flagship_shipping_driver_instructions');
         }
 
+        $notificationEmails = $this->getApplicationContext()->option()->get('tracking_emails');
+        $trackingEmails = $notificationEmails ? explode(';', $notificationEmails) : [];
+
         if ($request->has('flagship_shipping_tracking_emails')
             && $request->get('flagship_shipping_tracking_emails')) {
-            $shippingOptions['shipment_tracking_emails'] = $request->get('flagship_shipping_tracking_emails');
+            $trackingEmails = array_merge($trackingEmails, explode(';', $request->get('flagship_shipping_tracking_emails')));
+        }
+
+        if (count($trackingEmails) > 0) {
+            $shippingOptions['shipment_tracking_emails'] = implode(';', array_unique($trackingEmails));
         }
 
         if ($request->has('flagship_shipping_date')

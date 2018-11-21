@@ -427,6 +427,19 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             'package_box' => array(
                 'type' => 'package_box',
             ),
+            'tracking_configs' => array(
+                'title' => __('Tracking', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'title',
+                'id' => 'flagship_tracking_configs',
+            ),
+            'tracking_emails' => array(
+                'title' => __('Tracking Emails', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'text',
+                'description' => __('(optional) If provided, the email address(s) will always receive tracking notifications. Emails should be semicolon separated (;).', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'custom_attributes' => array(
+                    'maxlength' => 100,
+                ),
+            ),
             'shipping_configs' => array(
                 'title' => 'Configuration',
                 'type' => 'title',
