@@ -1,4 +1,4 @@
-<tr valign="top" id="fcs-box-split-tr" data-field-name="<?php echo $field_name; ?>" data-weight-field-name="<?php echo $split_weight_field_name; ?>" data-package-box-field-name="<?php echo $package_box_field_name; ?>">
+<tr valign="top" id="fcs-box-split-tr" data-field-name="<?php echo $field_name; ?>" data-weight-field-name="<?php echo $split_weight_field_name; ?>" data-package-box-field-name="<?php echo $packing_box_field_name; ?>">
 	<th scope="row" class="titledesc">
 		<?php echo $tooltip_html; ?>
 		<label for="<?php echo $field_name; ?>"><?php _e('Box Split', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></label>

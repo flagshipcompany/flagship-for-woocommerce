@@ -41,7 +41,8 @@ class ShippingController extends AbstractComponent
         );
 
         if (!$response->isSuccessful()) {
-            $context->alert()->error(MetaboxController::$noRatesMessage);
+            $errorMsg = $response->getStatusCode() === 403 ? MetaboxController::$tokenInvalidMessage : MetaboxController::$noRatesMessage;
+            $context->alert()->error($errorMsg);
 
             return;
         }

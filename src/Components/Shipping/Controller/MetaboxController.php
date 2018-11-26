@@ -13,6 +13,8 @@ class MetaboxController extends AbstractComponent
 
     public static $noRatesMessage = 'Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>';
 
+    public static $tokenInvalidMessage = 'Flagship Shipping has some difficulty in retrieving the rates. Please make sure the FlagShip API token is valid.<br/>';
+
     public function display(Req $request, Context $context, Shipping $shipping)
     {
         $shipment = $shipping->getShipment();
@@ -155,7 +157,8 @@ class MetaboxController extends AbstractComponent
         );
 
         if (!$response->isSuccessful()) {
-            $context->alert()->error(self::$noRatesMessage);
+            $errorMsg = $response->getStatusCode() === 403 ? self::$tokenInvalidMessage : self::$noRatesMessage;
+            $context->alert()->error($errorMsg);
 
             return;
         }
