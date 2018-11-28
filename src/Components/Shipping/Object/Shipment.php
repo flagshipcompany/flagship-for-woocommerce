@@ -48,7 +48,27 @@ class Shipment
 
     public function isCreated()
     {
-        return (bool) $this->raw;
+        if (empty($this->raw)) {
+            return false;
+        }
+
+        return empty($this->raw['exported']);
+    }
+
+    public function isExported()
+    {
+        if (empty($this->raw)) {
+            return false;
+        }
+
+        return !empty($this->raw['exported']);
+    }
+
+    public function getExportedShipmentId()
+    {
+        if ($this->isExported() && isset($this->raw['flagship_id'])) {
+            return $this->raw['flagship_id'];
+        }
     }
 
     public function isFedexGround()

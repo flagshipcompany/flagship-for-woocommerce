@@ -19,6 +19,16 @@ class Command extends AbstractComponent
         return $this->validate($response);
     }
 
+    public function prepare(Client $client, FormattedRequest $request)
+    {
+        $response = $client->post(
+            '/ship/prepare',
+            $request->getRequest()
+        );
+
+        return $this->validate($response);
+    }
+    
     public function confirm(Client $client, FormattedRequest $request)
     {
         $response = $client->post(

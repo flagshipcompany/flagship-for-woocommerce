@@ -139,9 +139,9 @@ msgstr "FlagShip API Erreur: "
 
 #: src/Components/Shipping/Controller/MetaboxController.php:58
 #, php-format
-msgid "You have flagship shipment for this order. FlagShip ID (%s)"
+msgid "You have a dispatched FlagShip shipment for this order. FlagShip ID (%s)"
 msgstr ""
-"Vous avez une expédition FlagShip pour cette commande. FlagShip ID (%s)"
+"Vous avez une expédition FlagShip expédié pour cette commande. FlagShip ID (%s)"
 
 #: src/Components/Shipping/Controller/MetaboxController.php:95
 #, php-format
@@ -794,6 +794,10 @@ msgstr "attention"
 msgid "Void Shipment"
 msgstr "Annuler cette expédition"
 
+#: templates/meta-boxes/order-flagship-shipping-actions.php:63
+msgid "This order has already been exported to FlagShip:"
+msgstr "Cette commande a déjà été exportée vers FlagShip"
+
 #: templates/meta-boxes/order-flagship-shipping-actions.php:64
 msgid "Client Choosen Rate"
 msgstr "Service choisi par le client"
@@ -847,6 +851,10 @@ msgstr "Téléphone (Requis):"
 #: templates/meta-boxes/order-flagship-shipping-actions.php:157
 msgid "Amount (Required):"
 msgstr "Montant (Requis):"
+
+#: templates/meta-boxes/order-flagship-shipping-actions.php:157
+msgid "Export to FlagShip"
+msgstr "Exporter vers FlagShip"
 
 #: templates/meta-boxes/order-flagship-shipping-actions.php:177
 msgid "Signature Required"

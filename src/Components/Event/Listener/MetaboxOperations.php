@@ -28,6 +28,7 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
                 'shipment-create' => 'createShipment',
                 'shipment-void' => 'voidShipment',
                 'shipment-requote' => 'requoteShipment',
+                'shipment-export' => 'exportShipment',
                 'pickup-schedule' => 'schedulePickup',
                 'pickup-void' => 'voidPickup',
             ])

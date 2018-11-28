@@ -6,9 +6,13 @@ use FS\Components\AbstractComponent;
 use FS\Components\Shipping\Object\Shipping;
 use FS\Components\Web\RequestParam as Req;
 use FS\Context\ApplicationContext as Context;
+use FS\Injection\I;
 
 class MetaboxController extends AbstractComponent
 {
+    // public static $flagshipUrl = 'https://smartship-ng.flagshipcompany.com';
+    public static $flagshipUrl = 'http://ng.smartship.local';
+
     public static $tokenMissingMessage = 'FlagShip API token missing. Please create a FlagShip API token and save in the plugin settings.<br/>';
 
     public static $noRatesMessage = 'Flagship Shipping has some difficulty in retrieving the rates. Please contact site administrator for assistance.<br/>';
@@ -25,6 +29,22 @@ class MetaboxController extends AbstractComponent
             return $context->render('meta-boxes/order-flagship-shipping-actions', [
                 'type' => 'created',
                 'shipment' => $shipment->toArray(),
+            ]);
+        }
+
+        if ($shipment->isExported()) {
+            $exportedShipmentId = $shipment->getExportedShipmentId();
+            $exportedShipment = $this->getShipment($context, $exportedShipmentId);
+        }
+
+        if (!empty($exportedShipment)) {
+            $shipmentStatus = $exportedShipment['status'];
+            $urlAction = in_array($shipmentStatus, ['dispatched', 'manifested', 'cancelled']) ? 'overview' : 'convert';
+
+            return $context->render('meta-boxes/order-flagship-shipping-actions', [
+                'type' => 'exported',
+                'exportedShipmentId' => $exportedShipmentId,
+                'shipmentUrl' => self::$flagshipUrl.'/shipping/'.$exportedShipmentId.'/'.$urlAction,
             ]);
         }
 
@@ -60,7 +80,7 @@ class MetaboxController extends AbstractComponent
         $shipment = $shipping->getShipment();
 
         if ($shipment->isCreated()) {
-            $context->alert()->warning('You have flagship shipment for this order. FlagShip ID (%s)', [$shipment->getId()]);
+            $context->alert()->warning('You have a dispatched flagship shipment for this order. FlagShip ID (%s)', [$shipment->getId()]);
 
             return $this;
         }
@@ -187,6 +207,51 @@ class MetaboxController extends AbstractComponent
         }
     }
 
+    public function exportShipment(Req $request, Context $context, Shipping $shipping)
+    {
+        $shipment = $shipping->getShipment();
+
+        if ($shipment->isCreated()) {
+            $context->alert()->warning('You have a dispatched FlagShip shipment for this order. FlagShip ID (%s)', [$shipment->getId()]);
+
+            return $this;
+        }
+
+        if (!$context->option('token')) {
+            $context->alert()->error(self::$tokenMissingMessage);
+
+            return;
+        }
+
+        $order = $shipping->getOrder();
+
+        $factory = $context
+            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
+
+        $response = $context->command()->prepare(
+            $context->api(),
+            $factory->setPayload([
+                'shipping' => $shipping,
+                'request' => $request,
+                'options' => $context->option(),
+            ])->getRequest()
+        );
+
+        if (!$response->isSuccessful()) {
+            return;
+        }
+
+        $responseContent = $response->getContent();
+        $shipment->set([
+            'flagship_id' =>  $responseContent['id'],
+            'exported' => true,
+        ]);
+
+        $shipping->save([
+            'save_meta_keys' => true,
+        ]);
+    }
+
     public function schedulePickup(Req $request, Context $context, Shipping $shipping)
     {
         $shipment = $shipping->getShipment();
@@ -249,5 +314,20 @@ class MetaboxController extends AbstractComponent
         $shipping->getShipment()->remove('pickup');
 
         $shipping->save();
+    }
+
+    protected function getShipment(Context $context, $shipmentId)
+    {
+        if (!$context->option('token')) {
+            return;
+        }
+
+        $response = $context->api()->get('/ship/shipments/'.$shipmentId);
+
+        if (!$response->isSuccessful()) {
+            return;
+        }
+
+        return $response->getContent();
     }
 }

@@ -13,6 +13,11 @@ class FormattedRequest implements FormattedRequestInterface
         $this->request[$key] = $data;
     }
 
+    public function remove($key)
+    {
+        unset($this->request[$key]);
+    }
+
     public function getRequest()
     {
         return $this->request;

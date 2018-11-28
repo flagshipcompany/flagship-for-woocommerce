@@ -60,6 +60,8 @@
         <button class="button flagship-shipping-action" data-shipment-action="shipment-void"><?php _e('Void Shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
     </li>
 </ul>
+<?php elseif ($type == 'exported'): ?>
+    <p><?php _e('This order has already been exported to FlagShip: ', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?><a href="<?php echo $shipmentUrl; ?>" target=”_blank”><?php echo $exportedShipmentId; ?></a></p>
 <?php elseif ($type == 'create'): ?>
     <p><?php _e('Client Choosen Rate', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>:</p>
     <?php
@@ -153,6 +155,7 @@
 
     <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-create"><?php _e('Create shipment', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
     <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-requote"><?php _e('Requote', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
+    <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-export"><?php _e('Export to FlagShip', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
 <script type="text/javascript">
 (function($){
     $('#flagship_shipping_enable_insurance').click(function(){
@@ -185,6 +188,7 @@
     <?php else: ?>
     <button type="submit" class="button button-primary flagship-shipping-action" data-shipment-action="shipment-requote"><?php _e('Get a quote', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>!</button>
     <?php endif; ?>
+    <button type="submit" class="button flagship-shipping-action" data-shipment-action="shipment-export"><?php _e('Export to FlagShip', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></button>
 <?php endif; ?>
 <script type="text/javascript">
 (function($){

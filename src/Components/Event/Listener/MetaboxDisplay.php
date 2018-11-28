@@ -28,6 +28,12 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
             ->before(function ($context) use ($shipping) {
                 // apply middlware function before invoke controller method
                 $context->alert(Notifier::SCOPE_SHOP_ORDER, ['order' => $shipping->getOrder()]);
+
+                $service = $shipping->getService();
+                $option = $context
+                    ->option()
+                    ->sync($service['instance_id'] ? $service['instance_id'] : false);
+                $context->api($option);
             })
             ->after(function ($context) {
                 // as we are in metabox,
