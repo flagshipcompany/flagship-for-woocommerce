@@ -6,12 +6,10 @@ use FS\Components\AbstractComponent;
 use FS\Components\Shipping\Object\Shipping;
 use FS\Components\Web\RequestParam as Req;
 use FS\Context\ApplicationContext as Context;
-use FS\Injection\I;
 
 class MetaboxController extends AbstractComponent
 {
-    // public static $flagshipUrl = 'https://smartship-ng.flagshipcompany.com';
-    public static $flagshipUrl = 'http://ng.smartship.local';
+    public static $flagshipUrl = 'https://smartship-ng.flagshipcompany.com';
 
     public static $tokenMissingMessage = 'FlagShip API token missing. Please create a FlagShip API token and save in the plugin settings.<br/>';
 
