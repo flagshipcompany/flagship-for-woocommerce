@@ -187,15 +187,41 @@ class Autoupdate
     protected function getLatestRelease($releases)
     {
         $v3 = (bool) version_compare(wc()->version, '3.0', '>=');
+        
+        $v3Releases = array_filter($releases, function ($release) {
+            $tagName = preg_replace("/[^0-9.]/", "", $release['tag_name']);
 
-        foreach ($releases as $release) {
-            if ($v3 && version_compare($release['tag_name'], '2.0', '>=')) {
-                return $release;
-            }
+            return version_compare($tagName, '2.0', '>=');
+        });
 
-            if (!$v3 && version_compare($release['tag_name'], '2.0', '<')) {
-                return $release;
-            }
+        $v2Releases = array_filter($releases, function ($release) {
+            $tagName = preg_replace("/[^0-9.]/", "", $release['tag_name']);
+
+            return version_compare($tagName, '2.0', '<');
+        });
+
+        if ($v3 && count($v3Releases) > 0 ) {
+            return $this->getLatestReleaseByWcVersion($v3Releases);
         }
+
+        if ($v2 && count($v2Releases) > 0 ) {
+            return $this->getLatestReleaseByWcVersion($v2Releases);
+        }
+    }
+
+    protected function getLatestReleaseByWcVersion($releases)
+    {
+        $latestRelease = reset($releases);
+
+        array_walk($releases, function ($release) use (&$latestRelease) {
+            $tagName = preg_replace("/[^0-9.]/", "", $release['tag_name']);
+            $latestTagName = preg_replace("/[^0-9.]/", "", $latestRelease['tag_name']);
+
+            if (version_compare($tagName, $latestTagName, '>')) {
+                $latestRelease = $release;
+            }
+        });
+
+        return $latestRelease;
     }
 }

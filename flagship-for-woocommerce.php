@@ -8,8 +8,8 @@
  * Author: FlagShip Courier Solution
  * Author URI: https://github.com/flagshipcompany/flagship-for-woocommerce
  * Requires at least: 4.6
- * Tested up to: 4.9.5
- * WC tested up to: 3.5.1
+ * Tested up to: 5.0
+ * WC tested up to: 3.5.2
  *
  * Text Domain: flagship-for-woocommerce
  * Domain Path: /languages/
