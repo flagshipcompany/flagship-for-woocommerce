@@ -48,13 +48,18 @@ class Html extends \FS\Components\AbstractComponent
         echo $this->image($uri, $title, $extras);
     }
 
-    public function ul($arr)
+    public function ul($arr, $classes = array())
     {
         if (!is_array($arr)) {
             return $arr;
         }
 
-        $output = '<ul>';
+        if (count($classes) > 0) {
+            $classString = 'class="'.implode(' ', $classes).'"';
+            $output = '<ul '.$classString.'>';
+        } else {
+            $output = '<ul>';
+        }
 
         foreach ($arr as $k => $v) {
             if (is_array($v)) {

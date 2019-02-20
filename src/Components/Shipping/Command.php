@@ -64,7 +64,7 @@ class Command extends AbstractComponent
         if (!$response->isSuccessful()) {
             $context = $this->getApplicationContext();
 
-            $context->alert()->error('FlagShip API Error: '.$context->_('\\FS\\Components\\Html')->ul($response->getErrors()));
+            $context->alert()->error('<span class="flagship-error-header">FlagShip API Error: </span>'.$context->_('\\FS\\Components\\Html')->ul($response->getErrors(), ['flagship-error']));
         }
 
         return $response;
