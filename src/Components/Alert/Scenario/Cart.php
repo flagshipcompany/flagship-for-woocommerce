@@ -38,7 +38,8 @@ class Cart extends Native
                 continue;
             }
 
-            $html = implode('<br/>', $notifications);
+            $html = \apply_filters('woocommerce_cart_notice_flagship_shipping', implode('<br/>', $notifications));
+
             \wc_add_notice($html, $type);
         }
 
