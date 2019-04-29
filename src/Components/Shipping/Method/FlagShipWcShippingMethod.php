@@ -558,6 +558,11 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'type' => 'checkbox',
                 'default' => 'no',
             ),
+            'add_billing_email_to_tracking' => array(
+                'title' => __('Send tracking updates to billing email', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
+            ),
         );
 
         $disableCourierOptions = $this->makeDisableCourierOptions();

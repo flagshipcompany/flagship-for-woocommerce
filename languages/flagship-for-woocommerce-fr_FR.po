@@ -676,6 +676,10 @@ msgstr "Afficher le temps de transit dans le panier"
 msgid "If checked, the transit times of couriers will be shown"
 msgstr "Si coché, les temps de transit des coursiers seront affichés"
 
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php
+msgid "Send tracking updates to billing email"
+msgstr "Envoyer des mises à jour de suivi à l'email de facturation"
+
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:556
 msgid "If checked, all the shipments to this shipping zone will be signature required on delivery"
 msgstr "Si coché, tous les envois vers cette zone d'expédition seront signés à la livraison"

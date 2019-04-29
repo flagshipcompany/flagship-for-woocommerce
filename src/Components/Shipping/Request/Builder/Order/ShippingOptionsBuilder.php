@@ -45,6 +45,11 @@ class ShippingOptionsBuilder extends AbstractComponent implements BuilderInterfa
         $notificationEmails = $this->getApplicationContext()->option()->get('tracking_emails');
         $trackingEmails = $notificationEmails ? explode(';', $notificationEmails) : [];
 
+        if ($this->getApplicationContext()->option()->get('add_billing_email_to_tracking') == 'yes') {
+            $orderData = $payload['shipping']->getOrder()->native()->get_data();
+            $trackingEmails = !empty($orderData['billing']['email']) ? array_merge($trackingEmails, [$orderData['billing']['email']]) : $trackingEmails;
+        }
+
         if ($request->has('flagship_shipping_tracking_emails')
             && $request->get('flagship_shipping_tracking_emails')) {
             $trackingEmails = array_merge($trackingEmails, explode(';', $request->get('flagship_shipping_tracking_emails')));
