@@ -674,7 +674,7 @@ msgstr "Afficher le temps de transit dans le panier"
 
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php
 msgid "Send tracking updates to billing email"
-msgstr "Envoyer des mises à jour de suivi à le courriel de facturation"
+msgstr "Envoyer des mises à jour de suivi au courriel de facturation"
 
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:540
 msgid "If checked, the transit times of couriers will be shown"

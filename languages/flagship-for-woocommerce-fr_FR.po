@@ -678,7 +678,7 @@ msgstr "Si coché, les temps de transit des coursiers seront affichés"
 
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php
 msgid "Send tracking updates to billing email"
-msgstr "Envoyer des mises à jour de suivi à l'email de facturation"
+msgstr "Envoyer des mises à jour de suivi au email de facturation"
 
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:556
 msgid "If checked, all the shipments to this shipping zone will be signature required on delivery"
