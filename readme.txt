@@ -82,6 +82,8 @@ This is how it might look like your own shipping zone's settings:
 
 == Frequently Asked Questions ==
 
+Technical support will be provided at: developers@flagshipcompany.com, 1-866-320-8383
+
 == Screenshots ==
 
 == Changelog ==
