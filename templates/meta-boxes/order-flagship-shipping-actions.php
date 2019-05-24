@@ -192,14 +192,17 @@
 <?php endif; ?>
 <script type="text/javascript">
 (function($){
+    var flgActionSubmitted = false;
+
     $('.flagship-shipping-action').click(function(e){
-        $('#flagship-shipping-shipment-action').val($(this).attr('data-shipment-action'));
+        if (!flgActionSubmitted) {
+            $('#flagship-shipping-shipment-action').val($(this).attr('data-shipment-action'));
+        }
     });
 
     $('button.button').click(function(e){
-        // $(this).prop('disabled', true);
         if ($(this).data('clicked') !== undefined && $(this).data('clicked')) {
-            $(this).prop('disabled', true);
+            flgActionSubmitted = true;
         } else {
             $(this).data('clicked', true);
         }
