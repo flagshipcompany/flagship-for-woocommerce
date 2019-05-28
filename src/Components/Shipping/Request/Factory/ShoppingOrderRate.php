@@ -59,6 +59,16 @@ class ShoppingOrderRate extends AbstractRequestFactory
             );
         }
 
+        $request->add(
+            'options',
+            $this->makeRequestPart(
+                $factory->resolve('ShippingOptions', array(
+                    'type' => 'order',
+                )),
+                $this->payload + $request->getRequest()
+            )
+        );
+
         return $request;
     }
 }

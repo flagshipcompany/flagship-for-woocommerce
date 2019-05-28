@@ -73,6 +73,12 @@ class Options extends AbstractComponent implements Factory\ComponentPostConstruc
 
         $this->options = I::option($this->wpOptionName);
 
+        //Use the general settings as backup, in case the option in the wp_options gets deleted.
+        if ($instanceId !== false && !$this->options) {
+            $this->setWpOptionName('woocommerce_'.$this->getApplicationContext()->setting('FLAGSHIP_SHIPPING_PLUGIN_ID').'_settings');
+            $this->options = I::option($this->wpOptionName);
+        }
+
         return $this;
     }
 

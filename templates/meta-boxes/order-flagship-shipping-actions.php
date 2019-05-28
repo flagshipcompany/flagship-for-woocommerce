@@ -192,20 +192,8 @@
 <?php endif; ?>
 <script type="text/javascript">
 (function($){
-    var flgActionSubmitted = false;
-
     $('.flagship-shipping-action').click(function(e){
-        if (!flgActionSubmitted) {
-            $('#flagship-shipping-shipment-action').val($(this).attr('data-shipment-action'));
-        }
-    });
-
-    $('button.button').click(function(e){
-        if ($(this).data('clicked') !== undefined && $(this).data('clicked')) {
-            flgActionSubmitted = true;
-        } else {
-            $(this).data('clicked', true);
-        }
+        $('#flagship-shipping-shipment-action').val($(this).attr('data-shipment-action'));
     });
 })(jQuery);
 </script>

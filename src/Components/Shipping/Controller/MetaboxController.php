@@ -170,6 +170,7 @@ class MetaboxController extends AbstractComponent
             $context->api(),
             $factory->setPayload([
                 'shipping' => $shipping,
+                'request' => $request,
                 'options' => $context->option(),
             ])->getRequest()
         );
