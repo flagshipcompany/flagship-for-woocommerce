@@ -256,6 +256,7 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
 
         $request = $factory->setPayload(array(
             'shipping' => $this->shipping,
+            'request' => $this->getApplicationContext()->_('\\FS\\Components\\Web\\RequestParam'),
             'options' => $options,
         ))->getRequest();
 
