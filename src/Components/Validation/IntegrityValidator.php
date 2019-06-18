@@ -15,6 +15,7 @@ class IntegrityValidator extends AbstractValidator
                 'city' => $target['freight_shipper_city'],
                 'postal_code' => $target['origin'],
                 'address' => $target['freight_shipper_street'],
+                'suite' => $target['freight_shipper_suite'],
                 'name' => $target['shipper_company_name'],
                 'attn' => $target['shipper_person_name'],
                 'phone' => $target['shipper_phone_number'],
