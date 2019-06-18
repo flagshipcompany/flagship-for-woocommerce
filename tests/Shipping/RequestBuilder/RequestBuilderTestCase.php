@@ -38,6 +38,7 @@ class RequestBuilderTestCase extends FlagshipShippingUnitTestCase
             'city' => 'POINTE-CLAIRE',
             'postal_code' => 'H9R5P9',
             'address' => '148 Brunswick',
+            'suite' => null,
             'name' => 'FlagShip WooCommerce Test App',
             'attn' => 'FlagShip Tester',
             'phone' => '+1 866 320 8383',
