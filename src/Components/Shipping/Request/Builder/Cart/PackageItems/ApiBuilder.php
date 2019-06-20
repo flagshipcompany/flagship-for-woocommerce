@@ -44,6 +44,36 @@ class ApiBuilder extends FallbackBuilder implements BuilderInterface
             );
         }
 
+        $usedBoxes = $this->getBoxesUsed($body['packages'], $options->get('package_box'));
+        $this->saveBoxes($usedBoxes);
+
         return $items;
+    }
+
+    protected function saveBoxes(array $boxes)
+    {
+        $this->boxes = $boxes;
+    }
+
+    protected function getBoxesUsed(array $packedBoxes, array $availableBoxes)
+    {
+        $packedBoxesCopy = $packedBoxes;
+
+        foreach ($packedBoxes as $packedBoxKey => $packedBox) {
+            $packedBoxDimensions = [$packedBox['length'], $packedBox['width'], $packedBox['height']];
+            sort($packedBoxDimensions);
+
+            foreach ($availableBoxes as $key => $box) {
+                $boxDimensions = [$box['length'], $box['width'], $box['height']];
+                sort($boxDimensions);
+
+                if ($packedBox['box_model'] == $box['model_name'] && $packedBoxDimensions == $boxDimensions) {
+                    $packedBoxesCopy[$packedBoxKey]['markup'] = isset($box['markup']) ? $box['markup'] : null;
+                    break;
+                }
+            }
+        }
+
+        return $packedBoxesCopy;
     }
 }

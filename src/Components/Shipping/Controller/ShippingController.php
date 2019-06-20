@@ -55,7 +55,8 @@ class ShippingController extends AbstractComponent
                 'factory' => $rateProcessorFactory,
                 'options' => $context->option(),
                 'instanceId' => property_exists($method, 'instance_id') ? $method->instance_id : false,
-                'methodId' => $context->setting('FLAGSHIP_SHIPPING_PLUGIN_ID'),
+                'methodId' => $context->setting('FLAGSHIP_S,HIPPING_PLUGIN_ID'),
+                'extra_info' => $factory->getExtraReqInfo(),
             ]);
 
         foreach ($rates as $rate) {

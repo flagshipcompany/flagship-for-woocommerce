@@ -52,7 +52,14 @@ class IntegrityValidator extends AbstractValidator
         $response = $context->api()->post('/ship/rates', $request);
 
         if (!$response->isSuccessful()) {
-            $context->alert()->error('<strong>Shipping Integrity Failure:</strong> <br/>');
+            $statusCode = $response->getStatusCode();
+            $errorMsg = 'Address integrity test failure.';
+
+            if ($statusCode == 403) {
+                $errorMsg .= ' Invalid FlagShip API token';
+            }
+            
+            $context->alert()->error(sprintf('<strong>%s</strong><br/>', $errorMsg));
 
             // show 'FlagShip API Error: ' first
             $context->alert()->getScenario()->reverseOrdering('error');

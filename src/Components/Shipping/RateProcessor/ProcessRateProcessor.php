@@ -13,6 +13,7 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
         $instanceId = $payload['instanceId'];
         $factory = $payload['factory'];
         $methodId = $payload['methodId'];
+        $extraInfo = isset($payload['extra_info']) ? $payload['extra_info'] : [];
 
         $rates = $factory
             ->resolve('EnabledRate')
@@ -51,6 +52,7 @@ class ProcessRateProcessor extends AbstractComponent implements RateProcessorInt
                 'instanceId' => $instanceId,
                 'showTransitTime' => ($options->get('show_transit_time') == 'yes'),
                 'fakeDiscountRate' => $options->get('allow_fake_cart_rate_discount') == 'yes' ? $options->get('fake_cart_rate_discount') : 0,
+                'extra_info' => $extraInfo,
             ]);
 
 

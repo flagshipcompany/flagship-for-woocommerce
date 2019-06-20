@@ -8,6 +8,8 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
 {
     public static $scope = 'prototype';
 
+    protected $boxes = [];
+
     public function build($payload = null)
     {
         $packages = [
@@ -21,6 +23,10 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
             if ($item['weight'] < 1) {
                 $packages['items'][$key]['weight'] = 1;
             }
+        }
+
+        if ($this->boxes) {
+            $packages['extra_info'] = ['boxes' => $this->boxes];
         }
 
         return $packages;

@@ -938,6 +938,10 @@ msgstr "Poids (LBS)"
 msgid "Max. Supported (LB)"
 msgstr "Poids Max. (LBS)"
 
+#: templates/option/package-box.php
+msgid "(optional) Shipping Rate Adjustment ($)"
+msgstr "(facultatif) Ajustement du Taux d'expédition ($)"
+
 #: templates/option/package-box.php:41
 msgid "+ Add package box"
 msgstr "Ajouter une boîte"
@@ -945,6 +949,10 @@ msgstr "Ajouter une boîte"
 #: templates/option/package-box.php:44
 msgid "Remove selected package box(es)"
 msgstr "Enlever une(des) boîte(s)"
+
+#: templates/option/package-box.php
+msgid "If set, an additional fee will be charged on each package using this model of box"
+msgstr "Si défini, des frais supplémentaires seront facturés sur chaque colis utilisant ce modèle de boîte"
 
 #, fuzzy
 #~| msgid " is not a valid phone number."
@@ -1009,3 +1017,11 @@ msgstr "Enlever une(des) boîte(s)"
 #, fuzzy
 #~ msgid "Enable FlagShip Shipping"
 #~ msgstr "Activer FlagShip Expédition"
+
+#: src/Components/Validation/IntegrityValidator.php:
+msgid "Address integrity test failure"
+msgstr "Échec du test d'intégrité d'adresse"
+
+#: src/Components/Validation/IntegrityValidator.php:
+msgid "Invalid API token"
+msgstr "Clef d'API FlagShip invalide"

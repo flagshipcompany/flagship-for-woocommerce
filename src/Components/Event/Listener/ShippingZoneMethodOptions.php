@@ -55,9 +55,11 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
             $height = array_map('wc_clean', $rawHeight);
             $rawMaxWeight = $request->request->get('package_box_max_weight');
             $maxWeight = array_map('wc_clean', $rawMaxWeight);
+            $rawMarkup = $request->request->get('package_box_markup', []);
+            $markup = array_map('wc_clean', $rawMarkup);
 
             foreach ($modelNames as $i => $name) {
-                if (!isset($modelNames[$i]) || !$this->checkPositiveNumber($length[$i]) || !$this->checkPositiveNumber($width[$i]) || !$this->checkPositiveNumber($height[$i]) || !$this->checkPositiveNumber($maxWeight[$i])) {
+                if (!isset($modelNames[$i]) || !$this->checkPositiveNumber($length[$i]) || !$this->checkPositiveNumber($width[$i]) || !$this->checkPositiveNumber($height[$i]) || !$this->checkPositiveNumber($maxWeight[$i]) || (isset($markup[$i]) && !empty($markup[$i]) && !$this->checkPositiveNumber($markup[$i]))) {
                     continue;
                 }
 
@@ -67,6 +69,7 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
                     'width' => $width[ $i ],
                     'height' => $height[ $i ],
                     'max_weight' => $maxWeight[ $i ],
+                    'markup' => isset($markup[ $i ]) ? $markup[ $i ] : null,
                 );
             }
         }

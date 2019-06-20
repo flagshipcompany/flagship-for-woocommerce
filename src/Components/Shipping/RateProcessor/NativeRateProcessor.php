@@ -14,11 +14,17 @@ class NativeRateProcessor extends AbstractComponent implements RateProcessorInte
         $methodId = $payload['methodId'];
         $showTransitTime =  $payload['showTransitTime'];
         $fakeDiscountRate = $payload['fakeDiscountRate'];
+        $extraMarkupForBox = $this->getExtraBoxMarkup($payload['extra_info']);
 
         $nativeRates = [];
 
         foreach ($rates as $rate) {
             $markupCost = ($markup['type'] == 'percentage') ? (floatval($rate['price']['subtotal']) * floatval($markup['rate']) / 100) : floatval($markup['rate']);
+
+            if ($extraMarkupForBox) {
+                $markupCost += $extraMarkupForBox;
+            }
+
             $cost = $taxEnabled ? $rate['price']['total'] : $rate['price']['subtotal'];
 
             $transitTimeText = '';
@@ -65,5 +71,20 @@ class NativeRateProcessor extends AbstractComponent implements RateProcessorInte
         $transitDaysText = $transitTime > 1 ? $transitTime . ' days' : $transitTime . ' day';
 
         return ' (Time in transit '.$transitDaysText.')';
+    }
+
+    protected function getExtraBoxMarkup(array $extraInfo)
+    {
+        if (empty($extraInfo['boxes'])) {
+            return;
+        }
+
+        $extraMarkup = 0;
+
+        foreach ($extraInfo['boxes'] as $key => $box) {
+            $extraMarkup += isset($box['markup']) ? $box['markup'] : 0;
+        }
+
+        return $extraMarkup;
     }
 }

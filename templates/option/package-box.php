@@ -11,6 +11,9 @@
                     <th><?php _e('Width (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
                     <th><?php _e('Height (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
                     <th><?php _e('Max. Supported (LB)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
+                    <th><?php _e('(optional) Shipping Rate Adjustment ($)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
+                        <?php echo wc_help_tip(__('If set, an additional fee will be charged on each package using this model of box', FLAGSHIP_SHIPPING_TEXT_DOMAIN)); ?>
+                    </th>
                 </tr>
             </thead>
             <tbody class="accounts">
@@ -20,6 +23,8 @@
                 foreach ($packageBoxes as $box) {
                     ++$i;
 
+                    $markup = isset($box['markup']) ? $box['markup'] : null;
+
                     echo '<tr class="package_box">
                                         <td class="sort"></td>
                                         <td><input type="text" value="'.esc_attr(wp_unslash($box['model_name'])).'" name="package_box_model_name['.$i.']" /></td>
@@ -27,6 +32,7 @@
                                         <td><input type="number" value="'.esc_attr($box['width']).'" name="package_box_width['.$i.']" style="min-width: 80px" /></td>
                                         <td><input type="number" value="'.esc_attr($box['height']).'" name="package_box_height['.$i.']" style="min-width: 80px" /></td>
                                         <td><input type="number" value="'.esc_attr($box['max_weight']).'" name="package_box_max_weight['.$i.']" style="min-width: 80px" /></td>
+                                        <td><input type="number" value="'.esc_attr($markup).'" name="package_box_markup['.$i.']" style="min-width: 80px" /></td>
                                     </tr>';
                 }
             }
@@ -58,6 +64,7 @@
                                 <td><input type="number" name="package_box_width[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" name="package_box_height[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" name="package_box_max_weight[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" name="package_box_markup[' + size + ']" style="min-width: 80px" /></td>\
                             </tr>').appendTo('#package_box_collection table tbody');
 
                         return false;

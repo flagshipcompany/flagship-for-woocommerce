@@ -11,6 +11,7 @@ abstract class AbstractRequestFactory extends AbstractComponent implements Forma
 {
     protected $payload;
     protected static $scope = 'prototype';
+    protected $extraInfo = [];
 
     public function getRequest()
     {
@@ -30,10 +31,27 @@ abstract class AbstractRequestFactory extends AbstractComponent implements Forma
         return $this;
     }
 
+    public function getExtraReqInfo()
+    {
+        return $this->extraInfo;
+    }
+
+    public function addExtraReqInfo(array $extraInfoFromBuilder)
+    {
+        $this->extraInfo = array_merge($this->extraInfo, $extraInfoFromBuilder);
+    }
+
     abstract public function makeRequest(FormattedRequestInterface $request, RequestBuilderFactory $factory);
 
     protected function makeRequestPart(BuilderInterface $builder, $data)
     {
-        return $builder->build($data);
+        $requestPart = $builder->build($data);
+
+        if (isset($requestPart['extra_info'])) {
+            $this->addExtraReqInfo($requestPart['extra_info']);
+            unset($requestPart['extra_info']);
+        }
+
+        return $requestPart;
     }
 }
