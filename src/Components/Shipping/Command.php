@@ -19,8 +19,12 @@ class Command extends AbstractComponent
         return $this->validate($response);
     }
 
-    public function prepare(Client $client, FormattedRequest $request)
+    public function prepare(Client $client, FormattedRequest $request, $headers = [])
     {
+        if ($headers) {
+            $client = $this->addApiClientHeaders($client, $headers);
+        }
+
         $response = $client->post(
             '/ship/prepare',
             $request->getRequest()
@@ -29,8 +33,12 @@ class Command extends AbstractComponent
         return $this->validate($response);
     }
     
-    public function confirm(Client $client, FormattedRequest $request)
+    public function confirm(Client $client, FormattedRequest $request, $headers = [])
     {
+        if ($headers) {
+            $client = $this->addApiClientHeaders($client, $headers);
+        }
+
         $response = $client->post(
             '/ship/confirm',
             $request->getRequest()
@@ -57,6 +65,15 @@ class Command extends AbstractComponent
         );
 
         return $this->validate($response);
+    }
+
+    protected function addApiClientHeaders(Client $client, $headers)
+    {
+        foreach ($headers as $key => $value) {
+            $client->addHeader($key, $value);
+        }
+
+        return $client;
     }
 
     protected function validate(Response $response)

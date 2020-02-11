@@ -10,9 +10,13 @@ class Client extends AbstractComponent implements ComponentInitializingInterface
 {
     protected $options = [];
 
+    protected $headers = [];
+
     public function afterPropertiesSet()
     {
         $this->options['runner'] = new HttpClient();
+
+        $this->setDefaultHeaders();
     }
 
     public function withOptions(array $options = [])
@@ -32,6 +36,8 @@ class Client extends AbstractComponent implements ComponentInitializingInterface
     public function setToken($token)
     {
         $this->options['token'] = $token;
+
+        $this->addHeader('X-Smartship-Token', $token);
 
         return $this;
     }
@@ -82,17 +88,33 @@ class Client extends AbstractComponent implements ComponentInitializingInterface
         return $response;
     }
 
+    public function addHeader($name, $value)
+    {
+        $this->headers[$name] = $value;
+
+        return $this;
+    }
+
     protected function getHeaders($json = false)
     {
-        $headers = [];
+        $headers = $this->headers;
 
-        $headers['X-Smartship-Token'] = $this->options['token'];
-        $headers['X-F4WC-Version'] = $this->getApplicationContext()->setting('FLAGSHIP_FOR_WOOCOMMERCE_VERSION');
-
-        if ($json) {
-            $headers['Content-Type'] = 'application/json';
+        if (!$json) {
+            unset($headers['Content-Type']);
         }
 
         return $headers;
+    }
+
+    protected function setDefaultHeaders()
+    {
+        $headers = [];
+
+        $headers['X-F4WC-Version'] = $this->getApplicationContext()->setting('FLAGSHIP_FOR_WOOCOMMERCE_VERSION');
+        $headers['X-App-Name'] = 'woocommerce';
+        $headers['X-Store-Name'] = get_site_url();
+        $headers['Content-Type'] = 'application/json';
+
+        $this->headers = $headers;
     }
 }

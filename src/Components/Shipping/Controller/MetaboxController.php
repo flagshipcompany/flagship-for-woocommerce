@@ -6,6 +6,7 @@ use FS\Components\AbstractComponent;
 use FS\Components\Shipping\Object\Shipping;
 use FS\Components\Web\RequestParam as Req;
 use FS\Context\ApplicationContext as Context;
+use FS\Components\Shipping\Object\Order;
 
 class MetaboxController extends AbstractComponent
 {
@@ -94,13 +95,16 @@ class MetaboxController extends AbstractComponent
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderConfirmation');
 
+        $headers = $this->makeOrderHeaders($order);
+
         $response = $context->command()->confirm(
             $context->api(),
             $factory->setPayload([
                 'shipping' => $shipping,
                 'request' => $request,
                 'options' => $context->option(),
-            ])->getRequest()
+            ])->getRequest(),
+            $headers,
         );
 
         if (!$response->isSuccessful()) {
@@ -224,6 +228,8 @@ class MetaboxController extends AbstractComponent
 
         $order = $shipping->getOrder();
 
+        $headers = $this->makeOrderHeaders($order);
+
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
 
@@ -233,7 +239,8 @@ class MetaboxController extends AbstractComponent
                 'shipping' => $shipping,
                 'request' => $request,
                 'options' => $context->option(),
-            ])->getRequest()
+            ])->getRequest(),
+            $headers,
         );
 
         if (!$response->isSuccessful()) {
@@ -328,5 +335,15 @@ class MetaboxController extends AbstractComponent
         }
 
         return $response->getContent();
+    }
+
+    protected function makeOrderHeaders(Order $order)
+    {
+        $orderId = $order->getId();
+
+        return [
+            'X-Order-Id' => $orderId,
+            'X-Order-Link' => get_edit_post_link($orderId, null),
+        ];
     }
 }
