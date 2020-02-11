@@ -104,7 +104,7 @@ class MetaboxController extends AbstractComponent
                 'request' => $request,
                 'options' => $context->option(),
             ])->getRequest(),
-            $headers,
+            $headers
         );
 
         if (!$response->isSuccessful()) {
@@ -240,7 +240,7 @@ class MetaboxController extends AbstractComponent
                 'request' => $request,
                 'options' => $context->option(),
             ])->getRequest(),
-            $headers,
+            $headers
         );
 
         if (!$response->isSuccessful()) {
