@@ -8,7 +8,7 @@
  * Author: FlagShip Courier Solutions
  * Requires at least: 4.6
  * Tested up to: 5.3
- * WC tested up to: 3.8.1
+ * WC tested up to: 3.9.1
  *
  * Text Domain: flagship-for-woocommerce
  * Domain Path: /languages/
