@@ -8,6 +8,7 @@ use FS\Components\Event\NativeHookInterface;
 use FS\Context\ConfigurableApplicationContextInterface as Context;
 use FS\Context\ApplicationEventInterface as Event;
 use FS\Components\Event\ApplicationEvent;
+use FS\Components\Shipping\Request\Builder\PackageBoxBuilder;
 
 class ShippingZoneMethodOptions extends AbstractComponent implements ApplicationListenerInterface, NativeHookInterface
 {
@@ -58,12 +59,17 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
             $rawMarkup = $request->request->get('package_box_markup', []);
             $markup = array_map('wc_clean', $rawMarkup);
 
+            $innerLengthArray = array_map('wc_clean', $request->request->get('package_box_inner_length', []));
+            $innerWidthArray = array_map('wc_clean', $request->request->get('package_box_inner_width', []));
+            $innerHeightArray = array_map('wc_clean', $request->request->get('package_box_inner_height', []));
+            $weightArray = array_map('wc_clean', $request->request->get('package_box_weight', []));
+
             foreach ($modelNames as $i => $name) {
                 if (!isset($modelNames[$i]) || !$this->checkPositiveNumber($length[$i]) || !$this->checkPositiveNumber($width[$i]) || !$this->checkPositiveNumber($height[$i]) || !$this->checkPositiveNumber($maxWeight[$i]) || (isset($markup[$i]) && !empty($markup[$i]) && !$this->checkPositiveNumber($markup[$i]))) {
                     continue;
                 }
 
-                $fields['package_box'][] = array(
+                $packageBox = array(
                     'model_name' => $modelNames[ $i ],
                     'length' => $length[ $i ],
                     'width' => $width[ $i ],
@@ -71,6 +77,16 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
                     'max_weight' => $maxWeight[ $i ],
                     'markup' => isset($markup[ $i ]) ? $markup[ $i ] : null,
                 );
+
+                $optionalValues = [
+                    'inner_length' => isset($innerLengthArray[ $i ]) ? $innerLengthArray[ $i ] : null,
+                    'inner_width' => isset($innerWidthArray[ $i ]) ? $innerWidthArray[ $i ] : null,
+                    'inner_height' => isset($innerHeightArray[ $i ]) ? $innerHeightArray[ $i ] : null,
+                    'weight' => isset($weightArray[ $i ]) ? $weightArray[ $i ] : null,
+                ];
+
+                $packageBox = PackageBoxBuilder::addOptionalValues($packageBox, $optionalValues);
+                $fields['package_box'][] = $packageBox;
             }
         }
 

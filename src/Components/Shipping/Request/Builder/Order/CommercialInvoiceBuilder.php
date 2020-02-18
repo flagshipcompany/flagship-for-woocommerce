@@ -45,7 +45,7 @@ class CommercialInvoiceBuilder extends AbstractComponent implements BuilderInter
                 'country_of_origin' => 'CA',
                 'quantity' => $order_item['qty'],
                 'unit_price' => $product->get_price(),
-                'unit_weight' => max(1, ceil(wc_get_weight($product->get_weight(), 'kg'))),
+                'unit_weight' => round(wc_get_weight($product->get_weight(), 'kg'), 2),
                 'unit_of_measurement' => 'kilogram',
             );
         }

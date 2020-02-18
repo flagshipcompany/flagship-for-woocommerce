@@ -6,14 +6,27 @@
             <thead>
                 <tr>
                     <th class="sort">&nbsp;</th>
-                    <th><?php _e('Model Name', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
-                    <th><?php _e('Length (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
-                    <th><?php _e('Width (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
-                    <th><?php _e('Height (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
-                    <th><?php _e('Max. Supported (LB)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
-                    <th><?php _e('(optional) Shipping Rate Adjustment ($)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
+                    <th class="package_box_header_col"><?php _e('Model Name', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
+                    <th colspan="2" class="package_box_header_col"><?php _e('Length (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th colspan="2" class="package_box_header_col"><?php _e('Width (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
+                    <th colspan="2" class="package_box_header_col"><?php _e('Height (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
+                    <th colspan="2" class="package_box_header_col"><?php _e('Weight (LB)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
+                    <th class="package_box_header_col"><?php _e('Markup ($)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
                         <?php echo wc_help_tip(__('If set, an additional fee will be charged on each package using this model of box', FLAGSHIP_SHIPPING_TEXT_DOMAIN)); ?>
                     </th>
+                </tr>
+                <tr>
+                    <th class="sort">&nbsp;</th>
+                    <th></th>
+                    <th class="package_box_header_col"><?php _e('Outer', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col"><?php _e('Inner', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col"><?php _e('Outer', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col"><?php _e('Inner', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col"><?php _e('Outer', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col"><?php _e('Inner', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col"><?php _e('Supported', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col"><?php _e('Empty', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody class="accounts">
@@ -29,9 +42,13 @@
                                         <td class="sort"></td>
                                         <td><input type="text" value="'.esc_attr(wp_unslash($box['model_name'])).'" name="package_box_model_name['.$i.']" /></td>
                                         <td><input type="number" value="'.esc_attr($box['length']).'" name="package_box_length['.$i.']" style="min-width: 80px" /></td>
+                                        <td><input type="number" value="'.esc_attr($box['inner_length']).'" name="package_box_inner_length['.$i.']" style="min-width: 80px" /></td>
                                         <td><input type="number" value="'.esc_attr($box['width']).'" name="package_box_width['.$i.']" style="min-width: 80px" /></td>
+                                        <td><input type="number" value="'.esc_attr($box['inner_width']).'" name="package_box_inner_width['.$i.']" style="min-width: 80px" /></td>
                                         <td><input type="number" value="'.esc_attr($box['height']).'" name="package_box_height['.$i.']" style="min-width: 80px" /></td>
+                                        <td><input type="number" value="'.esc_attr($box['inner_height']).'" name="package_box_inner_height['.$i.']" style="min-width: 80px" /></td>
                                         <td><input type="number" value="'.esc_attr($box['max_weight']).'" name="package_box_max_weight['.$i.']" style="min-width: 80px" /></td>
+                                        <td><input type="number" value="'.esc_attr($box['weight']).'" name="package_box_weight['.$i.']" style="min-width: 80px" /></td>
                                         <td><input type="number" value="'.esc_attr($markup).'" name="package_box_markup['.$i.']" style="min-width: 80px" /></td>
                                     </tr>';
                 }
@@ -40,7 +57,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="7">
+                    <th colspan="11">
                         <a href="#" class="add button">
                             <?php _e('+ Add package box', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
                         </a>&nbsp;
@@ -51,6 +68,9 @@
                 </tr>
             </tfoot>
         </table>
+        <p class="description">
+            <?php _e('Outer dimensions are required. Inner dimensions are optional. Supported weight is the maximum supported weight. Empty weight is the weight of an empty box. Markup is optional.', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>    
+        </p>
         <script type="text/javascript">
             (function($, window){
                 $(function(){
@@ -60,10 +80,14 @@
                         $('<tr class="package_box">\
                                 <td class="sort"></td>\
                                 <td><input type="text" name="package_box_model_name[' + size + ']" /></td>\
-                                <td><input type="number" name="package_box_length[' + size + ']" style="min-width: 80px" /></td>\
-                                <td><input type="number" name="package_box_width[' + size + ']" style="min-width: 80px" /></td>\
-                                <td><input type="number" name="package_box_height[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input class="outer_dim" type="number" name="package_box_length[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" name="package_box_inner_length[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" class="outer_dim" name="package_box_width[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" name="package_box_inner_width[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" class="outer_dim" name="package_box_height[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" name="package_box_inner_height[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" name="package_box_max_weight[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><input type="number" name="package_box_weight[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" name="package_box_markup[' + size + ']" style="min-width: 80px" /></td>\
                             </tr>').appendTo('#package_box_collection table tbody');
 
@@ -80,5 +104,11 @@
                 });
             })(jQuery, window);
         </script>
+        <style type="text/css">
+            .package_box_header_col {
+                border: 1px solid;
+                border-color: rgb(223, 223, 223);
+            }
+        </style>
     </td>
 </tr>

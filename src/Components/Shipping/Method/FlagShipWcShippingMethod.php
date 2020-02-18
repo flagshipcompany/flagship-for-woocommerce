@@ -5,6 +5,7 @@ namespace FS\Components\Shipping\Method;
 use FS\Components\Event\ApplicationEvent;
 use FS\Injection\I;
 use FS\Components\Shipping\Object\Courier;
+use FS\Components\Shipping\Request\Builder\PackageBoxBuilder;
 
 class FlagShipWcShippingMethod extends \WC_Shipping_Method
 {
@@ -213,6 +214,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         ob_start();
 
         $packageBoxes = $this->instance_id ? $this->get_instance_option($key, []) : $this->get_option($key, []);
+        $packageBoxes = PackageBoxBuilder::format_package_boxes($packageBoxes);
 
         $this->ctx->render('option/package-box', [
             'packageBoxes' => $packageBoxes,

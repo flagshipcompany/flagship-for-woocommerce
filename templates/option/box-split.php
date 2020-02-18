@@ -10,7 +10,7 @@
 				foreach ( $options as $key => $val ) {
 				   ?>
 				   <label for="<?php echo $field_name; ?>">
-					<input class="" type="radio" name="<?php echo $field_name; ?>" id="<?php echo $field_name; ?>" style="" value="<?php echo $key; ?>" <?php if ($key === $box_split_option) { echo 'checked'; } ?>><?php echo $val; ?>
+					<input class="" type="radio" name="<?php echo $field_name; ?>" id="<?php echo $field_name.'_'.$val; ?>" style="" value="<?php echo $key; ?>" <?php if ($key === $box_split_option) { echo 'checked'; } ?>><?php echo $val; ?>
 				</label>
 				   <?php 
 				}

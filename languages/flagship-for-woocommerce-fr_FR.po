@@ -934,9 +934,29 @@ msgstr "H (po)"
 msgid "Weight (LB)"
 msgstr "Poids (LBS)"
 
-#: templates/option/package-box.php:14
-msgid "Max. Supported (LB)"
-msgstr "Poids Max. (LBS)"
+#: templates/option/package-box.php
+msgid "Outer"
+msgstr "Extérieure"
+
+#: templates/option/package-box.php
+msgid "Inner"
+msgstr "Intérieur"
+
+#: templates/option/package-box.php
+msgid "Supported"
+msgstr "Soutenu"
+
+#: templates/option/package-box.php
+msgid "Empty"
+msgstr "Vide"
+
+#: templates/option/package-box.php
+msgid "Markup ($)"
+msgstr "Marge ($)"
+
+#: templates/option/package-box.php
+msgid "Outer dimensions are required. Inner dimensions are optional. Supported weight is the maximum supported weight. Empty weight is the weight of an empty box. Markup is optional."
+msgstr "Des dimensions extérieures sont requises. Les dimensions intérieures sont facultatives. Le poids soutenus est le poids maximum soutenus. Le poids vide est le poids d'une boîte vide. La marge est facultatif."
 
 #: templates/option/package-box.php
 msgid "(optional) Shipping Rate Adjustment ($)"

@@ -32,7 +32,7 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
                 $service = $shipping->getService();
                 $option = $context
                     ->option()
-                    ->sync($service['instance_id'] ? $service['instance_id'] : false);
+                    ->sync(isset($service['instance_id']) ? $service['instance_id'] : false);
                 $context->api($option);
             })
             ->after(function ($context) {
