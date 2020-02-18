@@ -216,7 +216,7 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
                         'country_of_origin' => 'CA',
                         'quantity' => 4,
                         'unit_price' => '10',
-                        'unit_weight' => 1,
+                        'unit_weight' => 0,
                         'unit_of_measurement' => 'kilogram',
                     ),
                 ),
