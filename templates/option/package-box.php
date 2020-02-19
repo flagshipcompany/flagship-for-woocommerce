@@ -6,7 +6,7 @@
             <thead>
                 <tr>
                     <th class="sort">&nbsp;</th>
-                    <th class="package_box_header_col"><?php _e('Model Name', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
+                    <th class="package_box_header_col required_header"><?php _e('Model Name', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
                     <th colspan="2" class="package_box_header_col"><?php _e('Length (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
                     <th colspan="2" class="package_box_header_col"><?php _e('Width (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
                     <th colspan="2" class="package_box_header_col"><?php _e('Height (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
@@ -18,13 +18,13 @@
                 <tr>
                     <th class="sort">&nbsp;</th>
                     <th></th>
-                    <th class="package_box_header_col"><?php _e('Outer', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col required_header"><?php _e('Outer', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
                     <th class="package_box_header_col"><?php _e('Inner', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
-                    <th class="package_box_header_col"><?php _e('Outer', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col required_header"><?php _e('Outer', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
                     <th class="package_box_header_col"><?php _e('Inner', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
-                    <th class="package_box_header_col"><?php _e('Outer', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col required_header"><?php _e('Outer', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
                     <th class="package_box_header_col"><?php _e('Inner', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
-                    <th class="package_box_header_col"><?php _e('Supported', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th class="package_box_header_col required_header"><?php _e('Supported', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
                     <th class="package_box_header_col"><?php _e('Empty', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
                     <th></th>
                 </tr>
@@ -69,7 +69,7 @@
             </tfoot>
         </table>
         <p class="description">
-            <?php _e('Outer dimensions are required. Inner dimensions are optional. Supported weight is the maximum supported weight. Empty weight is the weight of an empty box. Markup is optional.', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>    
+            <?php _e('Supported weight is the maximum supported weight. Empty weight is the weight of an empty box.', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>    
         </p>
         <script type="text/javascript">
             (function($, window){
@@ -108,6 +108,10 @@
             .package_box_header_col {
                 border: 1px solid;
                 border-color: rgb(223, 223, 223);
+            }
+            .required_header:before {
+              content:"*";
+              color:red;
             }
         </style>
     </td>

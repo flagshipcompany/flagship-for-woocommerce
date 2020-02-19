@@ -955,8 +955,8 @@ msgid "Markup ($)"
 msgstr "Marge ($)"
 
 #: templates/option/package-box.php
-msgid "Outer dimensions are required. Inner dimensions are optional. Supported weight is the maximum supported weight. Empty weight is the weight of an empty box. Markup is optional."
-msgstr "Des dimensions extérieures sont requises. Les dimensions intérieures sont facultatives. Le poids soutenus est le poids maximum soutenus. Le poids vide est le poids d'une boîte vide. La marge est facultatif."
+msgid "Supported weight is the maximum supported weight. Empty weight is the weight of an empty box."
+msgstr "Le poids soutenus est le poids maximum soutenus. Le poids vide est le poids d'une boîte vide."
 
 #: templates/option/package-box.php
 msgid "(optional) Shipping Rate Adjustment ($)"
