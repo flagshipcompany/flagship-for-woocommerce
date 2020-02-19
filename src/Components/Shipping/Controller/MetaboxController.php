@@ -7,6 +7,7 @@ use FS\Components\Shipping\Object\Shipping;
 use FS\Components\Web\RequestParam as Req;
 use FS\Context\ApplicationContext as Context;
 use FS\Components\Shipping\Object\Order;
+use FS\Injection\I;
 
 class MetaboxController extends AbstractComponent
 {
@@ -232,13 +233,19 @@ class MetaboxController extends AbstractComponent
 
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderRate');
+        $instanceId = $this->getInstanceId($order->native()->get_address('shipping'));
+        $options = $context->option();
+
+        if ($instanceId) {
+            $options->sync($instanceId);
+        }
 
         $response = $context->command()->prepare(
             $context->api(),
             $factory->setPayload([
                 'shipping' => $shipping,
                 'request' => $request,
-                'options' => $context->option(),
+                'options' => $options,
             ])->getRequest(),
             $headers
         );
@@ -345,5 +352,28 @@ class MetaboxController extends AbstractComponent
             'X-Order-Id' => $orderId,
             'X-Order-Link' => get_edit_post_link($orderId, null),
         ];
+    }
+
+    protected function getInstanceId($shippingAddress)
+    {
+        $fakePackage = [];
+        $fakePackage['destination'] = [
+            'country' => isset($shippingAddress['country']) ? $shippingAddress['country'] : null,
+            'state' => isset($shippingAddress['state']) ? $shippingAddress['state'] : null,
+            'postcode' => isset($shippingAddress['postcode']) ? $shippingAddress['postcode'] : null,
+        ];
+
+        $data_store = \WC_Data_Store::load( 'shipping-zone' );
+        $zoneId = $data_store->get_zone_id_from_package($fakePackage);
+        $shippingMethods = (new \WC_Shipping_Zone($zoneId))->get_shipping_methods();
+        $filteredMethods = array_filter($shippingMethods, function($method) {
+            return $method->id == I::FLAGSHIP_SHIPPING_PLUGIN_ID && $method->is_enabled();
+        });
+        
+        if ($filteredMethods) {
+            return;
+        }
+
+        return reset($filteredMethods)->instance_id;
     }
 }

@@ -41,7 +41,7 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
 
                 $option = $context
                     ->option()
-                    ->sync($service['instance_id'] ? $service['instance_id'] : false);
+                    ->sync(isset($service['instance_id']) ? $service['instance_id'] : false);
 
                 $context->api($option);
             })
