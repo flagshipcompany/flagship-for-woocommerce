@@ -92,6 +92,12 @@ class MetaboxController extends AbstractComponent
         }
 
         $order = $shipping->getOrder();
+        $instanceId = $this->getInstanceId($order->native()->get_address('shipping'));
+        $options = $context->option();
+
+        if ($instanceId) {
+            $options->sync($instanceId);
+        }
 
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderConfirmation');
@@ -103,7 +109,7 @@ class MetaboxController extends AbstractComponent
             $factory->setPayload([
                 'shipping' => $shipping,
                 'request' => $request,
-                'options' => $context->option(),
+                'options' => $options,
             ])->getRequest(),
             $headers
         );
@@ -171,12 +177,20 @@ class MetaboxController extends AbstractComponent
         $rateProcessorFactory = $context
             ->_('\\FS\\Components\\Shipping\\RateProcessor\\Factory\\RateProcessorFactory');
 
+        $order = $shipping->getOrder();
+        $instanceId = $this->getInstanceId($order->native()->get_address('shipping'));
+        $options = $context->option();
+
+        if ($instanceId) {
+            $options->sync($instanceId);
+        }
+
         $response = $context->command()->quote(
             $context->api(),
             $factory->setPayload([
                 'shipping' => $shipping,
                 'request' => $request,
-                'options' => $context->option(),
+                'options' => $options,
             ])->getRequest()
         );
 
@@ -370,7 +384,7 @@ class MetaboxController extends AbstractComponent
             return $method->id == I::FLAGSHIP_SHIPPING_PLUGIN_ID && $method->is_enabled();
         });
         
-        if ($filteredMethods) {
+        if (count($filteredMethods) == 0) {
             return;
         }
 
