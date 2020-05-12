@@ -58,6 +58,8 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
             $maxWeight = array_map('wc_clean', $rawMaxWeight);
             $rawMarkup = $request->request->get('package_box_markup', []);
             $markup = array_map('wc_clean', $rawMarkup);
+            $rawShippingClasses = $request->request->get('package_box_shipping_classes', []);
+            $shippingClasses = array_map('wc_clean', $rawShippingClasses);
 
             $innerLengthArray = array_map('wc_clean', $request->request->get('package_box_inner_length', []));
             $innerWidthArray = array_map('wc_clean', $request->request->get('package_box_inner_width', []));
@@ -82,10 +84,11 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
                     'inner_length' => isset($innerLengthArray[ $i ]) ? $innerLengthArray[ $i ] : null,
                     'inner_width' => isset($innerWidthArray[ $i ]) ? $innerWidthArray[ $i ] : null,
                     'inner_height' => isset($innerHeightArray[ $i ]) ? $innerHeightArray[ $i ] : null,
-                    'weight' => isset($weightArray[ $i ]) ? $weightArray[ $i ] : null,
+                    'weight' => isset($shippingClasse[ $i ]) ? $shippingClasse[ $i ] : null,
+                    'shipping_classes' => isset($shippingClasses[ $i ]) ? $shippingClasses[ $i ] : null,
                 ];
 
-                $packageBox = PackageBoxBuilder::addOptionalValues($packageBox, $optionalValues);
+                $packageBox = PackageBoxBuilder::addOptionalValues($packageBox, $optionalValues, true);
                 $fields['package_box'][] = $packageBox;
             }
         }

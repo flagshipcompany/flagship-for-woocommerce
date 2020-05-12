@@ -65,6 +65,14 @@ class Options extends AbstractComponent implements Factory\ComponentPostConstruc
         return $this;
     }
 
+    //This sets the value of a key without updating the db so that temporary option values can be passed
+    public function setValue($key, $value)
+    {
+        $this->options[$key] = $value;
+
+        return $this;
+    }
+
     public function sync($instanceId = false)
     {
         if ($instanceId !== false) {
