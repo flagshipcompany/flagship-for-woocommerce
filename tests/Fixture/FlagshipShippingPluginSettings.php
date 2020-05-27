@@ -3,7 +3,7 @@
 return array(
     'enabled' => 'yes',
     'title' => 'FlagShip Shipping',
-    'token' => '2ZtXqrjGMv5rIqV4ftDG1epJ2pCOFZLzZLT3gkbudwo',
+    'token' => 'fake_token',
     'allow_standard_rates' => 'yes',
     'allow_express_rates' => 'yes',
     'allow_overnight_rates' => 'yes',
