@@ -45,7 +45,6 @@ class Configurator implements ConfigurationInterface
             new Listener\CartFakeShippingRateDiscount(),
             // admin
             new Listener\PluginPageSettingLink(),
-            new Listener\PickupPostType(),
             new Listener\ShippingZoneMethodAdd(),
         ]);
     }

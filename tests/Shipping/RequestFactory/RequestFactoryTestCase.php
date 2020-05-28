@@ -310,27 +310,4 @@ class RequestFactoryTestCase extends FlagshipShippingUnitTestCase
             ),
         ), $request->getRequest());
     }
-
-    public function testMultipleOrdersPickupRequestFactory()
-    {
-        $factory = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Shipping\\Request\\Factory\\MultipleOrdersPickup');
-        $options = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Options');
-
-        $regroupShippingsFactory = $this->getApplicationContext()
-            ->_('\\FS\\Components\\Shipping\\Factory\\RegroupShippingsFactory');
-
-        $shippings = array($this->shipping, clone $this->shipping);
-        $regroupedShippings = $regroupShippingsFactory->getRegroupedShippings($shippings);
-
-        $this->assertEquals(1, count($regroupedShippings));
-
-        $regroupedShipping = $regroupedShippings[0];
-
-        $this->assertEquals('fedex', $regroupedShipping['courier']);
-        $this->assertEquals('international', $regroupedShipping['type']);
-        $this->assertEquals(2, count($regroupedShipping['shippings']));
-        $this->assertEquals(2, count($regroupedShipping['ids']));
-    }
 }
