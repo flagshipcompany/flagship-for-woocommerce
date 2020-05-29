@@ -46,14 +46,13 @@ class ShippingController extends AbstractComponent
         if ($this->isEdhlRatesApplicable($package['destination'], $options)) {
             $edhlRatefactory = $context->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingCartEdhlRate');
             $options->setTempValue('default_package_box_split', 'yes'); //Everything in one box
-            $edhlRequest = $edhlRatefactory->setPayload([
+            $edhlResponse = $context->command()->edhlQuote(
+                $context->api(),
+                $edhlRatefactory->setPayload([
                     'package' => $package,
                     'options' => $options,
                     'notifier' => $notifier,
-                ])->getRequest();
-            $edhlResponse = $edhlRequest->getRequest()['packages']['items'][0]['weight'] > 2000 ? null : $context->command()->edhlQuote(
-                $context->api(),
-                $edhlRequest
+                ])->getRequest()
             );                
         }
 
@@ -88,7 +87,7 @@ class ShippingController extends AbstractComponent
     }
 
     protected function isEdhlRatesApplicable($destination, $options)
-    {
-        return isset($destination['country']) && $destination['country'] != 'CA';
+    {;
+        return $options->get('allow_dhl_ecommerce_rates', 'no') == 'yes' && isset($destination['country']) && $destination['country'] != 'CA';
     }
 }

@@ -493,6 +493,12 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'default' => 'yes',
                 'checkboxgroup' => 'end',
             ),
+            'allow_dhl_ecommerce_rates' => array(
+                'title' => __('Offer DHL eCommerce Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
+                'checkboxgroup' => 'end',
+            ),
             'offer_rates' => array(
                 'title' => __('Offer Rates', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'select',
