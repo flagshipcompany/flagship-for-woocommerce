@@ -65,6 +65,13 @@ class Options extends AbstractComponent implements Factory\ComponentPostConstruc
         return $this;
     }
 
+    public function setTempValue($key, $value)
+    {
+        $this->options[$key] = $value;
+
+        return $this;
+    }
+
     public function sync($instanceId = false)
     {
         if ($instanceId !== false) {

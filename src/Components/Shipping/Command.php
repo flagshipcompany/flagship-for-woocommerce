@@ -19,6 +19,16 @@ class Command extends AbstractComponent
         return $this->validate($response);
     }
 
+    public function edhlQuote(Client $client, FormattedRequest $request)
+    {
+        $response = $client->post(
+            '/ship/edhl/rates',
+            $request->getRequest()
+        );
+
+        return $this->validate($response);
+    }
+
     public function prepare(Client $client, FormattedRequest $request, $headers = [])
     {
         if ($headers) {

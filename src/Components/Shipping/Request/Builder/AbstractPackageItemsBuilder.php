@@ -32,6 +32,25 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
         return $packages;
     }
 
+    public function convertPackageUnitsForEdhl($packages)
+    {
+        $weight_unit = get_option('woocommerce_weight_unit');
+        $dimension_unit = get_option('woocommerce_dimension_unit');
+
+        $packages['items'] = array_map(function($item) use ($weight_unit, $dimension_unit) {
+            $item['weight'] = round(wc_get_weight($item['weight'], 'g', $weight_unit));
+            $item['length'] = round(wc_get_dimension($item['length'], 'cm', $dimension_unit));
+            $item['width'] = round(wc_get_dimension($item['width'], 'cm', $dimension_unit));
+            $item['height'] = round(wc_get_dimension($item['height'], 'cm', $dimension_unit));
+
+            return $item;
+        }, $packages['items']);
+
+        $packages['units'] = 'metric';
+
+        return $packages;
+    }
+
     protected function makePackageItems($product_items, $payload)
     {
         $options = $payload['options'];

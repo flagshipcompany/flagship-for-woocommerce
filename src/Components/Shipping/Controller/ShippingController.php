@@ -31,16 +31,33 @@ class ShippingController extends AbstractComponent
             return;
         }
 
+        $options = $context->option();
+        $edhlResponse = null;
+
         $response = $context->command()->quote(
             $context->api(),
             $factory->setPayload([
                 'package' => $package,
-                'options' => $context->option(),
+                'options' => $options,
                 'notifier' => $notifier,
             ])->getRequest()
         );
 
-        if (!$response->isSuccessful()) {
+        if ($this->isEdhlRatesApplicable($package['destination'], $options)) {
+            $edhlRatefactory = $context->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingCartEdhlRate');
+            $options->setTempValue('default_package_box_split', 'yes'); //Everything in one box
+            $edhlRequest = $edhlRatefactory->setPayload([
+                    'package' => $package,
+                    'options' => $options,
+                    'notifier' => $notifier,
+                ])->getRequest();
+            $edhlResponse = $edhlRequest->getRequest()['packages']['items'][0]['weight'] > 2000 ? null : $context->command()->edhlQuote(
+                $context->api(),
+                $edhlRequest
+            );                
+        }
+
+        if (!$response->isSuccessful() && (is_null($edhlResponse) || !$edhlResponse->isSuccessful())) {
             $errorMsg = $response->getStatusCode() === 403 ? MetaboxController::$tokenInvalidMessage : MetaboxController::$noRatesMessage;
             $context->alert()->error($errorMsg);
 
@@ -48,6 +65,10 @@ class ShippingController extends AbstractComponent
         }
 
         $rates = $response->getContent();
+
+        if (!is_null($edhlResponse) && $edhlResponse->isSuccessful()) {
+            $rates = array_merge($rates, $edhlResponse->getContent());
+        }
 
         $rates = $rateProcessorFactory
             ->resolve('ProcessRate')
@@ -64,5 +85,10 @@ class ShippingController extends AbstractComponent
             $method->id = $rate['id'];
             $method->add_rate($rate);
         }
+    }
+
+    protected function isEdhlRatesApplicable($destination, $options)
+    {
+        return isset($destination['country']) && $destination['country'] != 'CA';
     }
 }
