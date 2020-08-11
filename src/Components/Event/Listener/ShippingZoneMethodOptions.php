@@ -84,7 +84,7 @@ class ShippingZoneMethodOptions extends AbstractComponent implements Application
                     'inner_length' => isset($innerLengthArray[ $i ]) ? $innerLengthArray[ $i ] : null,
                     'inner_width' => isset($innerWidthArray[ $i ]) ? $innerWidthArray[ $i ] : null,
                     'inner_height' => isset($innerHeightArray[ $i ]) ? $innerHeightArray[ $i ] : null,
-                    'weight' => isset($shippingClasse[ $i ]) ? $shippingClasse[ $i ] : null,
+                    'weight' => isset($shippingClasses[ $i ]) ? $shippingClasses[ $i ] : null,
                     'shipping_classes' => isset($shippingClasses[ $i ]) ? $shippingClasses[ $i ] : null,
                 ];
 
