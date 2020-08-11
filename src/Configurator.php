@@ -63,7 +63,7 @@ class Configurator implements ConfigurationInterface
         $settings = new \FS\Components\Settings();
 
         $settings['FLAGSHIP_SHIPPING_PLUGIN_ID'] = 'flagship_shipping_method';
-        $settings['FLAGSHIP_SHIPPING_API_ENTRY_POINT'] = I::isDebugMode() ? 'http://localhost:3002' : 'https://api.smartship.io';
+        $settings['FLAGSHIP_SHIPPING_API_ENTRY_POINT'] = I::isDebugMode() ? 'https://test-api.smartship.io' : 'https://api.smartship.io';
         $settings['FLAGSHIP_SHIPPING_API_TIMEOUT'] = 14;
         $settings['FLAGSHIP_FOR_WOOCOMMERCE_VERSION'] = I::version();
 
