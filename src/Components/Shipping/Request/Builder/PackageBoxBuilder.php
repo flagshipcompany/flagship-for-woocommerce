@@ -31,12 +31,20 @@ class PackageBoxBuilder extends AbstractComponent implements BuilderInterface
         return null;
     }
 
-    public static function addOptionalValues($packageBox, $boxValue)
+    public static function addOptionalValues($packageBox, $boxValue, $forSaving = false)
     {
         foreach (['inner_length', 'inner_width', 'inner_height', 'weight'] as $key => $value) {
             if (isset($boxValue[$value]) && $boxValue[$value] > 0) {
                 $packageBox[$value] = $boxValue[$value];
             }
+        }
+
+        if (!$forSaving) {
+            return $packageBox;
+        }
+
+        if (isset($boxValue['shipping_classes'])) {
+            $packageBox['shipping_classes'] = $boxValue['shipping_classes'];
         }
 
         return $packageBox;

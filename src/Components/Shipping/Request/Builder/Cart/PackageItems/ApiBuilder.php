@@ -15,6 +15,13 @@ class ApiBuilder extends FallbackBuilder implements BuilderInterface
         $command = $context->command();
         $notifier = $context->alert();
 
+        $availableBoxes = $this->getAvailableBoxes($options->get('package_box'), $productItems);
+
+        if (count($availableBoxes) == 0) {
+            return parent::makePackageItems($productItems, $payload);
+        }
+
+        $options->setValue('package_box', $availableBoxes);
         $factory = $context
             ->_('\\FS\\Components\\Shipping\\Request\\Factory\\ShoppingOrderPacking');
 
@@ -75,5 +82,38 @@ class ApiBuilder extends FallbackBuilder implements BuilderInterface
         }
 
         return $packedBoxesCopy;
+    }
+
+    //A package box with specified shipping classes should only be used when every item in the order has shipping class and the shipping classes of this box cover all the shipping classes of the items.
+    protected function getAvailableBoxes(array $packageBoxes, array $items)
+    {
+        $boxesWithoutShippingClass = array_filter($packageBoxes, function($box) {
+            return empty(trim($box['shipping_classes']));
+        });
+        $itemsWithoutClass = array_filter($items, function($item) {
+            return empty($item['shipping_class']);
+        });
+
+        if (count($itemsWithoutClass) > 0) {
+            return $boxesWithoutShippingClass;
+        }
+
+        $shippingClassBoxes = array_filter($packageBoxes, function($box) use ($items) {
+            if (empty(trim($box['shipping_classes']))) {
+                return false;
+            }
+
+            $classes = explode(';', trim($box['shipping_classes']));
+            $classes = array_map(function($class) {
+                return trim($class);
+            }, $classes);
+            $itemsInClasses = array_filter($items, function($item) use ($classes) {
+                return in_array($item['shipping_class'], $classes);
+            });
+
+            return count($itemsInClasses) == count($items);
+        });
+
+        return $shippingClassBoxes;
     }
 }

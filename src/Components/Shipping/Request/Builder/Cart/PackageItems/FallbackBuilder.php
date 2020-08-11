@@ -43,6 +43,7 @@ class FallbackBuilder extends AbstractPackageItemsBuilder implements BuilderInte
                     'height' => $height,
                     'length' => $length,
                     'weight' => $weight,
+                    'shipping_class' => $item['data']->get_shipping_class(),
                 );
 
                 ++$count;
