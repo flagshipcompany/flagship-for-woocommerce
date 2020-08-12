@@ -76,13 +76,26 @@
             </tfoot>
         </table>
         <p class="description">
-            <?php _e('Supported weight is the maximum supported weight. Empty weight is the weight of an empty box.', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>    
+            <?php _e('Supported weight is the maximum supported weight. Empty weight is the weight of an empty box.', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>
         </p>
+        <?php
+        $shipping_classes = get_terms( array('taxonomy' => 'product_shipping_class', 'hide_empty' => false ) );
+        foreach ($shipping_classes as $shipping_class) {
+            $shippingClassesOptions[] = [
+                "name" => $shipping_class->name
+            ];
+        }
+        ?>
         <script type="text/javascript">
             (function($, window){
                 $(function(){
                     $('#package_box_collection').on('click', 'a.add', function(){
                         var size = $('#package_box_collection').find('tbody .package_box').length;
+                        var shippingClassesOptions = <?php echo json_encode($shippingClassesOptions); ?>;
+                        var shippingClassesDropdown = '';
+                        shippingClassesOptions.forEach(function(item,index){
+                            shippingClassesDropdown += '<option value="'+item.name+'">'+item.name+'</option>';
+                        });
 
                         $('<tr class="package_box">\
                                 <td class="sort"></td>\
@@ -95,8 +108,8 @@
                                 <td><input type="number" name="package_box_inner_height[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" name="package_box_max_weight[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" name="package_box_weight[' + size + ']" style="min-width: 80px" /></td>\
-                                <td><input type="number" name="package_box_markup[' + size + ']" style="min-width: 80px" /></td>\
-                                <td><input type="text" name="package_box_shipping_classes[' + size + ']" style="min-width: 80px;" /></td>\
+                                <td><input type="number" step="0.01" name="package_box_markup[' + size + ']" style="min-width: 80px" /></td>\
+                                <td><select name="package_box_shipping_classes['+size+']" style="min-width:80px;">'+shippingClassesDropdown+'</select></td>\
                         </tr>').appendTo('#package_box_collection table tbody');
 
                         return false;
