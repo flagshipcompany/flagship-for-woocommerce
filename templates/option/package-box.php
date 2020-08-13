@@ -93,9 +93,11 @@
                         var size = $('#package_box_collection').find('tbody .package_box').length;
                         var shippingClassesOptions = <?php echo json_encode($shippingClassesOptions); ?>;
                         var shippingClassesDropdown = '';
-                        shippingClassesOptions.forEach(function(item,index){
-                            shippingClassesDropdown += '<option value="'+item.name+'">'+item.name+'</option>';
-                        });
+                        if(shippingClassesOptions!=null){
+                            shippingClassesOptions.forEach(function(item,index){
+                                shippingClassesDropdown += '<option value="'+item.name+'">'+item.name+'</option>';
+                            });
+                        }
 
                         $('<tr class="package_box">\
                                 <td class="sort"></td>\
@@ -109,7 +111,7 @@
                                 <td><input type="number" name="package_box_max_weight[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" name="package_box_weight[' + size + ']" style="min-width: 80px" /></td>\
                                 <td><input type="number" step="0.01" name="package_box_markup[' + size + ']" style="min-width: 80px" /></td>\
-                                <td><select name="package_box_shipping_classes['+size+']" style="min-width:80px;">'+shippingClassesDropdown+'</select></td>\
+                                <td><select name="package_box_shipping_classes['+size+']" style="min-width:80px;width:141px;">'+shippingClassesDropdown+'</select></td>\
                         </tr>').appendTo('#package_box_collection table tbody');
 
                         return false;
