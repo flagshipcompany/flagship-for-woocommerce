@@ -54,8 +54,8 @@
                             <td><input type="number" value="'.esc_attr($box['inner_height']).'" name="package_box_inner_height['.$i.']" style="min-width: 80px" /></td>
                             <td><input type="number" value="'.esc_attr($box['max_weight']).'" name="package_box_max_weight['.$i.']" style="min-width: 80px" /></td>
                             <td><input type="number" value="'.esc_attr($box['weight']).'" name="package_box_weight['.$i.']" style="min-width: 80px" /></td>
-                            <td><input type="number" value="'.esc_attr($markup).'" name="package_box_markup['.$i.']" style="min-width: 80px" /></td>
-                            <td><input type="text" value="'.esc_attr($shippingClasses).'" name="package_box_shipping_classes['.$i.']" style="min-width: 80px;" /></td>
+                            <td><input type="number" value="'.esc_attr($markup).'" name="package_box_markup['.$i.']" style="min-width: 80px" step="0.01" /></td>
+                            <td><input type="text" value="'.esc_attr($shippingClasses).'" name="package_box_shipping_classes['.$i.']" style="min-width: 80px;" disabled="disabled"/></td>
                         </tr>
                         ';
                 }
