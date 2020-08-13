@@ -16,7 +16,7 @@ class ReceiverAddressBuilder extends AbstractComponent implements BuilderInterfa
             'state' => $package['destination']['state'],
             'city' => $package['destination']['city'],
             'postal_code' => $package['destination']['postcode'],
-            'address' => $package['destination']['address'].' '.$package['destination']['address_2'],
+            'address' => substr($package['destination']['address'].' '.$package['destination']['address_2'],0,30),
         );
 
         $isNorthAmericanCountry = in_array($address['country'], array('CA', 'US'));

@@ -14,7 +14,7 @@ class ReceiverAddressBuilder extends AbstractComponent implements BuilderInterfa
         if (empty($address['name'])) {
             $address['name'] = $address['attn'] ? $address['attn'] : 'Receiver';
         }
-
+        $address['address'] = substr($address['address'],0,30);
         $isNorthAmericanCountry = in_array($address['country'], ['CA', 'US']);
 
         // a friendly fix for quote, when customer does not provide state
