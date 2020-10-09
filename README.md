@@ -1,25 +1,12 @@
-# flagship-for-woocommerce-bedrock
+# FlagShip for WooCommerce [![Build Status](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce.svg?branch=master)](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce)
 
-## Bedrock Installation
+- Tags: eshipping, courier, e-commerce, commerce, woothemes, wordpress ecommerce, affiliate, shipping, tax
+- License: Apache License 2.0
+- License URI: https://www.apache.org/licenses/LICENSE-2.0
 
-Instead of a standard WordPress install, you can install it with Bedrock by Roots. It is a boilerplate that uses the standard WordPress install and provides a better folder structure to accommodate different environments. Use the commands below
+## Installation Guide
+Go to [installation guide](https://github.com/flagshipcompany/flagship-for-woocommerce/wiki/Installation-&-Setup)
 
-`composer create-project roots/bedrock`
-
-Navigate to Wordpress Admin > Plugins > Search for WooCommerce and install it.
-
-Navigate to the newly created folder on command line
-
-`composer require flagshipcompany/flagship-for-woocommerce-bedrock:^1.0`
-
-## Regular Wordpress Installation
-Make sure WooCommerce is installed before installing the plugin.
-
-
-Download zip file from GitHub.
-
-Wordpress Admin > Plugins >  Add New > Upload plugin > Upload the plugin zip file.
-
-Navigate to wp-content > plugins > flagship-for-woocommerce-bedrock on command line.
-
-`composer install`
+## Usage Topics
+- How to pack your products into packaging boxes? consider the [packing method](https://github.com/flagshipcompany/flagship-for-woocommerce/wiki/Packing-Method)
+- Manage multiple [shipping zone](https://github.com/flagshipcompany/flagship-for-woocommerce/wiki/Shipping-Zone-Demystified) with FlagShip shipping
