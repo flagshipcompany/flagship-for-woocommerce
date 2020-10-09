@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    colors="true"
+    bootstrap="vendor/autoload.php"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    stopOnFailure="false"
+    >
+    <testsuites>
+        <testsuite name="FlagShip Api Sdk Test Suite">
+            <directory>./Shipping/Tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
