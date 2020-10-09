@@ -1,0 +1,9 @@
+.required_header:before {
+  content:"*";
+  color:red;
+}
+
+.packing_boxes_table td, .packing_boxes_table th {
+  border-right: solid 1px rgb(223, 223, 223); 
+  border-left: solid 1px rgb(223, 223, 223);
+}

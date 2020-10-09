@@ -1,0 +1,16 @@
+<div class='wrap'>
+    <h1 class='wp-heading-inline'>FlagShip</h1>
+    <iframe id='flagship_iframe' src='{{iframePageUrl}}&amp;iframe=true' style='min-height:500px' width='100%;border:none;'>
+    </iframe>
+</div>
+<script>
+    window.onmessage = (e) => {
+        if (e.data.hasOwnProperty('frameHeight')) {
+            document.getElementById('flagship_iframe').style.height = (e.data.frameHeight + 30) + 'px';
+        }
+
+        if ((e.data.hasOwnProperty('modal') && e.data.modal == 'open') || (e.data.hasOwnProperty('next_button') && e.data.next_button == 'clicked')) {
+            window.scrollTo(0, 0);
+        }
+    };
+</script>

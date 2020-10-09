@@ -1,10 +1,9 @@
 <?php
-
 /*
  * Plugin Name: FlagShip WooCommerce Shipping
  * Plugin URI: https://github.com/flagshipcompany/flagship-for-woocommerce
  * Description: An e-shipping courier solution that helps you shipping anything from Canada. Beautifully. To get started: 1) Click the "Activate" link to the left of this description, 2) <a href="http://smartship-ng.flagshipcompany.com/">Sign up for an FlagShip account</a> to get an API key, and 3) Go to settings page to fill basic shipping credentials
- * Version: 2.0.22
+ * Version: 2.0.23
  * Author: FlagShip Courier Solutions
  * Requires at least: 4.6
  * Tested up to: 5.4.1
@@ -18,30 +17,45 @@
  * License URI: https://www.apache.org/licenses/LICENSE-2.0
  */
 
-// prevent data leak
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
+
+defined( 'ABSPATH' ) || exit;
+
+if (!defined( 'FLAGSHIP_PLUGIN_FILE' )) {
+    define( 'FLAGSHIP_PLUGIN_FILE', __FILE__ );
 }
 
-if (!class_exists('\\FS\\Injection\\I')) {
-    require __DIR__.'/src/Injection/I.php';
+if (file_exists(dirname( __FILE__ ) . '/env.php')) {
+    include_once dirname( __FILE__ ) . '/env.php';
 }
 
-use FS\Injection\I;
-use FS\Context\ApplicationContext as App;
-use FS\Container;
-use FS\Configurator;
+include_once dirname( __FILE__ ) . '/includes/UserFunctions.php';
 
-I::boot(__DIR__);
+if (!defined('FLAGSHIP_PLUGIN_NAME')){
+    define("FLAGSHIP_PLUGIN_NAME", plugin_basename( __FILE__ ));
+}
 
-// convenient way to define text domain
-define('FLAGSHIP_SHIPPING_TEXT_DOMAIN', I::textDomain());
+spl_autoload_register(function ($class) {
+    $nameSpace = 'FlagshipWoocommerce\\';
 
-// init app
-I::group(function () {
-    App::initialize(new Container(), new Configurator());
-}, [
-    'dependencies' => ['woocommerce/woocommerce.php'],
-]);
+    if (strncmp($nameSpace, $class, strlen($nameSpace)) === 0) {
+        $relativeClass = substr($class, strlen($nameSpace));
+        $filePath = str_replace('\\', '/', $relativeClass);
+        include_once('includes/' . $filePath . '.php');
+    }
+});
 
-\register_activation_hook(__FILE__, array('\\FS\\Injection\\I', 'fls_plugin_activate'));
+$GLOBALS['flagship-woocommerce-shipping'] = FlagshipWoocommerce\FlagshipWoocommerceShipping::instance();
+
+if (!class_exists('Flagship\\Shipping\\Flagship')) {
+    include_once dirname(__FILE__). '/vendor/autoload.php';
+}
+
+if (dirname(dirname( __FILE__ )) == WPMU_PLUGIN_DIR) {
+    load_muplugin_textdomain( 'flagship-for-woocommerce', dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}  else {
+    load_plugin_textdomain( 'flagship-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}
+
+if (defined( 'WP_CLI' ) && WP_CLI) {
+    (new FlagshipWoocommerce\Commands\Console())->add_commands();
+}
