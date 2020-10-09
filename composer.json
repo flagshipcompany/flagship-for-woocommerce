@@ -1,10 +1,10 @@
 {
-	"name": "flagshipcompany/flagship-for-woocommerce-bedrock",
+	"name": "flagshipcompany/flagship-for-woocommerce",
 	"description": "A WordPress plugin that obtains real time FlagShip shipping rates for WooCommerce",
 	"type": "wordpress-plugin",
 	"license": "MIT",
 	"keywords": ["flagship","wordpress", "woocommerce", "shipping"],
-    	"homepage": "https://github.com/flagshipcompany/flagship-for-woocommerce-bedrock.git",
+    	"homepage": "https://github.com/flagshipcompany/flagship-for-woocommerce.git",
 	"require": {
 		"php": ">=7.1",
 		"flagshipcompany/flagship-api-sdk": "^1.1"

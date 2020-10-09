@@ -22,7 +22,7 @@ class QuoteRequest extends ApiRequest{
     public function execute() : RatesCollection {
 
         try {
-            $responseArray = $this->api_request($this->url,$this->payload,$this->token,'POST',20,$this->flagshipFor,$this->version);
+            $responseArray = $this->api_request($this->url,$this->payload,$this->token,'POST',10,$this->flagshipFor,$this->version);
             $responseObject = count((array)$responseArray["response"]) == 0 ? [] : $responseArray["response"]->content;
             $newQuotes = new RatesCollection();
             $newQuotes->importRates($responseObject);
