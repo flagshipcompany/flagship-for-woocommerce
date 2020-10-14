@@ -15,7 +15,7 @@
 	 "scripts": {
         "test": ["phpunit"],
         "test:prep": [
-            "bash bin/install-wp-tests.sh wordpress_test root '' localhost"
+            "bash tests/bin/install-wp-tests.sh wordpress_test root '' localhost"
         ]
     }
 }
