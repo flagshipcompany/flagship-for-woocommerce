@@ -23,7 +23,7 @@ class Rates_Request extends Abstract_Flagship_Api_Request {
         {
             $orderItems = $this->getOrderItems($order);
             $packages = $this->getPackages($orderItems,$options);
-            $sourceAddress = $this->getStoreAddress();
+            $sourceAddress = $this->getStoreAddress(false,false,$options);
 
             $shippingAddress = $this->getOrderShippingAddressForRates($order);
             $apiRequest = $this->getRequest($sourceAddress,$shippingAddress,$packages, $options);
@@ -61,7 +61,7 @@ class Rates_Request extends Abstract_Flagship_Api_Request {
 
     protected function makeApiRequest($package, $options = array())
     {
-        $storeAddress = $this->getStoreAddress();
+        $storeAddress = $this->getStoreAddress(false,false,$options);
         $destinationAddress = $this->getDestinationAddress($package['destination'], $this->requiredAddressFields, $options);
 
         $packages = $this->getPackages($this->extractOrderItems($package),$options);
