@@ -8,9 +8,9 @@ class Packing_Request extends Abstract_Flagship_Api_Request {
 
     protected $debugMode = false;
 
-    public function __construct($token, $debugMode = false) {
+    public function __construct($token, $debugMode = false,$apiurl) {
     	$this->token = $token;
-    	$this->apiUrl = $this->getApiUrl();
+    	$this->apiUrl = $apiUrl;
         $this->debugMode = $debugMode;
     }
 

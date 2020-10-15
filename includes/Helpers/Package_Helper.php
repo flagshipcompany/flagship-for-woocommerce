@@ -101,7 +101,7 @@ class Package_Helper {
     	}
 
     	$boxes = json_decode($boxes_data, true);
-    	$package_request = new Packing_Request($token, $this->debug_mode);
+        $package_request = new Packing_Request($token, $this->debug_mode,$this->apiUrl);
     	$packed_boxes = $package_request->pack_boxes($items, $boxes);
 
     	return $packed_boxes ? $packed_boxes : $this->make_one_box($items);
