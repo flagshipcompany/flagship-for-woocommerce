@@ -12,7 +12,7 @@ class FlagshipWoocommerceShipping {
 
 	public static $methodId = 'flagship_shipping_method';
 
-	public static $version = '3.0.0';
+	public static $version = '3.0.1';
 
 	public static $couriers = array(
 		'UPS' => 'ups',
