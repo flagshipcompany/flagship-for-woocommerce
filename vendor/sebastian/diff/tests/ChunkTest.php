@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /*
  * This file is part of sebastian/diff.
  *
@@ -15,59 +15,54 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers SebastianBergmann\Diff\Chunk
  */
-final class ChunkTest extends TestCase
+class ChunkTest extends TestCase
 {
     /**
      * @var Chunk
      */
     private $chunk;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->chunk = new Chunk;
     }
 
-    public function testHasInitiallyNoLines(): void
+    public function testCanBeCreatedWithoutArguments()
     {
-        $this->assertSame([], $this->chunk->getLines());
+        $this->assertInstanceOf('SebastianBergmann\Diff\Chunk', $this->chunk);
     }
 
-    public function testCanBeCreatedWithoutArguments(): void
+    public function testStartCanBeRetrieved()
     {
-        $this->assertInstanceOf(Chunk::class, $this->chunk);
+        $this->assertEquals(0, $this->chunk->getStart());
     }
 
-    public function testStartCanBeRetrieved(): void
+    public function testStartRangeCanBeRetrieved()
     {
-        $this->assertSame(0, $this->chunk->getStart());
+        $this->assertEquals(1, $this->chunk->getStartRange());
     }
 
-    public function testStartRangeCanBeRetrieved(): void
+    public function testEndCanBeRetrieved()
     {
-        $this->assertSame(1, $this->chunk->getStartRange());
+        $this->assertEquals(0, $this->chunk->getEnd());
     }
 
-    public function testEndCanBeRetrieved(): void
+    public function testEndRangeCanBeRetrieved()
     {
-        $this->assertSame(0, $this->chunk->getEnd());
+        $this->assertEquals(1, $this->chunk->getEndRange());
     }
 
-    public function testEndRangeCanBeRetrieved(): void
+    public function testLinesCanBeRetrieved()
     {
-        $this->assertSame(1, $this->chunk->getEndRange());
+        $this->assertEquals(array(), $this->chunk->getLines());
     }
 
-    public function testLinesCanBeRetrieved(): void
+    public function testLinesCanBeSet()
     {
-        $this->assertSame([], $this->chunk->getLines());
-    }
+        $this->assertEquals(array(), $this->chunk->getLines());
 
-    public function testLinesCanBeSet(): void
-    {
-        $lines = [new Line(Line::ADDED, 'added'), new Line(Line::REMOVED, 'removed')];
-
-        $this->chunk->setLines($lines);
-
-        $this->assertSame($lines, $this->chunk->getLines());
+        $testValue = array('line0', 'line1');
+        $this->chunk->setLines($testValue);
+        $this->assertEquals($testValue, $this->chunk->getLines());
     }
 }

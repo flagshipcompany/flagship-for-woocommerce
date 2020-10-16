@@ -1,165 +1,120 @@
-<?php declare(strict_types=1);
+<?php
 /*
- * This file is part of sebastian/environment.
+ * This file is part of the Environment package.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianBergmann\Environment;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_TestCase;
 
-/**
- * @covers \SebastianBergmann\Environment\Runtime
- */
-final class RuntimeTest extends TestCase
+class RuntimeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \SebastianBergmann\Environment\Runtime
      */
     private $env;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->env = new Runtime;
     }
 
     /**
-     * @requires extension xdebug
+     * @covers \SebastianBergmann\Environment\Runtime::canCollectCodeCoverage
+     *
+     * @uses   \SebastianBergmann\Environment\Runtime::hasXdebug
+     * @uses   \SebastianBergmann\Environment\Runtime::isHHVM
+     * @uses   \SebastianBergmann\Environment\Runtime::isPHP
      */
-    public function testCanCollectCodeCoverageWhenXdebugExtensionIsEnabled(): void
+    public function testAbilityToCollectCodeCoverageCanBeAssessed()
     {
-        $this->assertTrue($this->env->canCollectCodeCoverage());
+        $this->assertInternalType('boolean', $this->env->canCollectCodeCoverage());
     }
 
     /**
-     * @requires extension pcov
+     * @covers \SebastianBergmann\Environment\Runtime::getBinary
+     *
+     * @uses   \SebastianBergmann\Environment\Runtime::isHHVM
      */
-    public function testCanCollectCodeCoverageWhenPcovExtensionIsEnabled(): void
+    public function testBinaryCanBeRetrieved()
     {
-        $this->assertTrue($this->env->canCollectCodeCoverage());
-    }
-
-    public function testCanCollectCodeCoverageWhenRunningOnPhpdbg(): void
-    {
-        $this->markTestSkippedWhenNotRunningOnPhpdbg();
-
-        $this->assertTrue($this->env->canCollectCodeCoverage());
-    }
-
-    public function testBinaryCanBeRetrieved(): void
-    {
-        $this->assertNotEmpty($this->env->getBinary());
+        $this->assertInternalType('string', $this->env->getBinary());
     }
 
     /**
-     * @requires PHP
+     * @covers \SebastianBergmann\Environment\Runtime::isHHVM
      */
-    public function testIsHhvmReturnsFalseWhenRunningOnPhp(): void
+    public function testCanBeDetected()
     {
-        $this->assertFalse($this->env->isHHVM());
+        $this->assertInternalType('boolean', $this->env->isHHVM());
     }
 
     /**
-     * @requires PHP
+     * @covers \SebastianBergmann\Environment\Runtime::isPHP
+     *
+     * @uses   \SebastianBergmann\Environment\Runtime::isHHVM
      */
-    public function testIsPhpReturnsTrueWhenRunningOnPhp(): void
+    public function testCanBeDetected2()
     {
-        $this->markTestSkippedWhenRunningOnPhpdbg();
-
-        $this->assertTrue($this->env->isPHP());
+        $this->assertInternalType('boolean', $this->env->isPHP());
     }
 
     /**
-     * @requires extension pcov
+     * @covers \SebastianBergmann\Environment\Runtime::hasXdebug
+     *
+     * @uses   \SebastianBergmann\Environment\Runtime::isHHVM
+     * @uses   \SebastianBergmann\Environment\Runtime::isPHP
      */
-    public function testPCOVCanBeDetected(): void
+    public function testXdebugCanBeDetected()
     {
-        $this->assertTrue($this->env->hasPCOV());
-    }
-
-    public function testPhpdbgCanBeDetected(): void
-    {
-        $this->markTestSkippedWhenNotRunningOnPhpdbg();
-
-        $this->assertTrue($this->env->hasPHPDBGCodeCoverage());
+        $this->assertInternalType('boolean', $this->env->hasXdebug());
     }
 
     /**
-     * @requires extension xdebug
+     * @covers \SebastianBergmann\Environment\Runtime::getNameWithVersion
+     *
+     * @uses   \SebastianBergmann\Environment\Runtime::getName
+     * @uses   \SebastianBergmann\Environment\Runtime::getVersion
+     * @uses   \SebastianBergmann\Environment\Runtime::isHHVM
+     * @uses   \SebastianBergmann\Environment\Runtime::isPHP
      */
-    public function testXdebugCanBeDetected(): void
+    public function testNameAndVersionCanBeRetrieved()
     {
-        $this->markTestSkippedWhenRunningOnPhpdbg();
-
-        $this->assertTrue($this->env->hasXdebug());
-    }
-
-    public function testNameAndVersionCanBeRetrieved(): void
-    {
-        $this->assertNotEmpty($this->env->getNameWithVersion());
-    }
-
-    public function testGetNameReturnsPhpdbgWhenRunningOnPhpdbg(): void
-    {
-        $this->markTestSkippedWhenNotRunningOnPhpdbg();
-
-        $this->assertSame('PHPDBG', $this->env->getName());
+        $this->assertInternalType('string', $this->env->getNameWithVersion());
     }
 
     /**
-     * @requires PHP
+     * @covers \SebastianBergmann\Environment\Runtime::getName
+     *
+     * @uses   \SebastianBergmann\Environment\Runtime::isHHVM
      */
-    public function testGetNameReturnsPhpdbgWhenRunningOnPhp(): void
+    public function testNameCanBeRetrieved()
     {
-        $this->markTestSkippedWhenRunningOnPhpdbg();
-
-        $this->assertSame('PHP', $this->env->getName());
-    }
-
-    public function testNameAndCodeCoverageDriverCanBeRetrieved(): void
-    {
-        $this->assertNotEmpty($this->env->getNameWithVersionAndCodeCoverageDriver());
+        $this->assertInternalType('string', $this->env->getName());
     }
 
     /**
-     * @requires PHP
+     * @covers \SebastianBergmann\Environment\Runtime::getVersion
+     *
+     * @uses   \SebastianBergmann\Environment\Runtime::isHHVM
      */
-    public function testGetVersionReturnsPhpVersionWhenRunningPhp(): void
+    public function testVersionCanBeRetrieved()
     {
-        $this->assertSame(\PHP_VERSION, $this->env->getVersion());
+        $this->assertInternalType('string', $this->env->getVersion());
     }
 
     /**
-     * @requires PHP
+     * @covers \SebastianBergmann\Environment\Runtime::getVendorUrl
+     *
+     * @uses   \SebastianBergmann\Environment\Runtime::isHHVM
      */
-    public function testGetVendorUrlReturnsPhpDotNetWhenRunningPhp(): void
+    public function testVendorUrlCanBeRetrieved()
     {
-        $this->assertSame('https://secure.php.net/', $this->env->getVendorUrl());
-    }
-
-    private function markTestSkippedWhenNotRunningOnPhpdbg(): void
-    {
-        if ($this->isRunningOnPhpdbg()) {
-            return;
-        }
-
-        $this->markTestSkipped('PHPDBG is required.');
-    }
-
-    private function markTestSkippedWhenRunningOnPhpdbg(): void
-    {
-        if (!$this->isRunningOnPhpdbg()) {
-            return;
-        }
-
-        $this->markTestSkipped('Cannot run on PHPDBG');
-    }
-
-    private function isRunningOnPhpdbg(): bool
-    {
-        return \PHP_SAPI === 'phpdbg';
+        $this->assertInternalType('string', $this->env->getVendorUrl());
     }
 }
