@@ -48,7 +48,6 @@ class IntegrityValidator extends AbstractValidator
                 'payer' => 'F',
             ),
         );
-error_log(json_encode($request));
 
         $response = $context->api()->post('/ship/rates', $request);
 
