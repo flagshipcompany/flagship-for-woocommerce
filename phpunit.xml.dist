@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <phpunit
 	bootstrap="tests/bootstrap.php"
 	backupGlobals="false"
@@ -7,10 +6,24 @@
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
 	>
+	<php>
+	    <ini name="zend.enable_gc" value="0" />
+	    <ini name="memory_limit" value="-1" />
+	    <!-- error_reporting(E_ALL); -->
+	    <ini name="error_reporting" value="32767" />
+	</php>
 	<testsuites>
 		<testsuite>
-			<directory prefix="test-" suffix=".php">./tests/</directory>
-			<exclude>./tests/test-sample.php</exclude>
+			<directory suffix=".php">./tests/Shipping</directory>
 		</testsuite>
 	</testsuites>
+	<filter>
+    <whitelist>
+      <directory>./</directory>
+      <exclude>
+        <directory>./tests/</directory>
+        <directory>./vendor/</directory>
+      </exclude>
+    </whitelist>
+  </filter>
 </phpunit>
