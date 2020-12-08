@@ -41,8 +41,7 @@
                     ++$i;
 
                     $markup = isset($box['markup']) ? $box['markup'] : null;
-                    $shippingClasses = isset($box['shipping_classes']) ? $box['shipping_classes'] : null;
-
+                    
                     echo '<tr class="package_box">
                             <td class="sort"></td>
                             <td><input type="text" value="'.esc_attr(wp_unslash($box['model_name'])).'" name="package_box_model_name['.$i.']" /></td>
@@ -55,7 +54,7 @@
                             <td><input type="number" value="'.esc_attr($box['max_weight']).'" name="package_box_max_weight['.$i.']" style="min-width: 80px" /></td>
                             <td><input type="number" value="'.esc_attr($box['weight']).'" name="package_box_weight['.$i.']" style="min-width: 80px" /></td>
                             <td><input type="number" value="'.esc_attr($markup).'" name="package_box_markup['.$i.']" style="min-width: 80px" step="0.01" /></td>
-                            <td><input type="text" value="'.esc_attr($shippingClasses).'" name="package_box_shipping_classes['.$i.']" style="min-width: 80px;" disabled="disabled"/></td>
+                            <td><select name="package_box_shipping_classes['.$i.']" style="min-width:80px;width:141px;"><option selected value='.esc_attr($box['shipping_classes']).'>'.esc_attr($box['shipping_classes']).'</option></select></td>
                         </tr>
                         ';
                 }
