@@ -123,6 +123,7 @@ class RequestBuilderTestCase extends FlagshipShippingUnitTestCase
             'is_commercial' => false,
         ), $builder->build(array(
             'shipping' => $this->shipping,
+            'options' => $this->ctx->getComponent('\\FS\\Components\\Options'),
         )));
     }
 }
