@@ -10,11 +10,11 @@ class ReceiverAddressBuilder extends AbstractComponent implements BuilderInterfa
     public function build($payload = null)
     {
         $package = $payload['package'];
+        $receiverIsCommercial = false;
         if(array_key_exists('options', $payload)){
             $receiverIsCommercial = array_key_exists('receiver_residential',$payload['options']->all()) ? ($payload['options']->all()['receiver_residential'] == 'no' ? true : false) : false;
         }
         
-
         $address = array(
             'country' => $package['destination']['country'],
             'state' => $package['destination']['state'],

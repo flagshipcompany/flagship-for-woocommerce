@@ -11,7 +11,10 @@ class ReceiverAddressBuilder extends AbstractComponent implements BuilderInterfa
     {
         $address = $payload['shipping']->getShipment()->getToAddress();
 
-        $receiverIsCommercial = $payload['options']->all()['receiver_residential'] == 'no' ? true : false;
+        $receiverIsCommercial = false;
+        if(array_key_exists('options', $payload)){
+            $receiverIsCommercial = array_key_exists('receiver_residential',$payload['options']->all()) ? ($payload['options']->all()['receiver_residential'] == 'no' ? true : false) : false;
+        }
 
         if (empty($address['name'])) {
             $address['name'] = $address['attn'] ? $address['attn'] : 'Receiver';
