@@ -1046,3 +1046,6 @@ msgstr "Échec du test d'intégrité d'adresse"
 msgid "Invalid API token"
 msgstr "Clef d'API FlagShip invalide"
 
+#: src/Components/Shipping/RateProcessor/NativeRateProcessor.php:
+msgid "Time in Transit"
+msgstr "Temps de Transit"

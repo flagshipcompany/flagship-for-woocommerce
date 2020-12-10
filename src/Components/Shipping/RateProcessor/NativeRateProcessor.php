@@ -69,8 +69,8 @@ class NativeRateProcessor extends AbstractComponent implements RateProcessorInte
 
         $transitTime = ceil((strtotime($deliveryDate) - strtotime(date('Y-m-d')))/(24*60*60));
         $transitDaysText = $transitTime > 1 ? $transitTime . ' days' : $transitTime . ' day';
-
-        return ' (Time in transit '.$transitDaysText.')';
+        $text = __(' (Time in transit '.$transitDaysText.')', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
+        return $text;
     }
 
     protected function getExtraBoxMarkup(array $extraInfo)
