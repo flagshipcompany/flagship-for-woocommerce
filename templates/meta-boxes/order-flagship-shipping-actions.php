@@ -91,6 +91,11 @@
     <?php endif; ?>
     <p><?php _e('Options', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>:</p>
     <?php
+
+    global $post;
+    $post_meta = get_post_meta( $post->ID );
+    $billing_email = reset($post_meta['_billing_email']);
+
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_date',
         'name' => 'flagship_shipping_date',
@@ -146,6 +151,7 @@
         'id' => 'flagship_shipping_tracking_emails',
         'name' => 'flagship_shipping_tracking_emails',
         'label' => __('Tracking emails (Optional):', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+        'value' => $billing_email,
         'custom_attributes' => array(
             'maxlength' => 100,
         ),
