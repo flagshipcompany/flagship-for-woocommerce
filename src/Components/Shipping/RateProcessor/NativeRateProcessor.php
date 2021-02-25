@@ -82,7 +82,7 @@ class NativeRateProcessor extends AbstractComponent implements RateProcessorInte
         $extraMarkup = 0;
 
         foreach ($extraInfo['boxes'] as $key => $box) {
-            $extraMarkup += isset($box['markup']) ? $box['markup'] : 0;
+            $extraMarkup += isset($box['markup']) ? intval($box['markup']) : 0;
         }
 
         return $extraMarkup;
