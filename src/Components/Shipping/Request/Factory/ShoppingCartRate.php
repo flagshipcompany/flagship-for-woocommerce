@@ -64,6 +64,7 @@ class ShoppingCartRate extends AbstractRequestFactory
     protected function makeOptions(array $toAddress)
     {
         $options = array();
+        $cartSubtotal = WC()->cart->get_subtotal();
 
         if ($this->payload['options']->eq('signature_required', 'yes')) {
             $options['signature_required'] = true;
