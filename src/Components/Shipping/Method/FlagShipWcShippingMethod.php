@@ -368,6 +368,12 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'type' => 'checkbox',
                 'default' => 'no',
             ),
+            'flagship_insurance' => array(
+                'title' => __('Insurance', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'label' => __('Add Insurance', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
+            ),
             'shipping_pickup' => array(
                 'title' => __('Pickup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
