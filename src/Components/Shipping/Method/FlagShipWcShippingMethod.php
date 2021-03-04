@@ -368,12 +368,12 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'type' => 'checkbox',
                 'default' => 'no',
             ),
-            'flagship_insurance' => array(
-                'title' => __('Insurance', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'label' => __('Add Insurance', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'no',
-            ),
+            // 'flagship_insurance' => array(
+            //     'title' => __('Insurance', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            //     'label' => __('Add Insurance', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+            //     'type' => 'checkbox',
+            //     'default' => 'no',
+            // ),
             'shipping_pickup' => array(
                 'title' => __('Pickup', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',
@@ -459,6 +459,11 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                 'custom_attributes' => array(
                     'maxlength' => 100,
                 ),
+            ),
+            'add_billing_email_to_tracking' => array(
+                'title' => __('Send tracking updates to billing email', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'default' => 'no',
             ),
             'shipping_configs' => array(
                 'title' => 'Configuration',
@@ -575,11 +580,6 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             'show_transit_time' => array(
                 'title' => __('Show transit time in shopping cart', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'description' => __('If checked, the transit times of couriers will be shown', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
-                'type' => 'checkbox',
-                'default' => 'no',
-            ),
-            'add_billing_email_to_tracking' => array(
-                'title' => __('Send tracking updates to billing email', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'checkbox',
                 'default' => 'no',
             ),
