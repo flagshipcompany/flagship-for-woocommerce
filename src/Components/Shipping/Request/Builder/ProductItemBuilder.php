@@ -9,14 +9,13 @@ class ProductItemBuilder extends AbstractComponent implements BuilderInterface
     public function build($payload = null)
     {
         $items = [];
-
         foreach ($payload['productItems'] as $productItem) {
             $items[] = [
                 'length' => $productItem['length'],
                 'width' => $productItem['width'],
                 'height' => $productItem['height'],
                 'weight' => $productItem['weight'],
-                'description' => isset($productItem['id']) ? $productItem['id'] : '',
+                'description' => isset($productItem['sku_no']) ? $productItem['sku_no'] : '',
             ];
         }
 

@@ -34,7 +34,8 @@ class FallbackBuilder extends AbstractPackageItemsBuilder implements BuilderInte
                 $width,
                 $length,
                 $height,
-                $weight
+                $weight,
+                $skuNo
             ) = $this->getProductDimensions($item['data']);
 
             do {
@@ -43,6 +44,7 @@ class FallbackBuilder extends AbstractPackageItemsBuilder implements BuilderInte
                     'height' => $height,
                     'length' => $length,
                     'weight' => $weight,
+                    'sku_no' => $skuNo,
                     'shipping_class' => $item['data']->get_shipping_class(),
                 );
 

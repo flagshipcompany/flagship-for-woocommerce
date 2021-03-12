@@ -47,7 +47,7 @@ class ApiBuilder extends FallbackBuilder implements BuilderInterface
                 'width' => $package['width'],
                 'height' => $package['height'],
                 'weight' => $package['weight'],
-                'description' => 'product: '.implode(', ', $package['items']),
+                'description' => implode(', ', $package['items']),
             );
         }
 

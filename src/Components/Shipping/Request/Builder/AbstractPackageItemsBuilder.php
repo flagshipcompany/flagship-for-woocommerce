@@ -50,7 +50,7 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
                     'height' => $product_item['height'],
                     'length' => $product_item['length'],
                     'weight' => $product_item['weight'],
-                    'description' => 'Flagship shipping package',
+                    'description' => $product_item['sku_no'] ?? 'Flagship shipping package',
                 ];
             }
 
@@ -64,7 +64,7 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
             'height' => $product_item['height'],
             'length' => $product_item['length'],
             'weight' => $product_item['weight'],
-            'description' => 'Flagship shipping package',
+            'description' => $product_item['sku_no'] ?? 'Flagship shipping package',
         ];
 
         // if all product items must be packed into one box
@@ -102,7 +102,7 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
                     'height' => $product_item['height'],
                     'length' => $product_item['length'],
                     'weight' => $product_item['weight'],
-                    'description' => 'Flagship shipping package',
+                    'description' => $product_item['sku_no'] ?? 'Flagship shipping package',
                 ];
             }
         }
@@ -122,7 +122,7 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
             $product->get_height() ? max(1, ceil(wc_get_dimension($product->get_height(), 'in'))) : 1,
             // when product weight is not defined, default to 0.001 lb (in accordance with shopify client "1 gram")
             $product->has_weight() ? (float) wc_get_weight($product->get_weight(), 'lbs') : 0.001,
-            $product->get_id(),
+            $product->has_attributes('sku') ? $product->get_sku() : $product->get_id(),
         );
     }
 }

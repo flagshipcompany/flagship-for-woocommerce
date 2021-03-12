@@ -4,7 +4,7 @@
  * Plugin Name: FlagShip WooCommerce Shipping
  * Plugin URI: https://github.com/flagshipcompany/flagship-for-woocommerce
  * Description: An e-shipping courier solution that helps you shipping anything from Canada. Beautifully. To get started: 1) Click the "Activate" link to the left of this description, 2) <a href="https://smartship-ng.flagshipcompany.com/">Sign up for an FlagShip account</a> to get an API key, and 3) Go to settings page to fill basic shipping credentials
- * Version: 3.0.6
+ * Version: 3.0.7
  * Author: FlagShip Courier Solutions
  * Requires at least: 4.6
  * Tested up to: 5.5.3
@@ -76,8 +76,8 @@ function display_tracking_details($order){
     if(strcasecmp($courierName,"dicom") == 0){
         $url = 'https://www.dicom.com/en/express/tracking/load-tracking/'.$trackingNumber.'?division=DicomExpress';
     }
-        
+
     echo '<p><a target="_blank" href="'.$url .'">Track Your Order Here</a></p>';
-    
+
 }
 

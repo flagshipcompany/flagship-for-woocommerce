@@ -4,7 +4,7 @@ Tags: WooCommerce, shipping, ecommerce, e-commerce, courier, commerce
 Requires at least: 4.6
 Tested up to: 5.5.3
 WC tested up to: 4.7.1
-Stable tag: 3.0.6
+Stable tag: 3.0.7
 Requires PHP: 5.6
 License: GNU Public License 3.0
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -20,7 +20,7 @@ FlagShip WooCommerce Shipping plugin allows WooCommerce based stores to have the
 = system requirements =
 - minimum:
 
-Requires PHP v5.6+ WordPress v4.6+ WooCommerce v3.0+. For WooCommerce installation guide, please visit [woocommerce installation guide](https://docs.woothemes.com/document/installing-uninstalling-woocommerce/). 
+Requires PHP v5.6+ WordPress v4.6+ WooCommerce v3.0+. For WooCommerce installation guide, please visit [woocommerce installation guide](https://docs.woothemes.com/document/installing-uninstalling-woocommerce/).
 
 = non-technical requirements =
 - Owning an activated **FlagShip Account** (If not, you can sign up for one at: https://www.flagshipcompany.com/sign-up/)
