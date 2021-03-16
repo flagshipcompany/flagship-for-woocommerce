@@ -50,7 +50,7 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
                     'height' => $product_item['height'],
                     'length' => $product_item['length'],
                     'weight' => $product_item['weight'],
-                    'description' => $product_item['sku_no'] ?? 'Flagship shipping package',
+                    'description' => isset($product_item['sku_no']) ? $product_item['sku_no'] : 'Flagship shipping package',
                 ];
             }
 
