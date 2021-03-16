@@ -62,6 +62,26 @@ class MetaboxOperations extends AbstractComponent implements ApplicationListener
 
             $context->publishEvent($event);
         }, 10, 2);
+        // run after the native function in woocommerce, with priority = 40, set to 100 to run at the end.
+        \add_action('woocommerce_process_shop_order_meta', function ($postId, $post) use ($context) {
+            $factory = $context->_('\\FS\\Components\\Shipping\\Factory\\ShippingFactory');
+
+            $shipping = $factory->resolve('shipping', [
+                'id' => $postId,
+            ]);
+
+            $option = $context->option('autocomplete_order');
+            $shipment = $shipping->getShipment();
+            $order = $shipping->getOrder();
+
+            if ($context->option('autocomplete_order') == 'yes'
+                && $order->native()->get_status() == 'processing'
+                && !$order->hasAttribute('flagship_shipping_requote_rates')
+                && $shipment->isCreated()
+            ) {
+                $order->native()->update_status('completed');
+            }
+        }, 100, 2);
 
         return $this;
     }

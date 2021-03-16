@@ -280,6 +280,13 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
                     'maxlength' => 255,
                 ),
             ),
+            'autocomplete_order' => array(
+                'title' => __('Auto Complete "Processing" Orders', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'label' => __( 'Auto complete "Processing" orders when Flagship shipment is confirmed', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'type' => 'checkbox',
+                'description' => __('If enabled, "Processing" order will be automatically set to "Completed" when Flagship Shipment is confirmed', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
+                'default' => 'no'
+            ),
             'shipper_criteria' => array(
                 'title' => __('Shipper Information', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 'type' => 'title',

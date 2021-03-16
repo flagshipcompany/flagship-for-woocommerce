@@ -221,6 +221,21 @@ msgstr "Ceci contrôle le nom du service d’expédition au checkout"
 msgid "FlagShip Access Token"
 msgstr "Clé FlagShip"
 
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:284
+#: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:99
+msgid "Auto Complete \"Processing\" Orders"
+msgstr "Compléter les commandes de \"Processing\" automatiquement"
+
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:285
+#: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:99
+msgid "Auto complete \"Processing\" orders when Flagship shipment is confirmed"
+msgstr "Compléter les commandes de \"Processing\" automatiquement lorsque l'expédition Flagship est confirmée"
+
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:287
+#: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:99
+msgid "If enabled, "Processing" order will be automatically set to "Completed" when Flagship Shipment is confirmed"
+msgstr "Si cette option est activée, les commandes de \"Processing\" sera définie sur \"Completed\" automatiquement lorsque l'expédition Flagship est confirmée"
+
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:78
 #: src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:101
 msgid ""
