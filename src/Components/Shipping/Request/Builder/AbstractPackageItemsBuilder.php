@@ -122,7 +122,7 @@ abstract class AbstractPackageItemsBuilder extends AbstractComponent implements 
             $product->get_height() ? max(1, ceil(wc_get_dimension($product->get_height(), 'in'))) : 1,
             // when product weight is not defined, default to 0.001 lb (in accordance with shopify client "1 gram")
             $product->has_weight() ? (float) wc_get_weight($product->get_weight(), 'lbs') : 0.001,
-            $product->has_attributes('sku') ? $product->get_sku() : $product->get_id(),
+            $product->get_sku() ? $product->get_sku() : $product->get_id(),
         );
     }
 }
