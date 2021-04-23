@@ -65,7 +65,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         // Save settings in admin if you have any defined
         add_action('woocommerce_update_options_shipping_'.$this->id, array($this, 'process_admin_options'));
 
-        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-for-woocommerce/languages');
+        load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-woocommerce-shipping/languages');
     }
 
     /**
