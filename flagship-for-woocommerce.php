@@ -78,6 +78,11 @@ function display_tracking_details($order){
         $url = 'https://www.dicom.com/en/express/tracking/load-tracking/'.$trackingNumber.'?division=DicomExpress';
     }
 
+    if(strcasecmp($courierName, "nationex") == 0){
+        $url = 'https://www.nationex.com/en/track/tracking-report/?tracking[]='.$trackingNumber;
+    }
+
+
     if(strlen($trackingNumber)) { echo '<p><a target="_blank" href="'.$url .'">Track Your Order Here</a></p>'; }
 
 }

@@ -11,5 +11,6 @@ class Courier
         'Purolator' => 'purolator',
         'Canpar' => 'canpar',
         'Dicom' => 'dicom',
+        'Nationex' => 'nationex',
     );
 }
