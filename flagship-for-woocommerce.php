@@ -4,7 +4,7 @@
  * Plugin Name: FlagShip WooCommerce Shipping
  * Plugin URI: https://github.com/flagshipcompany/flagship-for-woocommerce
  * Description: An e-shipping courier solution that helps you shipping anything from Canada. Beautifully. To get started: 1) Click the "Activate" link to the left of this description, 2) <a href="https://smartship-ng.flagshipcompany.com/">Sign up for an FlagShip account</a> to get an API key, and 3) Go to settings page to fill basic shipping credentials
- * Version: 3.0.11
+ * Version: 3.0.12
  * Author: FlagShip Courier Solutions
  * Author URI: https://www.flagshipcompany.com
  * Requires at least: 4.6
@@ -47,43 +47,44 @@ I::group(function () {
 
 \register_activation_hook(__FILE__, array('\\FS\\Injection\\I', 'fls_plugin_activate'));
 
-add_action( 'woocommerce_order_details_after_order_table', 'display_tracking_details', 10, 1 );
+add_action('woocommerce_order_details_after_order_table', 'display_tracking_details', 10, 1);
 
-function display_tracking_details($order){
-    $trackingNumber = reset(get_post_meta($order->id,'flagship_shipping_shipment_tracking_number'));
-    $courierName = reset(get_post_meta($order->id,'flagship_shipping_courier_name'));
+function display_tracking_details($order)
+{
+    $trackingNumber = reset(get_post_meta($order->id, 'flagship_shipping_shipment_tracking_number'));
+    $courierName = reset(get_post_meta($order->id, 'flagship_shipping_courier_name'));
 
     $url = "https://www.flagshipcompany.com/log-in/";
-    if(strcasecmp($courierName,"purolator") == 0){
+    if (strcasecmp($courierName, "purolator") == 0) {
         $url = 'https://eshiponline.purolator.com/ShipOnline/Public/Track/TrackingDetails.aspx?pup=Y&pin='.$trackingNumber.'&lang=E';
     }
 
-    if(strcasecmp($courierName,"ups") == 0){
+    if (strcasecmp($courierName, "ups") == 0) {
         $url = 'http://wwwapps.ups.com/WebTracking/track?HTMLVersion=5.0&loc=en_CA&Requester=UPSHome&trackNums='.$trackingNumber.'&track.x=Track';
     }
 
-    if(strcasecmp($courierName,"dhl") == 0){
+    if (strcasecmp($courierName, "dhl") == 0) {
         $url = 'http://www.dhl.com/en/express/tracking.html?AWB='.$trackingNumber.'&brand=DHL';
     }
 
-    if(strcasecmp($courierName,"fedex") == 0){
+    if (strcasecmp($courierName, "fedex") == 0) {
         $url = 'http://www.fedex.com/Tracking?ascend_header=1&clienttype=dotcomreg&track=y&cntry_code=ca_english&language=english&tracknumbers='.$trackingNumber.'&action=1&language=null&cntry_code=ca_english';
     }
 
-    if(strcasecmp($courierName,"canpar") == 0){
+    if (strcasecmp($courierName, "canpar") == 0) {
         $url = 'https://www.canpar.com/en/track/TrackingAction.do?reference='.$trackingNumber.'&locale=en';
     }
 
-    if(strcasecmp($courierName,"gls") == 0){
-        $url = 'https://www.gls-canada.com/en/express/tracking/load-tracking/'.$trackingNumber.'?division=DicomExpress';
+    if (strcasecmp($courierName, "gls") == 0) {
+        $url = 'https://gls-canada.com/en/express/tracking/load-tracking/'.$trackingNumber.'?division=DicomExpress';
     }
 
-    if(strcasecmp($courierName, "nationex") == 0){
+    if (strcasecmp($courierName, "nationex") == 0) {
         $url = 'https://www.nationex.com/en/track/tracking-report/?tracking[]='.$trackingNumber;
     }
 
 
-    if(strlen($trackingNumber)) { echo '<p><a target="_blank" href="'.$url .'">Track Your Order Here</a></p>'; }
-
+    if (strlen($trackingNumber)) {
+        echo '<p><a target="_blank" href="'.$url .'">Track Your Order Here</a></p>';
+    }
 }
-
