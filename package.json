@@ -1,6 +1,6 @@
 {
   "name": "flagship-for-woocommerce",
-  "version": "0.1.13",
+  "version": "3.0.12",
   "description": "FlagShip Shipping Plugin for WooCommerce",
   "main": "gulpfile.js",
   "directories": {

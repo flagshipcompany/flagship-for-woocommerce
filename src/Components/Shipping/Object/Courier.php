@@ -10,7 +10,7 @@ class Courier
         'FedEx' => 'fedex',
         'Purolator' => 'purolator',
         'Canpar' => 'canpar',
-        'Dicom' => 'dicom',
+        'GLS' => 'gls',
         'Nationex' => 'nationex',
     );
 }

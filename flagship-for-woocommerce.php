@@ -74,8 +74,8 @@ function display_tracking_details($order){
         $url = 'https://www.canpar.com/en/track/TrackingAction.do?reference='.$trackingNumber.'&locale=en';
     }
 
-    if(strcasecmp($courierName,"dicom") == 0){
-        $url = 'https://www.dicom.com/en/express/tracking/load-tracking/'.$trackingNumber.'?division=DicomExpress';
+    if(strcasecmp($courierName,"gls") == 0){
+        $url = 'https://www.gls-canada.com/en/express/tracking/load-tracking/'.$trackingNumber.'?division=DicomExpress';
     }
 
     if(strcasecmp($courierName, "nationex") == 0){
