@@ -39,19 +39,19 @@ class FallbackBuilder extends AbstractPackageItemsBuilder implements BuilderInte
             ) = $this->getProductDimensions($item['data']);
 
             do {
-                $product_items[] = array(
+                $product_items[] = apply_filters( 'flagship_cart_item_product_dimensions', array(
                     'width' => $width,
                     'height' => $height,
                     'length' => $length,
                     'weight' => $weight,
                     'sku_no' => $skuNo,
                     'shipping_class' => $item['data']->get_shipping_class(),
-                );
+                ), $item );
 
                 ++$count;
             } while ($count < $item['quantity']);
         }
 
-        return $product_items;
+        return apply_filters( 'flagship_cart_product_items', $product_items );
     }
 }
