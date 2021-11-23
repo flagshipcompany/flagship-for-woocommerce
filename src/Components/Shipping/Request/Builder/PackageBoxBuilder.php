@@ -53,21 +53,26 @@ class PackageBoxBuilder extends AbstractComponent implements BuilderInterface
     public function build($payload = null)
     {
         $boxes = $payload['options']->get('package_box');
-
+        $dimension_unit = get_option('woocommerce_dimension_unit');
+        $weight_unit = get_option('woocommerce_weight_unit');
+        $output_weight_unit = isset($options['weight_unit']) ? $options['weight_unit'] : 'lbs';
+        $output_dimension_unit = isset($options['dimension_unit']) ? $options['dimension_unit'] : 'in';
+        
         $packageBoxes = [];
 
         foreach ($boxes as $box) {
             $packageBox = [
                 'box_model' => $box['model_name'],
-                'length' => $box['length'],
-                'width' => $box['width'],
-                'height' => $box['height'],
+                'length' => round(wc_get_dimension($box['length'], $output_dimension_unit, $dimension_unit),0,PHP_ROUND_HALF_EVEN),
+                'width' => round(wc_get_dimension($box['width'], $output_dimension_unit, $dimension_unit),0,PHP_ROUND_HALF_EVEN),
+                'height' => round(wc_get_dimension($box['height'], $output_dimension_unit, $dimension_unit),0,PHP_ROUND_HALF_EVEN),
                 'weight' => 0,
-                'max_weight' => $box['max_weight'],
+                'max_weight' => wc_get_weight($box['max_weight'], $output_weight_unit, $weight_unit),
             ];
             $packageBox = self::addOptionalValues($packageBox, $box);
             $packageBoxes[] = $packageBox;
         }
+
 
         return $packageBoxes;
     }
