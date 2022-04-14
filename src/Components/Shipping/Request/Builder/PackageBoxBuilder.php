@@ -33,9 +33,14 @@ class PackageBoxBuilder extends AbstractComponent implements BuilderInterface
 
     public static function addOptionalValues($packageBox, $boxValue, $forSaving = false)
     {
-        foreach (['inner_length', 'inner_width', 'inner_height', 'weight'] as $key => $value) {
+        $dimension_unit = get_option('woocommerce_dimension_unit');
+        $weight_unit = get_option('woocommerce_weight_unit');
+        $output_weight_unit = isset($options['weight_unit']) ? $options['weight_unit'] : 'lbs';
+        $output_dimension_unit = isset($options['dimension_unit']) ? $options['dimension_unit'] : 'in';
+        
+        foreach (['inner_length', 'inner_width', 'inner_height'] as $key => $value) {
             if (isset($boxValue[$value]) && $boxValue[$value] > 0) {
-                $packageBox[$value] = $boxValue[$value];
+                $packageBox[$value] = round(wc_get_dimension($boxValue[$value], $output_dimension_unit, $dimension_unit),0,PHP_ROUND_HALF_EVEN);
             }
         }
 
@@ -45,6 +50,10 @@ class PackageBoxBuilder extends AbstractComponent implements BuilderInterface
 
         if (isset($boxValue['shipping_classes'])) {
             $packageBox['shipping_classes'] = $boxValue['shipping_classes'];
+        }
+
+        if (isset($boxValue['weight'])) {
+            $packageBox['weight'] = wc_get_weight($boxValue['weight'], $output_weight_unit, $weight_unit);
         }
 
         return $packageBox;
