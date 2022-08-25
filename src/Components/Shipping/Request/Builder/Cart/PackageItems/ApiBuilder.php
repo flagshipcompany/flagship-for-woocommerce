@@ -74,7 +74,8 @@ class ApiBuilder extends FallbackBuilder implements BuilderInterface
                 $boxDimensions = [$box['length'], $box['width'], $box['height']];
                 sort($boxDimensions);
 
-                if ($packedBox['box_model'] == $box['model_name'] && $packedBoxDimensions == $boxDimensions) {
+                if ($packedBox['box_model'] == $box['model_name']) //&& $packedBoxDimensions == $boxDimensions
+                {
                     $packedBoxesCopy[$packedBoxKey]['markup'] = isset($box['markup']) ? $box['markup'] : null;
                     break;
                 }

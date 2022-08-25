@@ -1,3 +1,8 @@
+<?php
+$dimension_unit = get_option('woocommerce_dimension_unit');
+$weight_unit = get_option('woocommerce_weight_unit');
+?>
+
 <tr valign="top">
     <th scope="row" class="titledesc"><?php _e('Package Box', FLAGSHIP_SHIPPING_TEXT_DOMAIN);
 ?>:</th>
@@ -7,10 +12,10 @@
                 <tr>
                     <th class="sort">&nbsp;</th>
                     <th class="package_box_header_col required_header"><?php _e('Model Name', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
-                    <th colspan="2" class="package_box_header_col"><?php _e('Length (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
-                    <th colspan="2" class="package_box_header_col"><?php _e('Width (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
-                    <th colspan="2" class="package_box_header_col"><?php _e('Height (in)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
-                    <th colspan="2" class="package_box_header_col"><?php _e('Weight (LB)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
+                    <th colspan="2" class="package_box_header_col"><?php _e("Length ($dimension_unit)", FLAGSHIP_SHIPPING_TEXT_DOMAIN);?></th>
+                    <th colspan="2" class="package_box_header_col"><?php _e("Width ($dimension_unit)", FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
+                    <th colspan="2" class="package_box_header_col"><?php _e("Height ($dimension_unit)", FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
+                    <th colspan="2" class="package_box_header_col"><?php _e("Weight ($weight_unit)", FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></th>
                     <th class="package_box_header_col"><?php _e('Markup ($)', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>
                         <?php echo wc_help_tip(__('If set, an additional fee will be charged on each package using this model of box', FLAGSHIP_SHIPPING_TEXT_DOMAIN)); ?>
                     </th>
@@ -41,7 +46,7 @@
                     ++$i;
 
                     $markup = isset($box['markup']) ? $box['markup'] : null;
-                    
+                    $shippingClasses = isset($box['shipping_classes']) ? $box['shipping_classes'] : null;
                     echo '<tr class="package_box">
                             <td class="sort"></td>
                             <td><input type="text" value="'.esc_attr(wp_unslash($box['model_name'])).'" name="package_box_model_name['.$i.']" /></td>
@@ -54,7 +59,7 @@
                             <td><input type="number" value="'.esc_attr($box['max_weight']).'" name="package_box_max_weight['.$i.']" style="min-width: 80px" /></td>
                             <td><input type="number" value="'.esc_attr($box['weight']).'" name="package_box_weight['.$i.']" style="min-width: 80px" /></td>
                             <td><input type="number" value="'.esc_attr($markup).'" name="package_box_markup['.$i.']" style="min-width: 80px" step="0.01" /></td>
-                            <td><select name="package_box_shipping_classes['.$i.']" style="min-width:80px;width:141px;"><option selected value='.esc_attr($box['shipping_classes']).'>'.esc_attr($box['shipping_classes']).'</option></select></td>
+                            <td><select name="package_box_shipping_classes['.$i.']" style="min-width:80px;width:141px;"><option selected value='.esc_attr($shippingClasses).'>'.esc_attr($shippingClasses).'</option></select></td>
                         </tr>
                         ';
                 }
@@ -78,7 +83,8 @@
             <?php _e('Supported weight is the maximum supported weight. Empty weight is the weight of an empty box.', FLAGSHIP_SHIPPING_TEXT_DOMAIN);?>
         </p>
         <?php
-        $shipping_classes = get_terms( array('taxonomy' => 'product_shipping_class', 'hide_empty' => false ) );
+        $shipping_classes = get_terms( array('taxonomy' => 'product_shipping_class', 'hide_empty' => false ));
+        $shippingClassesOptions[] = [ "name" => '' ];
         foreach ($shipping_classes as $shipping_class) {
             $shippingClassesOptions[] = [
                 "name" => $shipping_class->name
