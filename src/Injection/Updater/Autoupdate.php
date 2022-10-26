@@ -54,7 +54,7 @@ class Autoupdate
         }
 
         // Check the versions if we need to do an update
-        $doUpdate = version_compare($this->release['tag_name'], $transient->checked[$this->slug], '>');
+        $doUpdate = version_compare($this->release['tag_name'], $transient->checked[$this->slug] ?? $this->release['tag_name'], '>');
 
         // Update the transient to include our updated plugin data
         if ($doUpdate) {
@@ -187,7 +187,7 @@ class Autoupdate
     protected function getLatestRelease($releases)
     {
         $v3 = (bool) version_compare(wc()->version, '3.0', '>=');
-        
+
         $v3Releases = array_filter($releases, function ($release) {
             $tagName = preg_replace("/[^0-9.]/", "", $release['tag_name']);
 
@@ -200,11 +200,11 @@ class Autoupdate
             return version_compare($tagName, '2.0', '<');
         });
 
-        if ($v3 && count($v3Releases) > 0 ) {
+        if ($v3 && count($v3Releases) > 0) {
             return $this->getLatestReleaseByWcVersion($v3Releases);
         }
 
-        if ($v2 && count($v2Releases) > 0 ) {
+        if ($v2 && count($v2Releases) > 0) {
             return $this->getLatestReleaseByWcVersion($v2Releases);
         }
     }
