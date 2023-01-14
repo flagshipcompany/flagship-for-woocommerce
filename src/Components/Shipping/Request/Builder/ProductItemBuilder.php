@@ -13,12 +13,13 @@ class ProductItemBuilder extends AbstractComponent implements BuilderInterface
         $output_weight_unit = isset($options['weight_unit']) ? $options['weight_unit'] : 'lbs';
         $output_dimension_unit = isset($options['dimension_unit']) ? $options['dimension_unit'] : 'in';
         $items = [];
+        
         foreach ($payload['productItems'] as $productItem) {
             $items[] = [
-                'length' => wc_get_dimension($productItem['length'], $output_dimension_unit, $dimension_unit),
-                'width' => wc_get_dimension($productItem['width'], $output_dimension_unit, $dimension_unit),
-                'height' => wc_get_dimension($productItem['height'], $output_dimension_unit, $dimension_unit),
-                'weight' => wc_get_weight($productItem['weight'], $output_weight_unit, $weight_unit),
+                'length' => $productItem['length'], 
+                'width' => $productItem['width'], 
+                'height' => $productItem['height'],
+                'weight' => $productItem['weight'],
                 'description' => isset($productItem['sku_no']) ? $productItem['sku_no'] : '',
             ];
         }
