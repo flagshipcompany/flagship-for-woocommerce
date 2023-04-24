@@ -64,7 +64,7 @@ class ShoppingCartRate extends AbstractRequestFactory
     protected function makeOptions(array $toAddress)
     {
         $options = array();
-        // $cartSubtotal = WC()->cart->subtotal();
+        $cartSubtotal = WC()->cart->subtotal;
 
         if ($this->payload['options']->eq('signature_required', 'yes')) {
             $options['signature_required'] = true;
@@ -75,24 +75,24 @@ class ShoppingCartRate extends AbstractRequestFactory
             $options['address_correction'] = true;
         }
 
-        // if($this->payload['options']->eq('flagship_insurance','yes') && $cartSubtotal > 100){
+        if($this->payload['options']->eq('flagship_insurance','yes') && $cartSubtotal > 100){
 
-        //     $options['insurance'] = [
-        //         "value" => $cartSubtotal,
-        //         "description" => $this->getInsuranceDescription()
-        //     ];
-        // }
+            $options['insurance'] = [
+                "value" => $cartSubtotal,
+                "description" => $this->getInsuranceDescription()
+            ];
+        }
 
         return $options;
     }
 
-    // protected function getInsuranceDescription()
-    // {
-    //     $insuranceDescription = '';
-    //     foreach ( WC()->cart->get_cart() as $cart_item ) {
-    //         $insuranceDescription .= $cart_item['data']->get_title().',';
+    protected function getInsuranceDescription()
+    {
+        $insuranceDescription = '';
+        foreach ( WC()->cart->get_cart() as $cart_item ) {
+            $insuranceDescription .= $cart_item['data']->get_title().',';
 
-    //     }
-    //     return rtrim($insuranceDescription,',');
-    // }
+        }
+        return rtrim($insuranceDescription,',');
+    }
 }
