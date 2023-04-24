@@ -4,7 +4,7 @@
  * Plugin Name: FlagShip WooCommerce Shipping
  * Plugin URI: https://github.com/flagshipcompany/flagship-for-woocommerce
  * Description: An e-shipping courier solution that helps you shipping anything from Canada. Beautifully. To get started: 1) Click the "Activate" link to the left of this description, 2) <a href="https://smartship-ng.flagshipcompany.com/">Sign up for an FlagShip account</a> to get an API key, and 3) Go to settings page to fill basic shipping credentials
- * Version: 3.0.20
+ * Version: 3.0.21
  * Author: FlagShip Courier Solutions
  * Author URI: https://www.flagshipcompany.com
  * Requires at least: 4.6
