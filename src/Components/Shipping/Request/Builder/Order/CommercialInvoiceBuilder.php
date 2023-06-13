@@ -40,8 +40,8 @@ class CommercialInvoiceBuilder extends AbstractComponent implements BuilderInter
             $description = substr(get_post($product->get_id())->post_content, 0, 50);
 
             $items['ci_items'][] = array(
-                'product_name' => $product->get_title(),
-                'description' => (!empty($description) ? $description : ''),
+                'product_name' => substr($product->get_title(),0,29),
+                'description' => substr((!empty($description) ? $description : ''),0,29),
                 'country_of_origin' => 'CA',
                 'quantity' => $order_item['qty'],
                 'unit_price' => $product->get_price(),
