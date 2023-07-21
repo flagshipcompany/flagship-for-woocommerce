@@ -43,6 +43,7 @@ class CommercialInvoiceBuilder extends AbstractComponent implements BuilderInter
                 'product_name' => substr($product->get_title(),0,29),
                 'description' => substr((!empty($description) ? $description : ''),0,29),
                 'country_of_origin' => 'CA',
+                'HS_code' => $product->get_attribute('hs-code'),
                 'quantity' => $order_item['qty'],
                 'unit_price' => $product->get_price(),
                 'unit_weight' => round(wc_get_weight($product->get_weight(), 'kg'), 2),

@@ -79,6 +79,15 @@ class MetaboxController extends AbstractComponent
     {
         $shipment = $shipping->getShipment();
 
+        if($shipment->isInternational()){
+            $hsCodeFlag = $this->getHSCodeFlag($shipping->getOrder());
+        }
+
+        //Un-comment on Aug 1
+        // if(!$hsCodeFlag) {
+        //     $context->alert()->error('Some products in the order do not have HS code. Please enter product HS code to confirm shipment');
+        // }
+
         if ($shipment->isCreated()) {
             $context->alert()->warning('You have a dispatched flagship shipment for this order. FlagShip ID (%s)', [$shipment->getId()]);
 
@@ -389,5 +398,18 @@ class MetaboxController extends AbstractComponent
         }
 
         return reset($filteredMethods)->instance_id;
+    }
+
+    protected function getHSCodeFlag($order)
+    {
+        $hsCodeFlag = 1;
+        $order_items = $order->native()->get_items();
+
+        foreach ($order_items as $order_item) {
+            $product = $order->native()->get_product_from_item($order_item);
+            $hsCodeFlag = empty($product->get_attribute('hs-code')) ? 0 : $hsCodeFlag;
+        }
+
+        return $hsCodeFlag;
     }
 }

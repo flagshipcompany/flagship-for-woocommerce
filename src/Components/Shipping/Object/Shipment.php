@@ -108,7 +108,8 @@ class Shipment
         $this->addresses['to'] = [
             'name' => $order->native('shipping_company'),
             'attn' => $order->native('shipping_first_name').' '.$order->native('shipping_last_name'),
-            'address' => trim($order->native('shipping_address_1').' '.$order->native('shipping_address_2')),
+            'address' => trim($order->native('shipping_address_1')),
+            'suite' => trim($order->native('shipping_address_2')),
             'city' => $order->native('shipping_city'),
             'state' => $order->native('shipping_state'),
             'country' => $order->native('shipping_country'),
