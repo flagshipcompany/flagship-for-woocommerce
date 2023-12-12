@@ -47,8 +47,8 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
 
     public function publishNativeHook(Context $context)
     {
-        \add_action('add_meta_boxes', function () use ($context) {
-            \add_meta_box(
+        add_action('add_meta_boxes', function () use ($context) {
+            add_meta_box(
                 'wc-flagship-shipping-box',
                 __('FlagShip', FLAGSHIP_SHIPPING_TEXT_DOMAIN),
                 function ($postId, $post) use ($context) {
@@ -65,7 +65,7 @@ class MetaboxDisplay extends AbstractComponent implements ApplicationListenerInt
 
                     $context->publishEvent($event);
                 },
-                'shop_order',
+                wc_get_page_screen_id( 'shop-order' ),
                 'side',
                 'high'
             );

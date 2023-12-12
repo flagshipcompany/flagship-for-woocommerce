@@ -1,3 +1,4 @@
+<?php use Automattic\WooCommerce\Utilities\OrderUtil; ?>
 <input id="flagship-shipping-shipment-action" type="hidden" name="flagship_shipping_shipment_action"/>
 <?php if ($type == 'created'): ?>
 <input type="hidden" name="flagship_shipping_shipment_id" value="<?php echo $shipment['shipment_id']; ?>"/>
@@ -93,8 +94,13 @@
     <?php
 
     global $post;
-    $post_meta = get_post_meta( $post->ID );
-    $billing_email = reset($post_meta['_billing_email']);
+    if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+        $order = wc_get_order( $_GET['id'] );
+        $billing_email = ($order->get_billing_email());
+    } else {
+        $post_meta = get_post_meta($post->ID);
+        $billing_email = reset($post_meta['_billing_email']);
+    }
 
     woocommerce_wp_text_input(array(
         'id' => 'flagship_shipping_date',

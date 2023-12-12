@@ -8,8 +8,8 @@
  * Author: FlagShip Courier Solutions
  * Author URI: https://www.flagshipcompany.com
  * Requires at least: 4.6
- * Tested up to: 6.1.1
- * WC tested up to: 7.3.0
+ * Tested up to: 6.4.2
+ * WC tested up to: 8.3.1
  *
  * Text Domain: flagship-for-woocommerce
  * Domain Path: /languages/
@@ -48,6 +48,12 @@ I::group(function () {
 \register_activation_hook(__FILE__, array('\\FS\\Injection\\I', 'fls_plugin_activate'));
 
 add_action('woocommerce_order_details_after_order_table', 'display_tracking_details', 10, 1);
+
+add_action( 'before_woocommerce_init', function() {
+	if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+	}
+} );
 
 function display_tracking_details($order)
 {
