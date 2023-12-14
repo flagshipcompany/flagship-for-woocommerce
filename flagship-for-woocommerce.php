@@ -9,7 +9,7 @@
  * Author URI: https://www.flagshipcompany.com
  * Requires at least: 4.6
  * Tested up to: 6.4.2
- * WC tested up to: 8.3.1
+ * WC tested up to: 8.4.0
  *
  * Text Domain: flagship-for-woocommerce
  * Domain Path: /languages/
