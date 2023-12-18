@@ -75,11 +75,12 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
     {
         if ($this->instance_id) {
             $settings_html = $this->generate_settings_html($this->get_instance_settings(), false);
+            return '<div class="wc-shipping-zone-method-fields">' . $settings_html . '</div>';
         } else {
             $settings_html = $this->generate_settings_html($this->get_general_settings(), false);
+            return '<table class="form-table">'.$settings_html.'</table>';
         }
 
-        return '<table class="form-table">'.$settings_html.'</table>';
     }
 
     /**
