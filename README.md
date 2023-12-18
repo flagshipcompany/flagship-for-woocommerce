@@ -1,4 +1,5 @@
-# FlagShip for WooCommerce [![Build Status](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce.svg?branch=master)](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce)
+# FlagShip for WooCommerce 
+<!-- [![Build Status](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce.svg?branch=master)](https://travis-ci.org/flagshipcompany/flagship-for-woocommerce) -->
 
 - Tags: eshipping, courier, e-commerce, commerce, woothemes, wordpress ecommerce, affiliate, shipping, tax
 - License: GNU Public License 3.0
