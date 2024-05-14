@@ -25,13 +25,21 @@
         </table>
         <h4><?php _e('Print labels', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?>:</h4>
         <table class="wp-list-table widefat striped posts">
+            <?php
+                $regularLabel = array_key_exists('documents', $shipment) 
+                                ? $shipment['documents']['regular_label'] 
+                                : $shipment['labels']['regular'];
+                $thermalLabel = array_key_exists('documents', $shipment) 
+                                ? $shipment['documents']['thermal_label'] 
+                                : $shipment['labels']['thermal'];
+            ?>
             <tr>
                 <td><?php _e('Regular label', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?><td>
-                <td><a target="_blank" class="button button-primary" href="<?php echo $shipment['labels']['regular']; ?>"><?php _e('Print', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></a></td>
+                <td><a target="_blank" class="button button-primary" href="<?php echo $regularLabel; ?>"><?php _e('Print', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></a></td>
             </tr>
             <tr>
                 <td><?php _e('Thermal label', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?><td>
-                <td><a target="_blank" class="button button-primary" href="<?php echo $shipment['labels']['thermal']; ?>"><?php _e('Print', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></a></td>
+                <td><a target="_blank" class="button button-primary" href="<?php echo $thermalLabel; ?>"><?php _e('Print', FLAGSHIP_SHIPPING_TEXT_DOMAIN); ?></a></td>
             </tr>
             <?php if (isset($shipment['commercial_invoice'])): ?>
             <tr>
