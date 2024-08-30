@@ -12,5 +12,6 @@ class Courier
         'Canpar' => 'canpar',
         'GLS' => 'gls',
         'Nationex' => 'nationex',
+        'Canada Post' => 'canadapost',
     );
 }

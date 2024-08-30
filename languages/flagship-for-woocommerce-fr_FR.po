@@ -527,6 +527,10 @@ msgstr "Désactiver Purolator"
 msgid "Disable Canpar Rates"
 msgstr "Désactiver Canpar"
 
+#: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:345 src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:368
+msgid "Disable Canada Post Rates"
+msgstr "Désactiver Canada Post"
+
 #: src/Components/Shipping/Method/FlagShipWcShippingMethod.php:351 src/Components/Shipping/Method/Legacy_Flagship_WC_Shipping_Method.php:374
 msgid "Disable Cart/Checkout API warning"
 msgstr "Cacher les messages d’erreur"
