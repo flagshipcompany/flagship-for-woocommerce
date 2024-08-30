@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 return [
-    'version' => '3.0.25',
+    'version' => '3.0.26',
     'autoload' => [
         'psr-4' => [
             'FS\\' => 'src/',
