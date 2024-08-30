@@ -83,6 +83,9 @@ class ShoppingCartRate extends AbstractRequestFactory
             ];
         }
 
+        // This is to add the pickup charge to Canada Post rates all the time
+        $options['add_pickup_charge'] = true;
+
         return $options;
     }
 

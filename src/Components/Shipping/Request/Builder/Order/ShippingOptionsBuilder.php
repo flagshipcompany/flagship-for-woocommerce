@@ -65,6 +65,9 @@ class ShippingOptionsBuilder extends AbstractComponent implements BuilderInterfa
             $shippingOptions['shipping_date'] = $request->get('flagship_shipping_date');
         }
 
+        // This is to add the pickup charge to Canada Post rates all the time
+        $shippingOptions['add_pickup_charge'] = true;
+
         return $shippingOptions;
     }
 }
