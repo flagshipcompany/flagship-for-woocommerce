@@ -89,6 +89,9 @@ function display_tracking_details($order)
         $url = 'https://www.nationex.com/en/track/tracking-report/?tracking[]='.$trackingNumber;
     }
 
+    if (strcasecmp($courierName, "canadapost") == 0) {
+        $url = 'https://www.canadapost-postescanada.ca/track-reperage/en#/details/'.$trackingNumber;
+    }
 
     if (strlen($trackingNumber)) {
         echo '<p><a target="_blank" href="'.$url .'">Track Your Order Here</a></p>';
