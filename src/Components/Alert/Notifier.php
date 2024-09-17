@@ -7,12 +7,13 @@ use FS\Components\AbstractComponent;
 
 class Notifier extends AbstractComponent implements ComponentInitializingInterface
 {
-    const SCOPE_CART = 'cart';
-    const SCOPE_SHOP_ORDER = 'shop_order';
+    public const SCOPE_CART = 'cart';
+    public const SCOPE_SHOP_ORDER = 'shop_order';
 
     protected $prev = [];
     protected $viewer;
     protected $scenario = null;
+    protected $extras = [];
 
     /**
      * load viewer after notifier is instantiated.
@@ -86,7 +87,6 @@ class Notifier extends AbstractComponent implements ComponentInitializingInterfa
                 break;
         }
 
-        // $this->scenario = $scenario;
         $this->extras = $extras;
 
         return $this;

@@ -12,6 +12,7 @@ abstract class AbstractApplicationContext implements
     ComponentFactoryInterface
 {
     protected $container;
+    protected $configuration;
 
     public function addApplicationListener(ApplicationListenerInterface $listener)
     {
