@@ -82,7 +82,7 @@ function display_tracking_details($order)
     }
 
     if (strcasecmp($courierName, "gls") == 0) {
-        $url = 'https://gls-canada.com/en/express/tracking/load-tracking/'.$trackingNumber.'?division=DicomExpress';
+        $url = "https://gls-group.com/CA/en/send-and-receive/track-a-shipment/?match=$trackingNumber";
     }
 
     if (strcasecmp($courierName, "nationex") == 0) {
