@@ -8,6 +8,13 @@ class AddressEssentialValidator extends AbstractValidator
 {
     public function validate($target, Context $context)
     {
+        preg_match('/^([a-zA-Z]\d[a-zA-Z])\ {0,1}(\d[a-zA-Z]\d)$/',$target['postal_code'],$matches);
+
+        if(!$matches) {
+            $context->alert()->error('Invalid postal code');
+            return $target;
+        }
+
         $response = $context->api()->get(
             '/addresses/integrity',
             $target
