@@ -34,7 +34,8 @@ class NativeRateProcessor extends AbstractComponent implements RateProcessorInte
                 $transitTimeText = $this->makeTransitTimeText($deliveryDate);
             }
 
-            $label = $rate['service']['courier_name'].' - '.$rate['service']['courier_desc'].$transitTimeText;
+            $label = strtoupper($rate['service']['courier_name']).' &#8211; '.$rate['service']['courier_desc'].$transitTimeText;
+            $label = html_entity_decode($label);
 
             if ($fakeDiscountRate > 0) {
                 $label .= 'discount_rate='.$fakeDiscountRate;

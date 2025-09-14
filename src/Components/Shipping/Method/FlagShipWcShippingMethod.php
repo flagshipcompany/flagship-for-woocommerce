@@ -30,6 +30,7 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
             'instance-settings',
             'instance-settings-modal',
             'settings',
+            'free_shipping'
         );
 
         $this->title = __('FlagShip Shipping', FLAGSHIP_SHIPPING_TEXT_DOMAIN);

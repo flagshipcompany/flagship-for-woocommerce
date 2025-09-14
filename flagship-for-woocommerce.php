@@ -8,8 +8,8 @@
  * Author: FlagShip Courier Solutions
  * Author URI: https://www.flagshipcompany.com
  * Requires at least: 4.6
- * Tested up to: 6.6.2
- * WC tested up to: 8.8.2
+ * Tested up to: 6.8.2
+ * WC tested up to: 10.1.2
  *
  * Text Domain: flagship-for-woocommerce
  * Domain Path: /languages/
