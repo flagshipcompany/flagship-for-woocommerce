@@ -106,9 +106,6 @@ class I
 
     public static function translation($path)
     {
-        self::action('init', function () use ($path) {
-            load_plugin_textdomain(self::get('TEXT_DOMAIN'), false, $path);
-        });
     }
 
     public static function script($path, array $options = [])

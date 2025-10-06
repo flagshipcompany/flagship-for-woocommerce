@@ -22,9 +22,6 @@ class PluginInitialization extends AbstractComponent implements ApplicationListe
 
     public function publishNativeHook(Context $context)
     {
-        \add_action('init', function () {
-            load_plugin_textdomain(FLAGSHIP_SHIPPING_TEXT_DOMAIN, false, 'flagship-woocommerce-shipping/languages/');
-        });
     }
 
     public function getNativeHookType()

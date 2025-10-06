@@ -84,7 +84,8 @@ class ApplicationContext extends AbstractApplicationContext
 
     public function listen(array $listeners = [])
     {
-        foreach ($listeners as $listener) {
+        add_action('init', function() use ($listeners){
+            foreach ($listeners as $listener) {
             $reflected = new \ReflectionObject($listener);
 
             if ($reflected->implementsInterface('\\FS\\Components\\Event\\NativeHookInterface')) {
@@ -93,6 +94,7 @@ class ApplicationContext extends AbstractApplicationContext
 
             $this->addApplicationListener($listener);
         }
+        });
     }
 
     public static function initialize(Container $container, ConfigurationInterface $configurator)

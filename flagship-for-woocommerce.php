@@ -36,7 +36,9 @@ use FS\Configurator;
 I::boot(__DIR__);
 
 // convenient way to define text domain
-define('FLAGSHIP_SHIPPING_TEXT_DOMAIN', I::textDomain());
+if ( ! defined( 'FLAGSHIP_SHIPPING_TEXT_DOMAIN' ) ) {
+    define('FLAGSHIP_SHIPPING_TEXT_DOMAIN', I::textDomain());
+}
 
 // init app
 I::group(function () {
@@ -54,6 +56,14 @@ add_action( 'before_woocommerce_init', function() {
 		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 	}
 } );
+
+add_action('init', function() {
+    load_plugin_textdomain(
+        FLAGSHIP_SHIPPING_TEXT_DOMAIN,
+        false,
+        dirname(plugin_basename(__FILE__)) . '/languages/'
+    );
+});
 
 function display_tracking_details($order)
 {

@@ -25,8 +25,6 @@ class Vue extends AbstractComponent
 
         $ctx = $this->ctx;
 
-        load_plugin_textdomain(I::textDomain());
-
         include I::directory('PLUGIN').'templates/'.$template.'.php';
     }
 }
