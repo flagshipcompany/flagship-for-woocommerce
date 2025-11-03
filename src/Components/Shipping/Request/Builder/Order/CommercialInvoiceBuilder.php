@@ -10,8 +10,10 @@ class CommercialInvoiceBuilder extends AbstractComponent implements BuilderInter
     public function build($payload = null)
     {
         $ci = array();
+        $soldToAddress = $payload['to'];
+        unset($soldToAddress['email_address']);
         $ci['sold_to'] = array(
-            'sold_to_address' => $payload['to'],
+            'sold_to_address' => $soldToAddress,
             'duties_payer' => 'C', // receiver pay duties
             'reason_for_export' => 'P',
         );
@@ -31,12 +33,9 @@ class CommercialInvoiceBuilder extends AbstractComponent implements BuilderInter
     {
         $items = array();
         $items['currency'] = strtoupper(get_woocommerce_currency());
-
         $order_items = $order->native()->get_items();
-
         foreach ($order_items as $order_item) {
-            $product = $order->native()->get_product_from_item($order_item);
-
+            $product = $order_item->get_product();
             $description = substr(get_post($product->get_id())->post_content, 0, 50);
 
             $items['ci_items'][] = array(

@@ -15,8 +15,7 @@ class FallbackBuilder extends AbstractPackageItemsBuilder implements BuilderInte
         $productItems = array();
 
         foreach ($orderItems as $orderItem) {
-            $product = $order->native()->get_product_from_item($orderItem);
-
+            $product = $orderItem->get_product();
             $count = 0;
 
             list(

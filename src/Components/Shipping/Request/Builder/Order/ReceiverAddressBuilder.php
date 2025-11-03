@@ -29,7 +29,12 @@ class ReceiverAddressBuilder extends AbstractComponent implements BuilderInterfa
         }
 
         $address['is_commercial'] = $receiverIsCommercial;
-
+        $wcOrder = $payload['shipping']->getOrder()->native();
+        $defaultCountry = explode(":", get_option('woocommerce_default_country'))[0];
+        if (strcasecmp($address['country'], $defaultCountry) !== 0) {
+            $address['email_address'] = $wcOrder->get_billing_email();
+        }
+        
         return $address;
     }
 }

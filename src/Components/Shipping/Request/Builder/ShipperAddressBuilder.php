@@ -9,8 +9,8 @@ class ShipperAddressBuilder extends AbstractComponent implements BuilderInterfac
     public function build($payload = null)
     {
         $options = $payload['options'];
-
-        return array(
+        
+        $address = array(
             'country' => 'CA',
             'state' => $options->get('freight_shipper_state'),
             'city' => $options->get('freight_shipper_city'),
@@ -22,5 +22,16 @@ class ShipperAddressBuilder extends AbstractComponent implements BuilderInterfac
             'phone' => $options->get('shipper_phone_number'),
             'ext' => $options->get('shipper_phone_ext'),
         );
+      
+        if (array_key_exists('shipping', $payload)) {
+            
+            $wcOrder = $payload['shipping']->getOrder()->native();
+            $defaultCountry = explode(":", get_option('woocommerce_default_country'))[0];
+
+            if (strcasecmp($defaultCountry, $wcOrder->get_shipping_country()) !== 0) {
+                $address['email_address'] = $options->get('default_shipping_email');
+            }
+        }
+        return $address;
     }
 }

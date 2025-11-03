@@ -77,12 +77,12 @@ class MetaboxController extends AbstractComponent
 
     public function createShipment(Req $request, Context $context, Shipping $shipping)
     {
+        
         $shipment = $shipping->getShipment();
 
         if($shipment->isInternational()){
             $hsCodeFlag = $this->getHSCodeFlag($shipping->getOrder());
         }
-
         //Un-comment on Aug 1
         // if(!$hsCodeFlag) {
         //     $context->alert()->error('Some products in the order do not have HS code. Please enter product HS code to confirm shipment');
@@ -406,7 +406,7 @@ class MetaboxController extends AbstractComponent
         $order_items = $order->native()->get_items();
 
         foreach ($order_items as $order_item) {
-            $product = $order->native()->get_product_from_item($order_item);
+            $product = $order_item->get_product();
             $hsCodeFlag = empty($product->get_attribute('hs-code')) ? 0 : $hsCodeFlag;
         }
 

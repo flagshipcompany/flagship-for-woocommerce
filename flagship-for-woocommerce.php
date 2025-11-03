@@ -67,8 +67,9 @@ add_action('init', function() {
 
 function display_tracking_details($order)
 {
-    $trackingNumber = get_post_meta($order->id, 'flagship_shipping_shipment_tracking_number', true);
-    $courierName = get_post_meta($order->id, 'flagship_shipping_courier_name', true);
+    $orderId = $order->get_id();
+    $trackingNumber = get_post_meta($orderId, 'flagship_shipping_shipment_tracking_number', true);
+    $courierName = get_post_meta($orderId, 'flagship_shipping_courier_name', true);
 
     $url = "https://www.flagshipcompany.com/log-in/";
     if (strcasecmp($courierName, "purolator") == 0) {
