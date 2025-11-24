@@ -15,6 +15,7 @@ class EnabledRateProcessor extends AbstractComponent implements RateProcessorInt
         'secondDay' => 'express',
         'thirdDay' => 'express',
         'intlExpress' => 'express',
+        'intlExpressSaver' => 'express',
         //  => 'overnight'
         'overnight' => 'overnight',
         'expressAm' => 'overnight',
