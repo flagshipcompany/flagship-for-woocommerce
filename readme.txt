@@ -2,9 +2,9 @@
 Contributors: flagshipit
 Tags: WooCommerce, shipping, ecommerce, e-commerce, courier, commerce
 Requires at least: 4.6
-Tested up to: 6.4.2
-WC tested up to: 8.4.0
-Stable tag: 3.0.34
+Tested up to: 7.0
+WC tested up to: 10.8.1
+Stable tag: 3.0.35
 Requires PHP: 5.6
 License: GNU Public License 3.0
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
