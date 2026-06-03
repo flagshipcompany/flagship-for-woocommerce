@@ -161,6 +161,9 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
      */
     public function calculate_shipping($package = array())
     {
+        if (!$this->is_flagship_active_page()) {
+            return;
+        }
         // use instance method's options
         $options = $this->ctx
             ->option()
@@ -620,5 +623,67 @@ class FlagShipWcShippingMethod extends \WC_Shipping_Method
         }
 
         return $disableCourierOptions;
+    }
+
+    /**
+     * Prevents hitting the FlagShip API on every unrelated cart update 
+     * (mini-cart, REST calls, admin previews, etc.).
+     * Scoped to this class — no other shipping method is affected.
+     * The logic for batch is: if any sub-request is an add/remove-item call, block it. 
+     * Otherwise (customer update, coupon, etc.) allow it through. 
+     * This is more future-proof than whitelisting sub-paths since any new batch operation 
+     * from checkout will pass through by default.
+     */
+    private function is_flagship_active_page()
+    {
+        if (is_cart() || is_checkout()) {
+            return true;
+        }
+
+        if (defined('REST_REQUEST') && REST_REQUEST) {
+            $route = $GLOBALS['wp']->query_vars['rest_route'] ?? '';
+
+            if ($route === '/wc/store/v1/batch') {
+                $body = json_decode(file_get_contents('php://input'), true);
+                $sub_requests = $body['requests'] ?? [];
+                $blocked_paths = array(
+                    '/wc/store/v1/cart/add-item',
+                    '/wc/store/v1/cart/remove-item',
+                );
+                foreach ($sub_requests as $sub_request) {
+                    $path = $sub_request['path'] ?? '';
+                    if (in_array($path, $blocked_paths, true)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            $allowed_routes = array(
+                '/wc/store/v1/cart',
+                '/wc/store/v1/cart/update-item',
+                '/wc/store/v1/cart/apply-coupon',
+                '/wc/store/v1/cart/remove-coupon',
+                '/wc/store/v1/cart/select-shipping-rate',
+                '/wc/store/v1/checkout',
+            );
+            if (in_array($route, $allowed_routes, true)) {
+                return true;
+            }
+        }
+
+        if (wp_doing_ajax()) {
+            $allowed_actions = array(
+                'woocommerce_update_order_review',
+                'woocommerce_checkout',
+                'woocommerce_update_shipping_method',
+                'woocommerce_apply_coupon',
+                'woocommerce_remove_coupon',
+            );
+            $action = isset($_POST['action']) ? sanitize_key($_POST['action']) : '';
+            return in_array($action, $allowed_actions, true);
+        }
+
+        return false;
     }
 }
