@@ -36,6 +36,8 @@ class ShippingMethodSetup extends AbstractComponent implements ApplicationListen
 
     public function publishNativeHook(Context $context)
     {
+        \FS\Components\Shipping\ShippingCalculationContext::register();
+
         \add_filter('woocommerce_shipping_methods', function ($methods) use ($context) {
             $event = new ApplicationEvent(ApplicationEvent::SHIPPING_METHOD_SETUP);
             $event->setInputs($methods);
